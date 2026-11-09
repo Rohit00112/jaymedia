@@ -55,15 +55,15 @@ export function Navbar() {
         className={cn(
           'fixed inset-x-0 top-0 z-50 opacity-0 transition-[background-color,box-shadow,border-color] duration-300 font-rubik',
           scrolled
-            ? 'bg-black/90 shadow-lg backdrop-blur-md border-b border-white/10'
-            : 'bg-transparent'
+            ? 'bg-white/95 shadow-md backdrop-blur-md border-b border-black/10'
+            : 'bg-white/80 backdrop-blur-sm border-b border-black/5'
         )}
       >
         <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8">
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-center gap-2.5 font-rubik text-xl font-bold tracking-tight text-white transition-opacity hover:opacity-90"
+            className="flex items-center gap-2.5 font-rubik text-xl font-bold tracking-tight text-[#101014] transition-opacity hover:opacity-90"
           >
             <span className="w-2.5 h-2.5 rounded-full bg-coral animate-pulse" />
             <span>JAY MEDIA</span>
@@ -80,8 +80,8 @@ export function Navbar() {
                     className={cn(
                       'group relative font-rubik text-sm font-medium tracking-wide transition-colors duration-200',
                       isActive
-                        ? 'text-coral'
-                        : 'text-[#eef9ff]/80 hover:text-white'
+                        ? 'text-coral font-semibold'
+                        : 'text-[#101014]/75 hover:text-[#101014]'
                     )}
                   >
                     {link.label}
@@ -115,7 +115,7 @@ export function Navbar() {
               onClick={toggleMobileMenu}
               aria-label="Open menu"
               aria-expanded={mobileMenuOpen}
-              className="inline-flex items-center justify-center rounded-[2px] p-2 text-[#eef9ff] transition-colors hover:text-coral lg:hidden"
+              className="inline-flex items-center justify-center rounded-[2px] p-2 text-[#101014] transition-colors hover:text-coral lg:hidden"
             >
               <Menu className="h-6 w-6" />
             </button>

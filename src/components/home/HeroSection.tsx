@@ -143,21 +143,15 @@ export default function HeroSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#FBF9F5]"
     >
-      {/* ── Background gradient placeholder ───────────────── */}
-      <div
-        className="absolute inset-0 bg-gradient-to-br from-ink via-dark-surface to-ink"
-        aria-hidden="true"
-      />
-
-      {/* ── Background photograph & Three.js atmosphere ──────────── */}
+      {/* ── Background photograph & atmosphere ──────────── */}
       <Image
         src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1920&q=80"
         alt="Jay Media concert stage and live atmosphere"
         fill
         priority
-        className="object-cover opacity-25 pointer-events-none"
+        className="object-cover opacity-15 pointer-events-none"
         sizes="100vw"
       />
 
@@ -165,15 +159,18 @@ export default function HeroSection() {
         <HeroScene />
       </div>
 
-      {/* ── Dark gradient overlay ─────────────────────────── */}
+      {/* ── Soft editorial light gradient overlay ─────────────────────────── */}
       <div
         ref={overlayRef}
         className={cn(
           'absolute inset-0 z-[1]',
-          'bg-gradient-to-b from-ink/70 via-ink/50 to-ink/80'
+          'bg-gradient-to-b from-[#FBF9F5]/80 via-white/60 to-[#FBF9F5]'
         )}
         aria-hidden="true"
       />
+
+      {/* Ambient warm glow */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-coral/5 rounded-full blur-[140px] pointer-events-none z-[1]" />
 
       {/* ── Content ───────────────────────────────────────── */}
       <div className="relative z-10 flex flex-col items-center text-center px-6 md:px-10 font-rubik">
@@ -182,7 +179,7 @@ export default function HeroSection() {
           ref={labelRef}
           className="flex flex-col sm:flex-row items-center gap-3 mb-6 md:mb-8"
         >
-          <span className="px-3.5 py-1 bg-[#01402b]/90 border border-[#01402b] text-[#eef9ff] text-xs font-rubik font-medium tracking-widest uppercase rounded-[50px] shadow-sm">
+          <span className="px-3.5 py-1 bg-[#01402b] border border-[#01402b] text-white text-xs font-rubik font-medium tracking-widest uppercase rounded-[50px] shadow-sm">
             Koshi Province • Biratnagar
           </span>
           <span className="section-label text-coral font-medium tracking-[0.2em]">
@@ -194,7 +191,7 @@ export default function HeroSection() {
         <h1
           ref={headlineRef}
           className={cn(
-            'editorial-headline text-white font-rubik',
+            'editorial-headline text-[#101014] font-rubik',
             'text-5xl md:text-7xl lg:text-8xl xl:text-9xl',
             'max-w-6xl mb-6 md:mb-8'
           )}
@@ -209,7 +206,7 @@ export default function HeroSection() {
         {/* Supporting text */}
         <p
           ref={supportRef}
-          className="text-lg md:text-xl text-[#eef9ff]/90 max-w-xl font-rubik mb-10 md:mb-12 font-normal leading-relaxed"
+          className="text-lg md:text-xl text-[#4A4A52] max-w-xl font-rubik mb-10 md:mb-12 font-normal leading-relaxed"
         >
           Turning ambitious ideas into extraordinary experiences.
         </p>
@@ -223,9 +220,9 @@ export default function HeroSection() {
               'bg-coral text-white font-rubik font-medium',
               'text-sm tracking-wider uppercase',
               'px-8 py-4 rounded-[50px]',
-              'transition-all duration-300 shadow-lg',
-              'hover:bg-coral-hover hover:scale-[1.03] hover:brightness-110',
-              'focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 focus-visible:ring-offset-black'
+              'transition-all duration-300 shadow-md',
+              'hover:bg-coral-hover hover:scale-[1.03] hover:shadow-lg',
+              'focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2'
             )}
           >
             Explore Our Work
@@ -234,12 +231,12 @@ export default function HeroSection() {
             href="/contact"
             className={cn(
               'inline-flex items-center justify-center',
-              'bg-transparent border border-[#eef9ff]/40 text-[#eef9ff] font-rubik font-medium',
+              'bg-white border border-black/15 text-[#101014] font-rubik font-medium',
               'text-sm tracking-wider uppercase',
-              'px-8 py-4 rounded-[50px]',
+              'px-8 py-4 rounded-[50px] shadow-sm',
               'transition-all duration-300',
-              'hover:bg-white/10 hover:border-white hover:scale-[1.03]',
-              'focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black'
+              'hover:bg-black hover:text-white hover:border-black hover:scale-[1.03]',
+              'focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2'
             )}
           >
             Let&apos;s Collaborate
@@ -252,10 +249,10 @@ export default function HeroSection() {
         ref={scrollRef}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
       >
-        <span className="text-white/50 text-[10px] font-display tracking-[0.3em] uppercase">
+        <span className="text-[#101014]/50 text-[10px] font-rubik tracking-[0.3em] uppercase font-semibold">
           Scroll
         </span>
-        <ChevronDown className="w-5 h-5 text-white/50 animate-bounce" />
+        <ChevronDown className="w-5 h-5 text-[#101014]/50 animate-bounce" />
       </div>
     </section>
   );

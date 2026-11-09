@@ -81,7 +81,7 @@ export default function IntroSection() {
   return (
     <section
       ref={containerRef as React.RefObject<HTMLElement>}
-      className="relative bg-[#e3e3e1] text-[#000000] py-28 lg:py-40 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-black/10 font-rubik"
+      className="relative bg-white text-[#101014] py-28 lg:py-40 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-black/10 font-rubik"
     >
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
@@ -97,7 +97,7 @@ export default function IntroSection() {
 
             <h2
               ref={headlineRef}
-              className="editorial-headline text-[#000000] text-4xl sm:text-5xl lg:text-6xl xl:text-7xl mb-8 leading-[0.95]"
+              className="editorial-headline text-[#101014] text-4xl sm:text-5xl lg:text-6xl xl:text-7xl mb-8 leading-[0.95]"
               style={{ opacity: 0 }}
             >
               CREATIVITY MEETS EXTRAORDINARY EXECUTION.
@@ -105,16 +105,16 @@ export default function IntroSection() {
 
             <div
               ref={textRef}
-              className="space-y-6 text-[#000000]/80 text-lg md:text-xl font-rubik leading-relaxed max-w-2xl"
+              className="space-y-6 text-[#4A4A52] text-lg md:text-xl font-rubik leading-relaxed max-w-2xl"
               style={{ opacity: 0 }}
             >
               <p>
                 Headquartered near Traffic Chowk in Biratnagar, Nepal,{' '}
-                <strong className="text-[#000000] font-semibold">Jay Media Management Pvt. Ltd.</strong> is a
+                <strong className="text-[#101014] font-semibold">Jay Media Management Pvt. Ltd.</strong> is a
                 pioneering media production and event management agency led by Chairperson Jay Raj Rai and CEO
                 Nisha Khatiwada Rai.
               </p>
-              <p className="text-base md:text-lg text-[#000000]/70">
+              <p className="text-base md:text-lg text-[#6E6D7A]">
                 We conceptualize, engineer, and orchestrate iconic stage productions, regional pageants, and high-impact
                 corporate experiences across the Koshi Province and nationwide. We do not just build stages — we curate
                 unforgettable cultural milestones.
@@ -125,10 +125,10 @@ export default function IntroSection() {
               <Link
                 ref={linkRef}
                 href="/about"
-                className="group inline-flex items-center gap-3 text-sm font-rubik font-semibold uppercase tracking-widest text-[#000000] hover:text-coral transition-colors duration-300"
+                className="group inline-flex items-center gap-3 text-sm font-rubik font-semibold uppercase tracking-widest text-[#101014] hover:text-coral transition-colors duration-300"
                 style={{ opacity: 0 }}
               >
-                <span>Discover Our Story & Leadership</span>
+                <span>Discover Our Story &amp; Leadership</span>
                 <ArrowRight className="w-4 h-4 transform group-hover:translate-x-2 transition-transform duration-300 text-coral" />
               </Link>
             </div>

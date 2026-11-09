@@ -46,7 +46,7 @@ export default function ShowreelSection() {
   return (
     <section
       ref={containerRef as React.RefObject<HTMLElement>}
-      className="relative bg-black text-white py-28 lg:py-40 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-white/10 font-rubik"
+      className="relative bg-[#FAFAF8] text-[#101014] py-28 lg:py-40 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-black/10 font-rubik"
     >
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
@@ -54,10 +54,10 @@ export default function ShowreelSection() {
           <span className="section-label text-coral font-medium tracking-[0.2em] mb-4 block">
             CINEMATIC SHOWREEL
           </span>
-          <h2 className="editorial-headline text-white text-4xl sm:text-5xl lg:text-7xl mb-6 font-rubik">
+          <h2 className="editorial-headline text-[#101014] text-4xl sm:text-5xl lg:text-7xl mb-6 font-rubik">
             A GLIMPSE INTO WHAT WE CREATE.
           </h2>
-          <p className="text-[#eef9ff]/75 text-base sm:text-lg font-rubik">
+          <p className="text-[#4A4A52] text-base sm:text-lg font-rubik">
             Experience the energy, choreography, and emotion captured live across our stage productions and grand finales.
           </p>
         </div>

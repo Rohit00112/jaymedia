@@ -113,7 +113,7 @@ export default function FeaturedEventsSection() {
   return (
     <section
       ref={containerRef as React.RefObject<HTMLElement>}
-      className="relative bg-black text-white py-28 lg:py-40 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-white/10 font-rubik"
+      className="relative bg-white text-[#101014] py-28 lg:py-40 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-black/10 font-rubik"
     >
       <div className="max-w-7xl mx-auto">
         {/* Header */}
@@ -123,13 +123,13 @@ export default function FeaturedEventsSection() {
               <span className="section-label text-coral font-medium tracking-[0.2em] mb-4 block">
                 FLAGSHIP PRODUCTIONS
               </span>
-              <h2 className="editorial-headline text-white text-4xl sm:text-5xl lg:text-7xl font-rubik">
+              <h2 className="editorial-headline text-[#101014] text-4xl sm:text-5xl lg:text-7xl font-rubik">
                 WORK WORTH REMEMBERING.
               </h2>
             </div>
             <Link
               href="/events"
-              className="group inline-flex items-center gap-2 text-sm font-rubik font-semibold uppercase tracking-widest text-[#eef9ff]/80 hover:text-white transition-colors duration-300"
+              className="group inline-flex items-center gap-2 text-sm font-rubik font-semibold uppercase tracking-widest text-[#101014]/75 hover:text-[#101014] transition-colors duration-300"
             >
               <span>View All Events &amp; Archive</span>
               <ArrowUpRight className="w-4 h-4 text-coral transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
@@ -145,7 +145,7 @@ export default function FeaturedEventsSection() {
               <div
                 key={event.slug}
                 className={cn(
-                  'grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center bg-[#0c0c11] border border-white/10 p-6 sm:p-10 lg:p-12 rounded-[10px] shadow-xl hover:border-coral/40 transition-all duration-500',
+                  'grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center bg-[#FAFAF8] border border-black/10 p-6 sm:p-10 lg:p-12 rounded-[10px] shadow-sm hover:shadow-xl hover:border-coral/40 transition-all duration-500',
                   isReversed && 'lg:flex-row-reverse'
                 )}
                 style={{ opacity: 0 }}
@@ -169,7 +169,7 @@ export default function FeaturedEventsSection() {
 
                   <div className="absolute inset-0 p-8 flex flex-col justify-between text-white z-10">
                     <div className="flex items-center justify-between">
-                      <span className="inline-flex items-center gap-2 px-3 py-1 bg-[#01402b]/90 border border-[#01402b] text-[#eef9ff] text-xs font-rubik font-medium tracking-wider uppercase rounded-[50px] backdrop-blur-sm">
+                      <span className="inline-flex items-center gap-2 px-3 py-1 bg-[#01402b] border border-[#01402b] text-white text-xs font-rubik font-medium tracking-wider uppercase rounded-[50px] backdrop-blur-sm">
                         <Award className="w-3.5 h-3.5 text-coral" />
                         {event.category}
                       </span>
@@ -182,7 +182,7 @@ export default function FeaturedEventsSection() {
                       <h4 className="text-2xl sm:text-3xl lg:text-4xl font-rubik font-bold text-white mb-2 leading-tight drop-shadow-md">
                         {event.title}
                       </h4>
-                      <div className="flex flex-wrap items-center gap-4 text-xs font-rubik text-[#eef9ff]/90">
+                      <div className="flex flex-wrap items-center gap-4 text-xs font-rubik text-white/90">
                         <span className="inline-flex items-center gap-1.5 bg-black/50 px-2.5 py-1 rounded-[50px] border border-white/10">
                           <Calendar className="w-3.5 h-3.5 text-coral" />
                           {event.seasonOrYear}
@@ -205,22 +205,22 @@ export default function FeaturedEventsSection() {
                     <span className="text-xs font-rubik tracking-widest text-coral uppercase block mb-3 font-medium">
                       Production Spotlight
                     </span>
-                    <h3 className="text-2xl sm:text-3xl font-rubik font-bold text-white mb-4">
+                    <h3 className="text-2xl sm:text-3xl font-rubik font-bold text-[#101014] mb-4">
                       {event.title}
                     </h3>
-                    <p className="text-[#eef9ff]/80 text-base sm:text-lg font-rubik leading-relaxed mb-6">
+                    <p className="text-[#4A4A52] text-base sm:text-lg font-rubik leading-relaxed mb-6">
                       {event.description}
                     </p>
 
                     <div className="space-y-2 mb-8">
-                      <span className="text-xs uppercase tracking-widest font-rubik text-[#eef9ff]/50 block">
+                      <span className="text-xs uppercase tracking-widest font-rubik text-[#6E6D7A] block">
                         Key Hallmarks
                       </span>
                       <div className="flex flex-wrap gap-2">
                         {event.highlights.map((highlight, hIdx) => (
                           <span
                             key={hIdx}
-                            className="text-xs font-rubik px-3 py-1 bg-white/5 border border-white/10 text-[#eef9ff] rounded-[2px]"
+                            className="text-xs font-rubik px-3 py-1 bg-white border border-black/10 text-[#101014] rounded-[2px] shadow-2xs"
                           >
                             ✓ {highlight}
                           </span>

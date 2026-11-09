@@ -151,12 +151,12 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       aria-modal="true"
       aria-label="Mobile navigation"
       onKeyDown={handleKeyDown}
-      className="fixed inset-0 z-[60] hidden flex-col bg-black text-white font-rubik lg:hidden"
+      className="fixed inset-0 z-[60] hidden flex-col bg-white text-[#101014] font-rubik lg:hidden"
       style={{ display: 'none', opacity: 0 }}
     >
       {/* Header with close button */}
-      <div className="flex h-20 items-center justify-between px-6 border-b border-white/10">
-        <span className="font-rubik text-xl font-bold tracking-tight text-white flex items-center gap-2">
+      <div className="flex h-20 items-center justify-between px-6 border-b border-black/10">
+        <span className="font-rubik text-xl font-bold tracking-tight text-[#101014] flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full bg-coral animate-pulse" />
           JAY MEDIA
         </span>
@@ -165,7 +165,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           type="button"
           onClick={onClose}
           aria-label="Close menu"
-          className="rounded-[2px] p-2 text-white transition-colors hover:text-coral"
+          className="rounded-[2px] p-2 text-[#101014] transition-colors hover:text-coral"
         >
           <X className="h-6 w-6" />
         </button>
@@ -187,7 +187,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                   'font-rubik text-2xl font-bold uppercase tracking-wider transition-colors duration-200',
                   isActive
                     ? 'text-coral'
-                    : 'text-[#eef9ff] hover:text-coral'
+                    : 'text-[#101014] hover:text-coral'
                 )}
               >
                 {link.label}
@@ -216,7 +216,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs font-rubik uppercase tracking-wider text-[#eef9ff]/70 transition-colors hover:text-white"
+                className="text-xs font-rubik uppercase tracking-wider text-[#4A4A52] transition-colors hover:text-[#101014]"
               >
                 {social.label}
               </a>

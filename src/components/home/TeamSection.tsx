@@ -88,7 +88,7 @@ export default function TeamSection() {
   return (
     <section
       ref={containerRef as React.RefObject<HTMLElement>}
-      className="relative bg-black text-white py-28 lg:py-40 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-white/10 font-rubik"
+      className="relative bg-white text-[#101014] py-28 lg:py-40 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-black/10 font-rubik"
     >
       <div className="max-w-7xl mx-auto">
         {/* Header */}
@@ -98,13 +98,13 @@ export default function TeamSection() {
               <span className="section-label text-coral font-medium tracking-[0.2em] mb-4 block">
                 LEADERSHIP &amp; MENTORS
               </span>
-              <h2 className="editorial-headline text-white text-4xl sm:text-5xl lg:text-7xl font-rubik">
+              <h2 className="editorial-headline text-[#101014] text-4xl sm:text-5xl lg:text-7xl font-rubik">
                 THE PEOPLE BEHIND THE MOMENTS.
               </h2>
             </div>
             <Link
               href="/team"
-              className="group inline-flex items-center gap-2 text-sm font-rubik font-semibold uppercase tracking-widest text-[#eef9ff]/80 hover:text-white transition-colors duration-300"
+              className="group inline-flex items-center gap-2 text-sm font-rubik font-semibold uppercase tracking-widest text-[#101014]/75 hover:text-[#101014] transition-colors duration-300"
             >
               <span>Meet The Entire Team</span>
               <ArrowUpRight className="w-4 h-4 text-coral transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
@@ -117,11 +117,11 @@ export default function TeamSection() {
           {TEAM_MEMBERS.map((member, index) => (
             <div
               key={index}
-              className="group flex flex-col bg-[#0c0c11] border border-white/10 hover:border-coral/40 p-6 rounded-[10px] shadow-xl transition-all duration-300 hover:-translate-y-1"
+              className="group flex flex-col bg-[#FAFAF8] border border-black/10 hover:border-coral/40 p-6 rounded-[10px] shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
               style={{ opacity: 0 }}
             >
               {/* Portrait with genuine executive stock photo & badge */}
-              <div className="relative aspect-square w-full bg-[#14141a] rounded-[10px] overflow-hidden mb-6 border border-white/5">
+              <div className="relative aspect-square w-full bg-white rounded-[10px] overflow-hidden mb-6 border border-black/5 shadow-inner">
                 <Image
                   src={member.image}
                   alt={member.name}
@@ -132,7 +132,7 @@ export default function TeamSection() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-[1]" />
 
                 <div className="absolute top-3 right-3 z-10">
-                  <span className="inline-flex items-center gap-1 text-[10px] uppercase font-rubik px-2.5 py-0.5 bg-[#01402b]/90 border border-[#01402b] text-[#eef9ff] font-medium rounded-[50px] backdrop-blur-sm">
+                  <span className="inline-flex items-center gap-1 text-[10px] uppercase font-rubik px-2.5 py-0.5 bg-[#01402b] border border-[#01402b] text-white font-medium rounded-[50px] backdrop-blur-sm">
                     <ShieldCheck className="w-3 h-3 text-coral" />
                     {member.status === 'Verified Leadership' ? 'Leadership' : 'Advisor'}
                   </span>
@@ -142,20 +142,20 @@ export default function TeamSection() {
               {/* Information */}
               <div className="flex-1 flex flex-col justify-between">
                 <div>
-                  <h3 className="font-rubik text-xl font-bold text-white group-hover:text-coral transition-colors">
+                  <h3 className="font-rubik text-xl font-bold text-[#101014] group-hover:text-coral transition-colors">
                     {member.name}
                   </h3>
                   <span className="text-xs uppercase font-rubik tracking-wider text-coral font-medium block mt-1 mb-3">
                     {member.role}
                   </span>
-                  <p className="text-xs sm:text-sm font-rubik text-[#eef9ff]/75 leading-relaxed">
+                  <p className="text-xs sm:text-sm font-rubik text-[#4A4A52] leading-relaxed">
                     {member.bio}
                   </p>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between text-[11px] text-[#eef9ff]/50 font-rubik">
+                <div className="mt-6 pt-4 border-t border-black/10 flex items-center justify-between text-[11px] text-[#6E6D7A] font-rubik">
                   <span>Biratnagar Hub</span>
-                  <span className="text-coral group-hover:underline">Profile &rarr;</span>
+                  <span className="text-coral font-medium group-hover:underline">Profile &rarr;</span>
                 </div>
               </div>
             </div>

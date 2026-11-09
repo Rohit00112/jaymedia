@@ -32,35 +32,35 @@ export default function ContactCTA() {
   return (
     <section
       ref={containerRef as React.RefObject<HTMLElement>}
-      className="relative bg-black text-white py-28 lg:py-40 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-white/10 font-rubik"
+      className="relative bg-white text-[#101014] py-28 lg:py-40 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-black/10 font-rubik"
     >
       <div className="max-w-7xl mx-auto">
         <div
           ref={contentRef}
-          className="relative bg-[#0c0c11] text-white p-8 sm:p-14 lg:p-20 overflow-hidden shadow-2xl border border-white/10 rounded-[10px]"
+          className="relative bg-[#F5F2EC] text-[#101014] p-8 sm:p-14 lg:p-20 overflow-hidden shadow-lg border border-black/10 rounded-[10px]"
           style={{ opacity: 0 }}
         >
           {/* Ambient coral glow in corner */}
-          <div className="absolute top-0 right-0 w-96 h-96 bg-coral/15 rounded-full blur-[120px] pointer-events-none" />
+          <div className="absolute top-0 right-0 w-96 h-96 bg-coral/10 rounded-full blur-[120px] pointer-events-none" />
 
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-8">
               <span className="section-label text-coral font-medium tracking-[0.2em] mb-4 block">
                 START A CONVERSATION
               </span>
-              <h2 className="editorial-headline text-white text-4xl sm:text-5xl lg:text-7xl mb-6 font-rubik">
+              <h2 className="editorial-headline text-[#101014] text-4xl sm:text-5xl lg:text-7xl mb-6 font-rubik">
                 HAVE AN IDEA? LET&apos;S MAKE IT HAPPEN.
               </h2>
-              <p className="text-[#eef9ff]/80 text-base sm:text-lg font-rubik max-w-2xl leading-relaxed mb-8">
+              <p className="text-[#4A4A52] text-base sm:text-lg font-rubik max-w-2xl leading-relaxed mb-8">
                 Whether you are planning a regional beauty pageant, a high-stakes corporate launch, or an ambitious
                 creative campaign, Jay Media Management brings unmatched stagecraft and production mastery to the table.
               </p>
 
-              <div className="flex flex-wrap items-center gap-4 text-xs font-rubik text-[#eef9ff]">
-                <span className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#01402b]/80 border border-[#01402b] rounded-[50px]">
+              <div className="flex flex-wrap items-center gap-4 text-xs font-rubik text-white">
+                <span className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#01402b] border border-[#01402b] rounded-[50px] shadow-sm">
                   <MapPin className="w-3.5 h-3.5 text-coral" /> {siteConfig.location.address}, {siteConfig.location.city}
                 </span>
-                <span className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#01402b]/80 border border-[#01402b] rounded-[50px]">
+                <span className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#01402b] border border-[#01402b] rounded-[50px] shadow-sm">
                   <Mail className="w-3.5 h-3.5 text-coral" /> {siteConfig.contact.email}
                 </span>
               </div>
@@ -76,7 +76,7 @@ export default function ContactCTA() {
               </Link>
               <Link
                 href="/services"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-5 bg-transparent border border-white/20 text-[#eef9ff] font-rubik font-medium text-xs tracking-widest uppercase hover:bg-white/10 transition-colors duration-300 text-center rounded-[50px]"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-5 bg-white border border-black/15 text-[#101014] font-rubik font-medium text-xs tracking-widest uppercase hover:bg-black hover:text-white transition-colors duration-300 text-center rounded-[50px] shadow-sm"
               >
                 <span>Explore Capabilities</span>
               </Link>
