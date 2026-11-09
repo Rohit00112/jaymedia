@@ -208,7 +208,7 @@ export default function HeroSection() {
               'inline-flex items-center justify-center',
               'bg-coral text-white font-display font-medium',
               'text-sm tracking-wider uppercase',
-              'px-8 py-4 rounded-none',
+              'px-8 py-4 rounded-[2px]',
               'transition-all duration-300',
               'hover:bg-coral-hover hover:scale-[1.03] hover:brightness-110',
               'focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 focus-visible:ring-offset-ink'
@@ -222,7 +222,7 @@ export default function HeroSection() {
               'inline-flex items-center justify-center',
               'bg-transparent border border-white text-white font-display font-medium',
               'text-sm tracking-wider uppercase',
-              'px-8 py-4 rounded-none',
+              'px-8 py-4 rounded-[2px]',
               'transition-all duration-300',
               'hover:bg-white/10 hover:scale-[1.03]',
               'focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-ink'

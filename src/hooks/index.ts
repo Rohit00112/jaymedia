@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, useSyncExternalStore } from 'react';
 
 /**
  * Intersection Observer hook for scroll-triggered animations.
@@ -30,27 +30,34 @@ export function useInView<T extends HTMLElement = HTMLDivElement>(
 
     observer.observe(element);
     return () => observer.disconnect();
-  }, [once, threshold, rootMargin]);
+  }, [once, threshold, rootMargin, rest]);
 
   return { ref, isInView };
+}
+
+function subscribeReducedMotion(callback: () => void) {
+  const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
+  mql.addEventListener('change', callback);
+  return () => mql.removeEventListener('change', callback);
+}
+
+function getReducedMotionSnapshot() {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+function getReducedMotionServerSnapshot() {
+  return false;
 }
 
 /**
  * Check if reduced motion is preferred.
  */
 export function useReducedMotion(): boolean {
-  const [prefersReduced, setPrefersReduced] = useState(false);
-
-  useEffect(() => {
-    const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReduced(mql.matches);
-
-    const handler = (e: MediaQueryListEvent) => setPrefersReduced(e.matches);
-    mql.addEventListener('change', handler);
-    return () => mql.removeEventListener('change', handler);
-  }, []);
-
-  return prefersReduced;
+  return useSyncExternalStore(
+    subscribeReducedMotion,
+    getReducedMotionSnapshot,
+    getReducedMotionServerSnapshot
+  );
 }
 
 /**
@@ -95,9 +102,9 @@ export function useScrollPosition() {
 export function useBodyLock(isLocked: boolean) {
   useEffect(() => {
     if (isLocked) {
-      const scrollY = window.scrollY;
+      const currentScrollY = window.scrollY;
       document.body.style.position = 'fixed';
-      document.body.style.top = `-${scrollY}px`;
+      document.body.style.top = `-${currentScrollY}px`;
       document.body.style.width = '100%';
       document.body.style.overflow = 'hidden';
       return () => {
@@ -105,7 +112,7 @@ export function useBodyLock(isLocked: boolean) {
         document.body.style.top = '';
         document.body.style.width = '';
         document.body.style.overflow = '';
-        window.scrollTo(0, scrollY);
+        window.scrollTo(0, currentScrollY);
       };
     }
   }, [isLocked]);
@@ -132,20 +139,23 @@ export function useEscapeKey(handler: () => void, enabled: boolean = true) {
 }
 
 /**
- * Media query hook.
+ * Media query hook using useSyncExternalStore.
  */
 export function useMediaQuery(query: string): boolean {
-  const [matches, setMatches] = useState(false);
+  const subscribe = useCallback(
+    (callback: () => void) => {
+      const mql = window.matchMedia(query);
+      mql.addEventListener('change', callback);
+      return () => mql.removeEventListener('change', callback);
+    },
+    [query]
+  );
 
-  useEffect(() => {
-    const mql = window.matchMedia(query);
-    setMatches(mql.matches);
-    const handler = (e: MediaQueryListEvent) => setMatches(e.matches);
-    mql.addEventListener('change', handler);
-    return () => mql.removeEventListener('change', handler);
+  const getSnapshot = useCallback(() => {
+    return window.matchMedia(query).matches;
   }, [query]);
 
-  return matches;
+  return useSyncExternalStore(subscribe, getSnapshot, () => false);
 }
 
 /**
@@ -154,15 +164,21 @@ export function useMediaQuery(query: string): boolean {
 export function useDebouncedCallback<T extends (...args: unknown[]) => void>(
   callback: T,
   delay: number
-): T {
+): (...args: Parameters<T>) => void {
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const callbackRef = useRef(callback);
+
+  useEffect(() => {
+    callbackRef.current = callback;
+  }, [callback]);
 
   return useCallback(
-    ((...args: Parameters<T>) => {
+    (...args: Parameters<T>) => {
       clearTimeout(timeoutRef.current);
-      timeoutRef.current = setTimeout(() => callback(...args), delay);
-    }) as T,
-    [callback, delay]
+      timeoutRef.current = setTimeout(() => {
+        callbackRef.current(...args);
+      }, delay);
+    },
+    [delay]
   );
 }
-

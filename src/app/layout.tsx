@@ -1,20 +1,21 @@
 import type { Metadata } from 'next';
-import { Space_Grotesk, DM_Sans } from 'next/font/google';
+import { Rubik, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import { siteConfig } from '@/config/site';
 import { generateOrganizationSchema } from '@/lib/seo';
+
+const rubik = Rubik({
+  subsets: ['latin'],
+  variable: '--font-rubik',
+  display: 'swap',
+  weight: ['300', '400', '500', '600', '700', '800'],
+});
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
   variable: '--font-display',
   display: 'swap',
-  weight: ['300', '400', '500', '600', '700'],
-});
-
-const dmSans = DM_Sans({
-  subsets: ['latin'],
-  variable: '--font-body',
-  display: 'swap',
+  weight: ['400', '500', '600', '700'],
 });
 
 export const metadata: Metadata = {
@@ -68,7 +69,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${dmSans.variable}`}>
+    <html lang="en" className={`${rubik.variable} ${spaceGrotesk.variable}`}>
       <head>
         <script
           type="application/ld+json"
@@ -77,7 +78,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="font-body antialiased">
+      <body className="font-rubik antialiased selection:bg-coral selection:text-white">
         {children}
       </body>
     </html>

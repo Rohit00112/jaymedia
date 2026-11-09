@@ -307,3 +307,4 @@ Before submitting any code change for the Jay Media Management dashboard, verify
 - [ ] **Mobile Touch Verified**: Touch targets meet or exceed 44x44px.
 - [ ] **Labels Semantic**: No ambiguous buttons; screen reader labels present for all icon-only triggers.
 - [ ] **Build Check**: `npm run build` succeeds with zero TypeScript errors and zero warnings.
+

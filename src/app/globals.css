@@ -1,28 +1,38 @@
 @import "tailwindcss";
 
-/* ─── Custom Theme Tokens ───────────────────────────────────── */
+/* ─── Official Design Tokens (DESIGN.md) ─────────────────────── */
 @theme {
-  --color-ink: #101014;
-  --color-dark-surface: #1B1B21;
-  --color-warm-ivory: #F5F2EC;
-  --color-coral: #FF594F;
-  --color-coral-hover: #E84D43;
-  --color-coral-light: rgba(255, 89, 79, 0.12);
-  --color-muted-grey: #99979A;
-  --color-divider: rgba(153, 151, 154, 0.2);
-  --color-overlay: rgba(16, 16, 20, 0.65);
-  --color-overlay-heavy: rgba(16, 16, 20, 0.85);
-
-  /* Dashboard tokens */
+  /* Surfaces */
   --color-surface-base: #000000;
   --color-surface-muted: #e3e3e1;
+  --color-surface-elevated: #101014;
+  --color-surface-subtle: rgba(255, 255, 255, 0.05);
+
+  /* Primary Text & Secondary Palettes */
   --color-text-primary: #ffffff;
   --color-text-secondary: #eef9ff;
   --color-text-tertiary: #01402b;
 
-  --font-display: var(--font-display), 'Space Grotesk', sans-serif;
-  --font-body: var(--font-body), 'DM Sans', sans-serif;
-  --font-rubik: 'Rubik', sans-serif;
+  /* Aliased Semantic Colors */
+  --color-ink: #000000;
+  --color-dark-surface: #101014;
+  --color-warm-ivory: #e3e3e1;
+  --color-coral: #FF594F;
+  --color-coral-hover: #e04a41;
+  --color-coral-light: rgba(255, 89, 79, 0.12);
+  --color-muted-grey: #828a92;
+  --color-divider: rgba(238, 249, 255, 0.14);
+  --color-emerald-prestige: #01402b;
+
+  /* Typography */
+  --font-rubik: var(--font-rubik), 'Rubik', sans-serif;
+  --font-display: var(--font-rubik), 'Rubik', var(--font-display), sans-serif;
+  --font-body: var(--font-rubik), 'Rubik', sans-serif;
+
+  /* Radii */
+  --radius-xs: 2px;
+  --radius-sm: 10px;
+  --radius-md: 50px;
 }
 
 /* ─── Base Layer ────────────────────────────────────────────── */
@@ -42,7 +52,7 @@
     scroll-behavior: smooth;
   }
 
-  /* When Lenis is active, disable native smooth scroll */
+  /* Lenis smooth scroll */
   html.lenis,
   html.lenis body {
     height: auto;
@@ -64,32 +74,32 @@
     font-family: var(--font-body);
     color: var(--color-ink);
     background-color: var(--color-warm-ivory);
-    line-height: 1.6;
+    line-height: 24px;
+    font-size: 16px;
+    font-weight: 400;
     overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    font-weight: 600;
+    font-weight: 700;
     line-height: 1.1;
     letter-spacing: -0.02em;
   }
 
-  /* Fluid typography */
+  /* Typography Scale */
   h1 {
-    font-size: clamp(2.5rem, 6vw, 7rem);
-    font-weight: 700;
+    font-size: clamp(2.5rem, 5.5vw, 6.5rem);
     letter-spacing: -0.03em;
   }
 
   h2 {
-    font-size: clamp(2rem, 4vw, 4.5rem);
-    font-weight: 600;
+    font-size: clamp(2rem, 4vw, 4.25rem);
     letter-spacing: -0.025em;
   }
 
   h3 {
-    font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+    font-size: clamp(1.5rem, 2.5vw, 2.25rem);
   }
 
   h4 {
@@ -114,23 +124,21 @@
     background: none;
   }
 
-  /* Focus styles */
+  /* WCAG 2.2 AA Focus Visible outline */
   :focus-visible {
     outline: 2px solid var(--color-coral);
-    outline-offset: 3px;
-    border-radius: 2px;
+    outline-offset: 2px;
+    border-radius: var(--radius-xs);
   }
 
-  /* Selection */
   ::selection {
     background-color: var(--color-coral);
-    color: var(--color-white);
+    color: var(--color-text-primary);
   }
 }
 
 /* ─── Component Layer ───────────────────────────────────────── */
 @layer components {
-  /* Editorial headline styling */
   .editorial-headline {
     font-family: var(--font-display);
     font-weight: 700;
@@ -139,35 +147,31 @@
     line-height: 0.95;
   }
 
-  /* Section label */
   .section-label {
     font-family: var(--font-display);
-    font-size: 0.75rem;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: var(--color-muted-grey);
+    letter-spacing: 0.2em;
   }
 
-  /* Cinematic image container */
   .cinematic-image {
     position: relative;
     overflow: hidden;
-    border-radius: 0;
+    border-radius: var(--radius-xs);
   }
 
   .cinematic-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 850ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .cinematic-image:hover img {
-    transform: scale(1.05);
+    transform: scale(1.04);
   }
 
-  /* Text mask for word reveal */
   .word-mask {
     overflow: hidden;
     display: inline-block;
@@ -180,79 +184,19 @@
     opacity: 0;
   }
 
-  /* Coral accent line */
-  .coral-accent {
-    display: inline-block;
-    position: relative;
-  }
-
-  .coral-accent::after {
-    content: '';
-    position: absolute;
-    bottom: 0.1em;
-    left: 0;
-    width: 100%;
-    height: 0.12em;
-    background-color: var(--color-coral);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 650ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .coral-accent.is-visible::after {
-    transform: scaleX(1);
-  }
-
-  /* Dark section */
   .section-dark {
-    background-color: var(--color-ink);
-    color: var(--color-white);
+    background-color: var(--color-surface-base);
+    color: var(--color-text-primary);
   }
 
   .section-dark-surface {
-    background-color: var(--color-dark-surface);
-    color: var(--color-white);
+    background-color: var(--color-surface-elevated);
+    color: var(--color-text-secondary);
   }
 
-  /* Warm section */
   .section-warm {
-    background-color: var(--color-warm-ivory);
+    background-color: var(--color-surface-muted);
     color: var(--color-ink);
-  }
-}
-
-/* ─── Utility Layer ─────────────────────────────────────────── */
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-
-  /* Hide scrollbar but allow scrolling */
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* Gradient overlays */
-  .gradient-dark-bottom {
-    background: linear-gradient(
-      to bottom,
-      transparent 0%,
-      rgba(16, 16, 20, 0.4) 50%,
-      rgba(16, 16, 20, 0.85) 100%
-    );
-  }
-
-  .gradient-dark-top {
-    background: linear-gradient(
-      to top,
-      transparent 0%,
-      rgba(16, 16, 20, 0.6) 100%
-    );
   }
 }
 

@@ -47,7 +47,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       return () => unsubscribe();
     } catch {
-      setLoading(false);
+      queueMicrotask(() => setLoading(false));
     }
   }, []);
 

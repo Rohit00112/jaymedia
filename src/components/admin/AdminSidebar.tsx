@@ -13,7 +13,6 @@ import {
   Settings,
   ExternalLink,
   LogOut,
-  Sparkles,
 } from 'lucide-react';
 import { useAuth } from '@/lib/firebase/auth-context';
 import { cn } from '@/lib/utils';
@@ -34,7 +33,7 @@ export default function AdminSidebar() {
   const { user, logout } = useAuth();
 
   return (
-    <aside className="w-64 bg-ink text-white flex flex-col justify-between shrink-0 min-h-screen border-r border-white/10">
+    <aside className="w-64 bg-black text-white flex flex-col justify-between shrink-0 min-h-screen border-r border-white/10 font-rubik">
       <div>
         {/* Brand header */}
         <div className="p-6 border-b border-white/10">
@@ -44,7 +43,7 @@ export default function AdminSidebar() {
               JAY MEDIA
             </span>
           </div>
-          <span className="text-[10px] uppercase font-display tracking-widest text-muted-grey mt-1 block">
+          <span className="text-[11px] uppercase font-display tracking-widest text-muted-grey mt-1 block">
             Studio CMS • Biratnagar
           </span>
         </div>
@@ -63,7 +62,7 @@ export default function AdminSidebar() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  'flex items-center gap-3 px-4 py-3 text-xs uppercase font-display tracking-wider transition-all',
+                  'flex items-center gap-3 px-4 py-3 text-xs uppercase font-display tracking-wider transition-all rounded-[2px]',
                   isActive
                     ? 'bg-coral text-white font-semibold shadow-md'
                     : 'text-white/70 hover:bg-white/5 hover:text-white'
@@ -82,7 +81,7 @@ export default function AdminSidebar() {
         <Link
           href="/"
           target="_blank"
-          className="flex items-center justify-between px-4 py-2.5 text-xs font-display text-white/60 hover:text-white hover:bg-white/5 transition-colors"
+          className="flex items-center justify-between px-4 py-2.5 text-xs font-display text-white/60 hover:text-white hover:bg-white/5 transition-colors rounded-[2px]"
         >
           <span>View Live Website</span>
           <ExternalLink className="w-3.5 h-3.5 text-coral" />
@@ -107,4 +106,3 @@ export default function AdminSidebar() {
     </aside>
   );
 }
-
