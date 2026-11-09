@@ -49,27 +49,27 @@ export default async function NewsDetailPage({ params }: Props) {
   const otherArticles = NEWS_DATA.filter((a) => a.slug !== article.slug);
 
   return (
-    <div className="bg-warm-ivory text-ink min-h-screen">
+    <div className="bg-black text-white min-h-screen font-rubik">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
 
       {/* ─── Hero ─────────────────────────────────────────────── */}
-      <section className="relative bg-ink text-white pt-40 pb-20 sm:pt-48 sm:pb-28 px-6 sm:px-10 lg:px-16 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-ink via-dark-surface to-ink opacity-90" />
+      <section className="relative bg-black text-white pt-40 pb-20 sm:pt-48 sm:pb-28 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-white/10">
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-[#0c0c11] to-black opacity-90" />
         <div className="absolute top-1/2 -right-20 w-80 h-80 bg-coral/10 rounded-full blur-[120px] pointer-events-none" />
 
         <div className="relative z-10 max-w-4xl mx-auto">
           <Link
             href="/news"
-            className="inline-flex items-center gap-2 text-xs uppercase font-display tracking-widest text-muted-grey hover:text-coral transition-colors mb-8"
+            className="inline-flex items-center gap-2 text-xs uppercase font-rubik tracking-wider text-[#eef9ff]/70 hover:text-white transition-colors mb-8"
           >
             <ArrowLeft className="w-4 h-4" /> Back to News &amp; Releases
           </Link>
 
-          <div className="flex flex-wrap items-center gap-4 text-xs font-body text-white/60 mb-6">
-            <span className="px-2.5 py-1 bg-coral/20 border border-coral/40 text-coral font-medium uppercase font-display">
+          <div className="flex flex-wrap items-center gap-4 text-xs font-rubik text-[#eef9ff]/70 mb-6">
+            <span className="px-3.5 py-1 bg-[#01402b]/80 border border-[#01402b] text-[#eef9ff] font-medium uppercase font-rubik rounded-[50px]">
               {article.category}
             </span>
             <span className="flex items-center gap-1.5">
@@ -86,40 +86,40 @@ export default async function NewsDetailPage({ params }: Props) {
             </span>
           </div>
 
-          <h1 className="editorial-headline text-white text-3xl sm:text-5xl lg:text-6xl leading-[1.05] mb-6">
+          <h1 className="editorial-headline text-white text-3xl sm:text-5xl lg:text-6xl leading-[1.05] mb-6 font-rubik">
             {article.title}
           </h1>
 
-          <p className="text-muted-grey text-lg sm:text-xl font-body leading-relaxed">
+          <p className="text-[#eef9ff]/80 text-lg sm:text-xl font-rubik leading-relaxed">
             {article.excerpt}
           </p>
         </div>
       </section>
 
       {/* ─── Article Body ────────────────────────────────────── */}
-      <section className="py-20 lg:py-28 px-6 sm:px-10 lg:px-16 border-b border-divider">
+      <section className="py-20 lg:py-28 px-6 sm:px-10 lg:px-16 border-b border-white/10 bg-[#0c0c11]">
         <div className="max-w-3xl mx-auto">
-          <div className="space-y-6 text-base sm:text-lg font-body text-ink/85 leading-relaxed">
+          <div className="space-y-6 text-base sm:text-lg font-rubik text-[#eef9ff]/85 leading-relaxed">
             {article.content.map((paragraph, index) => (
               <p key={index}>{paragraph}</p>
             ))}
           </div>
 
           {/* Tags */}
-          <div className="mt-12 pt-8 border-t border-ink/10 flex flex-wrap items-center justify-between gap-4">
+          <div className="mt-12 pt-8 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-2 flex-wrap">
               <Tag className="w-4 h-4 text-coral" />
               {article.tags.map((t, idx) => (
                 <span
                   key={idx}
-                  className="text-xs font-body px-3 py-1 bg-white border border-ink/10 text-ink/70"
+                  className="text-xs font-rubik px-3 py-1 bg-white/5 border border-white/10 text-[#eef9ff] rounded-[2px]"
                 >
                   #{t}
                 </span>
               ))}
             </div>
 
-            <span className="text-xs font-display uppercase tracking-widest text-ink/50">
+            <span className="text-xs font-rubik uppercase tracking-wider text-[#eef9ff]/50">
               Published from Biratnagar, Nepal
             </span>
           </div>
@@ -127,15 +127,15 @@ export default async function NewsDetailPage({ params }: Props) {
       </section>
 
       {/* ─── Related Articles ────────────────────────────────── */}
-      <section className="py-20 lg:py-28 px-6 sm:px-10 lg:px-16 bg-white">
+      <section className="py-20 lg:py-28 px-6 sm:px-10 lg:px-16 bg-black">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-12">
-            <h3 className="editorial-headline text-ink text-2xl sm:text-3xl">
+            <h3 className="editorial-headline text-white text-2xl sm:text-3xl font-rubik">
               Other Recent Dispatches
             </h3>
             <Link
               href="/news"
-              className="text-xs uppercase font-display tracking-widest text-coral font-semibold hover:underline"
+              className="text-xs uppercase font-rubik tracking-wider text-coral font-semibold hover:underline"
             >
               View All &rarr;
             </Link>
@@ -145,22 +145,22 @@ export default async function NewsDetailPage({ params }: Props) {
             {otherArticles.slice(0, 2).map((other) => (
               <div
                 key={other.slug}
-                className="bg-warm-ivory border border-ink/10 p-6 flex flex-col justify-between"
+                className="bg-[#0c0c11] border border-white/10 p-6 rounded-[10px] flex flex-col justify-between shadow-xl hover:border-coral/40 transition-all"
               >
                 <div>
-                  <span className="text-xs font-body text-coral font-medium uppercase font-display mb-2 block">
+                  <span className="text-xs font-rubik text-coral font-medium uppercase mb-2 block">
                     {other.category}
                   </span>
-                  <h4 className="font-display text-xl font-bold text-ink mb-2">
+                  <h4 className="font-rubik text-xl font-bold text-white mb-2">
                     {other.title}
                   </h4>
-                  <p className="text-ink/70 text-sm font-body line-clamp-2">
+                  <p className="text-[#eef9ff]/75 text-sm font-rubik line-clamp-2">
                     {other.excerpt}
                   </p>
                 </div>
                 <Link
                   href={`/news/${other.slug}`}
-                  className="mt-4 text-xs uppercase font-display tracking-widest text-ink hover:text-coral font-semibold flex items-center gap-1"
+                  className="mt-4 text-xs uppercase font-rubik tracking-wider text-coral hover:text-white font-semibold flex items-center gap-1 transition-colors"
                 >
                   Read &rarr;
                 </Link>

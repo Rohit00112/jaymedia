@@ -129,6 +129,49 @@ export const EVENTS_DATA: EventDetailData[] = [
     ],
   },
   {
+    slug: 'nepal-kids-dancing-champion',
+    title: 'Nepal Kids Dancing Champion',
+    category: "Youth Dance Championship",
+    seasonOrYear: 'Annual Competition',
+    location: 'Biratnagar • Eastern Nepal',
+    tagline: 'Eastern Nepal’s premier children’s dancing reality talent championship.',
+    summary:
+      'Nepal Kids Dancing Champion is a dedicated performing arts tournament providing young dancers a televised stage to express cultural and contemporary choreography.',
+    overview:
+      'Organized by Jay Media Management in Biratnagar, Nepal Kids Dancing Champion invites young performers aged 4–14 to compete across classical, folk, modern, and hip-hop dance categories. The competition fosters artistic discipline, physical fitness, rhythm, and immense stage bravery under the evaluation of renowned choreographers and industry judges.',
+    highlights: [
+      'Provincial Audition Tours in Biratnagar and Environs',
+      'Choreography Mentorship and Professional Stage Rehearsals',
+      'Broadcast-Quality Stage Lighting & Multicam Production',
+      'Grand Trophy, Cash Awards & Media Accolades',
+    ],
+    scheduleOrPhases: [
+      {
+        title: 'Talent Auditions',
+        description: 'First-round solo and group dance screenings across eastern Nepal audition hubs.',
+      },
+      {
+        title: 'Masterclass Rounds',
+        description: 'Selected candidates work with senior choreographers on routine perfection and camera angles.',
+      },
+      {
+        title: 'Grand Finale Showcase',
+        description: 'A dazzling performance night judged by celebrated Nepali artists with live audience voting.',
+      },
+    ],
+    hallOfFameOrWinners: [
+      {
+        title: 'Championship Finalists',
+        note: 'Outstanding child dance champions celebrated across Koshi Province media.',
+      },
+    ],
+    productionScope: [
+      'High-impact dance floor staging with specialized anti-slip surfaces',
+      'Dynamic moving-head lighting and synchronized stage effects',
+      'Multicam recording and live digital broadcasting',
+    ],
+  },
+  {
     slug: 'corporate-cultural-galas',
     title: 'Corporate Launches & Cultural Galas',
     category: 'Corporate & Experiential',

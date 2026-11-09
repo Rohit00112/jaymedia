@@ -71,9 +71,9 @@
   }
 
   body {
-    font-family: var(--font-body);
-    color: var(--color-ink);
-    background-color: var(--color-warm-ivory);
+    font-family: var(--font-rubik), 'Rubik', sans-serif;
+    color: var(--color-text-primary);
+    background-color: var(--color-surface-base);
     line-height: 24px;
     font-size: 16px;
     font-weight: 400;
@@ -81,10 +81,11 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-display);
+    font-family: var(--font-rubik), 'Rubik', sans-serif;
     font-weight: 700;
     line-height: 1.1;
     letter-spacing: -0.02em;
+    color: var(--color-text-primary);
   }
 
   /* Typography Scale */
@@ -140,25 +141,47 @@
 /* ─── Component Layer ───────────────────────────────────────── */
 @layer components {
   .editorial-headline {
-    font-family: var(--font-display);
+    font-family: var(--font-rubik), sans-serif;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.02em;
     line-height: 0.95;
   }
 
   .section-label {
-    font-family: var(--font-display);
+    font-family: var(--font-rubik), sans-serif;
     font-size: 14px;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.15em;
+  }
+
+  /* Official Design Token Utility Classes */
+  .btn-pill {
+    border-radius: var(--radius-md);
+    transition: all var(--motion-duration-instant, 300ms) ease;
+  }
+
+  .token-card {
+    border-radius: var(--radius-sm);
+    background-color: var(--color-surface-elevated);
+    border: 1px solid var(--color-divider);
+    transition: all var(--motion-duration-instant, 300ms) ease;
+  }
+
+  .badge-prestige {
+    background-color: var(--color-text-tertiary);
+    color: var(--color-text-secondary);
+    border-radius: var(--radius-xs);
+    font-family: var(--font-rubik), sans-serif;
+    font-size: var(--font-size-xs, 14px);
+    font-weight: 500;
   }
 
   .cinematic-image {
     position: relative;
     overflow: hidden;
-    border-radius: var(--radius-xs);
+    border-radius: var(--radius-sm);
   }
 
   .cinematic-image img {

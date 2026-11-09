@@ -15,7 +15,7 @@ export default function HeroSection() {
   const reducedMotion = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
-  const labelRef = useRef<HTMLSpanElement>(null);
+  const labelRef = useRef<HTMLDivElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const supportRef = useRef<HTMLParagraphElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
@@ -166,20 +166,25 @@ export default function HeroSection() {
       />
 
       {/* ── Content ───────────────────────────────────────── */}
-      <div className="relative z-10 flex flex-col items-center text-center px-6 md:px-10">
-        {/* Label */}
-        <span
+      <div className="relative z-10 flex flex-col items-center text-center px-6 md:px-10 font-rubik">
+        {/* Label & Prestige Badge */}
+        <div
           ref={labelRef}
-          className="section-label text-white/70 mb-6 md:mb-8"
+          className="flex flex-col sm:flex-row items-center gap-3 mb-6 md:mb-8"
         >
-          CREATIVE PRODUCTION &amp; EVENT MANAGEMENT
-        </span>
+          <span className="px-3.5 py-1 bg-[#01402b]/90 border border-[#01402b] text-[#eef9ff] text-xs font-rubik font-medium tracking-widest uppercase rounded-[50px] shadow-sm">
+            Koshi Province • Biratnagar
+          </span>
+          <span className="section-label text-coral font-medium tracking-[0.2em]">
+            CREATIVE PRODUCTION &amp; EVENT MANAGEMENT
+          </span>
+        </div>
 
         {/* Headline */}
         <h1
           ref={headlineRef}
           className={cn(
-            'editorial-headline text-white',
+            'editorial-headline text-white font-rubik',
             'text-5xl md:text-7xl lg:text-8xl xl:text-9xl',
             'max-w-6xl mb-6 md:mb-8'
           )}
@@ -194,7 +199,7 @@ export default function HeroSection() {
         {/* Supporting text */}
         <p
           ref={supportRef}
-          className="text-lg md:text-xl text-white/80 max-w-xl font-body mb-10 md:mb-12"
+          className="text-lg md:text-xl text-[#eef9ff]/90 max-w-xl font-rubik mb-10 md:mb-12 font-normal leading-relaxed"
         >
           Turning ambitious ideas into extraordinary experiences.
         </p>
@@ -205,12 +210,12 @@ export default function HeroSection() {
             href="/events"
             className={cn(
               'inline-flex items-center justify-center',
-              'bg-coral text-white font-display font-medium',
+              'bg-coral text-white font-rubik font-medium',
               'text-sm tracking-wider uppercase',
-              'px-8 py-4 rounded-[2px]',
-              'transition-all duration-300',
+              'px-8 py-4 rounded-[50px]',
+              'transition-all duration-300 shadow-lg',
               'hover:bg-coral-hover hover:scale-[1.03] hover:brightness-110',
-              'focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 focus-visible:ring-offset-ink'
+              'focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 focus-visible:ring-offset-black'
             )}
           >
             Explore Our Work
@@ -219,12 +224,12 @@ export default function HeroSection() {
             href="/contact"
             className={cn(
               'inline-flex items-center justify-center',
-              'bg-transparent border border-white text-white font-display font-medium',
+              'bg-transparent border border-[#eef9ff]/40 text-[#eef9ff] font-rubik font-medium',
               'text-sm tracking-wider uppercase',
-              'px-8 py-4 rounded-[2px]',
+              'px-8 py-4 rounded-[50px]',
               'transition-all duration-300',
-              'hover:bg-white/10 hover:scale-[1.03]',
-              'focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-ink'
+              'hover:bg-white/10 hover:border-white hover:scale-[1.03]',
+              'focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black'
             )}
           >
             Let&apos;s Collaborate

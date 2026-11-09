@@ -32,12 +32,12 @@ export default function ContactCTA() {
   return (
     <section
       ref={containerRef as React.RefObject<HTMLElement>}
-      className="relative bg-warm-ivory text-ink py-28 lg:py-40 px-6 sm:px-10 lg:px-16 overflow-hidden"
+      className="relative bg-black text-white py-28 lg:py-40 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-white/10 font-rubik"
     >
       <div className="max-w-7xl mx-auto">
         <div
           ref={contentRef}
-          className="relative bg-ink text-white p-8 sm:p-14 lg:p-20 overflow-hidden shadow-2xl border border-ink/20"
+          className="relative bg-[#0c0c11] text-white p-8 sm:p-14 lg:p-20 overflow-hidden shadow-2xl border border-white/10 rounded-[10px]"
           style={{ opacity: 0 }}
         >
           {/* Ambient coral glow in corner */}
@@ -45,23 +45,23 @@ export default function ContactCTA() {
 
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-8">
-              <span className="section-label text-coral font-medium tracking-[0.25em] mb-4 block">
+              <span className="section-label text-coral font-medium tracking-[0.2em] mb-4 block">
                 START A CONVERSATION
               </span>
-              <h2 className="editorial-headline text-white text-4xl sm:text-5xl lg:text-7xl mb-6">
+              <h2 className="editorial-headline text-white text-4xl sm:text-5xl lg:text-7xl mb-6 font-rubik">
                 HAVE AN IDEA? LET&apos;S MAKE IT HAPPEN.
               </h2>
-              <p className="text-muted-grey text-base sm:text-lg font-body max-w-2xl leading-relaxed mb-8">
+              <p className="text-[#eef9ff]/80 text-base sm:text-lg font-rubik max-w-2xl leading-relaxed mb-8">
                 Whether you are planning a regional beauty pageant, a high-stakes corporate launch, or an ambitious
                 creative campaign, Jay Media Management brings unmatched stagecraft and production mastery to the table.
               </p>
 
-              <div className="flex flex-wrap items-center gap-6 text-sm text-white/70 font-body">
-                <span className="inline-flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-coral" /> {siteConfig.location.address}, {siteConfig.location.city}
+              <div className="flex flex-wrap items-center gap-4 text-xs font-rubik text-[#eef9ff]">
+                <span className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#01402b]/80 border border-[#01402b] rounded-[50px]">
+                  <MapPin className="w-3.5 h-3.5 text-coral" /> {siteConfig.location.address}, {siteConfig.location.city}
                 </span>
-                <span className="inline-flex items-center gap-2">
-                  <Mail className="w-4 h-4 text-coral" /> {siteConfig.contact.email}
+                <span className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-[#01402b]/80 border border-[#01402b] rounded-[50px]">
+                  <Mail className="w-3.5 h-3.5 text-coral" /> {siteConfig.contact.email}
                 </span>
               </div>
             </div>
@@ -69,14 +69,14 @@ export default function ContactCTA() {
             <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-4 justify-center items-start lg:items-end">
               <Link
                 href="/contact"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-5 bg-coral text-white font-display font-semibold text-sm tracking-widest uppercase hover:bg-coral-hover hover:scale-[1.02] transition-all duration-300 text-center"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-5 bg-coral text-white font-rubik font-semibold text-xs tracking-widest uppercase hover:bg-coral-hover hover:scale-105 transition-all duration-300 text-center rounded-[50px] shadow-lg"
               >
                 <span>Request Project Proposal</span>
                 <ArrowUpRight className="w-4 h-4" />
               </Link>
               <Link
                 href="/services"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-5 bg-transparent border border-white/20 text-white font-display text-sm tracking-widest uppercase hover:bg-white/10 transition-colors duration-300 text-center"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-5 bg-transparent border border-white/20 text-[#eef9ff] font-rubik font-medium text-xs tracking-widest uppercase hover:bg-white/10 transition-colors duration-300 text-center rounded-[50px]"
               >
                 <span>Explore Capabilities</span>
               </Link>

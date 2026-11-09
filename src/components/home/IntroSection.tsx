@@ -80,7 +80,7 @@ export default function IntroSection() {
   return (
     <section
       ref={containerRef as React.RefObject<HTMLElement>}
-      className="relative bg-warm-ivory text-ink py-28 lg:py-40 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-divider"
+      className="relative bg-[#e3e3e1] text-[#000000] py-28 lg:py-40 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-black/10 font-rubik"
     >
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
@@ -88,7 +88,7 @@ export default function IntroSection() {
           <div className="lg:col-span-7 flex flex-col justify-center">
             <span
               ref={labelRef}
-              className="section-label mb-6 text-coral font-medium tracking-[0.25em]"
+              className="section-label mb-6 text-coral font-medium tracking-[0.2em]"
               style={{ opacity: 0 }}
             >
               ABOUT JAY MEDIA MANAGEMENT
@@ -96,7 +96,7 @@ export default function IntroSection() {
 
             <h2
               ref={headlineRef}
-              className="editorial-headline text-ink text-4xl sm:text-5xl lg:text-6xl xl:text-7xl mb-8 leading-[0.95]"
+              className="editorial-headline text-[#000000] text-4xl sm:text-5xl lg:text-6xl xl:text-7xl mb-8 leading-[0.95]"
               style={{ opacity: 0 }}
             >
               CREATIVITY MEETS EXTRAORDINARY EXECUTION.
@@ -104,16 +104,16 @@ export default function IntroSection() {
 
             <div
               ref={textRef}
-              className="space-y-6 text-ink/80 text-lg md:text-xl font-body leading-relaxed max-w-2xl"
+              className="space-y-6 text-[#000000]/80 text-lg md:text-xl font-rubik leading-relaxed max-w-2xl"
               style={{ opacity: 0 }}
             >
               <p>
                 Headquartered near Traffic Chowk in Biratnagar, Nepal,{' '}
-                <strong className="text-ink font-semibold">Jay Media Management Pvt. Ltd.</strong> is a
+                <strong className="text-[#000000] font-semibold">Jay Media Management Pvt. Ltd.</strong> is a
                 pioneering media production and event management agency led by Chairperson Jay Raj Rai and CEO
                 Nisha Khatiwada Rai.
               </p>
-              <p className="text-base md:text-lg text-ink/70">
+              <p className="text-base md:text-lg text-[#000000]/70">
                 We conceptualize, engineer, and orchestrate iconic stage productions, regional pageants, and high-impact
                 corporate experiences across the Koshi Province and nationwide. We do not just build stages — we curate
                 unforgettable cultural milestones.
@@ -124,7 +124,7 @@ export default function IntroSection() {
               <Link
                 ref={linkRef}
                 href="/about"
-                className="group inline-flex items-center gap-3 text-sm font-display font-semibold uppercase tracking-widest text-ink hover:text-coral transition-colors duration-300"
+                className="group inline-flex items-center gap-3 text-sm font-rubik font-semibold uppercase tracking-widest text-[#000000] hover:text-coral transition-colors duration-300"
                 style={{ opacity: 0 }}
               >
                 <span>Discover Our Story & Leadership</span>
@@ -137,32 +137,32 @@ export default function IntroSection() {
           <div className="lg:col-span-5 relative">
             <div
               ref={imageRef}
-              className="relative aspect-[4/5] bg-dark-surface overflow-hidden shadow-2xl border border-ink/10"
+              className="relative aspect-[4/5] bg-black overflow-hidden shadow-2xl border border-black/10 rounded-[10px]"
               style={{ opacity: 0 }}
             >
               {/* Graphic background composition with rich ambient lighting */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-ink via-dark-surface to-[#2A2A35]" />
+              <div className="absolute inset-0 bg-gradient-to-tr from-black via-[#101014] to-[#1c1c24]" />
               
               {/* Subtle visual grid & watermark */}
               <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#FF594F_1px,transparent_1px)] [background-size:24px_24px]" />
 
               <div className="absolute inset-0 p-8 flex flex-col justify-between z-10">
                 <div className="flex justify-between items-start">
-                  <span className="text-xs uppercase tracking-widest font-display text-white/50">
+                  <span className="text-xs uppercase tracking-widest font-rubik text-[#eef9ff]/60">
                     Biratnagar • Nepal
                   </span>
                   <span className="w-2.5 h-2.5 rounded-full bg-coral animate-pulse" />
                 </div>
 
                 <div className="space-y-3">
-                  <div className="inline-block px-3 py-1 bg-coral/20 border border-coral/40 text-coral text-xs uppercase tracking-widest font-display">
+                  <div className="inline-block px-3.5 py-1 bg-[#01402b] border border-[#01402b] text-[#eef9ff] text-xs uppercase tracking-widest font-rubik font-medium rounded-[50px]">
                     Established Agency
                   </div>
-                  <h3 className="text-2xl font-display text-white font-semibold leading-tight">
+                  <h3 className="text-2xl font-rubik text-white font-bold leading-tight">
                     East Nepal&apos;s Flagship Stage Production House
                   </h3>
-                  <p className="text-sm text-white/60 font-body">
-                    Organizers of Miss Koshi &amp; Mr. and Miss Little Koshi grand pageants.
+                  <p className="text-sm text-[#eef9ff]/70 font-rubik leading-relaxed">
+                    Organizers of Miss Koshi, Mr. &amp; Miss Little Koshi, and Nepal Kids Dancing Champion.
                   </p>
                 </div>
               </div>

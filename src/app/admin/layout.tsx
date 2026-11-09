@@ -10,11 +10,11 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
   const isLoginPage = pathname === '/admin/login';
 
   return isLoginPage ? (
-    <main className="min-h-screen bg-ink text-white">{children}</main>
+    <main className="min-h-screen bg-black text-white font-rubik">{children}</main>
   ) : (
-    <div className="flex min-h-screen bg-warm-ivory text-ink">
+    <div className="flex min-h-screen bg-black text-white font-rubik">
       <AdminSidebar />
-      <main className="flex-1 overflow-y-auto p-6 sm:p-10 lg:p-12">
+      <main className="flex-1 overflow-y-auto p-6 sm:p-10 lg:p-12 bg-black">
         <div className="max-w-6xl mx-auto">{children}</div>
       </main>
     </div>
@@ -26,7 +26,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <AuthProvider>
       <Suspense
         fallback={
-          <div className="min-h-screen bg-warm-ivory flex items-center justify-center font-display text-sm text-ink/70">
+          <div className="min-h-screen bg-black flex items-center justify-center font-rubik text-sm text-[#eef9ff]/70">
             Initializing Studio CMS...
           </div>
         }

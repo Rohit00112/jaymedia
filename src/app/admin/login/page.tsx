@@ -40,7 +40,7 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-ink text-white flex flex-col justify-center items-center px-6 py-12 relative overflow-hidden">
+    <div className="min-h-screen bg-black text-white font-rubik flex flex-col justify-center items-center px-6 py-12 relative overflow-hidden">
       {/* Ambient background glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-coral/10 rounded-full blur-[140px] pointer-events-none" />
 
@@ -48,22 +48,22 @@ export default function AdminLoginPage() {
         {/* Brand header */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-block mb-3">
-            <span className="font-display text-3xl font-bold tracking-wider text-white">
+            <span className="font-bold text-3xl tracking-wider text-white">
               JAY MEDIA
             </span>
           </Link>
-          <span className="text-xs uppercase font-display tracking-[0.2em] text-coral font-medium block">
+          <span className="text-xs uppercase tracking-[0.2em] text-coral font-medium block">
             Executive Studio CMS
           </span>
-          <p className="text-muted-grey text-xs mt-2">
+          <p className="text-[#eef9ff]/60 text-xs mt-2">
             Biratnagar, Nepal • Authorized Personnel Only
           </p>
         </div>
 
         {/* Card */}
-        <div className="bg-dark-surface border border-white/10 p-8 sm:p-10 shadow-2xl">
+        <div className="bg-[#0c0c11] border border-white/10 rounded-[10px] p-8 sm:p-10 shadow-2xl">
           {error && (
-            <div className="mb-6 p-4 bg-red-950/60 border border-red-800 text-red-200 text-xs font-body flex items-start gap-2">
+            <div className="mb-6 p-4 bg-red-950/60 border border-red-800 text-red-200 text-xs flex items-start gap-2 rounded-[10px]">
               <AlertCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
               <span>{error}</span>
             </div>
@@ -71,35 +71,35 @@ export default function AdminLoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-xs uppercase font-display tracking-widest text-white/70 mb-2 font-medium">
+              <label className="block text-xs uppercase tracking-widest text-white/70 mb-2 font-medium">
                 Admin Email
               </label>
               <div className="relative">
-                <Mail className="w-4 h-4 text-muted-grey absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Mail className="w-4 h-4 text-white/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="admin@jaymediamanagement.com"
                   required
-                  className="w-full pl-10 pr-4 py-3 bg-ink border border-white/10 text-sm font-body text-white focus:outline-none focus:border-coral focus:ring-1 focus:ring-coral"
+                  className="w-full pl-10 pr-4 py-3 bg-black/60 border border-white/15 text-sm text-white rounded-[2px] placeholder:text-white/30 focus:outline-none focus:border-coral focus:ring-1 focus:ring-coral"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs uppercase font-display tracking-widest text-white/70 mb-2 font-medium">
+              <label className="block text-xs uppercase tracking-widest text-white/70 mb-2 font-medium">
                 Password
               </label>
               <div className="relative">
-                <Lock className="w-4 h-4 text-muted-grey absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Lock className="w-4 h-4 text-white/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••••••"
                   required
-                  className="w-full pl-10 pr-4 py-3 bg-ink border border-white/10 text-sm font-body text-white focus:outline-none focus:border-coral focus:ring-1 focus:ring-coral"
+                  className="w-full pl-10 pr-4 py-3 bg-black/60 border border-white/15 text-sm text-white rounded-[2px] placeholder:text-white/30 focus:outline-none focus:border-coral focus:ring-1 focus:ring-coral"
                 />
               </div>
             </div>
@@ -107,7 +107,7 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-4 bg-coral text-white font-display text-xs uppercase tracking-widest font-semibold hover:bg-coral-hover transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+              className="w-full py-4 bg-coral text-white text-xs uppercase tracking-widest font-semibold hover:bg-[#e04a41] transition-colors flex items-center justify-center gap-2 disabled:opacity-50 rounded-[50px]"
             >
               {loading ? (
                 <>
@@ -125,12 +125,12 @@ export default function AdminLoginPage() {
 
           {/* Development / QA Quick Entrance */}
           <div className="mt-8 pt-6 border-t border-white/10 text-center">
-            <span className="text-[11px] text-muted-grey block mb-3 font-display">
+            <span className="text-[11px] text-[#eef9ff]/50 block mb-3">
               QA Preview Access Mode
             </span>
             <button
               onClick={handleDemoAccess}
-              className="w-full py-2.5 px-4 bg-white/5 border border-white/10 text-white/80 hover:text-white hover:bg-white/10 text-xs font-display uppercase tracking-wider transition-colors"
+              className="w-full py-2.5 px-4 bg-white/5 border border-white/10 text-[#eef9ff] hover:text-white hover:bg-white/10 text-xs uppercase tracking-wider transition-colors rounded-[50px]"
             >
               Enter Dashboard as Authorized Reviewer &rarr;
             </button>
@@ -140,7 +140,7 @@ export default function AdminLoginPage() {
         <div className="mt-6 text-center">
           <Link
             href="/"
-            className="text-xs font-display text-white/50 hover:text-white transition-colors"
+            className="text-xs text-white/50 hover:text-white transition-colors"
           >
             &larr; Return to Public Website
           </Link>

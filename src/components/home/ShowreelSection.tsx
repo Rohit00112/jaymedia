@@ -45,18 +45,18 @@ export default function ShowreelSection() {
   return (
     <section
       ref={containerRef as React.RefObject<HTMLElement>}
-      className="relative bg-dark-surface text-white py-28 lg:py-40 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-divider"
+      className="relative bg-black text-white py-28 lg:py-40 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-white/10 font-rubik"
     >
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div ref={headerRef} className="text-center max-w-3xl mx-auto mb-16" style={{ opacity: 0 }}>
-          <span className="section-label text-coral font-medium tracking-[0.25em] mb-4 block">
+          <span className="section-label text-coral font-medium tracking-[0.2em] mb-4 block">
             CINEMATIC SHOWREEL
           </span>
-          <h2 className="editorial-headline text-white text-4xl sm:text-5xl lg:text-7xl mb-6">
+          <h2 className="editorial-headline text-white text-4xl sm:text-5xl lg:text-7xl mb-6 font-rubik">
             A GLIMPSE INTO WHAT WE CREATE.
           </h2>
-          <p className="text-muted-grey text-base sm:text-lg font-body">
+          <p className="text-[#eef9ff]/75 text-base sm:text-lg font-rubik">
             Experience the energy, choreography, and emotion captured live across our stage productions and grand finales.
           </p>
         </div>
@@ -64,25 +64,25 @@ export default function ShowreelSection() {
         {/* Video Thumbnail Screen */}
         <div
           ref={reelBoxRef}
-          className="relative aspect-video max-w-5xl mx-auto bg-ink overflow-hidden border border-white/10 group cursor-pointer shadow-2xl"
+          className="relative aspect-video max-w-5xl mx-auto bg-[#0c0c11] overflow-hidden border border-white/10 rounded-[10px] group cursor-pointer shadow-2xl"
           onClick={() => setIsOpen(true)}
           style={{ opacity: 0 }}
         >
           {/* Backdrop Graphic Simulation */}
-          <div className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-ink/60 z-10 pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60 z-10 pointer-events-none" />
           <div className="absolute inset-0 bg-[radial-gradient(#FF594F_1px,transparent_1px)] [background-size:32px_32px] opacity-20" />
 
           {/* Video Metadata Overlay */}
           <div className="absolute top-6 left-6 z-20 flex items-center gap-3">
-            <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-ping" />
-            <span className="text-xs uppercase font-display tracking-widest text-white/80">
+            <span className="w-2.5 h-2.5 rounded-full bg-coral animate-ping" />
+            <span className="text-xs uppercase font-rubik tracking-wider text-white font-medium">
               Jay Media Production Reel
             </span>
           </div>
 
-          <div className="absolute bottom-6 left-6 right-6 z-20 flex items-center justify-between text-xs text-muted-grey font-display">
+          <div className="absolute bottom-6 left-6 right-6 z-20 flex items-center justify-between text-xs text-[#eef9ff]/70 font-rubik">
             <span>Official Channel: Jay Media Management Pvt. Ltd.</span>
-            <span className="text-coral flex items-center gap-1">
+            <span className="text-coral flex items-center gap-1 font-medium">
               Click to Play Broadcast <ExternalLink className="w-3.5 h-3.5" />
             </span>
           </div>
@@ -110,14 +110,14 @@ export default function ShowreelSection() {
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 bg-ink/95 backdrop-blur-md flex items-center justify-center p-4 sm:p-8"
+          className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-4 sm:p-8"
         >
-          <div className="relative w-full max-w-5xl aspect-video bg-black border border-white/10 shadow-2xl">
+          <div className="relative w-full max-w-5xl aspect-video bg-black border border-white/10 rounded-[10px] shadow-2xl overflow-hidden">
             {/* Close Button */}
             <button
               onClick={() => setIsOpen(false)}
               aria-label="Close video player"
-              className="absolute -top-12 right-0 text-white/80 hover:text-coral transition-colors flex items-center gap-2 text-sm font-display uppercase tracking-widest"
+              className="absolute -top-12 right-0 text-white hover:text-coral transition-colors flex items-center gap-2 text-xs font-rubik uppercase tracking-wider"
             >
               <span>Close</span>
               <X className="w-6 h-6" />

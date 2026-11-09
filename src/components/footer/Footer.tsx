@@ -58,10 +58,10 @@ export function Footer() {
   const fullAddress = `${location.address}, ${location.city}, ${location.province}, ${location.country}`;
 
   return (
-    <footer className="bg-ink text-white">
+    <footer className="bg-black text-white font-rubik border-t border-white/10">
       {/* Editorial CTA */}
-      <div className="px-6 pt-20 pb-16 lg:px-16">
-        <h2 className="font-display text-4xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
+      <div className="px-6 pt-20 pb-16 lg:px-16 max-w-7xl mx-auto">
+        <h2 className="font-rubik text-4xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
           LET&apos;S CREATE
           <br />
           SOMETHING{' '}
@@ -70,24 +70,27 @@ export function Footer() {
       </div>
 
       {/* Divider */}
-      <div className="mx-6 border-t border-divider lg:mx-16" />
+      <div className="max-w-7xl mx-auto px-6 lg:px-16">
+        <div className="border-t border-white/10" />
+      </div>
 
       {/* Main 4-column grid */}
-      <div className="grid grid-cols-1 gap-12 px-6 py-16 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8 lg:px-16">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 gap-12 px-6 py-16 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8 lg:px-16">
         {/* Col 1: Brand */}
         <div className="flex flex-col justify-between">
           <div>
             <Link
               href="/"
-              className="font-display text-2xl font-bold tracking-tight text-white transition-colors hover:text-coral"
+              className="flex items-center gap-2 font-rubik text-2xl font-bold tracking-tight text-white transition-colors hover:text-coral"
             >
-              JAY MEDIA
+              <span className="w-2.5 h-2.5 rounded-full bg-coral animate-pulse" />
+              <span>JAY MEDIA</span>
             </Link>
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-muted-grey">
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-[#eef9ff]/75">
               {siteConfig.description}
             </p>
           </div>
-          <p className="mt-8 text-xs text-muted-grey/60">
+          <p className="mt-8 text-xs text-[#eef9ff]/50">
             &copy; 2025 Jay Media Management Pvt. Ltd.
             <br />
             All rights reserved.
@@ -96,7 +99,7 @@ export function Footer() {
 
         {/* Col 2: Quick Links */}
         <div>
-          <h3 className="font-display text-xs font-semibold uppercase tracking-[0.2em] text-muted-grey">
+          <h3 className="font-rubik text-xs font-semibold uppercase tracking-[0.2em] text-coral">
             Navigation
           </h3>
           <ul className="mt-6 space-y-3">
@@ -104,7 +107,7 @@ export function Footer() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="text-sm text-white/80 transition-colors duration-200 hover:text-coral"
+                  className="text-sm text-[#eef9ff]/80 transition-colors duration-200 hover:text-coral"
                 >
                   {item.label}
                 </Link>
@@ -115,7 +118,7 @@ export function Footer() {
 
         {/* Col 3: Services */}
         <div>
-          <h3 className="font-display text-xs font-semibold uppercase tracking-[0.2em] text-muted-grey">
+          <h3 className="font-rubik text-xs font-semibold uppercase tracking-[0.2em] text-coral">
             Services
           </h3>
           <ul className="mt-6 space-y-3">
@@ -123,7 +126,7 @@ export function Footer() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="text-sm text-white/80 transition-colors duration-200 hover:text-coral"
+                  className="text-sm text-[#eef9ff]/80 transition-colors duration-200 hover:text-coral"
                 >
                   {item.label}
                 </Link>
@@ -134,10 +137,10 @@ export function Footer() {
 
         {/* Col 4: Get in Touch */}
         <div>
-          <h3 className="font-display text-xs font-semibold uppercase tracking-[0.2em] text-muted-grey">
+          <h3 className="font-rubik text-xs font-semibold uppercase tracking-[0.2em] text-coral">
             Get in Touch
           </h3>
-          <div className="mt-6 space-y-4 text-sm text-muted-grey">
+          <div className="mt-6 space-y-4 text-sm text-[#eef9ff]/75">
             <div className="flex items-start gap-3">
               <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-coral" />
               <a
@@ -174,9 +177,11 @@ export function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="mx-6 border-t border-divider lg:mx-16" />
-      <div className="flex flex-col items-center justify-between gap-4 px-6 py-8 sm:flex-row lg:px-16">
-        <p className="text-xs text-muted-grey/60">
+      <div className="max-w-7xl mx-auto px-6 lg:px-16">
+        <div className="border-t border-white/10" />
+      </div>
+      <div className="max-w-7xl mx-auto flex flex-col items-center justify-between gap-4 px-6 py-8 sm:flex-row lg:px-16">
+        <p className="text-xs text-[#eef9ff]/60">
           Biratnagar, Koshi Province, Nepal
         </p>
 
@@ -193,7 +198,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={social.label}
-                  className="text-muted-grey transition-colors duration-200 hover:text-coral"
+                  className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-[#eef9ff]/70 transition-all duration-200 hover:text-coral hover:border-coral"
                 >
                   <Icon className="h-4 w-4" />
                 </a>

@@ -42,7 +42,7 @@ export default function LittleKoshiFeature() {
   return (
     <section
       ref={containerRef as React.RefObject<HTMLElement>}
-      className="relative bg-ink text-white py-28 lg:py-40 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-divider"
+      className="relative bg-black text-white py-28 lg:py-40 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-white/10 font-rubik"
     >
       {/* Background ambient lighting */}
       <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-coral/10 rounded-full blur-[140px] pointer-events-none" />
@@ -51,38 +51,38 @@ export default function LittleKoshiFeature() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left Column: Visual Showcase */}
           <div ref={leftColRef} className="lg:col-span-6" style={{ opacity: 0 }}>
-            <div className="relative aspect-[4/3] bg-dark-surface border border-white/10 p-8 sm:p-12 flex flex-col justify-between overflow-hidden group shadow-2xl">
+            <div className="relative aspect-[4/3] bg-[#0c0c11] border border-white/10 p-8 sm:p-12 rounded-[10px] flex flex-col justify-between overflow-hidden group shadow-2xl">
               {/* Graphic background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#1A1A24] via-dark-surface to-[#121217]" />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#121217] via-[#0c0c11] to-black" />
               <div className="absolute top-0 right-0 w-64 h-64 bg-coral/10 rounded-full blur-2xl" />
 
               {/* Tag */}
               <div className="relative z-10 flex items-center justify-between">
-                <span className="inline-flex items-center gap-2 px-3 py-1 bg-coral/20 border border-coral/40 text-coral text-xs uppercase font-display tracking-widest">
-                  <Star className="w-3.5 h-3.5 fill-coral" />
+                <span className="inline-flex items-center gap-2 px-3 py-1 bg-[#01402b]/90 border border-[#01402b] text-[#eef9ff] text-xs uppercase font-rubik font-medium tracking-wider rounded-[50px]">
+                  <Star className="w-3.5 h-3.5 fill-coral text-coral" />
                   Youth Stage Production
                 </span>
-                <span className="text-white/40 text-xs font-display uppercase tracking-widest">
+                <span className="text-[#eef9ff]/50 text-xs font-rubik uppercase tracking-wider">
                   Biratnagar • Nepal
                 </span>
               </div>
 
               {/* Center quote */}
               <div className="relative z-10 my-8">
-                <p className="font-display text-2xl sm:text-3xl text-white font-medium leading-snug">
+                <p className="font-rubik text-2xl sm:text-3xl text-white font-bold leading-snug">
                   &ldquo;A platform where young talent discovers courage, poise, and unshakeable confidence.&rdquo;
                 </p>
-                <p className="mt-3 text-xs uppercase tracking-widest text-muted-grey font-display">
+                <p className="mt-3 text-xs uppercase tracking-wider text-[#eef9ff]/70 font-rubik">
                   — Jay Media Management Children&apos;s Division
                 </p>
               </div>
 
               {/* Footnote badge */}
-              <div className="relative z-10 pt-4 border-t border-white/10 flex items-center justify-between text-xs text-white/60">
+              <div className="relative z-10 pt-4 border-t border-white/10 flex items-center justify-between text-xs text-[#eef9ff]/60 font-rubik">
                 <span className="flex items-center gap-1.5">
                   <MapPin className="w-3.5 h-3.5 text-coral" /> Auditions: Biratnagar • Itahari • Dharan
                 </span>
-                <span className="font-display text-coral uppercase tracking-widest">
+                <span className="font-rubik text-coral uppercase tracking-wider font-semibold">
                   7+ Seasons Completed
                 </span>
               </div>
@@ -91,21 +91,21 @@ export default function LittleKoshiFeature() {
 
           {/* Right Column: Editorial narrative */}
           <div ref={rightColRef} className="lg:col-span-6 flex flex-col justify-center" style={{ opacity: 0 }}>
-            <span className="section-label text-coral font-medium tracking-[0.25em] mb-4 block">
+            <span className="section-label text-coral font-medium tracking-[0.2em] mb-4 block">
               FLAGSHIP CHILDREN&apos;S SHOWCASE
             </span>
 
-            <h2 className="editorial-headline text-white text-4xl sm:text-5xl lg:text-6xl mb-6">
+            <h2 className="editorial-headline text-white text-4xl sm:text-5xl lg:text-6xl mb-6 font-rubik">
               EVERY STAR BEGINS WITH A STAGE.
             </h2>
 
-            <div className="space-y-4 text-muted-grey text-base sm:text-lg font-body leading-relaxed mb-8">
+            <div className="space-y-4 text-[#eef9ff]/80 text-base sm:text-lg font-rubik leading-relaxed mb-8">
               <p>
                 <strong className="text-white font-medium">Mr. and Miss Little Koshi</strong> is Eastern
                 Nepal&apos;s celebrated annual pageant engineered specifically to nurture confidence, stage presence,
                 and personal expression in children and youth.
               </p>
-              <p className="text-sm sm:text-base text-muted-grey/90">
+              <p className="text-sm sm:text-base text-[#eef9ff]/70">
                 Over multiple successful editions, the competition has mobilized hundreds of children across
                 Biratnagar, Itahari, and Dharan through rigorous grooming, public speaking clinics, and personality
                 workshops led by seasoned mentors before culminating in a televised grand finale.
@@ -115,26 +115,26 @@ export default function LittleKoshiFeature() {
             {/* Metrics */}
             <div className="grid grid-cols-3 gap-4 py-6 border-y border-white/10 mb-8">
               <div>
-                <span className="text-3xl sm:text-4xl font-display font-bold text-coral block">
+                <span className="text-3xl sm:text-4xl font-rubik font-bold text-coral block">
                   7+
                 </span>
-                <span className="text-xs font-display text-muted-grey uppercase tracking-wider block mt-1">
+                <span className="text-xs font-rubik text-[#eef9ff]/70 uppercase tracking-wider block mt-1">
                   Seasons
                 </span>
               </div>
               <div>
-                <span className="text-3xl sm:text-4xl font-display font-bold text-coral block">
+                <span className="text-3xl sm:text-4xl font-rubik font-bold text-coral block">
                   3
                 </span>
-                <span className="text-xs font-display text-muted-grey uppercase tracking-wider block mt-1">
+                <span className="text-xs font-rubik text-[#eef9ff]/70 uppercase tracking-wider block mt-1">
                   Hub Cities
                 </span>
               </div>
               <div>
-                <span className="text-3xl sm:text-4xl font-display font-bold text-coral block">
+                <span className="text-3xl sm:text-4xl font-rubik font-bold text-coral block">
                   100s
                 </span>
-                <span className="text-xs font-display text-muted-grey uppercase tracking-wider block mt-1">
+                <span className="text-xs font-rubik text-[#eef9ff]/70 uppercase tracking-wider block mt-1">
                   Alumni
                 </span>
               </div>
@@ -143,7 +143,7 @@ export default function LittleKoshiFeature() {
             <div>
               <Link
                 href="/events/mr-and-miss-little-koshi"
-                className="group inline-flex items-center gap-3 text-sm font-display font-semibold uppercase tracking-widest text-white hover:text-coral transition-colors duration-300"
+                className="group inline-flex items-center gap-3 text-sm font-rubik font-semibold uppercase tracking-widest text-[#eef9ff] hover:text-coral transition-colors duration-300"
               >
                 <span>Explore Seasons &amp; Past Winners</span>
                 <ArrowRight className="w-4 h-4 transform group-hover:translate-x-2 transition-transform text-coral" />

@@ -151,12 +151,13 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       aria-modal="true"
       aria-label="Mobile navigation"
       onKeyDown={handleKeyDown}
-      className="fixed inset-0 z-[60] hidden flex-col bg-ink lg:hidden"
+      className="fixed inset-0 z-[60] hidden flex-col bg-black text-white font-rubik lg:hidden"
       style={{ display: 'none', opacity: 0 }}
     >
       {/* Header with close button */}
-      <div className="flex h-20 items-center justify-between px-6">
-        <span className="font-display text-xl font-bold tracking-tight text-warm-ivory">
+      <div className="flex h-20 items-center justify-between px-6 border-b border-white/10">
+        <span className="font-rubik text-xl font-bold tracking-tight text-white flex items-center gap-2">
+          <span className="w-2.5 h-2.5 rounded-full bg-coral animate-pulse" />
           JAY MEDIA
         </span>
         <button
@@ -164,7 +165,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           type="button"
           onClick={onClose}
           aria-label="Close menu"
-          className="rounded-md p-2 text-warm-ivory transition-colors hover:text-coral"
+          className="rounded-[2px] p-2 text-white transition-colors hover:text-coral"
         >
           <X className="h-6 w-6" />
         </button>
@@ -173,7 +174,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       {/* Nav links */}
       <ul
         ref={linksRef}
-        className="flex flex-1 flex-col items-center justify-center gap-8"
+        className="flex flex-1 flex-col items-center justify-center gap-6"
       >
         {navigation.links.map((link) => {
           const isActive = pathname === link.href;
@@ -183,10 +184,10 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 href={link.href}
                 onClick={onClose}
                 className={cn(
-                  'font-display text-3xl font-semibold tracking-tight transition-colors duration-200',
+                  'font-rubik text-2xl font-bold uppercase tracking-wider transition-colors duration-200',
                   isActive
                     ? 'text-coral'
-                    : 'text-warm-ivory hover:text-coral'
+                    : 'text-[#eef9ff] hover:text-coral'
                 )}
               >
                 {link.label}
@@ -201,7 +202,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
         <Link
           href={navigation.cta.href}
           onClick={onClose}
-          className="inline-flex w-full max-w-xs items-center justify-center rounded-full bg-coral px-8 py-4 font-display text-base font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-coral-hover"
+          className="inline-flex w-full max-w-xs items-center justify-center rounded-[50px] bg-coral px-8 py-4 font-rubik text-sm uppercase tracking-widest font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-coral-hover"
         >
           {navigation.cta.label}
         </Link>
@@ -215,7 +216,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm font-medium text-muted-grey transition-colors hover:text-warm-ivory"
+                className="text-xs font-rubik uppercase tracking-wider text-[#eef9ff]/70 transition-colors hover:text-white"
               >
                 {social.label}
               </a>

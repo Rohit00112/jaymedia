@@ -112,21 +112,21 @@ export default function ServicesSection() {
   return (
     <section
       ref={containerRef as React.RefObject<HTMLElement>}
-      className="relative bg-ink text-white py-28 lg:py-40 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-divider"
+      className="relative bg-black text-white py-28 lg:py-40 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-white/10 font-rubik"
     >
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div ref={headerRef} className="mb-16 lg:mb-24" style={{ opacity: 0 }}>
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <span className="section-label text-coral font-medium tracking-[0.25em] mb-4 block">
+              <span className="section-label text-coral font-medium tracking-[0.2em] mb-4 block">
                 WHAT WE DO
               </span>
-              <h2 className="editorial-headline text-white text-4xl sm:text-5xl lg:text-7xl">
+              <h2 className="editorial-headline text-white text-4xl sm:text-5xl lg:text-7xl font-rubik">
                 IDEAS INTO EXPERIENCES.
               </h2>
             </div>
-            <p className="text-muted-grey text-base md:text-lg max-w-md font-body">
+            <p className="text-[#eef9ff]/75 text-base md:text-lg max-w-md font-rubik leading-relaxed">
               From creative concept to backstage execution, we deliver world-class production standards in eastern Nepal.
             </p>
           </div>
@@ -142,22 +142,22 @@ export default function ServicesSection() {
                 href={`/services/${service.slug}`}
                 className={cn(
                   service.span,
-                  'group relative bg-dark-surface p-8 sm:p-10 flex flex-col justify-between',
-                  'border border-white/5 hover:border-coral/40 transition-all duration-500',
-                  'hover:bg-[#202028]'
+                  'group relative bg-[#0c0c11] p-8 sm:p-10 flex flex-col justify-between rounded-[10px]',
+                  'border border-white/10 hover:border-coral/50 transition-all duration-300',
+                  'hover:bg-[#121218] hover:shadow-xl'
                 )}
                 style={{ opacity: 0 }}
               >
                 {/* Background glow on hover */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-coral/5 rounded-full blur-3xl pointer-events-none group-hover:bg-coral/15 transition-all duration-700" />
+                <div className="absolute top-0 right-0 w-32 h-32 bg-coral/5 rounded-full blur-3xl pointer-events-none group-hover:bg-coral/15 transition-all duration-500" />
 
                 <div>
                   {/* Top Bar: Number & Category & Arrow */}
                   <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
-                    <span className="text-coral font-display font-bold text-lg tracking-wider">
+                    <span className="text-coral font-rubik font-bold text-lg tracking-wider">
                       {service.number}
                     </span>
-                    <span className="text-xs uppercase tracking-widest font-display text-muted-grey">
+                    <span className="text-xs uppercase tracking-wider font-rubik px-3 py-1 bg-[#01402b]/70 border border-[#01402b] text-[#eef9ff] font-medium rounded-[50px]">
                       {service.category}
                     </span>
                     <div className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-white/70 group-hover:text-coral group-hover:border-coral/40 group-hover:rotate-45 transition-all duration-300">
@@ -167,20 +167,20 @@ export default function ServicesSection() {
 
                   {/* Icon & Title */}
                   <div className="flex items-center gap-3 mb-4">
-                    <Icon className="w-5 h-5 text-coral" />
-                    <h3 className="text-2xl sm:text-3xl font-display font-semibold text-white group-hover:text-coral transition-colors duration-300">
+                    <Icon className="w-5 h-5 text-coral shrink-0" />
+                    <h3 className="text-2xl sm:text-3xl font-rubik font-bold text-white group-hover:text-coral transition-colors duration-300">
                       {service.title}
                     </h3>
                   </div>
 
                   {/* Description */}
-                  <p className="text-muted-grey text-sm sm:text-base font-body leading-relaxed max-w-xl">
+                  <p className="text-[#eef9ff]/75 text-sm sm:text-base font-rubik leading-relaxed max-w-xl">
                     {service.description}
                   </p>
                 </div>
 
                 {/* Bottom link indicator */}
-                <div className="mt-8 pt-4 flex items-center gap-2 text-xs font-display uppercase tracking-widest text-white/50 group-hover:text-coral transition-colors duration-300">
+                <div className="mt-8 pt-4 flex items-center gap-2 text-xs font-rubik uppercase tracking-wider text-[#eef9ff]/60 group-hover:text-coral transition-colors duration-300">
                   <span>Explore Capabilities</span>
                   <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </div>

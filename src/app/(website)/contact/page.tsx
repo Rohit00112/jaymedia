@@ -12,20 +12,25 @@ export const metadata: Metadata = generatePageMetadata({
 
 export default function ContactPage() {
   return (
-    <div className="bg-warm-ivory text-ink min-h-screen">
+    <div className="bg-black text-white min-h-screen font-rubik">
       {/* ─── Hero ─────────────────────────────────────────────── */}
-      <section className="relative bg-ink text-white pt-40 pb-20 sm:pt-48 sm:pb-28 px-6 sm:px-10 lg:px-16 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-ink via-dark-surface to-ink opacity-90" />
+      <section className="relative bg-black text-white pt-40 pb-20 sm:pt-48 sm:pb-28 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-white/10">
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-[#0c0c11] to-black opacity-90" />
         <div className="absolute top-1/2 -right-20 w-80 h-80 bg-coral/10 rounded-full blur-[120px] pointer-events-none" />
 
         <div className="relative z-10 max-w-7xl mx-auto">
-          <span className="section-label text-coral font-medium tracking-[0.25em] mb-4 block">
-            GET IN TOUCH
-          </span>
-          <h1 className="editorial-headline text-white text-5xl sm:text-6xl lg:text-8xl max-w-5xl leading-[0.95] mb-6">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="px-3.5 py-1 bg-[#01402b]/80 border border-[#01402b] text-[#eef9ff] text-xs font-rubik font-medium tracking-widest uppercase rounded-[50px]">
+              Biratnagar Desk
+            </span>
+            <span className="section-label text-coral font-medium tracking-[0.2em]">
+              GET IN TOUCH
+            </span>
+          </div>
+          <h1 className="editorial-headline text-white text-5xl sm:text-6xl lg:text-8xl max-w-5xl leading-[0.95] mb-6 font-rubik">
             LET&apos;S CREATE SOMETHING MEMORABLE.
           </h1>
-          <p className="text-muted-grey text-lg sm:text-xl max-w-2xl font-body leading-relaxed">
+          <p className="text-[#eef9ff]/80 text-lg sm:text-xl max-w-2xl font-rubik leading-relaxed">
             Have an ambitious event, pageant sponsorship, or media campaign in mind? Connect with our Biratnagar
             production team today.
           </p>
@@ -33,15 +38,15 @@ export default function ContactPage() {
       </section>
 
       {/* ─── Contact Form & Info Grid ────────────────────────── */}
-      <section className="py-20 lg:py-32 px-6 sm:px-10 lg:px-16">
+      <section className="py-20 lg:py-32 px-6 sm:px-10 lg:px-16 bg-black">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           {/* Form Column */}
           <div className="lg:col-span-7">
             <div className="mb-8">
-              <span className="text-xs uppercase font-display tracking-widest text-coral font-semibold block mb-2">
+              <span className="text-xs uppercase font-rubik tracking-wider text-coral font-semibold block mb-2">
                 PRODUCTION INQUIRY
               </span>
-              <h2 className="editorial-headline text-ink text-3xl sm:text-4xl">
+              <h2 className="editorial-headline text-white text-3xl sm:text-4xl font-rubik">
                 Send Us Your Project Brief
               </h2>
             </div>
@@ -52,17 +57,17 @@ export default function ContactPage() {
           {/* Contact Details & Location Column */}
           <div className="lg:col-span-5 space-y-8">
             {/* Headquarters Card */}
-            <div className="bg-white border border-ink/10 p-8 shadow-sm">
-              <h3 className="font-display text-xl font-bold text-ink mb-6 flex items-center gap-2">
+            <div className="bg-[#0c0c11] border border-white/10 p-8 rounded-[10px] shadow-xl">
+              <h3 className="font-rubik text-xl font-bold text-white mb-6 flex items-center gap-2">
                 <MapPin className="w-5 h-5 text-coral" /> Biratnagar Headquarters
               </h3>
 
-              <div className="space-y-4 text-sm font-body text-ink/80">
+              <div className="space-y-4 text-sm font-rubik text-[#eef9ff]/80">
                 <div>
-                  <span className="text-xs uppercase font-display tracking-widest text-ink/50 block mb-1">
+                  <span className="text-xs uppercase font-rubik tracking-wider text-[#eef9ff]/50 block mb-1">
                     Registered Address
                   </span>
-                  <p className="font-medium text-ink">
+                  <p className="font-bold text-white">
                     Jay Media Management Pvt. Ltd.
                   </p>
                   <p>{siteConfig.location.address}</p>
@@ -70,8 +75,8 @@ export default function ContactPage() {
                   <p>{siteConfig.location.country}</p>
                 </div>
 
-                <div className="pt-4 border-t border-ink/10">
-                  <span className="text-xs uppercase font-display tracking-widest text-ink/50 block mb-1">
+                <div className="pt-4 border-t border-white/10">
+                  <span className="text-xs uppercase font-rubik tracking-wider text-[#eef9ff]/50 block mb-1">
                     Electronic Mail
                   </span>
                   <a
@@ -82,17 +87,17 @@ export default function ContactPage() {
                   </a>
                 </div>
 
-                <div className="pt-4 border-t border-ink/10">
-                  <span className="text-xs uppercase font-display tracking-widest text-ink/50 block mb-1">
+                <div className="pt-4 border-t border-white/10">
+                  <span className="text-xs uppercase font-rubik tracking-wider text-[#eef9ff]/50 block mb-1">
                     Phone Inquiries
                   </span>
-                  <p className="text-ink/80">{siteConfig.contact.phone}</p>
+                  <p className="text-[#eef9ff] font-medium">{siteConfig.contact.phone}</p>
                 </div>
 
-                <div className="pt-4 border-t border-ink/10 flex items-start gap-2">
+                <div className="pt-4 border-t border-white/10 flex items-start gap-2">
                   <Clock className="w-4 h-4 text-coral shrink-0 mt-0.5" />
-                  <div className="text-xs text-ink/70">
-                    <p className="font-semibold text-ink">Operating Hours</p>
+                  <div className="text-xs text-[#eef9ff]/70">
+                    <p className="font-semibold text-white">Operating Hours</p>
                     <p>Sunday – Friday: 10:00 AM – 6:00 PM NST</p>
                     <p>Saturday: By Appointment</p>
                   </div>
@@ -101,21 +106,21 @@ export default function ContactPage() {
             </div>
 
             {/* Direct Sponsorship Notice */}
-            <div className="bg-dark-surface text-white p-8 border border-white/10 relative overflow-hidden">
+            <div className="bg-[#0c0c11] text-white p-8 border border-white/10 rounded-[10px] relative overflow-hidden shadow-xl">
               <div className="absolute top-0 right-0 w-32 h-32 bg-coral/10 rounded-full blur-2xl" />
-              <span className="text-xs uppercase font-display tracking-widest text-coral font-semibold block mb-2">
+              <span className="text-xs uppercase font-rubik tracking-wider text-coral font-semibold block mb-2">
                 BRAND PARTNERSHIPS
               </span>
-              <h4 className="font-display text-xl font-bold mb-3">
+              <h4 className="font-rubik text-xl font-bold mb-3 text-white">
                 Pageant Title &amp; Category Sponsorships
               </h4>
-              <p className="text-muted-grey text-xs sm:text-sm font-body leading-relaxed mb-4">
+              <p className="text-[#eef9ff]/70 text-xs sm:text-sm font-rubik leading-relaxed mb-4">
                 Sponsoring <em>Miss Koshi</em> or <em>Mr. and Miss Little Koshi</em> offers direct brand engagement with
                 hundreds of thousands of families across Eastern Nepal via television broadcasts, billboards, and social
                 streams.
               </p>
-              <div className="text-xs font-display text-white/60">
-                Direct Inquiries: <span className="text-coral">management@jaymediamanagement.com</span>
+              <div className="text-xs font-rubik text-[#eef9ff]/60">
+                Direct Inquiries: <span className="text-coral font-medium">management@jaymediamanagement.com</span>
               </div>
             </div>
           </div>
