@@ -13,8 +13,16 @@
   --color-overlay: rgba(16, 16, 20, 0.65);
   --color-overlay-heavy: rgba(16, 16, 20, 0.85);
 
+  /* Dashboard tokens */
+  --color-surface-base: #000000;
+  --color-surface-muted: #e3e3e1;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #eef9ff;
+  --color-text-tertiary: #01402b;
+
   --font-display: var(--font-display), 'Space Grotesk', sans-serif;
   --font-body: var(--font-body), 'DM Sans', sans-serif;
+  --font-rubik: 'Rubik', sans-serif;
 }
 
 /* ─── Base Layer ────────────────────────────────────────────── */

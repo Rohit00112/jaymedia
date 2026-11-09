@@ -221,3 +221,4 @@ export default function FeaturedEventsSection() {
     </section>
   );
 }
+

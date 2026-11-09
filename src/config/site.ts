@@ -9,7 +9,7 @@ export const siteConfig = {
   description:
     'Premier event management and media production company based in Biratnagar, Nepal. Creating extraordinary experiences through creativity, innovation, and production excellence.',
   url: 'https://www.jaymediamanagement.com',
-  ogImage: '/images/branding/og-image.jpg',
+  ogImage: '/images/branding/og-image.svg',
   location: {
     address: 'Near Traffic Chowk, Main Road',
     city: 'Biratnagar',

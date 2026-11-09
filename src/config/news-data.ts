@@ -67,3 +67,4 @@ export const NEWS_DATA: NewsItemData[] = [
     featured: false,
   },
 ];
+

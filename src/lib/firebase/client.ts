@@ -36,3 +36,4 @@ export function getFirebaseStorage(): FirebaseStorage {
   }
   return storage;
 }
+

@@ -28,3 +28,4 @@ export const inquirySchema = z.object({
 });
 
 export type InquiryFormData = z.infer<typeof inquirySchema>;
+

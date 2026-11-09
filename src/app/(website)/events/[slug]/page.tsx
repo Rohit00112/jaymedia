@@ -203,3 +203,4 @@ export default async function EventDetailPage({ params }: Props) {
     </div>
   );
 }
+

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100" width="400" height="100">
+  <rect width="400" height="100" fill="transparent" />
+  <!-- Logo symbol -->
+  <g transform="translate(10, 18)">
+    <rect width="64" height="64" rx="2" fill="#1B1B21" />
+    <path d="M22 18 H38 V36 C38 43 33 47 26 47 C21 47 16 44 14 40 L20 35 C21 38 23 40 26 40 C29 40 31 38 31 35 V25 H22 V18 Z" fill="#FFFFFF" />
+    <circle cx="44" cy="22" r="5" fill="#FF594F" />
+  </g>
+  <!-- Text: JAY MEDIA -->
+  <text x="90" y="58" font-family="'Space Grotesk', -apple-system, sans-serif" font-weight="700" font-size="34" letter-spacing="1.5" fill="#FFFFFF">
+    JAY MEDIA
+  </text>
+  <!-- Subtitle -->
+  <text x="92" y="76" font-family="'DM Sans', -apple-system, sans-serif" font-weight="500" font-size="10" letter-spacing="3" fill="#99979A">
+    MANAGEMENT PVT. LTD. • BIRATNAGAR
+  </text>
+</svg>
