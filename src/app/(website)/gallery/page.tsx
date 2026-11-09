@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { X, ChevronLeft, ChevronRight, Eye, Sparkles, Filter } from 'lucide-react';
+import Image from 'next/image';
+import { X, ChevronLeft, ChevronRight, Eye, Filter } from 'lucide-react';
 import { useEscapeKey, useBodyLock } from '@/hooks';
 import { cn } from '@/lib/utils';
 
@@ -10,7 +11,7 @@ interface GalleryPhoto {
   title: string;
   category: 'Miss Koshi' | 'Mr. & Miss Little Koshi' | 'Stagecraft' | 'Corporate Galas';
   aspect: string;
-  colorScheme: string;
+  image: string;
   caption: string;
 }
 
@@ -20,72 +21,96 @@ const GALLERY_PHOTOS: GalleryPhoto[] = [
     title: 'Miss Koshi Coronation Ceremony',
     category: 'Miss Koshi',
     aspect: 'aspect-[4/3]',
-    colorScheme: 'from-[#2A1B36] to-[#120F18]',
-    caption: 'Official crowning moment on the grand stage in Biratnagar.',
+    image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1200&q=80',
+    caption: 'Official crowning moment and evening gown presentation on the grand stage in Biratnagar.',
   },
   {
     id: '2',
     title: 'Little Koshi Talent Round',
     category: 'Mr. & Miss Little Koshi',
     aspect: 'aspect-square',
-    colorScheme: 'from-[#1B2A24] to-[#0F1814]',
-    caption: 'Young participants performing vocal recitations in Dharan.',
+    image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80',
+    caption: 'Young participants performing vocal recitations and creative showcases.',
   },
   {
     id: '3',
     title: 'Intelligent Beam Rigging',
     category: 'Stagecraft',
     aspect: 'aspect-[16/10]',
-    colorScheme: 'from-[#1E202B] to-[#101015]',
-    caption: 'Calibrating dynamic DMX moving heads and atmospheric haze.',
+    image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80',
+    caption: 'Calibrating dynamic DMX moving heads and atmospheric haze for arena productions.',
   },
   {
     id: '4',
     title: 'Corporate Brand Reveal Stage',
     category: 'Corporate Galas',
     aspect: 'aspect-[4/3]',
-    colorScheme: 'from-[#2A231B] to-[#18130F]',
-    caption: 'High-profile commercial unveiling with VIP seating protocol.',
+    image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80',
+    caption: 'High-profile commercial unveiling with VIP executive seating protocol in Eastern Nepal.',
   },
   {
     id: '5',
     title: 'Traditional Cultural Round',
     category: 'Miss Koshi',
     aspect: 'aspect-square',
-    colorScheme: 'from-[#361B22] to-[#180F12]',
-    caption: 'Contestants presenting handcrafted ethnic apparel representing Koshi Province.',
+    image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=80',
+    caption: 'Contestants presenting handcrafted ethnic apparel representing Koshi Province heritage.',
   },
   {
     id: '6',
     title: 'Audition Caravan Itahari',
     category: 'Mr. & Miss Little Koshi',
     aspect: 'aspect-[16/10]',
-    colorScheme: 'from-[#1B2936] to-[#0F1418]',
-    caption: 'Over 100 young talents auditioning during the Itahari screening caravan.',
+    image: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=1200&q=80',
+    caption: 'Over 100 young talents auditioning during the regional screening caravan in Dharan and Itahari.',
   },
   {
     id: '7',
     title: 'Line Array Audio Tuning',
     category: 'Stagecraft',
     aspect: 'aspect-square',
-    colorScheme: 'from-[#231B2A] to-[#130F18]',
-    caption: 'Acoustic measurement and sound distribution across arena seating.',
+    image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1200&q=80',
+    caption: 'Acoustic measurement and line array sound distribution across arena auditoriums.',
   },
   {
     id: '8',
     title: 'Executive Media Press Scrum',
     category: 'Corporate Galas',
     aspect: 'aspect-[4/3]',
-    colorScheme: 'from-[#2A1B1B] to-[#180F0F]',
-    caption: 'Live television journalists and photographers covering keynote speeches.',
+    image: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=1200&q=80',
+    caption: 'Live television broadcast camera setup and press registration during flagship galas.',
   },
   {
     id: '9',
     title: 'Bootcamp Mentorship Clinic',
     category: 'Miss Koshi',
     aspect: 'aspect-[16/10]',
-    colorScheme: 'from-[#1B2E2A] to-[#0F1816]',
-    caption: 'Personality coaching and public speaking training with senior mentors.',
+    image: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1200&q=80',
+    caption: 'Personality coaching, catwalk choreography, and public speaking clinics with senior mentors.',
+  },
+  {
+    id: '10',
+    title: 'Nepal Kids Dancing Championship',
+    category: 'Mr. & Miss Little Koshi',
+    aspect: 'aspect-square',
+    image: 'https://images.unsplash.com/photo-1547153760-18fc86324498?auto=format&fit=crop&w=1200&q=80',
+    caption: 'High-energy contemporary and cultural dance choreography live on the Biratnagar arena stage.',
+  },
+  {
+    id: '11',
+    title: 'VIP Gala Dinner & Awards',
+    category: 'Corporate Galas',
+    aspect: 'aspect-[16/10]',
+    image: 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=1200&q=80',
+    caption: 'Prestigious corporate awards ceremony with illuminated banquet tables and live entertainment.',
+  },
+  {
+    id: '12',
+    title: 'Arena Lighting & Confetti Finale',
+    category: 'Stagecraft',
+    aspect: 'aspect-[4/3]',
+    image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1200&q=80',
+    caption: 'Grand finale stage curtain call with cold pyrotechnics, atmospheric haze, and LED displays.',
   },
 ];
 
@@ -188,29 +213,34 @@ export default function GalleryPage() {
                 key={photo.id}
                 onClick={() => setActivePhotoIndex(index)}
                 className={cn(
-                  'group relative overflow-hidden bg-gradient-to-br border border-white/10 rounded-[10px] cursor-pointer shadow-lg hover:border-coral/50 transition-all duration-300',
-                  photo.aspect,
-                  photo.colorScheme
+                  'group relative overflow-hidden bg-black border border-white/10 rounded-[10px] cursor-pointer shadow-lg hover:border-coral/50 transition-all duration-300',
+                  photo.aspect
                 )}
               >
-                {/* Visual texture overlay */}
-                <div className="absolute inset-0 bg-[radial-gradient(#FFFFFF_1px,transparent_1px)] [background-size:24px_24px] opacity-10 pointer-events-none" />
+                <Image
+                  src={photo.image}
+                  alt={photo.title}
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-black/60 opacity-90 group-hover:opacity-95 transition-opacity z-[1]" />
 
-                <div className="absolute inset-0 p-6 flex flex-col justify-between text-white z-10 bg-gradient-to-t from-black via-transparent to-black/40 opacity-90 group-hover:opacity-100 transition-opacity">
+                <div className="absolute inset-0 p-6 flex flex-col justify-between text-white z-10">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] uppercase font-rubik px-3 py-1 bg-[#01402b]/90 border border-[#01402b] text-[#eef9ff] font-medium tracking-wider rounded-[50px]">
+                    <span className="text-[10px] uppercase font-rubik px-3 py-1 bg-[#01402b]/90 border border-[#01402b] text-[#eef9ff] font-medium tracking-wider rounded-[50px] backdrop-blur-sm">
                       {photo.category}
                     </span>
-                    <div className="w-8 h-8 rounded-full bg-coral/20 flex items-center justify-center text-coral group-hover:scale-110 transition-transform">
+                    <div className="w-8 h-8 rounded-full bg-coral/80 text-white flex items-center justify-center group-hover:scale-110 transition-transform shadow-md">
                       <Eye className="w-4 h-4" />
                     </div>
                   </div>
 
                   <div>
-                    <h3 className="font-rubik text-xl font-bold text-white mb-1 leading-snug">
+                    <h3 className="font-rubik text-xl font-bold text-white mb-1 leading-snug drop-shadow-md">
                       {photo.title}
                     </h3>
-                    <p className="text-xs font-rubik text-[#eef9ff]/75 line-clamp-2">
+                    <p className="text-xs font-rubik text-[#eef9ff]/85 line-clamp-2">
                       {photo.caption}
                     </p>
                   </div>
@@ -249,16 +279,28 @@ export default function GalleryPage() {
             </button>
           </div>
 
-          {/* Central Image View */}
-          <div className="relative w-full max-w-5xl aspect-video bg-gradient-to-br from-[#121217] to-black border border-white/10 rounded-[10px] flex items-center justify-center p-8 overflow-hidden shadow-2xl">
-            <div className="text-center max-w-xl text-white">
-              <Sparkles className="w-10 h-10 text-coral mx-auto mb-4 animate-pulse" />
-              <h3 className="font-rubik text-3xl font-bold mb-3">{activePhoto.title}</h3>
-              <p className="font-rubik text-sm sm:text-base text-[#eef9ff]/80 leading-relaxed mb-4">
-                {activePhoto.caption}
-              </p>
-              <span className="text-[11px] uppercase font-rubik tracking-wider text-[#eef9ff]/50 block">
-                Jay Media Management Production Archives • Biratnagar, Nepal
+          {/* Central Image View with Full-Bleed Photograph */}
+          <div className="relative w-full max-w-5xl aspect-video bg-black border border-white/10 rounded-[10px] overflow-hidden shadow-2xl">
+            <Image
+              src={activePhoto.image}
+              alt={activePhoto.title}
+              fill
+              className="object-cover"
+              sizes="(max-width: 1280px) 100vw, 1200px"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-[1]" />
+
+            {/* Bottom Caption Overlay */}
+            <div className="absolute bottom-0 inset-x-0 p-6 bg-black/85 backdrop-blur-md border-t border-white/10 z-10 text-white flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h3 className="font-rubik text-xl sm:text-2xl font-bold text-white mb-1">{activePhoto.title}</h3>
+                <p className="font-rubik text-xs sm:text-sm text-[#eef9ff]/80 max-w-2xl leading-relaxed">
+                  {activePhoto.caption}
+                </p>
+              </div>
+              <span className="text-[10px] uppercase font-rubik tracking-wider text-[#eef9ff]/50 shrink-0">
+                Jay Media Archives • Biratnagar
               </span>
             </div>
 
@@ -266,7 +308,7 @@ export default function GalleryPage() {
             <button
               onClick={handlePrev}
               aria-label="Previous Photo"
-              className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 hover:bg-coral text-white flex items-center justify-center transition-colors"
+              className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/60 hover:bg-coral text-white flex items-center justify-center transition-colors z-20 border border-white/20"
             >
               <ChevronLeft className="w-6 h-6" />
             </button>
@@ -275,7 +317,7 @@ export default function GalleryPage() {
             <button
               onClick={handleNext}
               aria-label="Next Photo"
-              className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 hover:bg-coral text-white flex items-center justify-center transition-colors"
+              className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/60 hover:bg-coral text-white flex items-center justify-center transition-colors z-20 border border-white/20"
             >
               <ChevronRight className="w-6 h-6" />
             </button>

@@ -5,6 +5,7 @@ export interface ServiceData {
   category: string;
   shortDescription: string;
   description: string;
+  image: string;
   capabilities: string[];
   approach: {
     phase: string;
@@ -20,6 +21,7 @@ export const SERVICES_DATA: ServiceData[] = [
     number: '01',
     title: 'Event Management & Execution',
     category: 'Flagship Stagecraft',
+    image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80',
     shortDescription:
       'End-to-end planning, stage engineering, technical AV, lighting, and logistical execution for grand pageants, arena concerts, and gala celebrations.',
     description:
@@ -61,6 +63,7 @@ export const SERVICES_DATA: ServiceData[] = [
     number: '02',
     title: 'Brand Experiences & Activations',
     category: 'Experiential Marketing',
+    image: 'https://images.unsplash.com/photo-1505373877841-8d25f7d46678?auto=format&fit=crop&w=1200&q=80',
     shortDescription:
       'Immersive consumer activations and tailored experiential events designed to turn brands into memorable cultural conversations.',
     description:
@@ -100,6 +103,7 @@ export const SERVICES_DATA: ServiceData[] = [
     number: '03',
     title: 'Media & Entertainment Production',
     category: 'Broadcast & Studio',
+    image: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=1200&q=80',
     shortDescription:
       'Cinematic multicam event broadcasting, commercial video production, photography, and high-impact digital content creation.',
     description:
@@ -140,6 +144,7 @@ export const SERVICES_DATA: ServiceData[] = [
     number: '04',
     title: 'Product & Store Launches',
     category: 'Commercial Milestones',
+    image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1200&q=80',
     shortDescription:
       'Spectacular unveiling ceremonies, architectural lighting, VIP hospitality, and press coordination for high-profile market entrances.',
     description:
@@ -179,6 +184,7 @@ export const SERVICES_DATA: ServiceData[] = [
     number: '05',
     title: 'Press Events & Conferences',
     category: 'Corporate Communications',
+    image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80',
     shortDescription:
       'Professional stage design, audio synchronization, press kit distribution, and executive media management for strategic announcements.',
     description:

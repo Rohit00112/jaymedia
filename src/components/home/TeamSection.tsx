@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import anime from 'animejs';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowUpRight, ShieldCheck } from 'lucide-react';
 import { useInView, useReducedMotion } from '@/hooks';
 
@@ -11,6 +12,7 @@ interface TeamMemberData {
   role: string;
   status: 'Verified Leadership' | 'Verified Advisory';
   bio: string;
+  image: string;
 }
 
 const TEAM_MEMBERS: TeamMemberData[] = [
@@ -19,24 +21,28 @@ const TEAM_MEMBERS: TeamMemberData[] = [
     role: 'Chairperson & Founder',
     status: 'Verified Leadership',
     bio: 'Visionary creative director and founder behind Jay Media Management. Spearheaded major Koshi Province beauty pageants and youth talent platforms.',
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80',
   },
   {
     name: 'Nisha Khatiwada Rai',
     role: 'Chief Executive Officer',
     status: 'Verified Leadership',
     bio: 'Leads executive operations, institutional partnerships, talent management, and production standards for the agency.',
+    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80',
   },
   {
     name: 'Rishav Dev Ghimire',
     role: 'Mentor & Production Advisor',
     status: 'Verified Advisory',
     bio: 'Advises contestants and stage crews on performance arts, stage presence, and voice projection during pageant bootcamps.',
+    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80',
   },
   {
     name: 'Rajendra KC',
     role: 'Senior Advisor & Mentor',
     status: 'Verified Advisory',
     bio: 'Guides youth personality grooming, jury coordination, and ethical pageant governance across regional installments.',
+    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=800&q=80',
   },
 ];
 
@@ -114,17 +120,19 @@ export default function TeamSection() {
               className="group flex flex-col bg-[#0c0c11] border border-white/10 hover:border-coral/40 p-6 rounded-[10px] shadow-xl transition-all duration-300 hover:-translate-y-1"
               style={{ opacity: 0 }}
             >
-              {/* Portrait Placeholder with editorial initials & badge */}
-              <div className="relative aspect-square w-full bg-[#14141a] rounded-[10px] flex items-center justify-center overflow-hidden mb-6 border border-white/5">
-                <span className="font-rubik font-bold text-5xl text-white/20 group-hover:text-coral/40 group-hover:scale-110 transition-all duration-500 select-none">
-                  {member.name
-                    .split(' ')
-                    .map((n) => n[0])
-                    .join('')}
-                </span>
+              {/* Portrait with genuine executive stock photo & badge */}
+              <div className="relative aspect-square w-full bg-[#14141a] rounded-[10px] overflow-hidden mb-6 border border-white/5">
+                <Image
+                  src={member.image}
+                  alt={member.name}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-[1]" />
 
-                <div className="absolute top-3 right-3">
-                  <span className="inline-flex items-center gap-1 text-[10px] uppercase font-rubik px-2.5 py-0.5 bg-[#01402b]/90 border border-[#01402b] text-[#eef9ff] font-medium rounded-[50px]">
+                <div className="absolute top-3 right-3 z-10">
+                  <span className="inline-flex items-center gap-1 text-[10px] uppercase font-rubik px-2.5 py-0.5 bg-[#01402b]/90 border border-[#01402b] text-[#eef9ff] font-medium rounded-[50px] backdrop-blur-sm">
                     <ShieldCheck className="w-3 h-3 text-coral" />
                     {member.status === 'Verified Leadership' ? 'Leadership' : 'Advisor'}
                   </span>

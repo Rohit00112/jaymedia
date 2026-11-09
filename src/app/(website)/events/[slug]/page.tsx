@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowLeft, ArrowUpRight, Calendar, MapPin, Award, CheckCircle2, Trophy } from 'lucide-react';
 import { EVENTS_DATA } from '@/config/events-data';
 import { generatePageMetadata } from '@/lib/seo';
@@ -38,8 +39,16 @@ export default async function EventDetailPage({ params }: Props) {
     <div className="bg-black text-white min-h-screen font-rubik">
       {/* ─── Hero ─────────────────────────────────────────────── */}
       <section className="relative bg-black text-white pt-40 pb-20 sm:pt-48 sm:pb-28 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-white/10">
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-[#0c0c11] to-black opacity-90" />
-        <div className="absolute top-1/2 -right-20 w-80 h-80 bg-coral/10 rounded-full blur-[120px] pointer-events-none" />
+        <Image
+          src={event.image}
+          alt={event.title}
+          fill
+          priority
+          className="object-cover opacity-20"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/85 to-black z-[1]" />
+        <div className="absolute top-1/2 -right-20 w-80 h-80 bg-coral/10 rounded-full blur-[120px] pointer-events-none z-[1]" />
 
         <div className="relative z-10 max-w-7xl mx-auto">
           <Link

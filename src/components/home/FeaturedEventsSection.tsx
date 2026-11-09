@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import anime from 'animejs';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowUpRight, Calendar, MapPin, Award } from 'lucide-react';
 import { useInView, useReducedMotion } from '@/hooks';
 import { cn } from '@/lib/utils';
@@ -16,6 +17,7 @@ interface EventItemData {
   description: string;
   highlights: string[];
   gradient: string;
+  image: string;
 }
 
 const FEATURED_EVENTS: EventItemData[] = [
@@ -29,6 +31,7 @@ const FEATURED_EVENTS: EventItemData[] = [
       'The premier regional beauty pageant and leadership platform for young women across Koshi Province. Centered on self-expression, cultural pride, social advocacy, and career elevation.',
     highlights: ['Grand Finale Broadcast', 'Intensive Mentorship Camp', 'Substantial Scholarships'],
     gradient: 'from-[#1E1928] via-[#2A1F36] to-black',
+    image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1200&q=80',
   },
   {
     slug: 'mr-and-miss-little-koshi',
@@ -40,6 +43,7 @@ const FEATURED_EVENTS: EventItemData[] = [
       "Eastern Nepal's most prestigious children's talent discovery event. Young participants undergo confidence building, public speaking, and stage performance training before a high-profile finale.",
     highlights: ['Multi-City Auditions', 'Personality Grooming', 'Eminent Jury'],
     gradient: 'from-[#01402b]/50 via-[#1B3236] to-black',
+    image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80',
   },
   {
     slug: 'nepal-kids-dancing-champion',
@@ -51,6 +55,7 @@ const FEATURED_EVENTS: EventItemData[] = [
       'Eastern Nepal’s premier children’s dancing reality talent tournament giving budding performers a grand televised stage under senior choreographic mentorship.',
     highlights: ['Provincial Audition Tours', 'Choreography Masterclasses', 'Broadcast Stagecraft'],
     gradient: 'from-[#281924] via-[#381e30] to-black',
+    image: 'https://images.unsplash.com/photo-1547153760-18fc86324498?auto=format&fit=crop&w=1200&q=80',
   },
   {
     slug: 'corporate-cultural-galas',
@@ -62,6 +67,7 @@ const FEATURED_EVENTS: EventItemData[] = [
       'Curated experiential productions, press meets, and award galas designed for leading consumer brands, industrial groups, and government agencies seeking flawless execution.',
     highlights: ['Custom Stage Architecture', 'VIP Protocol', 'Multicam Coverage'],
     gradient: 'from-[#282119] via-[#36291B] to-black',
+    image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80',
   },
 ];
 
@@ -147,32 +153,41 @@ export default function FeaturedEventsSection() {
                 {/* Visual Canvas Block */}
                 <div
                   className={cn(
-                    'lg:col-span-6 relative aspect-[16/10] overflow-hidden rounded-[10px] bg-gradient-to-br',
-                    event.gradient,
+                    'lg:col-span-6 relative aspect-[16/10] overflow-hidden rounded-[10px] bg-black group',
                     isReversed && 'lg:order-2'
                   )}
                 >
+                  <Image
+                    src={event.image}
+                    alt={event.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                  {/* Cinematic dark gradient scrim */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/30 z-[1]" />
+
                   <div className="absolute inset-0 p-8 flex flex-col justify-between text-white z-10">
                     <div className="flex items-center justify-between">
-                      <span className="inline-flex items-center gap-2 px-3 py-1 bg-[#01402b]/90 border border-[#01402b] text-[#eef9ff] text-xs font-rubik font-medium tracking-wider uppercase rounded-[50px]">
+                      <span className="inline-flex items-center gap-2 px-3 py-1 bg-[#01402b]/90 border border-[#01402b] text-[#eef9ff] text-xs font-rubik font-medium tracking-wider uppercase rounded-[50px] backdrop-blur-sm">
                         <Award className="w-3.5 h-3.5 text-coral" />
                         {event.category}
                       </span>
-                      <span className="text-coral font-rubik font-bold text-sm">
+                      <span className="text-coral font-rubik font-bold text-sm bg-black/60 px-2.5 py-0.5 rounded-[50px] border border-white/10">
                         0{index + 1}
                       </span>
                     </div>
 
                     <div>
-                      <h4 className="text-2xl sm:text-3xl lg:text-4xl font-rubik font-bold text-white mb-2 leading-tight">
+                      <h4 className="text-2xl sm:text-3xl lg:text-4xl font-rubik font-bold text-white mb-2 leading-tight drop-shadow-md">
                         {event.title}
                       </h4>
-                      <div className="flex flex-wrap items-center gap-4 text-xs font-rubik text-[#eef9ff]/75">
-                        <span className="inline-flex items-center gap-1.5">
+                      <div className="flex flex-wrap items-center gap-4 text-xs font-rubik text-[#eef9ff]/90">
+                        <span className="inline-flex items-center gap-1.5 bg-black/50 px-2.5 py-1 rounded-[50px] border border-white/10">
                           <Calendar className="w-3.5 h-3.5 text-coral" />
                           {event.seasonOrYear}
                         </span>
-                        <span className="inline-flex items-center gap-1.5">
+                        <span className="inline-flex items-center gap-1.5 bg-black/50 px-2.5 py-1 rounded-[50px] border border-white/10">
                           <MapPin className="w-3.5 h-3.5 text-coral" />
                           {event.location}
                         </span>
@@ -181,7 +196,7 @@ export default function FeaturedEventsSection() {
                   </div>
 
                   {/* Ambient accent circle */}
-                  <div className="absolute -bottom-10 -right-10 w-44 h-44 rounded-full bg-coral/20 blur-3xl" />
+                  <div className="absolute -bottom-10 -right-10 w-44 h-44 rounded-full bg-coral/20 blur-3xl z-[2] pointer-events-none" />
                 </div>
 
                 {/* Editorial Details Block */}

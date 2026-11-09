@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import anime from 'animejs';
+import Image from 'next/image';
 import { Play, X, ExternalLink } from 'lucide-react';
 import { useInView, useReducedMotion, useEscapeKey, useBodyLock } from '@/hooks';
 
@@ -68,9 +69,16 @@ export default function ShowreelSection() {
           onClick={() => setIsOpen(true)}
           style={{ opacity: 0 }}
         >
-          {/* Backdrop Graphic Simulation */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60 z-10 pointer-events-none" />
-          <div className="absolute inset-0 bg-[radial-gradient(#FF594F_1px,transparent_1px)] [background-size:32px_32px] opacity-20" />
+          {/* Real concert & stage production stock backdrop */}
+          <Image
+            src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=1600&q=80"
+            alt="Jay Media live concert and stage production showreel"
+            fill
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            sizes="(max-width: 1280px) 100vw, 1200px"
+          />
+          {/* Backdrop Scrim */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/60 z-10 pointer-events-none" />
 
           {/* Video Metadata Overlay */}
           <div className="absolute top-6 left-6 z-20 flex items-center gap-3">

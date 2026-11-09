@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowUpRight, Calendar, MapPin, Award } from 'lucide-react';
 import { generatePageMetadata } from '@/lib/seo';
 import { EVENTS_DATA } from '@/config/events-data';
@@ -94,19 +95,31 @@ export default function EventsPage() {
                   </Link>
                 </div>
 
-                <div className="lg:col-span-5 bg-black p-8 sm:p-12 text-white border border-white/10 rounded-[10px] relative overflow-hidden shadow-xl">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-coral/10 rounded-full blur-2xl" />
-                  <span className="text-coral font-rubik text-xs uppercase tracking-wider block mb-3 font-semibold">
-                    Production Highlight
-                  </span>
-                  <h3 className="font-rubik text-2xl font-bold mb-4 text-white">
-                    {event.title}
-                  </h3>
-                  <p className="text-[#eef9ff]/70 text-sm font-rubik leading-relaxed mb-6">
-                    {event.tagline}
-                  </p>
-                  <div className="border-t border-white/10 pt-4">
-                    <span className="text-[11px] uppercase tracking-wider font-rubik text-[#eef9ff]/50 block mb-2">
+                <div className="lg:col-span-5 relative min-h-[300px] p-8 sm:p-12 text-white border border-white/10 rounded-[10px] overflow-hidden shadow-xl flex flex-col justify-between group">
+                  <Image
+                    src={event.image}
+                    alt={event.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="(max-width: 1024px) 100vw, 40vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-black/60 z-[1]" />
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-coral/10 rounded-full blur-2xl z-[2]" />
+                  
+                  <div className="relative z-10">
+                    <span className="text-coral font-rubik text-xs uppercase tracking-wider block mb-3 font-semibold">
+                      Production Highlight
+                    </span>
+                    <h3 className="font-rubik text-2xl font-bold mb-4 text-white drop-shadow-md">
+                      {event.title}
+                    </h3>
+                    <p className="text-[#eef9ff]/85 text-sm font-rubik leading-relaxed mb-6">
+                      {event.tagline}
+                    </p>
+                  </div>
+
+                  <div className="relative z-10 border-t border-white/15 pt-4">
+                    <span className="text-[11px] uppercase tracking-wider font-rubik text-[#eef9ff]/70 block mb-1">
                       Official Organizer
                     </span>
                     <span className="text-xs text-[#eef9ff] font-rubik font-medium">

@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Compass, Eye, HeartHandshake, ShieldCheck, Sparkles, ArrowRight } from 'lucide-react';
 import { generatePageMetadata } from '@/lib/seo';
 
@@ -68,8 +69,16 @@ export default function AboutPage() {
     <div className="bg-black text-white min-h-screen font-rubik">
       {/* ─── Hero Section ────────────────────────────────────────── */}
       <section className="relative bg-black text-white pt-40 pb-24 sm:pt-48 sm:pb-32 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-white/10">
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-[#0c0c11] to-black opacity-90" />
-        <div className="absolute top-1/3 -right-24 w-96 h-96 bg-coral/10 rounded-full blur-[130px] pointer-events-none" />
+        <Image
+          src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1600&q=80"
+          alt="Jay Media live stagecraft and lighting"
+          fill
+          priority
+          className="object-cover opacity-20"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/85 to-black z-[1]" />
+        <div className="absolute top-1/3 -right-24 w-96 h-96 bg-coral/10 rounded-full blur-[130px] pointer-events-none z-[1]" />
 
         <div className="relative z-10 max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-4">
@@ -109,6 +118,23 @@ export default function AboutPage() {
                 <span className="block mt-3 text-xs uppercase font-rubik tracking-widest text-coral font-semibold">
                   — Jay Raj Rai, Chairperson
                 </span>
+              </div>
+
+              {/* Editorial Production Photo */}
+              <div className="mt-8 relative aspect-[16/10] w-full rounded-[10px] overflow-hidden border border-white/10 shadow-xl group">
+                <Image
+                  src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=1200&q=80"
+                  alt="Jay Media grand event production"
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-[1]" />
+                <div className="absolute bottom-3 left-3 z-10">
+                  <span className="text-[10px] uppercase font-rubik tracking-wider text-white bg-black/60 px-2.5 py-1 rounded-[50px] border border-white/10">
+                    Biratnagar Grand Gala Production
+                  </span>
+                </div>
               </div>
             </div>
 

@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowLeft, Calendar, Clock, User, Tag } from 'lucide-react';
 import { NEWS_DATA } from '@/config/news-data';
 import { generatePageMetadata, generateArticleSchema } from '@/lib/seo';
@@ -57,8 +58,16 @@ export default async function NewsDetailPage({ params }: Props) {
 
       {/* ─── Hero ─────────────────────────────────────────────── */}
       <section className="relative bg-black text-white pt-40 pb-20 sm:pt-48 sm:pb-28 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-white/10">
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-[#0c0c11] to-black opacity-90" />
-        <div className="absolute top-1/2 -right-20 w-80 h-80 bg-coral/10 rounded-full blur-[120px] pointer-events-none" />
+        <Image
+          src={article.image}
+          alt={article.title}
+          fill
+          priority
+          className="object-cover opacity-20"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/85 to-black z-[1]" />
+        <div className="absolute top-1/2 -right-20 w-80 h-80 bg-coral/10 rounded-full blur-[120px] pointer-events-none z-[1]" />
 
         <div className="relative z-10 max-w-4xl mx-auto">
           <Link

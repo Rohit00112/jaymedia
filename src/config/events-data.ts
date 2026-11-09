@@ -7,6 +7,7 @@ export interface EventDetailData {
   tagline: string;
   summary: string;
   overview: string;
+  image: string;
   highlights: string[];
   scheduleOrPhases: {
     title: string;
@@ -27,6 +28,7 @@ export const EVENTS_DATA: EventDetailData[] = [
     seasonOrYear: 'Annual Flagship',
     location: 'Biratnagar, Koshi Province',
     tagline: 'Eastern Nepal’s premier beauty, intelligence, and leadership platform.',
+    image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1200&q=80',
     summary:
       'Miss Koshi is the definitive regional pageant celebrating the intelligence, grace, and advocacy of young women from Morang, Sunsari, Jhapa, and across Koshi Province.',
     overview:
@@ -79,6 +81,7 @@ export const EVENTS_DATA: EventDetailData[] = [
     seasonOrYear: '7+ Successful Seasons',
     location: 'Biratnagar • Itahari • Dharan',
     tagline: 'Eastern Nepal’s most celebrated children’s talent and confidence platform.',
+    image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80',
     summary:
       'Mr. and Miss Little Koshi is an annual youth platform dedicated to identifying, nurturing, and celebrating the budding talents, intelligence, and self-confidence of children across eastern Nepal.',
     overview:
@@ -135,6 +138,7 @@ export const EVENTS_DATA: EventDetailData[] = [
     seasonOrYear: 'Annual Competition',
     location: 'Biratnagar • Eastern Nepal',
     tagline: 'Eastern Nepal’s premier children’s dancing reality talent championship.',
+    image: 'https://images.unsplash.com/photo-1547153760-18fc86324498?auto=format&fit=crop&w=1200&q=80',
     summary:
       'Nepal Kids Dancing Champion is a dedicated performing arts tournament providing young dancers a televised stage to express cultural and contemporary choreography.',
     overview:
@@ -178,6 +182,7 @@ export const EVENTS_DATA: EventDetailData[] = [
     seasonOrYear: 'Continuous Productions',
     location: 'Biratnagar & Regional Venues',
     tagline: 'High-impact corporate milestone events and grand celebrations.',
+    image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80',
     summary:
       'Custom-engineered event productions for leading industrial houses, brands, and public institutions seeking international execution standards.',
     overview:

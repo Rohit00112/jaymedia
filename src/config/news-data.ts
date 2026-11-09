@@ -5,6 +5,7 @@ export interface NewsItemData {
   date: string;
   author: string;
   readTime: string;
+  image: string;
   excerpt: string;
   content: string[];
   tags: string[];
@@ -19,6 +20,7 @@ export const NEWS_DATA: NewsItemData[] = [
     date: '2024-10-14',
     author: 'Jay Media Editorial Board',
     readTime: '4 min read',
+    image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1200&q=80',
     excerpt:
       'In an evening of high fashion, cultural pride, and intellectual eloquence, Shuva Laxmi Rai was crowned Miss Koshi before an audience of over 1,500 attendees.',
     content: [
@@ -37,6 +39,7 @@ export const NEWS_DATA: NewsItemData[] = [
     date: '2024-06-20',
     author: 'Jay Media Communications',
     readTime: '3 min read',
+    image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80',
     excerpt:
       'The 7th season of Mr. & Miss Little Koshi concluded with extraordinary energy as Ocean Jung Thapa and Upasana Ramdam clinched top honours.',
     content: [
@@ -55,6 +58,7 @@ export const NEWS_DATA: NewsItemData[] = [
     date: '2024-04-12',
     author: 'Production Desk',
     readTime: '5 min read',
+    image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80',
     excerpt:
       'From 4K multicam live streaming to intelligent DMX beam choreography, a look inside Jay Media’s technological investments in Koshi Province.',
     content: [

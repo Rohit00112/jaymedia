@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import anime from 'animejs';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 import { useInView, useReducedMotion } from '@/hooks';
 
@@ -137,18 +138,22 @@ export default function IntroSection() {
           <div className="lg:col-span-5 relative">
             <div
               ref={imageRef}
-              className="relative aspect-[4/5] bg-black overflow-hidden shadow-2xl border border-black/10 rounded-[10px]"
+              className="relative aspect-[4/5] bg-black overflow-hidden shadow-2xl border border-black/10 rounded-[10px] group"
               style={{ opacity: 0 }}
             >
+              <Image
+                src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=1200&q=80"
+                alt="Jay Media live stage production in Biratnagar"
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                sizes="(max-width: 1024px) 100vw, 40vw"
+              />
               {/* Graphic background composition with rich ambient lighting */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-black via-[#101014] to-[#1c1c24]" />
-              
-              {/* Subtle visual grid & watermark */}
-              <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#FF594F_1px,transparent_1px)] [background-size:24px_24px]" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-[1]" />
 
               <div className="absolute inset-0 p-8 flex flex-col justify-between z-10">
                 <div className="flex justify-between items-start">
-                  <span className="text-xs uppercase tracking-widest font-rubik text-[#eef9ff]/60">
+                  <span className="text-xs uppercase tracking-widest font-rubik text-[#eef9ff]/90 bg-black/60 px-3 py-1 rounded-[50px] border border-white/10">
                     Biratnagar • Nepal
                   </span>
                   <span className="w-2.5 h-2.5 rounded-full bg-coral animate-pulse" />
@@ -158,10 +163,10 @@ export default function IntroSection() {
                   <div className="inline-block px-3.5 py-1 bg-[#01402b] border border-[#01402b] text-[#eef9ff] text-xs uppercase tracking-widest font-rubik font-medium rounded-[50px]">
                     Established Agency
                   </div>
-                  <h3 className="text-2xl font-rubik text-white font-bold leading-tight">
+                  <h3 className="text-2xl font-rubik text-white font-bold leading-tight drop-shadow-md">
                     East Nepal&apos;s Flagship Stage Production House
                   </h3>
-                  <p className="text-sm text-[#eef9ff]/70 font-rubik leading-relaxed">
+                  <p className="text-sm text-[#eef9ff]/90 font-rubik leading-relaxed">
                     Organizers of Miss Koshi, Mr. &amp; Miss Little Koshi, and Nepal Kids Dancing Champion.
                   </p>
                 </div>

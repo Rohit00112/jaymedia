@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowUpRight, ShieldCheck, HeartHandshake } from 'lucide-react';
 import { generatePageMetadata } from '@/lib/seo';
 
@@ -14,6 +15,7 @@ interface Member {
   role: string;
   status: 'Executive Leadership' | 'Advisory & Mentorship';
   location: string;
+  image: string;
   bio: string;
   highlights: string[];
 }
@@ -24,6 +26,7 @@ const MEMBERS: Member[] = [
     role: 'Chairperson & Founder',
     status: 'Executive Leadership',
     location: 'Biratnagar, Nepal',
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80',
     bio: 'The founding creative force behind Jay Media Management. With years of experience steering eastern Nepal’s largest stage productions and pageants, Jay Raj Rai brings unparalleled vision to creative direction, stagecraft, and youth development.',
     highlights: ['Founder of Miss Koshi', 'Pioneer of Mr. and Miss Little Koshi', 'Senior Creative Director'],
   },
@@ -32,6 +35,7 @@ const MEMBERS: Member[] = [
     role: 'Chief Executive Officer',
     status: 'Executive Leadership',
     location: 'Biratnagar, Nepal',
+    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80',
     bio: 'Guiding executive operations, corporate partnerships, and production logistics. Nisha Khatiwada Rai ensures that every Jay Media production runs with seamless precision, high ethical governance, and premier hospitality.',
     highlights: ['Corporate Operations', 'Talent Grooming Supervision', 'Sponsorship Relations'],
   },
@@ -40,6 +44,7 @@ const MEMBERS: Member[] = [
     role: 'Production Mentor & Artistic Advisor',
     status: 'Advisory & Mentorship',
     location: 'Biratnagar, Nepal',
+    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80',
     bio: 'Provides vital mentorship in theatrical performance, stage vocalization, and artistic presence for pageant contestants and production staff during intensive grooming camps.',
     highlights: ['Performance Arts Mentor', 'Pageant Bootcamp Director', 'Vocal Poise Coaching'],
   },
@@ -48,6 +53,7 @@ const MEMBERS: Member[] = [
     role: 'Senior Advisor & Pageant Mentor',
     status: 'Advisory & Mentorship',
     location: 'Biratnagar, Nepal',
+    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=800&q=80',
     bio: 'Brings veteran acumen to pageant evaluation criteria, jury coordination, and youth confidence development across Eastern Nepal’s multi-city audition rounds.',
     highlights: ['Jury Coordination', 'Youth Development', 'Ethics & Compliance'],
   },
@@ -100,12 +106,16 @@ export default function TeamPage() {
                     </span>
                   </div>
 
-                  {/* Editorial Initial Avatar */}
-                  <div className="w-20 h-20 bg-black text-white font-rubik text-3xl font-bold flex items-center justify-center mb-6 border-2 border-coral rounded-[10px] shadow-md">
-                    {member.name
-                      .split(' ')
-                      .map((n) => n[0])
-                      .join('')}
+                  {/* Portrait with genuine executive stock photo */}
+                  <div className="relative aspect-[4/3] w-full bg-black rounded-[10px] overflow-hidden mb-6 border border-white/10 group">
+                    <Image
+                      src={member.image}
+                      alt={member.name}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent z-[1]" />
                   </div>
 
                   <h2 className="editorial-headline text-white text-3xl sm:text-4xl mb-2 font-rubik">

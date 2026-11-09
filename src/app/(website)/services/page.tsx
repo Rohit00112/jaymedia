@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowUpRight, CheckCircle2 } from 'lucide-react';
 import { generatePageMetadata } from '@/lib/seo';
 import { SERVICES_DATA } from '@/config/services-data';
@@ -48,15 +49,24 @@ export default function ServicesPage() {
             >
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
                 {/* Left metadata */}
-                <div className="lg:col-span-4 border-b lg:border-b-0 lg:border-r border-white/10 pb-8 lg:pb-0 lg:pr-8">
-                  <div className="flex items-center gap-3 mb-4">
-                    <span className="text-coral font-rubik font-bold text-2xl">
-                      {service.number}
-                    </span>
-                    <span className="text-xs uppercase font-rubik px-3 py-1 bg-[#01402b]/80 border border-[#01402b] text-[#eef9ff] font-medium rounded-[50px]">
-                      {service.category}
-                    </span>
+                <div className="lg:col-span-5 border-b lg:border-b-0 lg:border-r border-white/10 pb-8 lg:pb-0 lg:pr-8">
+                  {/* Photo Preview */}
+                  <div className="relative aspect-[16/10] w-full rounded-[10px] overflow-hidden mb-6 border border-white/10 group shadow-md">
+                    <Image
+                      src={service.image}
+                      alt={service.title}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      sizes="(max-width: 1024px) 100vw, 35vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-[1]" />
+                    <div className="absolute bottom-3 left-3 z-10">
+                      <span className="text-xs uppercase font-rubik tracking-wider font-semibold text-white bg-black/60 px-2.5 py-1 rounded-[50px] border border-white/10">
+                        {service.number} • {service.category}
+                      </span>
+                    </div>
                   </div>
+
                   <h2 className="editorial-headline text-white text-3xl sm:text-4xl mb-4 leading-tight font-rubik">
                     {service.title}
                   </h2>
@@ -74,7 +84,7 @@ export default function ServicesPage() {
                 </div>
 
                 {/* Right capabilities */}
-                <div className="lg:col-span-8 flex flex-col justify-between h-full">
+                <div className="lg:col-span-7 flex flex-col justify-between h-full">
                   <div>
                     <h3 className="font-rubik text-xs uppercase tracking-widest text-coral font-semibold mb-6 block">
                       Core Technical Capabilities

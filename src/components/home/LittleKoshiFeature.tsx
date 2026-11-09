@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import anime from 'animejs';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowRight, Star, MapPin } from 'lucide-react';
 import { useInView, useReducedMotion } from '@/hooks';
 
@@ -52,9 +53,16 @@ export default function LittleKoshiFeature() {
           {/* Left Column: Visual Showcase */}
           <div ref={leftColRef} className="lg:col-span-6" style={{ opacity: 0 }}>
             <div className="relative aspect-[4/3] bg-[#0c0c11] border border-white/10 p-8 sm:p-12 rounded-[10px] flex flex-col justify-between overflow-hidden group shadow-2xl">
-              {/* Graphic background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#121217] via-[#0c0c11] to-black" />
-              <div className="absolute top-0 right-0 w-64 h-64 bg-coral/10 rounded-full blur-2xl" />
+              <Image
+                src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=1200&q=80"
+                alt="Mr. and Miss Little Koshi stage showcase"
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+              {/* Graphic background scrim */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/40 z-[1]" />
+              <div className="absolute top-0 right-0 w-64 h-64 bg-coral/10 rounded-full blur-2xl z-[2]" />
 
               {/* Tag */}
               <div className="relative z-10 flex items-center justify-between">

@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import anime from 'animejs';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ChevronDown } from 'lucide-react';
 import { useReducedMotion } from '@/hooks';
 import { cn } from '@/lib/utils';
@@ -150,7 +151,16 @@ export default function HeroSection() {
         aria-hidden="true"
       />
 
-      {/* ── Three.js atmosphere ───────────────────────────── */}
+      {/* ── Background photograph & Three.js atmosphere ──────────── */}
+      <Image
+        src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1920&q=80"
+        alt="Jay Media concert stage and live atmosphere"
+        fill
+        priority
+        className="object-cover opacity-25 pointer-events-none"
+        sizes="100vw"
+      />
+
       <div className="absolute inset-0 z-0" aria-hidden="true">
         <HeroScene />
       </div>
