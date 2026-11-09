@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowUpRight, ShieldCheck, Award, HeartHandshake } from 'lucide-react';
+import { ArrowUpRight, ShieldCheck, HeartHandshake } from 'lucide-react';
 import { generatePageMetadata } from '@/lib/seo';
 
 export const metadata: Metadata = generatePageMetadata({

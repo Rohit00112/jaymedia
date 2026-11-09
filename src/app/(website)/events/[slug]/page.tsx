@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, ArrowUpRight, Calendar, MapPin, Award, CheckCircle2, Trophy, Video } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, Calendar, MapPin, Award, CheckCircle2, Trophy } from 'lucide-react';
 import { EVENTS_DATA } from '@/config/events-data';
 import { generatePageMetadata } from '@/lib/seo';
 

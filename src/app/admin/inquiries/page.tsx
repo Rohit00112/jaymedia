@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Mail, Phone, CheckCircle2, Building } from 'lucide-react';
+import { Mail, Phone, Building } from 'lucide-react';
 
 interface InquiryItem {
   id: string;

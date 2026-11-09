@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from 'react';
 import anime from 'animejs';
 import { Play, X, ExternalLink } from 'lucide-react';
 import { useInView, useReducedMotion, useEscapeKey, useBodyLock } from '@/hooks';
-import { cn } from '@/lib/utils';
 
 export default function ShowreelSection() {
   const { ref: containerRef, isInView } = useInView({ threshold: 0.15, once: true });

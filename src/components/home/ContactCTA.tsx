@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import anime from 'animejs';
 import Link from 'next/link';
-import { ArrowUpRight, Mail, Phone, MapPin } from 'lucide-react';
+import { ArrowUpRight, Mail, MapPin } from 'lucide-react';
 import { useInView, useReducedMotion } from '@/hooks';
 import { siteConfig } from '@/config/site';
 

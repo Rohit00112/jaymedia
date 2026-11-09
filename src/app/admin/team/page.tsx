@@ -1,6 +1,6 @@
 'use client';
 
-import { Users, ShieldCheck, Plus, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 
 const TEAM = [
   { name: 'Jay Raj Rai', role: 'Chairperson & Founder', status: 'Executive Leadership' },

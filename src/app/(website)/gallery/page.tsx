@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import { X, ChevronLeft, ChevronRight, Eye, Sparkles, Filter } from 'lucide-react';
 import { useEscapeKey, useBodyLock } from '@/hooks';
 import { cn } from '@/lib/utils';

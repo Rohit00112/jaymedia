@@ -35,7 +35,7 @@ export default function ServicesPage() {
       {/* ─── Services Catalogue ──────────────────────────────── */}
       <section className="py-24 lg:py-36 px-6 sm:px-10 lg:px-16">
         <div className="max-w-7xl mx-auto space-y-20">
-          {SERVICES_DATA.map((service, index) => (
+          {SERVICES_DATA.map((service) => (
             <div
               key={service.slug}
               id={service.slug}

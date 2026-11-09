@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Layers, Plus, ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 import { SERVICES_DATA } from '@/config/services-data';
 
 export default function AdminServicesPage() {

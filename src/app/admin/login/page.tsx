@@ -3,9 +3,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ShieldCheck, Lock, Mail, Loader2, ArrowRight, AlertCircle } from 'lucide-react';
+import { Lock, Mail, Loader2, ArrowRight, AlertCircle } from 'lucide-react';
 import { useAuth } from '@/lib/firebase/auth-context';
-import { cn } from '@/lib/utils';
 
 export default function AdminLoginPage() {
   const router = useRouter();

@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowUpRight, Calendar, Clock, User, Tag } from 'lucide-react';
+import { ArrowUpRight, Calendar, Clock } from 'lucide-react';
 import { generatePageMetadata } from '@/lib/seo';
 import { NEWS_DATA } from '@/config/news-data';
 import { formatDate } from '@/lib/utils';

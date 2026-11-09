@@ -35,7 +35,7 @@ export default function EventsPage() {
       {/* ─── Events Catalogue ────────────────────────────────── */}
       <section className="py-24 lg:py-36 px-6 sm:px-10 lg:px-16">
         <div className="max-w-7xl mx-auto space-y-16">
-          {EVENTS_DATA.map((event, index) => (
+          {EVENTS_DATA.map((event) => (
             <div
               key={event.slug}
               className="bg-white border border-ink/10 p-8 sm:p-12 lg:p-16 shadow-sm hover:shadow-xl transition-shadow"

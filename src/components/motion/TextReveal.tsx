@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, type ElementType } from 'react';
+import { useEffect, useRef } from 'react';
 import { useInView, useReducedMotion } from '@/hooks';
 import { textReveal } from '@/lib/motion';
 import { cn } from '@/lib/utils';
@@ -50,7 +50,7 @@ export default function TextReveal({
   }, [isInView, delay, stagger, reducedMotion]);
 
   return (
-    <Tag ref={ref as any} className={cn(className)}>
+    <Tag ref={ref as unknown as React.Ref<never>} className={cn(className)}>
       {words.map((word, i) => (
         <span
           key={`${word}-${i}`}

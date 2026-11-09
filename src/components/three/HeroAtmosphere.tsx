@@ -5,21 +5,26 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Points, PointMaterial } from '@react-three/drei';
 import * as THREE from 'three';
 
+// Deterministic pure pseudo-random function
+function pseudoRandom(seed: number) {
+  const x = Math.sin(seed * 12.9898 + 78.233) * 43758.5453;
+  return x - Math.floor(x);
+}
+
 // ─── Particle System ───────────────────────────────────────
 function Particles({ count }: { count: number }) {
   const pointsRef = useRef<THREE.Points>(null);
   const mousePos = useRef({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(true);
 
-  // Generate random particle positions in a sphere volume
+  // Generate deterministic particle positions in a sphere volume
   const positions = useMemo(() => {
     const pos = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
       const i3 = i * 3;
-      // Distribute in a wide, shallow volume
-      pos[i3] = (Math.random() - 0.5) * 10; // x
-      pos[i3 + 1] = (Math.random() - 0.5) * 6; // y
-      pos[i3 + 2] = (Math.random() - 0.5) * 4; // z
+      pos[i3] = (pseudoRandom(i * 3 + 1) - 0.5) * 10;
+      pos[i3 + 1] = (pseudoRandom(i * 3 + 2) - 0.5) * 6;
+      pos[i3 + 2] = (pseudoRandom(i * 3 + 3) - 0.5) * 4;
     }
     return pos;
   }, [count]);
@@ -79,15 +84,6 @@ function Particles({ count }: { count: number }) {
 
 // ─── Hero Atmosphere Canvas ────────────────────────────────
 const HeroAtmosphere = React.memo(function HeroAtmosphere() {
-  const [count, setCount] = useState(150);
-
-  useEffect(() => {
-    // Reduce particle count on mobile
-    if (window.innerWidth < 768) {
-      setCount(50);
-    }
-  }, []);
-
   return (
     <div
       className="absolute inset-0 z-0"
@@ -102,13 +98,8 @@ const HeroAtmosphere = React.memo(function HeroAtmosphere() {
           powerPreference: 'low-power',
         }}
         dpr={[1, 1.5]}
-        style={{
-          width: '100%',
-          height: '100%',
-          background: 'transparent',
-        }}
       >
-        <Particles count={count} />
+        <Particles count={100} />
       </Canvas>
     </div>
   );

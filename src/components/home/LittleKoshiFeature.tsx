@@ -3,9 +3,8 @@
 import { useEffect, useRef } from 'react';
 import anime from 'animejs';
 import Link from 'next/link';
-import { ArrowRight, Sparkles, Star, Users, MapPin } from 'lucide-react';
+import { ArrowRight, Star, MapPin } from 'lucide-react';
 import { useInView, useReducedMotion } from '@/hooks';
-import { cn } from '@/lib/utils';
 
 export default function LittleKoshiFeature() {
   const { ref: containerRef, isInView } = useInView({ threshold: 0.2, once: true });

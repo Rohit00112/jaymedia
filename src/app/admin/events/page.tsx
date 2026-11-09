@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Plus, Search, CheckCircle2, ArrowUpRight, Edit, Trash2 } from 'lucide-react';
+import { Plus, Search, CheckCircle2, ArrowUpRight, Edit } from 'lucide-react';
 import { EVENTS_DATA } from '@/config/events-data';
 
 export default function AdminEventsPage() {

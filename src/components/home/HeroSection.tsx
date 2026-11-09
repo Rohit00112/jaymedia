@@ -3,7 +3,6 @@
 import { useEffect, useRef } from 'react';
 import anime from 'animejs';
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
 import { ChevronDown } from 'lucide-react';
 import { useReducedMotion } from '@/hooks';
 import { cn } from '@/lib/utils';

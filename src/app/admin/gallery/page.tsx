@@ -1,6 +1,6 @@
 'use client';
 
-import { Image as ImageIcon, Upload, CheckCircle2, Trash2 } from 'lucide-react';
+import { Upload, CheckCircle2 } from 'lucide-react';
 
 const SAMPLES = [
   { title: 'Miss Koshi Coronation Ceremony', category: 'Miss Koshi', dimensions: '1920x1080' },

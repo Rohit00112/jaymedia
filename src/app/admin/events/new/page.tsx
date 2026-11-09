@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Save, Upload, Sparkles, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, Save, Upload, CheckCircle2 } from 'lucide-react';
 
 export default function AdminNewEventPage() {
   const router = useRouter();

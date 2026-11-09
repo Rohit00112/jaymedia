@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Newspaper, Plus, CheckCircle2, ArrowUpRight } from 'lucide-react';
+import { CheckCircle2, ArrowUpRight } from 'lucide-react';
 import { NEWS_DATA } from '@/config/news-data';
 import { formatDate } from '@/lib/utils';
 

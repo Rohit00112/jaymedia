@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, ArrowUpRight, Calendar, Clock, User, Share2, Tag } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, User, Tag } from 'lucide-react';
 import { NEWS_DATA } from '@/config/news-data';
 import { generatePageMetadata, generateArticleSchema } from '@/lib/seo';
 import { formatDate } from '@/lib/utils';

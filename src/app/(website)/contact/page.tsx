@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { MapPin, Mail, Phone, Clock } from 'lucide-react';
+import { MapPin, Clock } from 'lucide-react';
 import ContactForm from '@/components/forms/ContactForm';
 import { generatePageMetadata } from '@/lib/seo';
 import { siteConfig } from '@/config/site';

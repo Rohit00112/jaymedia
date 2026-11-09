@@ -1,8 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { Award, Compass, Eye, HeartHandshake, ShieldCheck, Sparkles, MapPin, ArrowRight } from 'lucide-react';
+import { Compass, Eye, HeartHandshake, ShieldCheck, Sparkles, ArrowRight } from 'lucide-react';
 import { generatePageMetadata } from '@/lib/seo';
-import { siteConfig } from '@/config/site';
 
 export const metadata: Metadata = generatePageMetadata({
   title: 'About Us | Jay Media Management Pvt. Ltd.',

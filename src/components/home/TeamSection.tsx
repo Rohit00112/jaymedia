@@ -3,9 +3,8 @@
 import { useEffect, useRef } from 'react';
 import anime from 'animejs';
 import Link from 'next/link';
-import { ArrowUpRight, Award, ShieldCheck } from 'lucide-react';
+import { ArrowUpRight, ShieldCheck } from 'lucide-react';
 import { useInView, useReducedMotion } from '@/hooks';
-import { cn } from '@/lib/utils';
 
 interface TeamMemberData {
   name: string;
