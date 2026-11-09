@@ -1,258 +1,121 @@
-'use client';
-
-import { useEffect, useRef } from 'react';
-import anime from 'animejs';
-import Link from 'next/link';
 import Image from 'next/image';
-import { ChevronDown } from 'lucide-react';
-import { useReducedMotion } from '@/hooks';
-import { cn } from '@/lib/utils';
-
+import Link from 'next/link';
+import { ArrowDown, ArrowUpRight, Play } from 'lucide-react';
 import HeroScene from '@/components/three/HeroScene';
 
-const HEADLINE_WORDS = ['WE', 'CREATE', 'MOMENTS', 'THAT', 'MOVE', 'PEOPLE.'];
+const HEADLINE = [
+  { text: 'WE CREATE', accent: false },
+  { text: 'moments', accent: true },
+  { text: 'THAT MOVE', accent: false },
+  { text: 'PEOPLE.', accent: false },
+];
 
 export default function HeroSection() {
-  const reducedMotion = useReducedMotion();
-  const sectionRef = useRef<HTMLElement>(null);
-  const overlayRef = useRef<HTMLDivElement>(null);
-  const labelRef = useRef<HTMLDivElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
-  const supportRef = useRef<HTMLParagraphElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (reducedMotion) {
-      // Immediately show everything
-      const targets = [
-        overlayRef.current,
-        labelRef.current,
-        supportRef.current,
-        ctaRef.current,
-        scrollRef.current,
-      ];
-      targets.forEach((el) => {
-        if (el) {
-          el.style.opacity = '1';
-          el.style.transform = 'none';
-        }
-      });
-      // Reveal headline words
-      if (headlineRef.current) {
-        const wordSpans = headlineRef.current.querySelectorAll('.word-mask span');
-        wordSpans.forEach((span) => {
-          (span as HTMLElement).style.opacity = '1';
-          (span as HTMLElement).style.transform = 'none';
-        });
-      }
-      // Show CTA buttons
-      if (ctaRef.current) {
-        const buttons = ctaRef.current.children;
-        Array.from(buttons).forEach((btn) => {
-          (btn as HTMLElement).style.opacity = '1';
-          (btn as HTMLElement).style.transform = 'none';
-        });
-      }
-      return;
-    }
-
-    // Set initial states
-    if (overlayRef.current) {
-      overlayRef.current.style.opacity = '0.95';
-    }
-    if (labelRef.current) {
-      labelRef.current.style.opacity = '0';
-      labelRef.current.style.transform = 'translateY(20px)';
-    }
-    if (supportRef.current) {
-      supportRef.current.style.opacity = '0';
-      supportRef.current.style.transform = 'translateY(16px)';
-    }
-    if (ctaRef.current) {
-      const buttons = ctaRef.current.children;
-      Array.from(buttons).forEach((btn) => {
-        (btn as HTMLElement).style.opacity = '0';
-        (btn as HTMLElement).style.transform = 'translateY(20px)';
-      });
-    }
-    if (scrollRef.current) {
-      scrollRef.current.style.opacity = '0';
-    }
-
-    const tl = anime.timeline({ easing: 'easeOutCubic' });
-
-    // 1. Overlay fades down
-    tl.add({
-      targets: overlayRef.current,
-      opacity: [0.95, 0.65],
-      duration: 600,
-    }, 0);
-
-    // 2. Label fades in + slides up
-    tl.add({
-      targets: labelRef.current,
-      opacity: [0, 1],
-      translateY: [20, 0],
-      duration: 500,
-    }, 200);
-
-    // 3. Headline words reveal
-    if (headlineRef.current) {
-      const wordSpans = headlineRef.current.querySelectorAll('.word-mask span');
-      tl.add({
-        targets: wordSpans,
-        opacity: [0, 1],
-        translateY: ['100%', '0%'],
-        duration: 600,
-        delay: anime.stagger(50),
-      }, 400);
-    }
-
-    // 4. Supporting text fades in
-    tl.add({
-      targets: supportRef.current,
-      opacity: [0, 1],
-      translateY: [16, 0],
-      duration: 500,
-    }, 800);
-
-    // 5. CTA buttons stagger in
-    if (ctaRef.current) {
-      tl.add({
-        targets: ctaRef.current.children,
-        opacity: [0, 1],
-        translateY: [20, 0],
-        duration: 500,
-        delay: anime.stagger(100),
-      }, 1000);
-    }
-
-    // 6. Scroll indicator fades in
-    tl.add({
-      targets: scrollRef.current,
-      opacity: [0, 1],
-      duration: 400,
-    }, 1400);
-
-    return () => {
-      tl.pause();
-    };
-  }, [reducedMotion]);
-
   return (
-    <section
-      ref={sectionRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#FBF9F5]"
-    >
-      {/* ── Background photograph & atmosphere ──────────── */}
+    <section className="relative flex min-h-[100svh] flex-col overflow-hidden bg-surface">
+      {/* ── Background photograph ─────────────────────────── */}
       <Image
-        src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1920&q=80"
-        alt="Jay Media concert stage and live atmosphere"
+        src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1920&q=85"
+        alt="A live audience with hands raised in front of a concert stage"
         fill
         priority
-        className="object-cover opacity-15 pointer-events-none"
         sizes="100vw"
+        className="object-cover opacity-45"
       />
 
+      <div
+        className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/45 to-surface"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute inset-0 bg-gradient-to-r from-black/70 via-transparent to-black/30"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_45%,rgba(255,74,54,0.16),transparent_55%)]"
+        aria-hidden="true"
+      />
+
+      {/* ── Ambient particles ─────────────────────────────── */}
       <div className="absolute inset-0 z-0" aria-hidden="true">
         <HeroScene />
       </div>
 
-      {/* ── Soft editorial light gradient overlay ─────────────────────────── */}
-      <div
-        ref={overlayRef}
-        className={cn(
-          'absolute inset-0 z-[1]',
-          'bg-gradient-to-b from-[#FBF9F5]/80 via-white/60 to-[#FBF9F5]'
-        )}
-        aria-hidden="true"
-      />
+      {/* ── Vertical rail ─────────────────────────────────── */}
+      <div className="absolute right-4 top-1/2 z-10 hidden -translate-y-1/2 lg:block">
+        <span className="vertical-text eyebrow text-paper/60">
+          Eastern Nepal&apos;s premier production house
+        </span>
+      </div>
 
-      {/* Ambient warm glow */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-coral/5 rounded-full blur-[140px] pointer-events-none z-[1]" />
-
-      {/* ── Content ───────────────────────────────────────── */}
-      <div className="relative z-10 flex flex-col items-center text-center px-6 md:px-10 font-rubik">
-        {/* Label & Prestige Badge */}
-        <div
-          ref={labelRef}
-          className="flex flex-col sm:flex-row items-center gap-3 mb-6 md:mb-8"
-        >
-          <span className="px-3.5 py-1 bg-[#01402b] border border-[#01402b] text-white text-xs font-rubik font-medium tracking-widest uppercase rounded-[50px] shadow-sm">
-            Koshi Province • Biratnagar
+      <div className="container-ed relative z-10 flex flex-1 flex-col pt-24 md:pt-32">
+        {/* Top meta line */}
+        <div className="hero-fade flex items-center justify-between gap-4 border-b border-line pb-5 text-[9px] uppercase tracking-[0.2em] text-paper/60 md:text-[10px]">
+          <span className="whitespace-nowrap">
+            Jay Media Management / Biratnagar
           </span>
-          <span className="section-label text-coral font-medium tracking-[0.2em]">
-            CREATIVE PRODUCTION &amp; EVENT MANAGEMENT
+          <span className="hidden whitespace-nowrap md:block">
+            Stage · Screen · Live
+          </span>
+          <span className="hidden whitespace-nowrap sm:block">
+            26.45° N / 87.27° E
           </span>
         </div>
 
         {/* Headline */}
-        <h1
-          ref={headlineRef}
-          className={cn(
-            'editorial-headline text-[#101014] font-rubik',
-            'text-5xl md:text-7xl lg:text-8xl xl:text-9xl',
-            'max-w-6xl mb-6 md:mb-8'
-          )}
-        >
-          {HEADLINE_WORDS.map((word, i) => (
-            <span key={i} className="word-mask mr-[0.25em] last:mr-0">
-              <span>{word}</span>
-            </span>
-          ))}
-        </h1>
-
-        {/* Supporting text */}
-        <p
-          ref={supportRef}
-          className="text-lg md:text-xl text-[#4A4A52] max-w-xl font-rubik mb-10 md:mb-12 font-normal leading-relaxed"
-        >
-          Turning ambitious ideas into extraordinary experiences.
-        </p>
-
-        {/* CTA buttons */}
-        <div ref={ctaRef} className="flex flex-col sm:flex-row items-center gap-4">
-          <Link
-            href="/events"
-            className={cn(
-              'inline-flex items-center justify-center',
-              'bg-coral text-white font-rubik font-medium',
-              'text-sm tracking-wider uppercase',
-              'px-8 py-4 rounded-[50px]',
-              'transition-all duration-300 shadow-md',
-              'hover:bg-coral-hover hover:scale-[1.03] hover:shadow-lg',
-              'focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2'
-            )}
-          >
-            Explore Our Work
-          </Link>
-          <Link
-            href="/contact"
-            className={cn(
-              'inline-flex items-center justify-center',
-              'bg-white border border-black/15 text-[#101014] font-rubik font-medium',
-              'text-sm tracking-wider uppercase',
-              'px-8 py-4 rounded-[50px] shadow-sm',
-              'transition-all duration-300',
-              'hover:bg-black hover:text-white hover:border-black hover:scale-[1.03]',
-              'focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2'
-            )}
-          >
-            Let&apos;s Collaborate
-          </Link>
+        <div className="flex flex-1 items-center py-6 md:py-8">
+          <h1 className="display w-full text-[clamp(2.9rem,min(11.2vw,15.5vh),11.4rem)] leading-[0.86] text-paper">
+            {HEADLINE.map((line, index) => (
+              <span key={line.text} className="hero-line">
+                <span
+                  className={
+                    line.accent
+                      ? 'serif text-coral'
+                      : undefined
+                  }
+                  style={{ animationDelay: `${120 + index * 90}ms` }}
+                >
+                  {line.text}
+                </span>
+              </span>
+            ))}
+          </h1>
         </div>
-      </div>
 
-      {/* ── Scroll indicator ──────────────────────────────── */}
-      <div
-        ref={scrollRef}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2"
-      >
-        <span className="text-[#101014]/50 text-[10px] font-rubik tracking-[0.3em] uppercase font-semibold">
-          Scroll
-        </span>
-        <ChevronDown className="w-5 h-5 text-[#101014]/50 animate-bounce" />
+        {/* Bottom strip */}
+        <div className="hero-fade delay-5 grid gap-6 border-t border-line py-6 md:grid-cols-12 md:items-end md:gap-8 md:py-7">
+          <p className="max-w-xs text-sm leading-relaxed text-muted md:col-span-4">
+            From the pageant stage to the brand arena, we produce the nights
+            Eastern Nepal remembers.
+          </p>
+
+          <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:flex-wrap sm:items-center md:col-span-5">
+            <Link href="/events" className="btn btn-primary">
+              Explore productions
+              <ArrowUpRight className="h-3.5 w-3.5" />
+            </Link>
+            <Link href="/contact" className="btn btn-outline">
+              Start a project
+            </Link>
+          </div>
+
+          <div className="flex items-center justify-between gap-6 md:col-span-3 md:justify-end">
+            <Link
+              href="#showreel"
+              className="group inline-flex items-center gap-3 text-[10px] uppercase tracking-[0.2em] text-paper/70 transition-colors hover:text-paper"
+            >
+              <span className="flex h-10 w-10 items-center justify-center rounded-full border border-line-strong transition-colors group-hover:border-coral group-hover:bg-coral group-hover:text-ink">
+                <Play className="h-3.5 w-3.5 fill-current" />
+              </span>
+              Watch the reel
+            </Link>
+
+            <span className="hidden items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-faint sm:flex">
+              Scroll
+              <ArrowDown className="h-3.5 w-3.5 animate-bounce" />
+            </span>
+          </div>
+        </div>
       </div>
     </section>
   );

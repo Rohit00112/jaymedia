@@ -6,16 +6,16 @@ import { SERVICES_DATA } from '@/config/services-data';
 
 export default function AdminServicesPage() {
   return (
-    <div className="space-y-8 font-rubik text-white">
+    <div className="space-y-8 font-body text-white">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/10">
         <div>
-          <span className="text-xs uppercase font-rubik tracking-wider text-coral font-semibold block mb-1">
+          <span className="text-xs uppercase font-body tracking-wider text-coral font-semibold block mb-1">
             CAPABILITIES CATALOG
           </span>
-          <h1 className="editorial-headline text-white text-3xl sm:text-4xl font-rubik">
+          <h1 className="editorial-headline text-white text-3xl sm:text-4xl font-body">
             Production Services CMS
           </h1>
-          <p className="text-xs sm:text-sm font-rubik text-[#eef9ff]/60 mt-1">
+          <p className="text-xs sm:text-sm font-body text-[#eef9ff]/60 mt-1">
             Configure stagecraft, brand activations, broadcasting, and commercial capabilities.
           </p>
         </div>
@@ -29,14 +29,14 @@ export default function AdminServicesPage() {
           >
             <div className="space-y-2 max-w-2xl">
               <div className="flex items-center gap-3">
-                <span className="text-coral font-rubik font-bold text-lg">{service.number}</span>
-                <span className="text-xs uppercase font-rubik text-[#eef9ff]/60">{service.category}</span>
-                <span className="inline-flex items-center gap-1 text-[10px] uppercase font-rubik px-2.5 py-0.5 bg-[#01402b]/90 border border-[#01402b] text-[#eef9ff] rounded-[50px] font-medium">
+                <span className="text-coral font-body font-bold text-lg">{service.number}</span>
+                <span className="text-xs uppercase font-body text-[#eef9ff]/60">{service.category}</span>
+                <span className="inline-flex items-center gap-1 text-[10px] uppercase font-body px-2.5 py-0.5 bg-[#01402b]/90 border border-[#01402b] text-[#eef9ff] rounded-[50px] font-medium">
                   <CheckCircle2 className="w-3 h-3 text-[#eef9ff]" /> Live
                 </span>
               </div>
-              <h3 className="font-rubik text-xl font-bold text-white">{service.title}</h3>
-              <p className="text-xs sm:text-sm font-rubik text-[#eef9ff]/70 leading-relaxed">
+              <h3 className="font-body text-xl font-bold text-white">{service.title}</h3>
+              <p className="text-xs sm:text-sm font-body text-[#eef9ff]/70 leading-relaxed">
                 {service.shortDescription}
               </p>
             </div>
@@ -45,7 +45,7 @@ export default function AdminServicesPage() {
               <Link
                 href={`/services/${service.slug}`}
                 target="_blank"
-                className="px-4 py-2 border border-white/20 text-xs font-rubik uppercase tracking-wider text-[#eef9ff] hover:text-coral hover:border-coral transition-colors rounded-[50px]"
+                className="px-4 py-2 border border-white/20 text-xs font-body uppercase tracking-wider text-[#eef9ff] hover:text-coral hover:border-coral transition-colors rounded-[50px]"
               >
                 View Public
               </Link>

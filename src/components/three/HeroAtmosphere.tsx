@@ -72,11 +72,11 @@ function Particles({ count }: { count: number }) {
     <Points ref={pointsRef} positions={positions} stride={3} frustumCulled={false}>
       <PointMaterial
         transparent
-        color="#F5F2EC"
-        size={0.025}
+        color="#F2EDE4"
+        size={0.03}
         sizeAttenuation
         depthWrite={false}
-        opacity={0.35}
+        opacity={0.42}
       />
     </Points>
   );

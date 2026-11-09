@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Mail, Phone, MapPin } from 'lucide-react';
+import { ArrowUpRight, Mail, MapPin, Phone } from 'lucide-react';
 import { navigation } from '@/config/navigation';
 import { siteConfig } from '@/config/site';
 
@@ -36,21 +36,9 @@ function YouTubeIcon({ className }: { className?: string }) {
 }
 
 const socialLinks = [
-  {
-    label: 'Facebook',
-    href: siteConfig.social.facebook,
-    icon: FacebookIcon,
-  },
-  {
-    label: 'Instagram',
-    href: siteConfig.social.instagram,
-    icon: InstagramIcon,
-  },
-  {
-    label: 'YouTube',
-    href: siteConfig.social.youtube,
-    icon: YouTubeIcon,
-  },
+  { label: 'Facebook', href: siteConfig.social.facebook, icon: FacebookIcon },
+  { label: 'Instagram', href: siteConfig.social.instagram, icon: InstagramIcon },
+  { label: 'YouTube', href: siteConfig.social.youtube, icon: YouTubeIcon },
 ] as const;
 
 export function Footer() {
@@ -58,152 +46,134 @@ export function Footer() {
   const fullAddress = `${location.address}, ${location.city}, ${location.province}, ${location.country}`;
 
   return (
-    <footer className="bg-[#ECE9E2] text-[#101014] font-rubik border-t border-black/10">
-      {/* Editorial CTA */}
-      <div className="px-6 pt-20 pb-16 lg:px-16 max-w-7xl mx-auto">
-        <h2 className="font-rubik text-4xl font-bold leading-tight tracking-tight text-[#101014] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
-          LET&apos;S CREATE
-          <br />
-          SOMETHING{' '}
-          <span className="text-coral">EXTRAORDINARY</span>
-        </h2>
-      </div>
-
-      {/* Divider */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-16">
-        <div className="border-t border-black/10" />
-      </div>
-
-      {/* Main 4-column grid */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 gap-12 px-6 py-16 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8 lg:px-16">
-        {/* Col 1: Brand */}
-        <div className="flex flex-col justify-between">
-          <div>
-            <Link
-              href="/"
-              className="flex items-center gap-2 font-rubik text-2xl font-bold tracking-tight text-[#101014] transition-colors hover:text-coral"
-            >
-              <span className="w-2.5 h-2.5 rounded-full bg-coral animate-pulse" />
-              <span>JAY MEDIA</span>
+    <footer className="border-t border-line bg-surface font-body text-paper">
+      <div className="container-ed pt-16 md:pt-24">
+        <div className="grid gap-14 lg:grid-cols-12">
+          {/* Brand */}
+          <div className="lg:col-span-5">
+            <Link href="/" className="inline-flex items-center gap-3">
+              <span className="display flex h-9 w-9 items-center justify-center bg-coral text-sm leading-none text-ink">
+                JM
+              </span>
+              <span className="display text-xl tracking-[0.04em]">JAY MEDIA</span>
             </Link>
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-[#4A4A52]">
-              {siteConfig.description}
+
+            <p className="mt-7 max-w-sm text-sm leading-relaxed text-muted">
+              A Biratnagar-born production house creating pageants, brand
+              experiences, and live moments that define Eastern Nepal.
             </p>
-          </div>
-          <p className="mt-8 text-xs text-[#6E6D7A]">
-            &copy; 2025 Jay Media Management Pvt. Ltd.
-            <br />
-            All rights reserved.
-          </p>
-        </div>
 
-        {/* Col 2: Quick Links */}
-        <div>
-          <h3 className="font-rubik text-xs font-semibold uppercase tracking-[0.2em] text-coral">
-            Navigation
-          </h3>
-          <ul className="mt-6 space-y-3">
-            {navigation.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="text-sm text-[#4A4A52] transition-colors duration-200 hover:text-coral font-medium"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Col 3: Services */}
-        <div>
-          <h3 className="font-rubik text-xs font-semibold uppercase tracking-[0.2em] text-coral">
-            Services
-          </h3>
-          <ul className="mt-6 space-y-3">
-            {services.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="text-sm text-[#4A4A52] transition-colors duration-200 hover:text-coral font-medium"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Col 4: Get in Touch */}
-        <div>
-          <h3 className="font-rubik text-xs font-semibold uppercase tracking-[0.2em] text-coral">
-            Get in Touch
-          </h3>
-          <div className="mt-6 space-y-4 text-sm text-[#4A4A52]">
-            <div className="flex items-start gap-3">
-              <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-coral" />
+            <div className="mt-8 flex items-start gap-3 text-sm text-muted">
+              <MapPin className="mt-1 h-4 w-4 shrink-0 text-coral" />
               <a
                 href={`https://maps.google.com/?q=${encodeURIComponent(fullAddress)}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="transition-colors hover:text-coral"
+                className="max-w-xs transition-colors hover:text-paper"
               >
                 {fullAddress}
               </a>
             </div>
 
-            <div className="flex items-center gap-3">
-              <Mail className="h-4 w-4 shrink-0 text-coral" />
-              <a
-                href={`mailto:${contact.email}`}
-                className="transition-colors hover:text-coral font-medium"
-              >
-                {contact.email}
-              </a>
+            <div className="mt-7 flex items-center gap-3">
+              {socialLinks
+                .filter((social) => social.href)
+                .map((social) => {
+                  const Icon = social.icon;
+                  return (
+                    <a
+                      key={social.label}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={social.label}
+                      className="flex h-10 w-10 items-center justify-center border border-line text-paper/70 transition-colors hover:border-coral hover:text-coral"
+                    >
+                      <Icon className="h-4 w-4" />
+                    </a>
+                  );
+                })}
+            </div>
+          </div>
+
+          {/* Link columns */}
+          <div className="grid grid-cols-2 gap-10 sm:grid-cols-[0.9fr_1.1fr_1.4fr] lg:col-span-7">
+            <div>
+              <h3 className="eyebrow text-coral">Explore</h3>
+              <ul className="mt-6 space-y-3">
+                {navigation.links.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className="text-sm text-muted transition-colors hover:text-paper"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            <div className="flex items-center gap-3">
-              <Phone className="h-4 w-4 shrink-0 text-coral" />
-              <a
-                href={`tel:${contact.phone}`}
-                className="transition-colors hover:text-coral font-medium"
-              >
-                {contact.phone}
-              </a>
+            <div>
+              <h3 className="eyebrow text-coral">Services</h3>
+              <ul className="mt-6 space-y-3">
+                {services.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className="text-sm text-muted transition-colors hover:text-paper"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="col-span-2 sm:col-span-1">
+              <h3 className="eyebrow text-coral">Studio</h3>
+              <ul className="mt-6 space-y-4 text-sm text-muted">
+                <li>
+                  <a
+                    href={`mailto:${contact.email}`}
+                    className="inline-flex items-start gap-3 transition-colors hover:text-paper"
+                  >
+                    <Mail className="mt-0.5 h-4 w-4 shrink-0 text-coral" />
+                    <span className="break-words">{contact.email}</span>
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={`tel:${contact.phone}`}
+                    className="inline-flex items-start gap-3 transition-colors hover:text-paper"
+                  >
+                    <Phone className="mt-0.5 h-4 w-4 shrink-0 text-coral" />
+                    {contact.phone}
+                  </a>
+                </li>
+              </ul>
+
+              <Link href="/contact" className="text-link mt-8 text-paper">
+                Start a project
+                <ArrowUpRight className="h-3.5 w-3.5 text-coral" />
+              </Link>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Bottom Bar */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-16">
-        <div className="border-t border-black/10" />
-      </div>
-      <div className="max-w-7xl mx-auto flex flex-col items-center justify-between gap-4 px-6 py-8 sm:flex-row lg:px-16">
-        <p className="text-xs text-[#6E6D7A]">
-          Biratnagar, Koshi Province, Nepal
-        </p>
+        {/* Giant wordmark */}
+        <div className="mt-20 overflow-hidden border-t border-line pt-10 md:mt-24">
+          <Link href="/" aria-label="Jay Media Management — Home" className="block">
+            <span className="display flex items-baseline text-[clamp(3.4rem,13.6vw,13.6rem)] leading-[0.78] text-paper">
+              JAY MEDIA
+              <span className="ml-2 text-coral md:ml-4">.</span>
+            </span>
+          </Link>
+        </div>
 
-        {/* Social Icons */}
-        <div className="flex items-center gap-4">
-          {socialLinks
-            .filter((s) => s.href)
-            .map((social) => {
-              const Icon = social.icon;
-              return (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.label}
-                  className="w-8 h-8 rounded-full bg-white border border-black/10 flex items-center justify-center text-[#101014] transition-all duration-200 hover:text-white hover:bg-coral hover:border-coral shadow-2xs"
-                >
-                  <Icon className="h-4 w-4" />
-                </a>
-              );
-            })}
+        <div className="mt-8 flex flex-col justify-between gap-3 border-t border-line py-8 text-[10px] uppercase tracking-[0.18em] text-faint sm:flex-row">
+          <p>&copy; 2026 Jay Media Management Pvt. Ltd.</p>
+          <p>Biratnagar · Koshi Province · Nepal</p>
         </div>
       </div>
     </footer>

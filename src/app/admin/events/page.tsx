@@ -15,24 +15,24 @@ export default function AdminEventsPage() {
   );
 
   return (
-    <div className="space-y-8 font-rubik text-white">
+    <div className="space-y-8 font-body text-white">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/10">
         <div>
-          <span className="text-xs uppercase font-rubik tracking-wider text-coral font-semibold block mb-1">
+          <span className="text-xs uppercase font-body tracking-wider text-coral font-semibold block mb-1">
             PRODUCTION CATALOG
           </span>
-          <h1 className="editorial-headline text-white text-3xl sm:text-4xl font-rubik">
+          <h1 className="editorial-headline text-white text-3xl sm:text-4xl font-body">
             Events &amp; Pageants Management
           </h1>
-          <p className="text-xs sm:text-sm font-rubik text-[#eef9ff]/60 mt-1">
+          <p className="text-xs sm:text-sm font-body text-[#eef9ff]/60 mt-1">
             Manage flagship franchises, auditions, dates, and stagecraft metadata.
           </p>
         </div>
 
         <Link
           href="/admin/events/new"
-          className="inline-flex items-center gap-2 px-5 py-3 bg-coral text-white font-rubik text-xs uppercase tracking-widest font-semibold hover:bg-coral-hover hover:scale-105 transition-all shadow-md rounded-[50px]"
+          className="inline-flex items-center gap-2 px-5 py-3 bg-coral text-white font-body text-xs uppercase tracking-widest font-semibold hover:bg-coral-hover hover:scale-105 transition-all shadow-md rounded-[50px]"
         >
           <Plus className="w-4 h-4" />
           <span>New Event</span>
@@ -48,11 +48,11 @@ export default function AdminEventsPage() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search events by title or category..."
-            className="w-full pl-9 pr-4 py-2 bg-black/60 border border-white/15 text-xs font-rubik text-white rounded-[2px] focus:outline-none focus:border-coral focus:ring-1 focus:ring-coral placeholder-[#eef9ff]/40"
+            className="w-full pl-9 pr-4 py-2 bg-black/60 border border-white/15 text-xs font-body text-white rounded-[2px] focus:outline-none focus:border-coral focus:ring-1 focus:ring-coral placeholder-[#eef9ff]/40"
           />
         </div>
 
-        <div className="flex items-center gap-2 text-xs font-rubik">
+        <div className="flex items-center gap-2 text-xs font-body">
           <button
             onClick={() => setFilter('all')}
             className={`px-3.5 py-1.5 uppercase tracking-wider rounded-[50px] transition-all ${
@@ -82,7 +82,7 @@ export default function AdminEventsPage() {
 
       {/* Events Table / Card list */}
       <div className="bg-[#0c0c11] border border-white/10 rounded-[10px] overflow-hidden shadow-xl">
-        <table className="w-full text-left text-xs font-rubik">
+        <table className="w-full text-left text-xs font-body">
           <thead className="bg-black/60 border-b border-white/10 text-[#eef9ff]/60 uppercase tracking-wider text-[10px]">
             <tr>
               <th className="py-4 px-6">Event Title &amp; Category</th>
@@ -96,8 +96,8 @@ export default function AdminEventsPage() {
             {filteredEvents.map((event) => (
               <tr key={event.slug} className="hover:bg-white/5 transition-colors">
                 <td className="py-4 px-6">
-                  <div className="font-rubik font-bold text-sm text-white">{event.title}</div>
-                  <div className="text-[11px] text-coral font-rubik mt-0.5">{event.category}</div>
+                  <div className="font-body font-bold text-sm text-white">{event.title}</div>
+                  <div className="text-[11px] text-coral font-body mt-0.5">{event.category}</div>
                 </td>
                 <td className="py-4 px-6 hidden sm:table-cell text-[#eef9ff]/70">
                   {event.seasonOrYear}
@@ -106,7 +106,7 @@ export default function AdminEventsPage() {
                   {event.location}
                 </td>
                 <td className="py-4 px-6">
-                  <span className="inline-flex items-center gap-1 text-[10px] uppercase font-rubik px-2.5 py-0.5 bg-[#01402b]/90 border border-[#01402b] text-[#eef9ff] rounded-[50px] font-medium">
+                  <span className="inline-flex items-center gap-1 text-[10px] uppercase font-body px-2.5 py-0.5 bg-[#01402b]/90 border border-[#01402b] text-[#eef9ff] rounded-[50px] font-medium">
                     <CheckCircle2 className="w-3 h-3 text-[#eef9ff]" /> Published
                   </span>
                 </td>

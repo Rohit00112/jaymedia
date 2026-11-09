@@ -1,8 +1,9 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
-import { ArrowLeft, ArrowUpRight, CheckCircle2, Sparkles } from 'lucide-react';
+import { ArrowUpRight, Plus } from 'lucide-react';
+import PageHero from '@/components/shared/PageHero';
+import SectionHeading from '@/components/shared/SectionHeading';
 import { SERVICES_DATA } from '@/config/services-data';
 import { generatePageMetadata } from '@/lib/seo';
 
@@ -36,70 +37,69 @@ export default async function ServiceDetailPage({ params }: Props) {
   }
 
   return (
-    <div className="bg-black text-white min-h-screen font-rubik">
-      {/* ─── Hero ─────────────────────────────────────────────── */}
-      <section className="relative bg-black text-white pt-40 pb-20 sm:pt-48 sm:pb-28 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-white/10">
-        <Image
-          src={service.image}
-          alt={service.title}
-          fill
-          priority
-          className="object-cover opacity-20"
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/85 to-black z-[1]" />
-        <div className="absolute top-1/2 -right-20 w-80 h-80 bg-coral/10 rounded-full blur-[120px] pointer-events-none z-[1]" />
+    <div className="min-h-screen bg-surface text-paper">
+      <PageHero
+        breadcrumb={{ label: 'All services', href: '/services' }}
+        eyebrow={`${service.number} / ${service.category}`}
+        title={service.title}
+        description={service.shortDescription}
+        image={service.image}
+        imageAlt={service.title}
+        meta={[
+          { label: 'Discipline', value: service.category },
+          { label: 'Studio', value: 'Biratnagar, Nepal' },
+          { label: 'Engagement', value: 'Project or retained' },
+          { label: 'Coverage', value: 'Koshi Province & beyond' },
+        ]}
+      />
 
-        <div className="relative z-10 max-w-7xl mx-auto">
-          <Link
-            href="/services"
-            className="inline-flex items-center gap-2 text-xs uppercase font-rubik tracking-wider text-[#eef9ff]/70 hover:text-white transition-colors mb-8"
-          >
-            <ArrowLeft className="w-4 h-4" /> Back to Services
-          </Link>
-
-          <div className="flex items-center gap-3 mb-4">
-            <span className="text-coral font-rubik font-bold text-lg">
-              {service.number}
-            </span>
-            <span className="text-xs uppercase font-rubik px-3 py-1 bg-[#01402b]/80 border border-[#01402b] text-[#eef9ff] font-medium rounded-[50px]">
-              {service.category}
-            </span>
-          </div>
-
-          <h1 className="editorial-headline text-white text-4xl sm:text-6xl lg:text-7xl max-w-5xl leading-[0.95] mb-6 font-rubik">
-            {service.title}
-          </h1>
-
-          <p className="text-[#eef9ff]/80 text-lg sm:text-xl max-w-3xl font-rubik leading-relaxed">
-            {service.shortDescription}
-          </p>
-        </div>
-      </section>
-
-      {/* ─── Narrative Overview ──────────────────────────────── */}
-      <section className="py-20 lg:py-28 px-6 sm:px-10 lg:px-16 border-b border-white/10 bg-[#0c0c11]">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-            <div className="lg:col-span-7 space-y-6 text-base sm:text-lg font-rubik text-[#eef9ff]/80 leading-relaxed">
-              <span className="section-label text-coral font-medium tracking-[0.2em] mb-2 block">
-                PRODUCTION SCOPE
-              </span>
-              <h2 className="editorial-headline text-white text-3xl sm:text-4xl leading-tight font-rubik">
-                Crafted for Flawless Execution.
-              </h2>
-              <p>{service.description}</p>
+      {/* Overview */}
+      <section className="border-b border-line bg-surface py-20 md:py-28 lg:py-32">
+        <div className="container-ed grid gap-12 lg:grid-cols-12 lg:gap-16">
+          <div className="lg:col-span-7">
+            <div className="flex items-center gap-4">
+              <span className="h-px w-10 bg-coral" aria-hidden="true" />
+              <span className="eyebrow text-coral">Production scope</span>
             </div>
 
-            <div className="lg:col-span-5 bg-black border border-white/10 p-8 rounded-[10px] shadow-xl">
-              <h3 className="font-rubik text-sm uppercase tracking-wider text-white font-semibold mb-6 flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-coral" /> Key Capabilities
-              </h3>
-              <ul className="space-y-4">
-                {service.capabilities.map((cap, idx) => (
-                  <li key={idx} className="flex items-start gap-3">
-                    <CheckCircle2 className="w-4 h-4 text-coral shrink-0 mt-0.5" />
-                    <span className="text-sm font-rubik text-[#eef9ff]/80">{cap}</span>
+            <h2 className="display mt-5 text-[clamp(2.4rem,5.2vw,5.2rem)]">
+              Crafted for{' '}
+              <span className="serif text-coral">flawless</span> execution.
+            </h2>
+
+            <p className="mt-8 text-base leading-relaxed text-muted md:text-lg">
+              {service.description}
+            </p>
+
+            <div className="mt-10 flex flex-wrap items-center gap-4">
+              <Link
+                href={`/contact?service=${service.slug}`}
+                className="btn btn-primary"
+              >
+                Request this service
+                <ArrowUpRight className="h-3.5 w-3.5" />
+              </Link>
+              <Link href="/services" className="btn btn-outline">
+                All capabilities
+              </Link>
+            </div>
+          </div>
+
+          <div className="lg:col-span-4 lg:col-start-9">
+            <div className="border-t border-coral pt-5">
+              <span className="eyebrow text-paper">Key capabilities</span>
+              <ul className="mt-4">
+                {service.capabilities.map((capability, index) => (
+                  <li
+                    key={capability}
+                    className="flex gap-4 border-b border-line py-3.5"
+                  >
+                    <span className="eyebrow pt-1 text-[8px] text-coral">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                    <span className="text-sm leading-relaxed text-muted">
+                      {capability}
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -108,86 +108,83 @@ export default async function ServiceDetailPage({ params }: Props) {
         </div>
       </section>
 
-      {/* ─── Phased Approach ─────────────────────────────────── */}
-      <section className="bg-black text-white py-24 lg:py-36 px-6 sm:px-10 lg:px-16 border-b border-white/10">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-16">
-            <span className="section-label text-coral font-medium tracking-[0.2em] mb-3 block">
-              OUR METHODOLOGY
-            </span>
-            <h2 className="editorial-headline text-white text-3xl sm:text-5xl font-rubik">
-              HOW WE BRING IT TO LIFE.
-            </h2>
-          </div>
+      {/* Approach */}
+      <section className="border-b border-line bg-surface-alt py-20 md:py-28 lg:py-32">
+        <div className="container-ed">
+          <SectionHeading
+            eyebrow="Methodology"
+            title={
+              <>
+                How we bring it{' '}
+                <span className="serif text-coral">to life.</span>
+              </>
+            }
+            description="A phased production process that keeps creative ambition and operational risk in balance."
+          />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {service.approach.map((step, idx) => (
-              <div
-                key={idx}
-                className="bg-[#0c0c11] p-8 border border-white/10 rounded-[10px] shadow-xl relative flex flex-col justify-between"
-              >
-                <div>
-                  <span className="text-coral font-rubik text-xs uppercase tracking-wider block mb-4 font-semibold">
-                    {step.phase}
-                  </span>
-                  <h3 className="font-rubik text-2xl font-bold mb-3 text-white">{step.title}</h3>
-                  <p className="text-[#eef9ff]/75 text-sm font-rubik leading-relaxed">
-                    {step.detail}
-                  </p>
-                </div>
+          <div className="grid gap-10 md:grid-cols-3 md:gap-8">
+            {service.approach.map((step, index) => (
+              <div key={step.title} className="border-t border-line pt-6">
+                <span className="display block text-6xl leading-none text-outline md:text-7xl">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <span className="eyebrow mt-6 block text-[8px] text-coral">
+                  {step.phase}
+                </span>
+                <h3 className="display mt-3 text-2xl text-paper md:text-3xl">
+                  {step.title}
+                </h3>
+                <p className="mt-4 text-sm leading-relaxed text-muted">
+                  {step.detail}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ─── Deliverables & Inquiry CTA ──────────────────────── */}
-      <section className="py-24 lg:py-36 px-6 sm:px-10 lg:px-16 bg-[#0c0c11]">
-        <div className="max-w-7xl mx-auto">
-          <div className="bg-black border border-white/10 p-8 sm:p-14 lg:p-20 rounded-[10px] shadow-2xl">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-              <div className="lg:col-span-8">
-                <span className="text-xs uppercase font-rubik tracking-wider text-coral font-semibold mb-2 block">
-                  READY TO ENGAGE
+      {/* Deliverables */}
+      <section className="bg-surface py-20 md:py-28">
+        <div className="container-ed">
+          <SectionHeading
+            eyebrow="Deliverables"
+            title={
+              <>
+                What you{' '}
+                <span className="serif text-coral">receive.</span>
+              </>
+            }
+            description="Every engagement closes with documentation your team can use long after the lights go down."
+          />
+
+          <div className="grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+            {service.deliverables.map((deliverable, index) => (
+              <div key={deliverable} className="border-t border-line pt-5">
+                <span className="eyebrow text-coral">
+                  {String(index + 1).padStart(2, '0')}
                 </span>
-                <h3 className="editorial-headline text-white text-3xl sm:text-5xl mb-4 font-rubik">
-                  Request a Dedicated {service.title} Proposal.
-                </h3>
-                <p className="text-[#eef9ff]/75 font-rubik text-base max-w-2xl leading-relaxed mb-6">
-                  Contact our Biratnagar production office to discuss dates, venue logistics, and budget parameters.
+                <p className="mt-5 text-base leading-snug text-paper">
+                  {deliverable}
                 </p>
-
-                <div className="space-y-2">
-                  <span className="text-xs uppercase font-rubik tracking-wider text-[#eef9ff]/50 block">
-                    What You Receive:
-                  </span>
-                  <div className="flex flex-wrap gap-2">
-                    {service.deliverables.map((deliv, idx) => (
-                      <span
-                        key={idx}
-                        className="text-xs font-rubik px-3 py-1 bg-white/5 border border-white/10 text-[#eef9ff] rounded-[2px]"
-                      >
-                        ✓ {deliv}
-                      </span>
-                    ))}
-                  </div>
-                </div>
               </div>
+            ))}
+          </div>
 
-              <div className="lg:col-span-4 flex justify-start lg:justify-end">
-                <Link
-                  href={`/contact?service=${service.slug}`}
-                  className="inline-flex items-center gap-3 px-8 py-5 bg-coral text-white font-rubik text-xs uppercase tracking-widest font-semibold hover:bg-coral-hover hover:scale-105 transition-all shadow-lg rounded-[50px]"
-                >
-                  <span>Book This Service</span>
-                  <ArrowUpRight className="w-4 h-4" />
-                </Link>
-              </div>
-            </div>
+          <div className="mt-16 flex flex-col justify-between gap-6 border-t border-line pt-8 sm:flex-row sm:items-center">
+            <p className="max-w-xl text-sm leading-relaxed text-muted">
+              Ready to scope this for your venue, date, and budget? Our
+              Biratnagar production desk responds within one business day.
+            </p>
+            <Link
+              href={`/contact?service=${service.slug}`}
+              className="btn btn-primary shrink-0"
+            >
+              Start the brief
+              <Plus className="h-3.5 w-3.5" />
+            </Link>
           </div>
         </div>
       </section>
     </div>
   );
 }
-

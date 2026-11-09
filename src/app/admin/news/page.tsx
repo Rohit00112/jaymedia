@@ -7,7 +7,7 @@ import { formatDate } from '@/lib/utils';
 
 export default function AdminNewsPage() {
   return (
-    <div className="space-y-8 font-rubik text-white">
+    <div className="space-y-8 font-body text-white">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-white/10">
         <div>
           <span className="text-xs uppercase tracking-widest text-coral font-semibold block mb-1">

@@ -1,148 +1,113 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import anime from 'animejs';
+import { useState } from 'react';
 import Image from 'next/image';
-import { Play, X, ExternalLink } from 'lucide-react';
-import { useInView, useReducedMotion, useEscapeKey, useBodyLock } from '@/hooks';
+import { Play, X } from 'lucide-react';
+import SectionHeading from '@/components/shared/SectionHeading';
+import { useEscapeKey, useBodyLock } from '@/hooks';
 
 export default function ShowreelSection() {
-  const { ref: containerRef, isInView } = useInView({ threshold: 0.15, once: true });
-  const reducedMotion = useReducedMotion();
   const [isOpen, setIsOpen] = useState(false);
-  const headerRef = useRef<HTMLDivElement>(null);
-  const reelBoxRef = useRef<HTMLDivElement>(null);
 
   useEscapeKey(() => setIsOpen(false), isOpen);
   useBodyLock(isOpen);
 
-  useEffect(() => {
-    if (!isInView) return;
-
-    if (reducedMotion) {
-      if (headerRef.current) headerRef.current.style.opacity = '1';
-      if (reelBoxRef.current) reelBoxRef.current.style.opacity = '1';
-      return;
-    }
-
-    const tl = anime.timeline({ easing: 'easeOutCubic' });
-
-    tl.add({
-      targets: headerRef.current,
-      opacity: [0, 1],
-      translateY: [25, 0],
-      duration: 600,
-    }).add(
-      {
-        targets: reelBoxRef.current,
-        opacity: [0, 1],
-        scale: [0.97, 1],
-        duration: 800,
-      },
-      '-=300'
-    );
-  }, [isInView, reducedMotion]);
-
   return (
     <section
-      ref={containerRef as React.RefObject<HTMLElement>}
-      className="relative bg-[#FAFAF8] text-[#101014] py-28 lg:py-40 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-black/10 font-rubik"
+      id="showreel"
+      className="border-b border-line bg-surface py-20 md:py-28 lg:py-32"
     >
-      <div className="max-w-7xl mx-auto">
-        {/* Section Header */}
-        <div ref={headerRef} className="text-center max-w-3xl mx-auto mb-16" style={{ opacity: 0 }}>
-          <span className="section-label text-coral font-medium tracking-[0.2em] mb-4 block">
-            CINEMATIC SHOWREEL
-          </span>
-          <h2 className="editorial-headline text-[#101014] text-4xl sm:text-5xl lg:text-7xl mb-6 font-rubik">
-            A GLIMPSE INTO WHAT WE CREATE.
-          </h2>
-          <p className="text-[#4A4A52] text-base sm:text-lg font-rubik">
-            Experience the energy, choreography, and emotion captured live across our stage productions and grand finales.
-          </p>
-        </div>
+      <div className="container-ed">
+        <SectionHeading
+          eyebrow="05 / The showreel"
+          title={
+            <>
+              A glimpse of{' '}
+              <span className="serif text-coral">the energy.</span>
+            </>
+          }
+          description="Direction, choreography, lighting, and broadcast — captured live across our stages."
+          link={{ href: '/gallery', label: 'Photo archive' }}
+        />
 
-        {/* Video Thumbnail Screen */}
-        <div
-          ref={reelBoxRef}
-          className="relative aspect-video max-w-5xl mx-auto bg-[#0c0c11] overflow-hidden border border-white/10 rounded-[10px] group cursor-pointer shadow-2xl"
+        <button
+          type="button"
           onClick={() => setIsOpen(true)}
-          style={{ opacity: 0 }}
+          aria-label="Play the Jay Media production showreel"
+          className="group relative block aspect-[16/9] w-full overflow-hidden bg-surface-alt text-left"
         >
-          {/* Real concert & stage production stock backdrop */}
           <Image
-            src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=1600&q=80"
-            alt="Jay Media live concert and stage production showreel"
+            src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=1800&q=85"
+            alt="Jay Media live concert and stage production"
             fill
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
-            sizes="(max-width: 1280px) 100vw, 1200px"
+            sizes="100vw"
+            className="img-zoom object-cover opacity-60 transition-opacity duration-700 group-hover:opacity-80"
           />
-          {/* Backdrop Scrim */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/60 z-10 pointer-events-none" />
+          <div
+            className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/40"
+            aria-hidden="true"
+          />
 
-          {/* Video Metadata Overlay */}
-          <div className="absolute top-6 left-6 z-20 flex items-center gap-3">
-            <span className="w-2.5 h-2.5 rounded-full bg-coral animate-ping" />
-            <span className="text-xs uppercase font-rubik tracking-wider text-white font-medium">
-              Jay Media Production Reel
-            </span>
-          </div>
+          <div className="absolute inset-0 flex flex-col justify-between p-6 md:p-10">
+            <div className="flex items-start justify-between gap-4">
+              <span className="eyebrow flex items-center gap-3 text-paper/70">
+                <span className="h-2 w-2 bg-coral" aria-hidden="true" />
+                Jay Media production reel
+              </span>
+              <span className="eyebrow hidden shrink-0 whitespace-nowrap text-paper/65 sm:block">
+                04:12 / 2025
+              </span>
+            </div>
 
-          <div className="absolute bottom-6 left-6 right-6 z-20 flex items-center justify-between text-xs text-[#eef9ff]/70 font-rubik">
-            <span>Official Channel: Jay Media Management Pvt. Ltd.</span>
-            <span className="text-coral flex items-center gap-1 font-medium">
-              Click to Play Broadcast <ExternalLink className="w-3.5 h-3.5" />
-            </span>
-          </div>
+            <div className="flex items-end justify-between gap-6">
+              <div>
+                <span className="display block text-[clamp(2rem,5vw,5rem)] text-paper">
+                  Play the reel
+                </span>
+                <span className="mt-3 block text-[10px] uppercase tracking-[0.2em] text-paper/65">
+                  Stage · Broadcast · Backstage
+                </span>
+              </div>
 
-          {/* Central Play Button */}
-          <div className="absolute inset-0 z-20 flex items-center justify-center">
-            <div className="relative flex items-center justify-center">
-              {/* Outer pulsing ring */}
-              <div className="absolute w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-coral/30 animate-ping duration-1000" />
-              {/* Main Button */}
-              <button
-                type="button"
-                aria-label="Play showreel video"
-                className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-coral flex items-center justify-center text-white shadow-xl group-hover:scale-110 group-hover:bg-coral-hover transition-all duration-300"
-              >
-                <Play className="w-8 h-8 sm:w-10 sm:h-10 fill-white translate-x-0.5" />
-              </button>
+              <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-paper/30 text-paper transition-all duration-500 group-hover:border-coral group-hover:bg-coral group-hover:text-ink md:h-24 md:w-24">
+                <Play className="h-5 w-5 fill-current md:h-7 md:w-7" />
+              </span>
             </div>
           </div>
-        </div>
+        </button>
       </div>
 
-      {/* Modal Video Player */}
       {isOpen && (
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-4 sm:p-8"
+          aria-label="Jay Media showreel"
+          className="fixed inset-0 z-[70] flex items-center justify-center bg-black/95 p-4 backdrop-blur-md sm:p-8"
         >
-          <div className="relative w-full max-w-5xl aspect-video bg-black border border-white/10 rounded-[10px] shadow-2xl overflow-hidden">
-            {/* Close Button */}
+          <div className="relative w-full max-w-5xl">
             <button
+              type="button"
               onClick={() => setIsOpen(false)}
-              aria-label="Close video player"
-              className="absolute -top-12 right-0 text-white hover:text-coral transition-colors flex items-center gap-2 text-xs font-rubik uppercase tracking-wider"
+              autoFocus
+              aria-label="Close showreel"
+              className="absolute -top-12 right-0 flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-paper transition-colors hover:text-coral"
             >
-              <span>Close</span>
-              <X className="w-6 h-6" />
+              Close
+              <X className="h-5 w-5" />
             </button>
 
-            {/* Embedded YouTube / Video Player */}
-            <iframe
-              className="w-full h-full"
-              src="https://www.youtube-nocookie.com/embed?listType=search&list=Jay+Media+Management+Biratnagar+Nepal&autoplay=1"
-              title="Jay Media Management Official Productions"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
+            <div className="aspect-video w-full overflow-hidden border border-line bg-black">
+              <iframe
+                className="h-full w-full"
+                src="https://www.youtube-nocookie.com/embed?listType=search&list=Jay+Media+Management+Biratnagar+Nepal&autoplay=1"
+                title="Jay Media Management official productions"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              />
+            </div>
           </div>
         </div>
       )}
     </section>
   );
 }
-

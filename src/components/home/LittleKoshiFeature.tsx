@@ -1,166 +1,106 @@
-'use client';
-
-import { useEffect, useRef } from 'react';
-import anime from 'animejs';
-import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, Star, MapPin } from 'lucide-react';
-import { useInView, useReducedMotion } from '@/hooks';
+import Link from 'next/link';
+import { ArrowUpRight } from 'lucide-react';
+
+const METRICS = [
+  { value: '7+', label: 'Seasons staged' },
+  { value: '3', label: 'Hub cities' },
+  { value: '100s', label: 'Young alumni' },
+];
 
 export default function LittleKoshiFeature() {
-  const { ref: containerRef, isInView } = useInView({ threshold: 0.2, once: true });
-  const reducedMotion = useReducedMotion();
-  const leftColRef = useRef<HTMLDivElement>(null);
-  const rightColRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!isInView) return;
-
-    if (reducedMotion) {
-      if (leftColRef.current) leftColRef.current.style.opacity = '1';
-      if (rightColRef.current) rightColRef.current.style.opacity = '1';
-      return;
-    }
-
-    const tl = anime.timeline({ easing: 'easeOutCubic' });
-
-    tl.add({
-      targets: leftColRef.current,
-      opacity: [0, 1],
-      translateX: [-30, 0],
-      duration: 700,
-    }).add(
-      {
-        targets: rightColRef.current,
-        opacity: [0, 1],
-        translateX: [30, 0],
-        duration: 700,
-      },
-      '-=500'
-    );
-  }, [isInView, reducedMotion]);
-
   return (
-    <section
-      ref={containerRef as React.RefObject<HTMLElement>}
-      className="relative bg-[#F5F2EC] text-[#101014] py-28 lg:py-40 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-black/10 font-rubik"
-    >
-      {/* Background ambient lighting */}
-      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-coral/5 rounded-full blur-[140px] pointer-events-none" />
-
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          {/* Left Column: Visual Showcase */}
-          <div ref={leftColRef} className="lg:col-span-6" style={{ opacity: 0 }}>
-            <div className="relative aspect-[4/3] bg-white border border-black/10 p-8 sm:p-12 rounded-[10px] flex flex-col justify-between overflow-hidden group shadow-xl">
-              <Image
-                src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=1200&q=80"
-                alt="Mr. and Miss Little Koshi stage showcase"
-                fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-                sizes="(max-width: 1024px) 100vw, 50vw"
+    <section className="border-b border-line-dark bg-bone py-20 text-ink md:py-28 lg:py-32">
+      <div className="container-ed">
+        <div className="grid items-center gap-14 lg:grid-cols-12 lg:gap-16">
+          {/* Image */}
+          <div className="lg:col-span-5">
+            <div className="relative">
+              <div
+                className="absolute -bottom-4 -right-4 h-full w-full border border-ink/20"
+                aria-hidden="true"
               />
-              {/* Graphic background scrim */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/40 z-[1]" />
-              <div className="absolute top-0 right-0 w-64 h-64 bg-coral/10 rounded-full blur-2xl z-[2]" />
 
-              {/* Tag */}
-              <div className="relative z-10 flex items-center justify-between">
-                <span className="inline-flex items-center gap-2 px-3 py-1 bg-[#01402b] border border-[#01402b] text-white text-xs uppercase font-rubik font-medium tracking-wider rounded-[50px]">
-                  <Star className="w-3.5 h-3.5 fill-coral text-coral" />
-                  Youth Stage Production
-                </span>
-                <span className="text-white/70 text-xs font-rubik uppercase tracking-wider">
-                  Biratnagar • Nepal
-                </span>
+              <div className="group relative aspect-[4/5] overflow-hidden bg-ink">
+                <Image
+                  src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=1200&q=85"
+                  alt="Young performers on stage at Mr. and Miss Little Koshi"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 40vw"
+                  className="img-zoom object-cover opacity-90"
+                />
+                <div
+                  className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent"
+                  aria-hidden="true"
+                />
+                <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-6">
+                  <span className="eyebrow max-w-[12ch] text-paper/80">
+                    Mr. &amp; Miss Little Koshi
+                  </span>
+                  <span className="display text-[clamp(2.4rem,4.5vw,4rem)] leading-none text-paper">
+                    7+
+                    <span className="ml-1 text-xs uppercase tracking-widest text-paper/60">
+                      seasons
+                    </span>
+                  </span>
+                </div>
               </div>
 
-              {/* Center quote */}
-              <div className="relative z-10 my-8">
-                <p className="font-rubik text-2xl sm:text-3xl text-white font-bold leading-snug drop-shadow-md">
-                  &ldquo;A platform where young talent discovers courage, poise, and unshakeable confidence.&rdquo;
-                </p>
-                <p className="mt-3 text-xs uppercase tracking-wider text-white/80 font-rubik">
-                  — Jay Media Management Children&apos;s Division
-                </p>
-              </div>
-
-              {/* Footnote badge */}
-              <div className="relative z-10 pt-4 border-t border-white/20 flex items-center justify-between text-xs text-white/80 font-rubik">
-                <span className="flex items-center gap-1.5">
-                  <MapPin className="w-3.5 h-3.5 text-coral" /> Auditions: Biratnagar • Itahari • Dharan
-                </span>
-                <span className="font-rubik text-coral uppercase tracking-wider font-semibold">
-                  7+ Seasons Completed
-                </span>
-              </div>
+              <span className="eyebrow absolute -top-3 left-4 bg-coral px-3 py-1.5 text-ink">
+                Youth stage
+              </span>
             </div>
           </div>
 
-          {/* Right Column: Editorial narrative */}
-          <div ref={rightColRef} className="lg:col-span-6 flex flex-col justify-center" style={{ opacity: 0 }}>
-            <span className="section-label text-coral font-medium tracking-[0.2em] mb-4 block">
-              FLAGSHIP CHILDREN&apos;S SHOWCASE
-            </span>
+          {/* Copy */}
+          <div className="lg:col-span-6 lg:col-start-7">
+            <div className="flex items-center gap-4">
+              <span className="h-px w-10 bg-ink/30" aria-hidden="true" />
+              <span className="eyebrow text-ink/65">
+                04 / Children&apos;s showcase
+              </span>
+            </div>
 
-            <h2 className="editorial-headline text-[#101014] text-4xl sm:text-5xl lg:text-6xl mb-6 font-rubik">
-              EVERY STAR BEGINS WITH A STAGE.
+            <h2 className="display mt-5 text-[clamp(2.4rem,5.6vw,5.5rem)]">
+              Every star begins with{' '}
+              <span className="serif text-coral-deep">a stage.</span>
             </h2>
 
-            <div className="space-y-4 text-[#4A4A52] text-base sm:text-lg font-rubik leading-relaxed mb-8">
-              <p>
-                <strong className="text-[#101014] font-medium">Mr. and Miss Little Koshi</strong> is Eastern
-                Nepal&apos;s celebrated annual pageant engineered specifically to nurture confidence, stage presence,
-                and personal expression in children and youth.
-              </p>
-              <p className="text-sm sm:text-base text-[#6E6D7A]">
-                Over multiple successful editions, the competition has mobilized hundreds of children across
-                Biratnagar, Itahari, and Dharan through rigorous grooming, public speaking clinics, and personality
-                workshops led by seasoned mentors before culminating in a televised grand finale.
-              </p>
+            <p className="mt-7 max-w-lg text-base leading-relaxed text-ink/65">
+              Mr. and Miss Little Koshi is Eastern Nepal&apos;s celebrated
+              youth pageant — a platform built to nurture confidence, stage
+              presence, and self-expression in children across Biratnagar,
+              Itahari, and Dharan.
+            </p>
+
+            <blockquote className="serif mt-8 border-l-2 border-coral pl-5 text-2xl leading-tight text-ink/80">
+              &ldquo;A platform where young talent discovers courage, poise,
+              and unshakeable confidence.&rdquo;
+            </blockquote>
+
+            <div className="mt-10 grid grid-cols-3 divide-x divide-line-dark border-t border-line-dark">
+              {METRICS.map((metric) => (
+                <div key={metric.label} className="pt-6 pr-4 first:pl-0 [&:not(:first-child)]:pl-5">
+                  <span className="display block text-[clamp(2rem,3.4vw,3.4rem)] leading-none">
+                    {metric.value}
+                  </span>
+                  <span className="eyebrow mt-2 block text-[9px] text-ink/60">
+                    {metric.label}
+                  </span>
+                </div>
+              ))}
             </div>
 
-            {/* Metrics */}
-            <div className="grid grid-cols-3 gap-4 py-6 border-y border-black/10 mb-8">
-              <div>
-                <span className="text-3xl sm:text-4xl font-rubik font-bold text-coral block">
-                  7+
-                </span>
-                <span className="text-xs font-rubik text-[#6E6D7A] uppercase tracking-wider block mt-1">
-                  Seasons
-                </span>
-              </div>
-              <div>
-                <span className="text-3xl sm:text-4xl font-rubik font-bold text-coral block">
-                  3
-                </span>
-                <span className="text-xs font-rubik text-[#6E6D7A] uppercase tracking-wider block mt-1">
-                  Hub Cities
-                </span>
-              </div>
-              <div>
-                <span className="text-3xl sm:text-4xl font-rubik font-bold text-coral block">
-                  100s
-                </span>
-                <span className="text-xs font-rubik text-[#6E6D7A] uppercase tracking-wider block mt-1">
-                  Alumni
-                </span>
-              </div>
-            </div>
-
-            <div>
-              <Link
-                href="/events/mr-and-miss-little-koshi"
-                className="group inline-flex items-center gap-3 text-sm font-rubik font-semibold uppercase tracking-widest text-[#101014] hover:text-coral transition-colors duration-300"
-              >
-                <span>Explore Seasons &amp; Past Winners</span>
-                <ArrowRight className="w-4 h-4 transform group-hover:translate-x-2 transition-transform text-coral" />
-              </Link>
-            </div>
+            <Link
+              href="/events/mr-and-miss-little-koshi"
+              className="text-link mt-8 text-ink"
+            >
+              Explore seasons &amp; winners
+              <ArrowUpRight className="h-3.5 w-3.5 text-coral" />
+            </Link>
           </div>
         </div>
       </div>
     </section>
   );
 }
-

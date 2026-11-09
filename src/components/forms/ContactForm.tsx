@@ -4,9 +4,21 @@ import { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { CheckCircle2, AlertCircle, Loader2, Send } from 'lucide-react';
+import {
+  CheckCircle2,
+  AlertCircle,
+  Loader2,
+  ArrowUpRight,
+  ArrowDown,
+} from 'lucide-react';
 import { inquirySchema, type InquiryFormData } from '@/lib/validations/inquiry';
 import { cn } from '@/lib/utils';
+
+const inputClass =
+  'w-full border-b border-line bg-transparent py-3.5 text-sm text-paper transition-colors placeholder:text-faint focus:border-coral focus:outline-none';
+
+const labelClass =
+  'mb-2 block text-[9px] font-medium uppercase tracking-[0.18em] text-faint';
 
 function ContactFormInner() {
   const searchParams = useSearchParams();
@@ -62,208 +74,218 @@ function ContactFormInner() {
   };
 
   return (
-    <div className="bg-[#0c0c11] border border-white/10 p-8 sm:p-12 rounded-[10px] shadow-2xl font-rubik">
+    <div className="font-body">
       {submitStatus === 'success' && (
-        <div className="mb-8 p-6 bg-[#01402b]/90 border border-[#01402b] text-[#eef9ff] rounded-[10px] flex items-start gap-3 shadow-lg">
-          <CheckCircle2 className="w-5 h-5 text-coral shrink-0 mt-0.5" />
+        <div className="mb-8 flex items-start gap-4 border border-coral/50 p-6">
+          <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-coral" />
           <div>
-            <h4 className="font-rubik font-bold text-base text-white">Inquiry Successfully Received</h4>
-            <p className="text-sm font-rubik mt-1 text-[#eef9ff]/90 leading-relaxed">
-              Thank you for contacting Jay Media Management Pvt. Ltd. Our production desk in Biratnagar will review
-              your requirements and respond within 24 hours.
+            <h3 className="display text-xl text-paper">
+              Inquiry successfully received.
+            </h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted">
+              Thank you for contacting Jay Media Management. Our production desk
+              will review your requirements and respond within 24 hours.
             </p>
           </div>
         </div>
       )}
 
       {submitStatus === 'error' && (
-        <div className="mb-8 p-6 bg-red-950/80 border border-red-800 text-red-200 rounded-[10px] flex items-start gap-3">
-          <AlertCircle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+        <div className="mb-8 flex items-start gap-4 border border-coral bg-coral/10 p-6">
+          <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-coral" />
           <div>
-            <h4 className="font-rubik font-bold text-base text-white">Submission Notice</h4>
-            <p className="text-sm font-rubik mt-1 text-red-300">{errorMessage}</p>
+            <h3 className="display text-xl text-paper">Submission notice</h3>
+            <p className="mt-2 text-sm leading-relaxed text-paper/75">
+              {errorMessage}
+            </p>
           </div>
         </div>
       )}
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {/* Full Name */}
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-7" noValidate>
+        <div className="grid grid-cols-1 gap-x-8 gap-y-7 sm:grid-cols-2">
           <div>
-            <label className="block text-xs font-rubik uppercase tracking-wider text-[#eef9ff]/70 mb-2 font-medium">
-              Full Name *
+            <label htmlFor="fullName" className={labelClass}>
+              Full name *
             </label>
             <input
+              id="fullName"
               type="text"
               {...register('fullName')}
               placeholder="e.g. Ramesh Karki"
-              className={cn(
-                'w-full px-4 py-3.5 bg-black/60 border border-white/15 text-sm font-rubik text-white rounded-[2px]',
-                'focus:outline-none focus:border-coral focus:ring-1 focus:ring-coral transition-colors placeholder-[#eef9ff]/30',
-                errors.fullName && 'border-red-500'
-              )}
+              aria-invalid={errors.fullName ? 'true' : undefined}
+              aria-describedby={errors.fullName ? 'fullName-error' : undefined}
+              className={cn(inputClass, errors.fullName && 'border-coral')}
             />
             {errors.fullName && (
-              <span className="text-xs text-red-400 font-rubik mt-1 block">
+              <span id="fullName-error" className="mt-2 block text-xs text-coral">
                 {errors.fullName.message}
               </span>
             )}
           </div>
 
-          {/* Email Address */}
           <div>
-            <label className="block text-xs font-rubik uppercase tracking-wider text-[#eef9ff]/70 mb-2 font-medium">
-              Email Address *
+            <label htmlFor="email" className={labelClass}>
+              Email address *
             </label>
             <input
+              id="email"
               type="email"
               {...register('email')}
               placeholder="e.g. ramesh@example.com"
-              className={cn(
-                'w-full px-4 py-3.5 bg-black/60 border border-white/15 text-sm font-rubik text-white rounded-[2px]',
-                'focus:outline-none focus:border-coral focus:ring-1 focus:ring-coral transition-colors placeholder-[#eef9ff]/30',
-                errors.email && 'border-red-500'
-              )}
+              aria-invalid={errors.email ? 'true' : undefined}
+              aria-describedby={errors.email ? 'email-error' : undefined}
+              className={cn(inputClass, errors.email && 'border-coral')}
             />
             {errors.email && (
-              <span className="text-xs text-red-400 font-rubik mt-1 block">
+              <span id="email-error" className="mt-2 block text-xs text-coral">
                 {errors.email.message}
               </span>
             )}
           </div>
-        </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {/* Phone Number */}
           <div>
-            <label className="block text-xs font-rubik uppercase tracking-wider text-[#eef9ff]/70 mb-2 font-medium">
-              Phone Number *
+            <label htmlFor="phone" className={labelClass}>
+              Phone number *
             </label>
             <input
+              id="phone"
               type="tel"
               {...register('phone')}
               placeholder="e.g. +977 98XXXXXXXX"
-              className={cn(
-                'w-full px-4 py-3.5 bg-black/60 border border-white/15 text-sm font-rubik text-white rounded-[2px]',
-                'focus:outline-none focus:border-coral focus:ring-1 focus:ring-coral transition-colors placeholder-[#eef9ff]/30',
-                errors.phone && 'border-red-500'
-              )}
+              aria-invalid={errors.phone ? 'true' : undefined}
+              aria-describedby={errors.phone ? 'phone-error' : undefined}
+              className={cn(inputClass, errors.phone && 'border-coral')}
             />
             {errors.phone && (
-              <span className="text-xs text-red-400 font-rubik mt-1 block">
+              <span id="phone-error" className="mt-2 block text-xs text-coral">
                 {errors.phone.message}
               </span>
             )}
           </div>
 
-          {/* Organization */}
           <div>
-            <label className="block text-xs font-rubik uppercase tracking-wider text-[#eef9ff]/70 mb-2 font-medium">
-              Organization / Brand (Optional)
+            <label htmlFor="organization" className={labelClass}>
+              Organization / brand
             </label>
             <input
+              id="organization"
               type="text"
               {...register('organization')}
               placeholder="e.g. Koshi Enterprise Ltd."
-              className="w-full px-4 py-3.5 bg-black/60 border border-white/15 text-sm font-rubik text-white rounded-[2px] focus:outline-none focus:border-coral focus:ring-1 focus:ring-coral transition-colors placeholder-[#eef9ff]/30"
+              className={inputClass}
             />
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          {/* Service of Interest */}
+        <div className="grid grid-cols-1 gap-x-8 gap-y-7 sm:grid-cols-3">
           <div>
-            <label className="block text-xs font-rubik uppercase tracking-wider text-[#eef9ff]/70 mb-2 font-medium">
+            <label htmlFor="serviceOfInterest" className={labelClass}>
               Service *
             </label>
-            <select
-              {...register('serviceOfInterest')}
-              className="w-full px-4 py-3.5 bg-black/60 border border-white/15 text-sm font-rubik text-white rounded-[2px] focus:outline-none focus:border-coral focus:ring-1 focus:ring-coral transition-colors"
-            >
-              <option value="event-management" className="bg-[#0c0c11] text-white">Event Management</option>
-              <option value="brand-experiences" className="bg-[#0c0c11] text-white">Brand Experiences</option>
-              <option value="media-production" className="bg-[#0c0c11] text-white">Media Production</option>
-              <option value="product-launches" className="bg-[#0c0c11] text-white">Product Launches</option>
-              <option value="press-events" className="bg-[#0c0c11] text-white">Press Events</option>
-              <option value="pageant-sponsorship" className="bg-[#0c0c11] text-white">Pageant Sponsorship</option>
-              <option value="other" className="bg-[#0c0c11] text-white">Other Inquiry</option>
-            </select>
+            <div className="relative">
+              <select
+                id="serviceOfInterest"
+                {...register('serviceOfInterest')}
+                className={cn(
+                  inputClass,
+                  'appearance-none pr-8 [&>option]:bg-surface [&>option]:text-paper'
+                )}
+              >
+                <option value="event-management">Event Management</option>
+                <option value="brand-experiences">Brand Experiences</option>
+                <option value="media-production">Media Production</option>
+                <option value="product-launches">Product Launches</option>
+                <option value="press-events">Press Events</option>
+                <option value="pageant-sponsorship">Pageant Sponsorship</option>
+                <option value="other">Other Inquiry</option>
+              </select>
+              <ArrowDown
+                className="pointer-events-none absolute right-0 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-faint"
+                aria-hidden="true"
+              />
+            </div>
           </div>
 
-          {/* Target Event Date */}
           <div>
-            <label className="block text-xs font-rubik uppercase tracking-wider text-[#eef9ff]/70 mb-2 font-medium">
-              Target Date (Optional)
+            <label htmlFor="eventDate" className={labelClass}>
+              Target date
             </label>
             <input
+              id="eventDate"
               type="date"
               {...register('eventDate')}
-              className="w-full px-4 py-3.5 bg-black/60 border border-white/15 text-sm font-rubik text-white rounded-[2px] focus:outline-none focus:border-coral focus:ring-1 focus:ring-coral transition-colors"
+              className={cn(inputClass, '[color-scheme:dark]')}
             />
           </div>
 
-          {/* Estimated Budget */}
           <div>
-            <label className="block text-xs font-rubik uppercase tracking-wider text-[#eef9ff]/70 mb-2 font-medium">
-              Estimated Budget (Optional)
+            <label htmlFor="budget" className={labelClass}>
+              Estimated budget
             </label>
-            <select
-              {...register('budget')}
-              className="w-full px-4 py-3.5 bg-black/60 border border-white/15 text-sm font-rubik text-white rounded-[2px] focus:outline-none focus:border-coral focus:ring-1 focus:ring-coral transition-colors"
-            >
-              <option value="" className="bg-[#0c0c11] text-white">Select range...</option>
-              <option value="under-200k" className="bg-[#0c0c11] text-white">Under NPR 2 Lakhs</option>
-              <option value="200k-500k" className="bg-[#0c0c11] text-white">NPR 2 Lakhs - 5 Lakhs</option>
-              <option value="500k-1m" className="bg-[#0c0c11] text-white">NPR 5 Lakhs - 10 Lakhs</option>
-              <option value="1m-plus" className="bg-[#0c0c11] text-white">NPR 10 Lakhs+</option>
-              <option value="custom" className="bg-[#0c0c11] text-white">Custom Scale</option>
-            </select>
+            <div className="relative">
+              <select
+                id="budget"
+                {...register('budget')}
+                className={cn(
+                  inputClass,
+                  'appearance-none pr-8 [&>option]:bg-surface [&>option]:text-paper'
+                )}
+              >
+                <option value="">Select range...</option>
+                <option value="under-200k">Under NPR 2 Lakhs</option>
+                <option value="200k-500k">NPR 2 Lakhs – 5 Lakhs</option>
+                <option value="500k-1m">NPR 5 Lakhs – 10 Lakhs</option>
+                <option value="1m-plus">NPR 10 Lakhs+</option>
+                <option value="custom">Custom scale</option>
+              </select>
+              <ArrowDown
+                className="pointer-events-none absolute right-0 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-faint"
+                aria-hidden="true"
+              />
+            </div>
           </div>
         </div>
 
-        {/* Project Description */}
         <div>
-          <label className="block text-xs font-rubik uppercase tracking-wider text-[#eef9ff]/70 mb-2 font-medium">
-            Project Description &amp; Requirements *
+          <label htmlFor="message" className={labelClass}>
+            Project description &amp; requirements *
           </label>
           <textarea
+            id="message"
             rows={5}
             {...register('message')}
-            placeholder="Tell us about the scope, anticipated audience size, venue preferences in Biratnagar or Eastern Nepal, and specific production needs..."
-            className={cn(
-              'w-full px-4 py-3.5 bg-black/60 border border-white/15 text-sm font-rubik text-white rounded-[2px]',
-              'focus:outline-none focus:border-coral focus:ring-1 focus:ring-coral transition-colors placeholder-[#eef9ff]/30',
-              errors.message && 'border-red-500'
-            )}
+            placeholder="Tell us about the scope, anticipated audience size, venue preferences, and specific production needs..."
+            aria-invalid={errors.message ? 'true' : undefined}
+            aria-describedby={errors.message ? 'message-error' : undefined}
+            className={cn(inputClass, 'resize-none', errors.message && 'border-coral')}
           />
           {errors.message && (
-            <span className="text-xs text-red-400 font-rubik mt-1 block">
+            <span id="message-error" className="mt-2 block text-xs text-coral">
               {errors.message.message}
             </span>
           )}
         </div>
 
-        {/* Submit Button */}
-        <div>
+        <div className="flex flex-col gap-4 pt-2 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-[10px] uppercase tracking-[0.16em] text-faint">
+            * Required fields
+          </p>
+
           <button
             type="submit"
             disabled={isSubmitting}
-            className={cn(
-              'w-full sm:w-auto inline-flex items-center justify-center gap-3 px-10 py-5 rounded-[50px]',
-              'bg-coral text-white font-rubik text-xs uppercase tracking-widest font-semibold',
-              'hover:bg-coral-hover hover:scale-105 transition-all duration-300 shadow-lg',
-              'disabled:opacity-60 disabled:cursor-not-allowed'
-            )}
+            className="btn btn-primary w-full disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
           >
             {isSubmitting ? (
               <>
-                <Loader2 className="w-4 h-4 animate-spin" />
-                <span>Submitting to Biratnagar Desk...</span>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Submitting
               </>
             ) : (
               <>
-                <span>Submit Production Inquiry</span>
-                <Send className="w-4 h-4" />
+                Submit inquiry
+                <ArrowUpRight className="h-3.5 w-3.5" />
               </>
             )}
           </button>
@@ -275,7 +297,13 @@ function ContactFormInner() {
 
 export default function ContactForm() {
   return (
-    <Suspense fallback={<div className="bg-[#0c0c11] border border-white/10 p-12 text-center text-sm font-rubik text-[#eef9ff]/60 rounded-[10px]">Loading production form...</div>}>
+    <Suspense
+      fallback={
+        <div className="border border-line p-10 text-center text-sm text-faint">
+          Loading production form...
+        </div>
+      }
+    >
       <ContactFormInner />
     </Suspense>
   );

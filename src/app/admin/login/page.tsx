@@ -40,7 +40,7 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white font-rubik flex flex-col justify-center items-center px-6 py-12 relative overflow-hidden">
+    <div className="min-h-screen bg-black text-white font-body flex flex-col justify-center items-center px-6 py-12 relative overflow-hidden">
       {/* Ambient background glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-coral/10 rounded-full blur-[140px] pointer-events-none" />
 

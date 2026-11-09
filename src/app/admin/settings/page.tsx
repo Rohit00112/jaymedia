@@ -37,7 +37,7 @@ export default function AdminSettingsPage() {
   };
 
   return (
-    <div className="space-y-8 max-w-4xl mx-auto font-rubik text-white">
+    <div className="space-y-8 max-w-4xl mx-auto font-body text-white">
       <div className="flex items-center justify-between pb-6 border-b border-white/10">
         <div>
           <span className="text-xs uppercase tracking-widest text-coral font-semibold block mb-1">

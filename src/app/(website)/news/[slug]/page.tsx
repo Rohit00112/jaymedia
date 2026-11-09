@@ -2,7 +2,9 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowLeft, Calendar, Clock, User, Tag } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
+import PageHero from '@/components/shared/PageHero';
+import CtaBand from '@/components/shared/CtaBand';
 import { NEWS_DATA } from '@/config/news-data';
 import { generatePageMetadata, generateArticleSchema } from '@/lib/seo';
 import { formatDate } from '@/lib/utils';
@@ -50,135 +52,121 @@ export default async function NewsDetailPage({ params }: Props) {
   const otherArticles = NEWS_DATA.filter((a) => a.slug !== article.slug);
 
   return (
-    <div className="bg-black text-white min-h-screen font-rubik">
+    <div className="min-h-screen bg-surface text-paper">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
       />
 
-      {/* ─── Hero ─────────────────────────────────────────────── */}
-      <section className="relative bg-black text-white pt-40 pb-20 sm:pt-48 sm:pb-28 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-white/10">
-        <Image
-          src={article.image}
-          alt={article.title}
-          fill
-          priority
-          className="object-cover opacity-20"
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-black/85 to-black z-[1]" />
-        <div className="absolute top-1/2 -right-20 w-80 h-80 bg-coral/10 rounded-full blur-[120px] pointer-events-none z-[1]" />
+      <PageHero
+        breadcrumb={{ label: 'All news', href: '/news' }}
+        eyebrow={article.category}
+        title={article.title}
+        description={article.excerpt}
+        image={article.image}
+        imageAlt={article.title}
+        compact
+        meta={[
+          { label: 'Published', value: formatDate(article.date) },
+          { label: 'Reading time', value: article.readTime },
+          { label: 'Author', value: article.author },
+          { label: 'Desk', value: 'Biratnagar, Nepal' },
+        ]}
+      />
 
-        <div className="relative z-10 max-w-4xl mx-auto">
-          <Link
-            href="/news"
-            className="inline-flex items-center gap-2 text-xs uppercase font-rubik tracking-wider text-[#eef9ff]/70 hover:text-white transition-colors mb-8"
-          >
-            <ArrowLeft className="w-4 h-4" /> Back to News &amp; Releases
-          </Link>
-
-          <div className="flex flex-wrap items-center gap-4 text-xs font-rubik text-[#eef9ff]/70 mb-6">
-            <span className="px-3.5 py-1 bg-[#01402b]/80 border border-[#01402b] text-[#eef9ff] font-medium uppercase font-rubik rounded-[50px]">
-              {article.category}
-            </span>
-            <span className="flex items-center gap-1.5">
-              <Calendar className="w-3.5 h-3.5 text-coral" />
-              {formatDate(article.date)}
-            </span>
-            <span className="flex items-center gap-1.5">
-              <Clock className="w-3.5 h-3.5 text-coral" />
-              {article.readTime}
-            </span>
-            <span className="flex items-center gap-1.5">
-              <User className="w-3.5 h-3.5 text-coral" />
-              {article.author}
-            </span>
-          </div>
-
-          <h1 className="editorial-headline text-white text-3xl sm:text-5xl lg:text-6xl leading-[1.05] mb-6 font-rubik">
-            {article.title}
-          </h1>
-
-          <p className="text-[#eef9ff]/80 text-lg sm:text-xl font-rubik leading-relaxed">
-            {article.excerpt}
-          </p>
-        </div>
-      </section>
-
-      {/* ─── Article Body ────────────────────────────────────── */}
-      <section className="py-20 lg:py-28 px-6 sm:px-10 lg:px-16 border-b border-white/10 bg-[#0c0c11]">
-        <div className="max-w-3xl mx-auto">
-          <div className="space-y-6 text-base sm:text-lg font-rubik text-[#eef9ff]/85 leading-relaxed">
-            {article.content.map((paragraph, index) => (
-              <p key={index}>{paragraph}</p>
-            ))}
-          </div>
-
-          {/* Tags */}
-          <div className="mt-12 pt-8 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
-            <div className="flex items-center gap-2 flex-wrap">
-              <Tag className="w-4 h-4 text-coral" />
-              {article.tags.map((t, idx) => (
-                <span
-                  key={idx}
-                  className="text-xs font-rubik px-3 py-1 bg-white/5 border border-white/10 text-[#eef9ff] rounded-[2px]"
+      {/* Article body */}
+      <section className="border-b border-line-dark bg-bone py-16 text-ink md:py-24">
+        <div className="container-ed">
+          <div className="mx-auto max-w-3xl">
+            <div className="space-y-6 text-base leading-[1.85] text-ink/75 md:text-lg">
+              {article.content.map((paragraph, index) => (
+                <p
+                  key={index}
+                  className={
+                    index === 0
+                      ? 'first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:font-serif first-letter:text-6xl first-letter:leading-[0.72] first-letter:text-coral-deep md:first-letter:text-7xl'
+                      : undefined
+                  }
                 >
-                  #{t}
-                </span>
+                  {paragraph}
+                </p>
               ))}
             </div>
 
-            <span className="text-xs font-rubik uppercase tracking-wider text-[#eef9ff]/50">
-              Published from Biratnagar, Nepal
-            </span>
+            <div className="mt-12 flex flex-wrap items-center justify-between gap-5 border-t border-line-dark pt-6">
+              <div className="flex flex-wrap items-center gap-3">
+                {article.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="border border-ink/15 px-3 py-1 text-[9px] uppercase tracking-[0.14em] text-ink/60"
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+
+              <span className="eyebrow text-ink/60">
+                Published from Biratnagar
+              </span>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ─── Related Articles ────────────────────────────────── */}
-      <section className="py-20 lg:py-28 px-6 sm:px-10 lg:px-16 bg-black">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center justify-between mb-12">
-            <h3 className="editorial-headline text-white text-2xl sm:text-3xl font-rubik">
-              Other Recent Dispatches
-            </h3>
-            <Link
-              href="/news"
-              className="text-xs uppercase font-rubik tracking-wider text-coral font-semibold hover:underline"
-            >
-              View All &rarr;
+      {/* Related */}
+      <section className="bg-surface py-16 md:py-24">
+        <div className="container-ed">
+          <div className="mb-10 flex items-end justify-between gap-6 border-b border-line pb-6">
+            <h2 className="display text-3xl md:text-4xl">
+              Other recent dispatches
+            </h2>
+            <Link href="/news" className="text-link text-paper">
+              View all
+              <ArrowUpRight className="h-3.5 w-3.5 text-coral" />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid gap-8 md:grid-cols-2">
             {otherArticles.slice(0, 2).map((other) => (
-              <div
-                key={other.slug}
-                className="bg-[#0c0c11] border border-white/10 p-6 rounded-[10px] flex flex-col justify-between shadow-xl hover:border-coral/40 transition-all"
-              >
-                <div>
-                  <span className="text-xs font-rubik text-coral font-medium uppercase mb-2 block">
+              <article key={other.slug} className="group">
+                <Link
+                  href={`/news/${other.slug}`}
+                  className="relative block aspect-[16/9] overflow-hidden bg-surface-alt"
+                >
+                  <Image
+                    src={other.image}
+                    alt={other.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="img-zoom object-cover opacity-75 transition-opacity duration-700 group-hover:opacity-95"
+                  />
+                  <div
+                    className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"
+                    aria-hidden="true"
+                  />
+                  <span className="eyebrow absolute left-4 top-4 text-[8px] text-coral">
                     {other.category}
                   </span>
-                  <h4 className="font-rubik text-xl font-bold text-white mb-2">
-                    {other.title}
-                  </h4>
-                  <p className="text-[#eef9ff]/75 text-sm font-rubik line-clamp-2">
+                </Link>
+
+                <div className="mt-4 border-t border-line pt-4">
+                  <span className="eyebrow text-[8px] text-faint">
+                    {formatDate(other.date)}
+                  </span>
+                  <h3 className="display mt-2 text-2xl transition-colors group-hover:text-coral md:text-3xl">
+                    <Link href={`/news/${other.slug}`}>{other.title}</Link>
+                  </h3>
+                  <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-muted">
                     {other.excerpt}
                   </p>
                 </div>
-                <Link
-                  href={`/news/${other.slug}`}
-                  className="mt-4 text-xs uppercase font-rubik tracking-wider text-coral hover:text-white font-semibold flex items-center gap-1 transition-colors"
-                >
-                  Read &rarr;
-                </Link>
-              </div>
+              </article>
             ))}
           </div>
         </div>
       </section>
+
+      <CtaBand />
     </div>
   );
 }
-

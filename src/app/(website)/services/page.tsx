@@ -1,9 +1,13 @@
 import { Metadata } from 'next';
-import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import Link from 'next/link';
+import { ArrowUpRight, Plus } from 'lucide-react';
+import PageHero from '@/components/shared/PageHero';
+import SectionHeading from '@/components/shared/SectionHeading';
+import CtaBand from '@/components/shared/CtaBand';
 import { generatePageMetadata } from '@/lib/seo';
 import { SERVICES_DATA } from '@/config/services-data';
+import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = generatePageMetadata({
   title: 'Our Services & Capabilities | Jay Media Management',
@@ -13,135 +17,141 @@ export const metadata: Metadata = generatePageMetadata({
 
 export default function ServicesPage() {
   return (
-    <div className="bg-[#FAFAF8] text-[#101014] min-h-screen font-rubik">
-      {/* ─── Hero ─────────────────────────────────────────────── */}
-      <section className="relative bg-[#FBF9F5] text-[#101014] pt-40 pb-24 sm:pt-48 sm:pb-32 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-black/10">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#FBF9F5]/80 via-[#FBF9F5]/95 to-[#FAFAF8]" />
-        <div className="absolute top-1/2 -left-20 w-80 h-80 bg-coral/10 rounded-full blur-[120px] pointer-events-none" />
+    <div className="min-h-screen bg-surface text-paper">
+      <PageHero
+        eyebrow="What we do"
+        title={
+          <>
+            Ideas into{' '}
+            <span className="serif text-coral">extraordinary</span>{' '}
+            experiences.
+          </>
+        }
+        description="From technical stagecraft and pageant choreography to commercial brand activations, explore our complete suite of production capabilities."
+        image="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1800&q=85"
+        imageAlt="Concert production lights and stage atmosphere"
+        meta={[
+          { label: 'Disciplines', value: '05 core services' },
+          { label: 'Model', value: 'End-to-end production' },
+          { label: 'Based in', value: 'Biratnagar, Nepal' },
+          { label: 'Coverage', value: 'Koshi Province & beyond' },
+        ]}
+      />
 
-        <div className="relative z-10 max-w-7xl mx-auto">
-          <div className="flex flex-wrap items-center gap-3 mb-6">
-            <span className="badge-prestige">
-              Koshi Province • Biratnagar
-            </span>
-            <span className="section-label">
-              WHAT WE DO
-            </span>
-          </div>
-          <h1 className="editorial-headline text-[#101014] text-5xl sm:text-6xl lg:text-8xl max-w-5xl leading-[0.95] mb-8 font-rubik">
-            IDEAS INTO EXTRAORDINARY EXPERIENCES.
-          </h1>
-          <p className="text-[#4A4A52] text-lg sm:text-xl max-w-2xl font-rubik leading-relaxed">
-            From technical stagecraft and pageant choreography to commercial brand activations, explore our complete
-            suite of production capabilities.
-          </p>
-        </div>
-      </section>
+      <section className="border-b border-line bg-surface py-20 md:py-28 lg:py-32">
+        <div className="container-ed">
+          <SectionHeading
+            eyebrow="Capability index"
+            title={
+              <>
+                Built for the{' '}
+                <span className="serif text-coral">live moment.</span>
+              </>
+            }
+            description="Five disciplines, one production standard. Every service is led by a dedicated producer and technical director."
+          />
 
-      {/* ─── Services Catalogue ──────────────────────────────── */}
-      <section className="py-24 lg:py-36 px-6 sm:px-10 lg:px-16 bg-[#FAFAF8]">
-        <div className="max-w-7xl mx-auto space-y-16">
-          {SERVICES_DATA.map((service) => (
-            <div
-              key={service.slug}
-              id={service.slug}
-              className="bg-white border border-black/10 p-8 sm:p-12 lg:p-16 rounded-[10px] shadow-sm hover:border-coral transition-all"
-            >
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
-                {/* Left metadata */}
-                <div className="lg:col-span-5 border-b lg:border-b-0 lg:border-r border-black/10 pb-8 lg:pb-0 lg:pr-8">
-                  {/* Photo Preview */}
-                  <div className="relative aspect-[16/10] w-full rounded-[10px] overflow-hidden mb-6 border border-black/10 group shadow-sm">
+          <div>
+            {SERVICES_DATA.map((service, index) => {
+              const reversed = index % 2 === 1;
+
+              return (
+                <article
+                  key={service.slug}
+                  id={service.slug}
+                  className="grid scroll-mt-28 gap-10 border-t border-line py-12 last:border-b md:py-16 lg:grid-cols-12 lg:gap-14"
+                >
+                  {/* Image */}
+                  <div
+                    className={cn(
+                      'group relative aspect-[4/3] overflow-hidden bg-surface-alt lg:col-span-6',
+                      reversed && 'lg:order-2 lg:col-start-7'
+                    )}
+                  >
                     <Image
                       src={service.image}
                       alt={service.title}
                       fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      sizes="(max-width: 1024px) 100vw, 35vw"
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                      className="img-zoom object-cover opacity-80"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-[1]" />
-                    <div className="absolute bottom-3 left-3 z-10">
-                      <span className="text-xs uppercase font-rubik tracking-wider font-semibold text-white bg-black/70 px-3 py-1 rounded-[50px] border border-white/20">
-                        {service.number} • {service.category}
+                    <div
+                      className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"
+                      aria-hidden="true"
+                    />
+                    <span className="display absolute bottom-4 right-5 text-[clamp(3rem,6vw,6rem)] leading-none text-outline-strong">
+                      {service.number}
+                    </span>
+                    <span className="eyebrow absolute left-5 top-5 text-paper/70">
+                      {service.category}
+                    </span>
+                  </div>
+
+                  {/* Copy */}
+                  <div
+                    className={cn(
+                      'flex flex-col justify-center lg:col-span-5',
+                      reversed ? 'lg:order-1 lg:col-start-1' : 'lg:col-start-8'
+                    )}
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="eyebrow text-coral">{service.number}</span>
+                      <span className="h-px w-8 bg-line-strong" aria-hidden="true" />
+                      <span className="eyebrow text-faint">
+                        {service.category}
                       </span>
                     </div>
-                  </div>
 
-                  <h2 className="editorial-headline text-[#101014] text-3xl sm:text-4xl mb-4 leading-tight font-rubik">
-                    {service.title}
-                  </h2>
-                  <p className="text-[#4A4A52] font-rubik text-base leading-relaxed mb-8">
-                    {service.shortDescription}
-                  </p>
+                    <h2 className="display mt-4 text-[clamp(2rem,3.8vw,3.6rem)]">
+                      {service.title}
+                    </h2>
 
-                  <Link
-                    href={`/services/${service.slug}`}
-                    className="inline-flex items-center gap-2 px-6 py-3.5 bg-coral text-white font-rubik text-xs uppercase tracking-widest font-semibold rounded-[50px] hover:bg-coral-hover hover:scale-105 transition-all shadow-sm"
-                  >
-                    <span>Deep Dive & Approach</span>
-                    <ArrowUpRight className="w-4 h-4" />
-                  </Link>
-                </div>
+                    <p className="mt-5 text-sm leading-relaxed text-muted md:text-base">
+                      {service.shortDescription}
+                    </p>
 
-                {/* Right capabilities */}
-                <div className="lg:col-span-7 flex flex-col justify-between h-full">
-                  <div>
-                    <h3 className="font-rubik text-xs uppercase tracking-widest text-coral font-semibold mb-6 block">
-                      Core Technical Capabilities
-                    </h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                      {service.capabilities.map((cap, capIdx) => (
-                        <div key={capIdx} className="flex items-start gap-3">
-                          <CheckCircle2 className="w-4 h-4 text-coral shrink-0 mt-1" />
-                          <span className="text-sm font-rubik text-[#4A4A52]">{cap}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Deliverables snippet */}
-                  <div className="p-5 bg-[#F5F2EC] border border-black/10 rounded-[10px]">
-                    <span className="text-xs uppercase font-rubik tracking-widest text-[#101014] block mb-3 font-semibold">
-                      Standard Client Deliverables:
-                    </span>
-                    <div className="flex flex-wrap gap-2">
-                      {service.deliverables.map((deliv, dIdx) => (
-                        <span
-                          key={dIdx}
-                          className="text-xs font-rubik bg-white px-3 py-1 border border-black/10 text-[#101014] rounded-[2px] shadow-2xs"
+                    <ul className="mt-7 grid gap-x-6 gap-y-3 sm:grid-cols-2">
+                      {service.capabilities.slice(0, 4).map((capability) => (
+                        <li
+                          key={capability}
+                          className="flex items-start gap-2 text-xs leading-relaxed text-muted"
                         >
-                          {deliv}
+                          <Plus className="mt-0.5 h-3 w-3 shrink-0 text-coral" />
+                          {capability}
+                        </li>
+                      ))}
+                    </ul>
+
+                    <div className="mt-7 flex flex-wrap gap-x-3 gap-y-2 border-t border-line pt-4">
+                      {service.deliverables.map((deliverable) => (
+                        <span
+                          key={deliverable}
+                          className="text-[9px] uppercase tracking-[0.14em] text-faint"
+                        >
+                          {deliverable}
+                          <span className="ml-3 text-coral" aria-hidden="true">
+                            /
+                          </span>
                         </span>
                       ))}
                     </div>
+
+                    <Link
+                      href={`/services/${service.slug}`}
+                      className="text-link mt-8 self-start text-paper"
+                    >
+                      Deep dive &amp; approach
+                      <ArrowUpRight className="h-3.5 w-3.5 text-coral" />
+                    </Link>
                   </div>
-                </div>
-              </div>
-            </div>
-          ))}
+                </article>
+              );
+            })}
+          </div>
         </div>
       </section>
 
-      {/* ─── Bottom CTA ──────────────────────────────────────── */}
-      <section className="py-20 px-6 sm:px-10 lg:px-16 bg-[#ECE9E2] text-[#101014] border-t border-black/10">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-8">
-          <div>
-            <h3 className="font-rubik text-3xl sm:text-4xl font-bold text-[#101014] mb-2">
-              Need a Custom Production Package?
-            </h3>
-            <p className="text-[#4A4A52] text-base font-rubik">
-              We engineer bespoke technical and logistical scopes to meet your budget and timeline.
-            </p>
-          </div>
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-3 px-8 py-4 bg-coral text-white font-rubik text-xs uppercase tracking-widest font-semibold hover:bg-coral-hover hover:scale-105 transition-all rounded-[50px] shadow-md"
-          >
-            <span>Discuss Requirements</span>
-            <ArrowUpRight className="w-4 h-4" />
-          </Link>
-        </div>
-      </section>
+      <CtaBand />
     </div>
   );
 }

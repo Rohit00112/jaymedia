@@ -1,195 +1,118 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
-import anime from 'animejs';
+import { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowUpRight, Sparkles, Layers, Video, Rocket, Mic2 } from 'lucide-react';
-import { useInView, useReducedMotion } from '@/hooks';
+import { ArrowUpRight } from 'lucide-react';
+import SectionHeading from '@/components/shared/SectionHeading';
+import { SERVICES_DATA } from '@/config/services-data';
 import { cn } from '@/lib/utils';
 
-interface ServiceItem {
-  slug: string;
-  number: string;
-  title: string;
-  category: string;
-  description: string;
-  span: string;
-  icon: React.ComponentType<{ className?: string }>;
-}
-
-const SERVICES: ServiceItem[] = [
-  {
-    slug: 'event-management',
-    number: '01',
-    title: 'Event Management & Execution',
-    category: 'Flagship Service',
-    description:
-      'End-to-end planning, stage engineering, technical AV, lighting, and logistical execution for grand pageants, arena concerts, and gala celebrations.',
-    span: 'lg:col-span-8',
-    icon: Layers,
-  },
-  {
-    slug: 'brand-experiences',
-    number: '02',
-    title: 'Brand Experiences & Activations',
-    category: 'Experiential',
-    description:
-      'Immersive consumer activations and tailored experiential events designed to turn brands into memorable cultural conversations.',
-    span: 'lg:col-span-4',
-    icon: Sparkles,
-  },
-  {
-    slug: 'media-production',
-    number: '03',
-    title: 'Media & Entertainment Production',
-    category: 'Studio & Broadcast',
-    description:
-      'Cinematic multicam event broadcasting, commercial video production, photography, and high-impact digital content creation.',
-    span: 'lg:col-span-4',
-    icon: Video,
-  },
-  {
-    slug: 'product-launches',
-    number: '04',
-    title: 'Product & Store Launches',
-    category: 'Commercial',
-    description:
-      'Spectacular unveiling ceremonies, architectural lighting, VIP hospitality, and press coordination for high-profile market entrances.',
-    span: 'lg:col-span-4',
-    icon: Rocket,
-  },
-  {
-    slug: 'press-events',
-    number: '05',
-    title: 'Press Events & Conferences',
-    category: 'Corporate',
-    description:
-      'Professional stage design, audio synchronization, press kit distribution, and executive media management for strategic announcements.',
-    span: 'lg:col-span-4',
-    icon: Mic2,
-  },
-];
-
 export default function ServicesSection() {
-  const { ref: containerRef, isInView } = useInView({ threshold: 0.15, once: true });
-  const reducedMotion = useReducedMotion();
-  const headerRef = useRef<HTMLDivElement>(null);
-  const cardsRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!isInView) return;
-
-    if (reducedMotion) {
-      if (headerRef.current) headerRef.current.style.opacity = '1';
-      if (cardsRef.current) {
-        Array.from(cardsRef.current.children).forEach((child) => {
-          (child as HTMLElement).style.opacity = '1';
-          (child as HTMLElement).style.transform = 'none';
-        });
-      }
-      return;
-    }
-
-    const tl = anime.timeline({ easing: 'easeOutCubic' });
-
-    tl.add({
-      targets: headerRef.current,
-      opacity: [0, 1],
-      translateY: [25, 0],
-      duration: 600,
-    }).add(
-      {
-        targets: cardsRef.current?.children,
-        opacity: [0, 1],
-        translateY: [35, 0],
-        duration: 700,
-        delay: anime.stagger(120),
-      },
-      '-=300'
-    );
-  }, [isInView, reducedMotion]);
+  const [active, setActive] = useState(0);
+  const activeService = SERVICES_DATA[active];
 
   return (
-    <section
-      ref={containerRef as React.RefObject<HTMLElement>}
-      className="relative bg-[#FAFAF8] text-[#101014] py-28 lg:py-40 px-6 sm:px-10 lg:px-16 overflow-hidden border-b border-black/10 font-rubik"
-    >
-      <div className="max-w-7xl mx-auto">
-        {/* Section Header */}
-        <div ref={headerRef} className="mb-16 lg:mb-24" style={{ opacity: 0 }}>
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div>
-              <span className="section-label text-coral font-medium tracking-[0.2em] mb-4 block">
-                WHAT WE DO
-              </span>
-              <h2 className="editorial-headline text-[#101014] text-4xl sm:text-5xl lg:text-7xl font-rubik">
-                IDEAS INTO EXPERIENCES.
-              </h2>
-            </div>
-            <p className="text-[#4A4A52] text-base md:text-lg max-w-md font-rubik leading-relaxed">
-              From creative concept to backstage execution, we deliver world-class production standards in eastern Nepal.
-            </p>
-          </div>
-        </div>
+    <section className="border-b border-line bg-surface-alt py-20 md:py-28 lg:py-32">
+      <div className="container-ed">
+        <SectionHeading
+          eyebrow="02 / What we do"
+          title={
+            <>
+              Full-spectrum{' '}
+              <span className="serif text-coral">production.</span>
+            </>
+          }
+          description="Concept, stagecraft, broadcast, and guest experience — delivered end to end from our Biratnagar studio."
+          link={{ href: '/services', label: 'All capabilities' }}
+        />
 
-        {/* Asymmetrical Grid of Services */}
-        <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6">
-          {SERVICES.map((service) => {
-            const Icon = service.icon;
-            return (
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+          {/* Index */}
+          <div className="lg:col-span-7">
+            {SERVICES_DATA.map((service, index) => (
               <Link
                 key={service.slug}
                 href={`/services/${service.slug}`}
-                className={cn(
-                  service.span,
-                  'group relative bg-white p-8 sm:p-10 flex flex-col justify-between rounded-[10px]',
-                  'border border-black/10 hover:border-coral transition-all duration-300',
-                  'shadow-sm hover:shadow-xl'
-                )}
-                style={{ opacity: 0 }}
+                onMouseEnter={() => setActive(index)}
+                onFocus={() => setActive(index)}
+                className="group block border-t border-line py-5 last:border-b md:py-7"
               >
-                {/* Background glow on hover */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-coral/5 rounded-full blur-3xl pointer-events-none group-hover:bg-coral/15 transition-all duration-500" />
+                <div className="grid grid-cols-[2.25rem_1fr_auto] items-baseline gap-4 md:grid-cols-[3.5rem_1fr_auto] md:gap-6">
+                  <span
+                    className={cn(
+                      'eyebrow tabular-nums transition-colors',
+                      active === index ? 'text-coral' : 'text-faint'
+                    )}
+                  >
+                    {service.number}
+                  </span>
 
-                <div>
-                  {/* Top Bar: Number & Category & Arrow */}
-                  <div className="flex items-center justify-between mb-8 pb-4 border-b border-black/10">
-                    <span className="text-coral font-rubik font-bold text-lg tracking-wider">
-                      {service.number}
-                    </span>
-                    <span className="text-xs uppercase tracking-wider font-rubik px-3 py-1 bg-[#01402b] border border-[#01402b] text-white font-medium rounded-[50px]">
-                      {service.category}
-                    </span>
-                    <div className="w-9 h-9 rounded-full border border-black/10 flex items-center justify-center text-[#101014]/60 group-hover:text-coral group-hover:border-coral group-hover:rotate-45 transition-all duration-300">
-                      <ArrowUpRight className="w-4 h-4" />
-                    </div>
-                  </div>
-
-                  {/* Icon & Title */}
-                  <div className="flex items-center gap-3 mb-4">
-                    <Icon className="w-5 h-5 text-coral shrink-0" />
-                    <h3 className="text-2xl sm:text-3xl font-rubik font-bold text-[#101014] group-hover:text-coral transition-colors duration-300">
+                  <div>
+                    <h3 className="display text-[clamp(1.55rem,2.9vw,2.9rem)] text-paper transition-colors duration-300 group-hover:text-coral">
                       {service.title}
                     </h3>
+                    <p className="eyebrow mt-2 text-[9px] text-faint">
+                      {service.category}
+                    </p>
+                    <p className="mt-3 max-w-md text-sm leading-relaxed text-muted lg:hidden">
+                      {service.shortDescription}
+                    </p>
                   </div>
 
-                  {/* Description */}
-                  <p className="text-[#4A4A52] text-sm sm:text-base font-rubik leading-relaxed max-w-xl">
-                    {service.description}
-                  </p>
-                </div>
-
-                {/* Bottom link indicator */}
-                <div className="mt-8 pt-4 border-t border-black/5 flex items-center gap-2 text-xs font-rubik uppercase tracking-wider text-[#6E6D7A] group-hover:text-coral transition-colors duration-300">
-                  <span>Explore Capabilities</span>
-                  <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+                  <ArrowUpRight className="h-5 w-5 shrink-0 text-faint transition-all duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-coral" />
                 </div>
               </Link>
-            );
-          })}
+            ))}
+          </div>
+
+          {/* Preview */}
+          <div className="hidden lg:col-span-5 lg:block">
+            <div className="sticky top-28">
+              <div className="relative aspect-[4/5] overflow-hidden bg-surface">
+                {SERVICES_DATA.map((service, index) => (
+                  <Image
+                    key={service.slug}
+                    src={service.image}
+                    alt={service.title}
+                    fill
+                    sizes="(max-width: 1024px) 0px, 38vw"
+                    className={cn(
+                      'object-cover transition-all duration-700',
+                      index === active
+                        ? 'scale-100 opacity-85'
+                        : 'scale-105 opacity-0'
+                    )}
+                  />
+                ))}
+
+                <div
+                  className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent"
+                  aria-hidden="true"
+                />
+
+                <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-6 p-7">
+                  <div>
+                    <span className="eyebrow text-paper/60">
+                      Selected capability
+                    </span>
+                    <p className="display mt-2 max-w-[12ch] text-2xl text-paper">
+                      {activeService.category}
+                    </p>
+                  </div>
+                  <span className="display text-5xl leading-none text-coral">
+                    {activeService.number}
+                  </span>
+                </div>
+              </div>
+
+              <p className="mt-4 text-xs leading-relaxed text-faint">
+                {activeService.shortDescription}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   );
 }
-

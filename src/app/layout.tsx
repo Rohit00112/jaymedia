@@ -1,21 +1,29 @@
-import type { Metadata } from 'next';
-import { Rubik, Space_Grotesk } from 'next/font/google';
+import type { Metadata, Viewport } from 'next';
+import { Anton, DM_Sans, Instrument_Serif } from 'next/font/google';
 import './globals.css';
 import { siteConfig } from '@/config/site';
 import { generateOrganizationSchema } from '@/lib/seo';
 
-const rubik = Rubik({
+const anton = Anton({
   subsets: ['latin'],
-  variable: '--font-rubik',
+  variable: '--font-anton',
   display: 'swap',
-  weight: ['300', '400', '500', '600', '700', '800'],
+  weight: '400',
 });
 
-const spaceGrotesk = Space_Grotesk({
+const dmSans = DM_Sans({
   subsets: ['latin'],
-  variable: '--font-display',
+  variable: '--font-dm-sans',
   display: 'swap',
-  weight: ['400', '500', '600', '700'],
+  weight: ['300', '400', '500', '600', '700'],
+});
+
+const instrumentSerif = Instrument_Serif({
+  subsets: ['latin'],
+  variable: '--font-instrument-serif',
+  display: 'swap',
+  weight: '400',
+  style: ['normal', 'italic'],
 });
 
 export const metadata: Metadata = {
@@ -63,13 +71,21 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  themeColor: '#070707',
+  colorScheme: 'dark',
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${rubik.variable} ${spaceGrotesk.variable}`}>
+    <html
+      lang="en"
+      className={`${anton.variable} ${dmSans.variable} ${instrumentSerif.variable}`}
+    >
       <head>
         <script
           type="application/ld+json"
@@ -78,9 +94,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="font-rubik antialiased selection:bg-coral selection:text-white">
-        {children}
-      </body>
+      <body className="font-body antialiased">{children}</body>
     </html>
   );
 }

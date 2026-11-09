@@ -4,8 +4,9 @@ import { useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import anime from 'animejs';
-import { X } from 'lucide-react';
+import { X, ArrowUpRight } from 'lucide-react';
 import { navigation } from '@/config/navigation';
+import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 import { useEscapeKey, useBodyLock } from '@/hooks';
 
@@ -18,22 +19,17 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const pathname = usePathname();
   const overlayRef = useRef<HTMLDivElement>(null);
   const linksRef = useRef<HTMLUListElement>(null);
-  const ctaRef = useRef<HTMLDivElement>(null);
+  const footerRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
 
-  // Close on escape
   useEscapeKey(onClose);
-
-  // Lock body scroll when open
   useBodyLock(isOpen);
 
-  // Close on route change
   useEffect(() => {
     onClose();
   }, [pathname, onClose]);
 
-  // Entrance / exit animations
   useEffect(() => {
     const prefersReduced = window.matchMedia(
       '(prefers-reduced-motion: reduce)'
@@ -42,58 +38,50 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     if (!overlayRef.current) return;
 
     if (isOpen) {
-      // Save previous focus for trap restoration
       previousFocusRef.current = document.activeElement as HTMLElement;
-
       overlayRef.current.style.display = 'flex';
 
       if (prefersReduced) {
         overlayRef.current.style.opacity = '1';
-        if (linksRef.current) {
-          Array.from(linksRef.current.children).forEach((child) => {
-            (child as HTMLElement).style.opacity = '1';
-          });
-        }
-        if (ctaRef.current) ctaRef.current.style.opacity = '1';
+        linksRef.current?.querySelectorAll('li').forEach((li) => {
+          (li as HTMLElement).style.opacity = '1';
+          (li as HTMLElement).style.transform = 'none';
+        });
+        if (footerRef.current) footerRef.current.style.opacity = '1';
         closeButtonRef.current?.focus();
         return;
       }
 
-      // Overlay slides in from right
       anime({
         targets: overlayRef.current,
-        translateX: ['100%', '0%'],
         opacity: [0, 1],
-        duration: 400,
+        duration: 350,
         easing: 'easeOutCubic',
       });
 
-      // Links stagger in
       if (linksRef.current) {
         anime({
-          targets: linksRef.current.children,
-          translateX: [40, 0],
+          targets: linksRef.current.querySelectorAll('li'),
+          translateY: [36, 0],
           opacity: [0, 1],
-          delay: anime.stagger(60, { start: 200 }),
-          duration: 400,
+          delay: anime.stagger(55, { start: 120 }),
+          duration: 650,
           easing: 'easeOutCubic',
         });
       }
 
-      // CTA fades in
-      if (ctaRef.current) {
+      if (footerRef.current) {
         anime({
-          targets: ctaRef.current,
+          targets: footerRef.current,
           opacity: [0, 1],
           translateY: [20, 0],
-          delay: 500,
-          duration: 400,
+          delay: 420,
+          duration: 500,
           easing: 'easeOutCubic',
         });
       }
 
-      // Focus the close button after animation starts
-      setTimeout(() => closeButtonRef.current?.focus(), 100);
+      setTimeout(() => closeButtonRef.current?.focus(), 80);
     } else {
       if (prefersReduced) {
         overlayRef.current.style.display = 'none';
@@ -102,47 +90,39 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
         return;
       }
 
-      // Reverse exit animation
       anime({
         targets: overlayRef.current,
-        translateX: ['0%', '100%'],
         opacity: [1, 0],
-        duration: 300,
+        duration: 250,
         easing: 'easeInCubic',
         complete: () => {
-          if (overlayRef.current) {
-            overlayRef.current.style.display = 'none';
-          }
+          if (overlayRef.current) overlayRef.current.style.display = 'none';
           previousFocusRef.current?.focus();
         },
       });
     }
   }, [isOpen]);
 
-  // Basic focus trap
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (e.key !== 'Tab' || !overlayRef.current) return;
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key !== 'Tab' || !overlayRef.current) return;
 
-      const focusable = overlayRef.current.querySelectorAll<HTMLElement>(
-        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
-      );
+    const focusable = overlayRef.current.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    );
 
-      if (focusable.length === 0) return;
+    if (focusable.length === 0) return;
 
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
 
-      if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
-      }
-    },
-    []
-  );
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  }, []);
 
   return (
     <div
@@ -151,78 +131,108 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       aria-modal="true"
       aria-label="Mobile navigation"
       onKeyDown={handleKeyDown}
-      className="fixed inset-0 z-[60] hidden flex-col bg-white text-[#101014] font-rubik lg:hidden"
+      className="fixed inset-0 z-[60] hidden flex-col bg-surface font-body text-paper"
       style={{ display: 'none', opacity: 0 }}
     >
-      {/* Header with close button */}
-      <div className="flex h-20 items-center justify-between px-6 border-b border-black/10">
-        <span className="font-rubik text-xl font-bold tracking-tight text-[#101014] flex items-center gap-2">
-          <span className="w-2.5 h-2.5 rounded-full bg-coral animate-pulse" />
-          JAY MEDIA
-        </span>
+      <div className="container-ed flex h-20 shrink-0 items-center justify-between border-b border-line">
+        <Link href="/" onClick={onClose} className="flex items-center gap-3">
+          <span className="display flex h-9 w-9 items-center justify-center bg-coral text-sm leading-none text-ink">
+            JM
+          </span>
+          <span className="flex flex-col leading-none">
+            <span className="display text-lg tracking-[0.04em]">JAY MEDIA</span>
+            <span className="eyebrow mt-1.5 text-[8px] tracking-[0.28em] text-muted">
+              Management Pvt. Ltd.
+            </span>
+          </span>
+        </Link>
+
         <button
           ref={closeButtonRef}
           type="button"
           onClick={onClose}
           aria-label="Close menu"
-          className="rounded-[2px] p-2 text-[#101014] transition-colors hover:text-coral"
+          className="flex h-11 w-11 items-center justify-center border border-line text-paper transition-colors hover:border-coral hover:text-coral"
         >
-          <X className="h-6 w-6" />
+          <X className="h-5 w-5" />
         </button>
       </div>
 
-      {/* Nav links */}
-      <ul
-        ref={linksRef}
-        className="flex flex-1 flex-col items-center justify-center gap-6"
+      <div className="container-ed flex flex-1 flex-col overflow-y-auto py-8">
+        <ul ref={linksRef} className="my-auto divide-y divide-line border-y border-line">
+          {navigation.links.map((link, index) => {
+            const isActive =
+              pathname === link.href ||
+              (link.href !== '/' && pathname.startsWith(`${link.href}/`));
+
+            return (
+              <li key={link.href} className="opacity-0">
+                <Link
+                  href={link.href}
+                  onClick={onClose}
+                  aria-current={isActive ? 'page' : undefined}
+                  className="group flex items-center justify-between py-4"
+                >
+                  <span className="flex items-baseline gap-4">
+                    <span className="eyebrow text-faint">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                    <span
+                      className={cn(
+                        'display text-[clamp(2rem,8vw,3.5rem)] transition-colors',
+                        isActive
+                          ? 'text-coral'
+                          : 'text-paper group-hover:text-coral'
+                      )}
+                    >
+                      {link.label}
+                    </span>
+                  </span>
+                  <ArrowUpRight className="h-5 w-5 text-faint transition-colors group-hover:text-coral" />
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+
+      <div
+        ref={footerRef}
+        className="container-ed shrink-0 border-t border-line py-6 opacity-0"
       >
-        {navigation.links.map((link) => {
-          const isActive = pathname === link.href;
-          return (
-            <li key={link.href} className="opacity-0">
-              <Link
-                href={link.href}
-                onClick={onClose}
-                className={cn(
-                  'font-rubik text-2xl font-bold uppercase tracking-wider transition-colors duration-200',
-                  isActive
-                    ? 'text-coral'
-                    : 'text-[#101014] hover:text-coral'
-                )}
-              >
-                {link.label}
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
-
-      {/* Bottom section: CTA + socials */}
-      <div ref={ctaRef} className="flex flex-col items-center gap-6 px-6 pb-12 opacity-0">
-        <Link
-          href={navigation.cta.href}
-          onClick={onClose}
-          className="inline-flex w-full max-w-xs items-center justify-center rounded-[50px] bg-coral px-8 py-4 font-rubik text-sm uppercase tracking-widest font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-coral-hover"
-        >
-          {navigation.cta.label}
-        </Link>
-
-        {/* Social links */}
-        {navigation.socials && navigation.socials.length > 0 && (
-          <div className="flex items-center gap-6">
-            {navigation.socials.map((social) => (
-              <a
-                key={social.label}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs font-rubik uppercase tracking-wider text-[#4A4A52] transition-colors hover:text-[#101014]"
-              >
-                {social.label}
-              </a>
-            ))}
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="text-xs leading-relaxed text-muted">
+            <p>{siteConfig.location.address}</p>
+            <p>
+              {siteConfig.location.city}, {siteConfig.location.province}
+            </p>
           </div>
-        )}
+          <div className="flex items-center gap-5 text-[10px] uppercase tracking-[0.2em] text-muted">
+            <a
+              href={siteConfig.social.facebook}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors hover:text-paper"
+            >
+              Facebook
+            </a>
+            <a
+              href={siteConfig.social.youtube}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition-colors hover:text-paper"
+            >
+              YouTube
+            </a>
+            <Link
+              href={navigation.cta.href}
+              onClick={onClose}
+              className="text-coral"
+            >
+              {navigation.cta.label}
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );

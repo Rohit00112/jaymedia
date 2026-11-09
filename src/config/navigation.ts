@@ -4,17 +4,17 @@ export interface NavItem {
 }
 
 export const navLinks: readonly NavItem[] = [
-  { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
   { label: 'Services', href: '/services' },
   { label: 'Events', href: '/events' },
   { label: 'Gallery', href: '/gallery' },
   { label: 'News', href: '/news' },
+  { label: 'Team', href: '/team' },
   { label: 'Contact', href: '/contact' },
 ] as const;
 
 export const cta = {
-  label: "Let's Talk",
+  label: 'Start a Project',
   href: '/contact',
 } as const;
 

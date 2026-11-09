@@ -8,6 +8,7 @@ import {
   TeamSection,
   ContactCTA,
 } from '@/components/home';
+import Marquee from '@/components/shared/Marquee';
 import { generatePageMetadata } from '@/lib/seo';
 
 export const metadata = generatePageMetadata({
@@ -16,33 +17,43 @@ export const metadata = generatePageMetadata({
     'Jay Media Management Pvt. Ltd. is Eastern Nepal’s premier creative event management and media production company. Organizers of Miss Koshi, Mr. & Miss Little Koshi, and bespoke brand experiences.',
 });
 
+const MARQUEE_ITEMS = [
+  'Miss Koshi',
+  'Mr. & Miss Little Koshi',
+  'Nepal Kids Dancing Champion',
+  'Corporate Galas',
+  'Brand Experiences',
+];
+
 export default function HomePage() {
   return (
     <>
-      {/* 1. Cinematic Hero */}
+      {/* 1. Cinematic hero */}
       <HeroSection />
 
-      {/* 2. Company Introduction */}
+      {/* 2. Studio introduction */}
       <IntroSection />
 
-      {/* 3. Services Spectrum */}
+      {/* 3. Production marquee */}
+      <Marquee items={MARQUEE_ITEMS} />
+
+      {/* 4. Capabilities index */}
       <ServicesSection />
 
-      {/* 4. Flagship Productions Showcase */}
+      {/* 5. Flagship productions */}
       <FeaturedEventsSection />
 
-      {/* 5. Mr. & Miss Little Koshi Dedicated Spotlight */}
+      {/* 6. Little Koshi spotlight */}
       <LittleKoshiFeature />
 
-      {/* 6. Cinematic Showreel & Broadcast Vault */}
+      {/* 7. Showreel */}
       <ShowreelSection />
 
-      {/* 7. Verified Leadership & Mentors */}
+      {/* 8. Leadership */}
       <TeamSection />
 
-      {/* 8. Contact & Proposal Call-to-Action */}
+      {/* 9. Contact call-to-action */}
       <ContactCTA />
     </>
   );
 }
-

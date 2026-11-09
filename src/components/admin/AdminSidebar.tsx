@@ -33,17 +33,17 @@ export default function AdminSidebar() {
   const { user, logout } = useAuth();
 
   return (
-    <aside className="w-64 bg-black text-white flex flex-col justify-between shrink-0 min-h-screen border-r border-white/10 font-rubik">
+    <aside className="w-64 bg-black text-white flex flex-col justify-between shrink-0 min-h-screen border-r border-white/10 font-body">
       <div>
         {/* Brand header */}
         <div className="p-6 border-b border-white/10">
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-coral animate-pulse" />
-            <span className="font-rubik font-bold text-lg tracking-wider text-white">
+            <span className="font-body font-bold text-lg tracking-wider text-white">
               JAY MEDIA
             </span>
           </div>
-          <span className="text-[11px] uppercase font-rubik tracking-wider text-[#eef9ff]/60 mt-1 block">
+          <span className="text-[11px] uppercase font-body tracking-wider text-[#eef9ff]/60 mt-1 block">
             Studio CMS • Biratnagar
           </span>
         </div>
@@ -62,7 +62,7 @@ export default function AdminSidebar() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  'flex items-center gap-3 px-4 py-3 text-xs uppercase font-rubik tracking-wider transition-all duration-200 rounded-[50px]',
+                  'flex items-center gap-3 px-4 py-3 text-xs uppercase font-body tracking-wider transition-all duration-200 rounded-[50px]',
                   isActive
                     ? 'bg-coral text-white font-semibold shadow-md'
                     : 'text-[#eef9ff]/75 hover:bg-white/10 hover:text-white'
@@ -81,7 +81,7 @@ export default function AdminSidebar() {
         <Link
           href="/"
           target="_blank"
-          className="flex items-center justify-between px-4 py-2.5 text-xs font-rubik text-[#eef9ff]/75 hover:text-white bg-white/5 hover:border-coral/50 border border-white/10 transition-colors rounded-[50px]"
+          className="flex items-center justify-between px-4 py-2.5 text-xs font-body text-[#eef9ff]/75 hover:text-white bg-white/5 hover:border-coral/50 border border-white/10 transition-colors rounded-[50px]"
         >
           <span>View Live Website</span>
           <ExternalLink className="w-3.5 h-3.5 text-coral" />
@@ -89,10 +89,10 @@ export default function AdminSidebar() {
 
         <div className="pt-2 flex items-center justify-between px-2">
           <div className="truncate pr-2">
-            <span className="text-xs font-rubik text-white font-medium block truncate">
+            <span className="text-xs font-body text-white font-medium block truncate">
               {user?.email || 'Admin Operator'}
             </span>
-            <span className="text-[10px] text-[#eef9ff]/50 font-rubik block">Biratnagar Control</span>
+            <span className="text-[10px] text-[#eef9ff]/50 font-body block">Biratnagar Control</span>
           </div>
           <button
             onClick={() => logout()}
