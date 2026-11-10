@@ -4,33 +4,24 @@ import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   Calendar,
-  UserCheck,
   Inbox,
   Newspaper,
   ArrowUpRight,
   Plus,
-  CheckCircle2,
-  Clock,
   RefreshCw,
   Database,
   Layers,
   Image as ImageIcon,
+  Users,
 } from 'lucide-react';
 import type { EventDetailData } from '@/config/events-data';
-import type {
-  InquiryDocument,
-  RegistrationDocument,
-} from '@/lib/backend/schemas';
+import type { InquiryDocument } from '@/lib/backend/schemas';
 import { cn } from '@/lib/utils';
 
 interface OverviewResponse {
   counts: {
     eventsTotal: number;
     eventsPublished: number;
-    eventsOpenRegistration: number;
-    registrationsTotal: number;
-    registrationsPending: number;
-    registrationsVerified: number;
     inquiriesTotal: number;
     inquiriesNew: number;
     newsTotal: number;
@@ -38,7 +29,6 @@ interface OverviewResponse {
     teamTotal: number;
     galleryTotal: number;
   };
-  recentRegistrations: RegistrationDocument[];
   recentInquiries: InquiryDocument[];
   events: EventDetailData[];
   firebaseConnected: boolean;
@@ -48,7 +38,6 @@ interface OverviewResponse {
 export default function AdminDashboardPage() {
   const [data, setData] = useState<OverviewResponse | null>(null);
   const [loading, setLoading] = useState(true);
-  const [togglingSlug, setTogglingSlug] = useState<string | null>(null);
 
   const loadOverview = useCallback(async () => {
     setLoading(true);
@@ -78,25 +67,6 @@ export default function AdminDashboardPage() {
     };
   }, []);
 
-  async function toggleRegistrationOpen(event: EventDetailData) {
-    setTogglingSlug(event.slug);
-    try {
-      const res = await fetch('/api/events', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          slug: event.slug,
-          registrationOpen: !event.registrationOpen,
-        }),
-      });
-      if (res.ok) {
-        await loadOverview();
-      }
-    } finally {
-      setTogglingSlug(null);
-    }
-  }
-
   const counts = data?.counts;
 
   return (
@@ -119,8 +89,7 @@ export default function AdminDashboardPage() {
             Studio Control Center
           </h1>
           <p className="mt-1 text-sm text-muted">
-            Manage live productions, contestant registrations, client inquiries,
-            and media archives.
+            Manage live productions, client inquiries, studio services, and media archives.
           </p>
         </div>
 
@@ -162,30 +131,8 @@ export default function AdminDashboardPage() {
           </p>
           <p className="mt-1 text-xs text-muted">
             {counts
-              ? `${counts.eventsPublished} published • ${counts.eventsOpenRegistration} open for auditions`
+              ? `${counts.eventsPublished} published productions`
               : 'Loading catalog...'}
-          </p>
-        </Link>
-
-        <Link
-          href="/admin/registrations"
-          className="group rounded-xl border border-line bg-white p-5 transition-all hover:border-line-strong hover:shadow-xs"
-        >
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-muted">
-              Contestant Registrations
-            </span>
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-forest-soft text-forest">
-              <UserCheck className="h-4 w-4" />
-            </span>
-          </div>
-          <p className="mt-4 text-3xl font-semibold text-ink">
-            {counts ? counts.registrationsTotal : '—'}
-          </p>
-          <p className="mt-1 text-xs text-muted">
-            {counts
-              ? `${counts.registrationsPending} pending verification • ${counts.registrationsVerified} verified`
-              : 'Loading submissions...'}
           </p>
         </Link>
 
@@ -208,6 +155,28 @@ export default function AdminDashboardPage() {
             {counts
               ? `${counts.inquiriesNew} unread leads awaiting follow-up`
               : 'Loading leads...'}
+          </p>
+        </Link>
+
+        <Link
+          href="/admin/services"
+          className="group rounded-xl border border-line bg-white p-5 transition-all hover:border-line-strong hover:shadow-xs"
+        >
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-medium text-muted">
+              Studio Services
+            </span>
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-forest-soft text-forest">
+              <Layers className="h-4 w-4" />
+            </span>
+          </div>
+          <p className="mt-4 text-3xl font-semibold text-ink">
+            {counts ? counts.servicesTotal : '—'}
+          </p>
+          <p className="mt-1 text-xs text-muted">
+            {counts
+              ? `${counts.servicesTotal} active client capabilities`
+              : 'Loading services...'}
           </p>
         </Link>
 
@@ -244,7 +213,7 @@ export default function AdminDashboardPage() {
                 Production Roster
               </h2>
               <p className="text-xs text-muted">
-                Toggle audition registration or edit event details
+                Active productions &amp; event catalog
               </p>
             </div>
             <Link
@@ -287,22 +256,10 @@ export default function AdminDashboardPage() {
                 </div>
 
                 <div className="flex shrink-0 items-center gap-2">
-                  {!event.ticketUrl && (
-                    <button
-                      type="button"
-                      disabled={togglingSlug === event.slug}
-                      onClick={() => toggleRegistrationOpen(event)}
-                      className={cn(
-                        'rounded-lg border px-2.5 py-1 text-[11px] font-medium transition-colors',
-                        event.registrationOpen
-                          ? 'border-forest/30 bg-forest-soft text-forest hover:bg-forest hover:text-white'
-                          : 'border-line bg-paper text-muted hover:text-ink'
-                      )}
-                    >
-                      {event.registrationOpen
-                        ? 'Auditions Open'
-                        : 'Auditions Closed'}
-                    </button>
+                  {event.ticketUrl && (
+                    <span className="rounded-lg bg-forest-soft px-2.5 py-1 text-[11px] font-medium text-forest">
+                      Khalti Tickets
+                    </span>
                   )}
                   <Link
                     href={`/admin/events/${event.slug}`}
@@ -316,89 +273,33 @@ export default function AdminDashboardPage() {
           </div>
         </div>
 
-        {/* Recent Inquiries & Registrations */}
-        <div className="space-y-6 lg:col-span-5">
-          {/* Recent Registrations */}
-          <div className="rounded-xl border border-line bg-white p-6">
-            <div className="mb-4 flex items-center justify-between border-b border-line pb-3.5">
-              <div>
-                <h2 className="text-base font-semibold text-ink">
-                  Recent Registrations
-                </h2>
-                <p className="text-xs text-muted">Latest contestant entries</p>
-              </div>
-              <Link
-                href="/admin/registrations"
-                className="inline-flex items-center gap-1 text-xs font-medium text-forest hover:underline"
-              >
-                <span>All entries</span>
-                <ArrowUpRight className="h-3.5 w-3.5" />
-              </Link>
+        {/* Client Inquiries Section */}
+        <div className="rounded-xl border border-line bg-white p-6 lg:col-span-5">
+          <div className="mb-4 flex items-center justify-between border-b border-line pb-3.5">
+            <div>
+              <h2 className="text-base font-semibold text-ink">
+                Client Inquiries
+              </h2>
+              <p className="text-xs text-muted">
+                Recent project &amp; sponsorship briefs
+              </p>
             </div>
-
-            <div className="divide-y divide-line">
-              {(data?.recentRegistrations || []).slice(0, 3).map((reg) => (
-                <div
-                  key={reg.userCode}
-                  className="flex items-center justify-between gap-3 py-3 first:pt-0 last:pb-0"
-                >
-                  <div className="min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono text-xs font-semibold text-forest">
-                        {reg.userCode}
-                      </span>
-                      <span className="truncate text-sm font-medium text-ink">
-                        {reg.name}
-                      </span>
-                    </div>
-                    <p className="mt-0.5 truncate text-xs text-muted">
-                      {reg.eventTitle} • {reg.address}
-                    </p>
-                  </div>
-                  <span
-                    className={cn(
-                      'shrink-0 inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-medium',
-                      reg.status === 'Pending QR Verification'
-                        ? 'bg-amber-100 text-amber-800'
-                        : 'bg-forest-soft text-forest'
-                    )}
-                  >
-                    {reg.status === 'Pending QR Verification' ? (
-                      <Clock className="h-3 w-3" />
-                    ) : (
-                      <CheckCircle2 className="h-3 w-3" />
-                    )}
-                    {reg.status === 'Pending QR Verification'
-                      ? 'Pending'
-                      : 'Verified'}
-                  </span>
-                </div>
-              ))}
-            </div>
+            <Link
+              href="/admin/inquiries"
+              className="inline-flex items-center gap-1 text-xs font-medium text-forest hover:underline"
+            >
+              <span>Open CRM</span>
+              <ArrowUpRight className="h-3.5 w-3.5" />
+            </Link>
           </div>
 
-          {/* Recent Client Inquiries */}
-          <div className="rounded-xl border border-line bg-white p-6">
-            <div className="mb-4 flex items-center justify-between border-b border-line pb-3.5">
-              <div>
-                <h2 className="text-base font-semibold text-ink">
-                  Client Inquiries
-                </h2>
-                <p className="text-xs text-muted">
-                  Recent project &amp; sponsorship briefs
-                </p>
-              </div>
-              <Link
-                href="/admin/inquiries"
-                className="inline-flex items-center gap-1 text-xs font-medium text-forest hover:underline"
-              >
-                <span>Open CRM</span>
-                <ArrowUpRight className="h-3.5 w-3.5" />
-              </Link>
-            </div>
-
-            <div className="divide-y divide-line">
-              {(data?.recentInquiries || []).slice(0, 3).map((inq) => (
+          <div className="divide-y divide-line">
+            {(data?.recentInquiries || []).length === 0 ? (
+              <p className="py-6 text-center text-xs text-muted">
+                No client inquiries in the database yet.
+              </p>
+            ) : (
+              (data?.recentInquiries || []).slice(0, 5).map((inq) => (
                 <div
                   key={inq.id}
                   className="py-3 first:pt-0 last:pb-0"
@@ -421,12 +322,12 @@ export default function AdminDashboardPage() {
                   <p className="mt-0.5 text-xs text-muted">
                     {inq.organization || inq.email} • {inq.serviceOfInterest}
                   </p>
-                  <p className="mt-1 line-clamp-1 text-xs text-ink-soft">
+                  <p className="mt-1 line-clamp-2 text-xs text-ink-soft">
                     {inq.message}
                   </p>
                 </div>
-              ))}
-            </div>
+              ))
+            )}
           </div>
         </div>
       </div>
@@ -468,17 +369,17 @@ export default function AdminDashboardPage() {
         </Link>
 
         <Link
-          href="/admin/settings"
+          href="/admin/team"
           className="flex items-center justify-between rounded-xl border border-line bg-white p-4 transition-colors hover:bg-paper-deep"
         >
           <div className="flex items-center gap-3">
-            <Calendar className="h-5 w-5 text-forest" />
+            <Users className="h-5 w-5 text-forest" />
             <div>
               <p className="text-sm font-semibold text-ink">
-                Concert &amp; Site Settings
+                Team &amp; Leadership
               </p>
               <p className="text-xs text-muted">
-                Eastern Echoes countdown &amp; contact info
+                Manage directors &amp; specialists
               </p>
             </div>
           </div>

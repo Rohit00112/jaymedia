@@ -94,9 +94,6 @@ function EditEventForm({ id }: { id: string }) {
   const [status, setStatus] = useState<'published' | 'draft'>(
     initialEvent.status || 'published'
   );
-  const [registrationOpen, setRegistrationOpen] = useState(
-    initialEvent.registrationOpen
-  );
   const [highlights, setHighlights] = useState<string[]>(
     initialEvent.highlights
   );
@@ -124,11 +121,10 @@ function EditEventForm({ id }: { id: string }) {
         setSummary(ev.summary);
         setOverview(ev.overview);
         setStatus(ev.status || 'published');
-        setRegistrationOpen(ev.registrationOpen);
         setHighlights(ev.highlights || []);
         setProductionScope(ev.productionScope || []);
       })
-      .catch(() => {});
+      .catch(() => { });
     return () => {
       active = false;
     };
@@ -156,7 +152,6 @@ function EditEventForm({ id }: { id: string }) {
           summary,
           overview,
           status,
-          registrationOpen,
           highlights,
           productionScope,
         }),
@@ -311,24 +306,6 @@ function EditEventForm({ id }: { id: string }) {
                 value: 'draft',
                 label: 'Draft',
                 description: 'Hidden from public',
-              },
-            ]}
-          />
-
-          <SegmentedToggle
-            label="Contestant Audition Portal"
-            value={registrationOpen ? 'open' : 'closed'}
-            onChange={(val) => setRegistrationOpen(val === 'open')}
-            options={[
-              {
-                value: 'open',
-                label: 'Auditions Open',
-                description: 'Accepts online forms',
-              },
-              {
-                value: 'closed',
-                label: 'Auditions Closed',
-                description: 'Ticketed / Archive',
               },
             ]}
           />

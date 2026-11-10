@@ -105,9 +105,7 @@ export default async function EventDetailPage({ params }: Props) {
               <span className="text-xs font-semibold uppercase tracking-wider text-forest">
                 {event.ticketUrl
                   ? `Official Tickets • ${event.ticketPartner || 'Khalti'}`
-                  : event.registrationOpen
-                    ? 'Active Competition • Registration Open'
-                    : 'Titleholders & Recognition'}
+                  : 'Titleholders & Recognition'}
               </span>
 
               {event.ticketUrl && (
@@ -159,17 +157,9 @@ export default async function EventDetailPage({ params }: Props) {
                     <span>Buy Tickets on {event.ticketPartner || 'Khalti'}</span>
                     <ArrowUpRight className="h-4 w-4" />
                   </a>
-                ) : event.registrationOpen ? (
-                  <Link
-                    href={`/register/${event.slug}`}
-                    className="btn btn-primary w-full"
-                  >
-                    <span>Register Contestant Now</span>
-                    <ArrowUpRight className="h-4 w-4" />
-                  </Link>
                 ) : (
-                  <Link href="/contact" className="btn btn-outline w-full">
-                    <span>Sponsor This Production</span>
+                  <Link href="/contact" className="btn btn-primary w-full">
+                    <span>Inquire / Partner With Us</span>
                     <ArrowUpRight className="h-4 w-4" />
                   </Link>
                 )}

@@ -76,30 +76,6 @@ export default function AdminEventsPage() {
     }
   }
 
-  async function toggleRegistration(event: EventDetailData) {
-    setBusySlug(event.slug);
-    try {
-      const res = await fetch('/api/events', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          slug: event.slug,
-          registrationOpen: !event.registrationOpen,
-        }),
-      });
-      if (res.ok) {
-        const data = await res.json();
-        if (data.event) {
-          setEvents((prev) =>
-            prev.map((e) => (e.slug === event.slug ? data.event : e))
-          );
-        }
-      }
-    } finally {
-      setBusySlug(null);
-    }
-  }
-
   async function handleDelete(event: EventDetailData) {
     if (
       !window.confirm(
@@ -246,7 +222,7 @@ export default function AdminEventsPage() {
                     Season / Date
                   </th>
                   <th className="hidden px-5 py-3.5 md:table-cell">Venue</th>
-                  <th className="px-5 py-3.5">Auditions / Tickets</th>
+                  <th className="px-5 py-3.5">Ticketing / Format</th>
                   <th className="px-5 py-3.5">Status</th>
                   <th className="px-5 py-3.5 text-right">Actions</th>
                 </tr>
@@ -279,19 +255,9 @@ export default function AdminEventsPage() {
                             Ticketing ({event.ticketPartner || 'Khalti'})
                           </span>
                         ) : (
-                          <button
-                            type="button"
-                            disabled={isBusy}
-                            onClick={() => toggleRegistration(event)}
-                            className={cn(
-                              'rounded-full px-2.5 py-0.5 text-[11px] font-medium transition-colors',
-                              event.registrationOpen
-                                ? 'bg-forest-soft text-forest hover:bg-forest hover:text-white'
-                                : 'bg-paper-deep text-muted hover:text-ink'
-                            )}
-                          >
-                            {event.registrationOpen ? 'Open' : 'Closed'}
-                          </button>
+                          <span className="inline-flex items-center rounded-full bg-paper-deep px-2.5 py-0.5 text-[11px] font-medium text-muted">
+                            Flagship Production
+                          </span>
                         )}
                       </td>
                       <td className="px-5 py-4">

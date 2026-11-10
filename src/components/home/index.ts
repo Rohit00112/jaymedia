@@ -1,5 +1,4 @@
 export { default as HeroSection } from './HeroSection';
-export { default as AuditionHubSection } from './AuditionHubSection';
 export { default as IntroSection } from './IntroSection';
 export { default as JudgesSection } from './JudgesSection';
 export { default as ServicesSection } from './ServicesSection';

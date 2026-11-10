@@ -41,8 +41,8 @@ export const navLinks: readonly NavItem[] = [
 ] as const;
 
 export const cta = {
-  label: 'Register Now',
-  href: '/register',
+  label: 'Get in Touch',
+  href: '/contact',
 } as const;
 
 export const secondaryCta = {

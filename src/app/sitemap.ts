@@ -15,7 +15,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/about',
     '/services',
     '/events',
-    '/register/nepal-kids-idol',
     '/team',
     '/gallery',
     '/news',

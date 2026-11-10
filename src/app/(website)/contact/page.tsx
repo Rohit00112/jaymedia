@@ -21,7 +21,7 @@ export default function ContactPage() {
       <PageHero
         eyebrow="Contact Us"
         title="Get in touch with our team."
-        description="Whether you are planning a live event, inquiring about concert sponsorships, or registering for a production, our Biratnagar office is here to help."
+        description="Whether you are planning a live event, inquiring about concert sponsorships, or exploring a brand partnership, our Biratnagar office is here to help."
         meta={[
           { label: 'Office', value: 'Central Mall, Biratnagar' },
           { label: 'Response Time', value: 'Within 1 business day' },

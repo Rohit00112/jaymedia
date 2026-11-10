@@ -83,9 +83,6 @@ export default function AdminNewEventPage() {
   );
   const [image, setImage] = useState('/images/official/koshi-2024-cover.png');
   const [status, setStatus] = useState<'published' | 'draft'>('published');
-  const [entryMode, setEntryMode] = useState<'open' | 'closed' | 'ticketed'>(
-    'open'
-  );
   const [ticketUrl, setTicketUrl] = useState('');
   const [tagline, setTagline] = useState('');
   const [summary, setSummary] = useState('');
@@ -121,8 +118,8 @@ export default function AdminNewEventPage() {
           prizePoolLabel,
           image,
           heroStageImage: image,
-          ticketUrl: entryMode === 'ticketed' ? ticketUrl : undefined,
-          ticketPartner: entryMode === 'ticketed' ? 'Khalti by IME' : undefined,
+          ticketUrl: ticketUrl.trim() || undefined,
+          ticketPartner: ticketUrl.trim() ? 'Khalti by IME' : undefined,
           tagline:
             tagline || `${title} — Produced by Jay Media Management Pvt. Ltd.`,
           summary:
@@ -131,11 +128,10 @@ export default function AdminNewEventPage() {
           overview:
             description ||
             summary ||
-            `${title} brings full broadcast production, live stage direction, and regional audition coordination from Jay Media Management's Biratnagar studio.`,
+            `${title} brings full broadcast production, live stage direction, and regional talent coordination from Jay Media Management's Biratnagar studio.`,
           highlights,
           productionScope,
           status,
-          registrationOpen: entryMode === 'open',
         }),
       });
       const data = await res.json();
@@ -284,23 +280,18 @@ export default function AdminNewEventPage() {
             ]}
           />
 
-          <SegmentedToggle
-            label="Registration / Entry Mode"
-            value={entryMode === 'ticketed' ? 'closed' : entryMode}
-            onChange={(val) => setEntryMode(val)}
-            options={[
-              {
-                value: 'open',
-                label: 'Auditions Open',
-                description: 'Accepts online forms',
-              },
-              {
-                value: 'closed',
-                label: 'Auditions Closed',
-                description: 'Showcase / Ticketed',
-              },
-            ]}
-          />
+          <div>
+            <label className="mb-1.5 block text-xs font-semibold text-ink">
+              External Ticket Link (Optional — e.g. Khalti Events)
+            </label>
+            <input
+              type="url"
+              value={ticketUrl}
+              onChange={(e) => setTicketUrl(e.target.value)}
+              placeholder="https://events.khalti.com/..."
+              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-sm text-ink placeholder:text-faint focus:border-forest focus:outline-none"
+            />
+          </div>
         </div>
 
         {/* 5. Descriptions */}
@@ -365,21 +356,6 @@ export default function AdminNewEventPage() {
             placeholder="Add a production scope item..."
           />
         </div>
-
-        {entryMode === 'closed' && (
-          <div className="border-t border-line pt-5">
-            <label className="mb-1.5 block text-xs font-semibold text-ink">
-              External Ticket Link (Optional — e.g. Khalti Events)
-            </label>
-            <input
-              type="url"
-              value={ticketUrl}
-              onChange={(e) => setTicketUrl(e.target.value)}
-              placeholder="https://events.khalti.com/..."
-              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-sm text-ink placeholder:text-faint focus:border-forest focus:outline-none"
-            />
-          </div>
-        )}
       </form>
     </div>
   );

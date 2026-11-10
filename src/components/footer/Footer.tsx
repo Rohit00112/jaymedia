@@ -20,7 +20,7 @@ const eventLinks = [
     label: event.title,
     href: `/events/${event.slug}`,
   })),
-  { label: 'Open Registrations', href: '/register' },
+  { label: 'All Productions', href: '/events' },
 ] as const;
 
 const socialLinks = [
