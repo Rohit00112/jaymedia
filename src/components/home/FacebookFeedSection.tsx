@@ -3,6 +3,7 @@ import SectionHeading from '@/components/shared/SectionHeading';
 import FacebookFeedEmbed from '@/components/shared/FacebookFeedEmbed';
 import InstagramFeedEmbed from '@/components/shared/InstagramFeedEmbed';
 import Reveal from '@/components/motion/Reveal';
+import { FacebookIcon, InstagramIcon } from '@/components/shared/BrandIcons';
 import { siteConfig } from '@/config/site';
 
 export default function FacebookFeedSection() {
@@ -39,20 +40,22 @@ export default function FacebookFeedSection() {
             href={siteConfig.social.facebook}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-outline"
+            className="btn btn-outline hover:border-[#1877F2]/40 hover:bg-[#1877F2]/5"
           >
+            <FacebookIcon className="h-4 w-4 shrink-0" />
             <span>Facebook Page</span>
-            <ArrowUpRight className="h-4 w-4" />
+            <ArrowUpRight className="h-3.5 w-3.5" />
           </a>
 
           <a
             href={siteConfig.social.instagram}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-outline"
+            className="btn btn-outline hover:border-[#E4405F]/40 hover:bg-[#E4405F]/5"
           >
+            <InstagramIcon className="h-4 w-4 shrink-0" />
             <span>Instagram Profile</span>
-            <ArrowUpRight className="h-4 w-4" />
+            <ArrowUpRight className="h-3.5 w-3.5" />
           </a>
         </Reveal>
       </div>
