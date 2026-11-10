@@ -9,6 +9,11 @@ import ConcertCountdown from '@/components/shared/ConcertCountdown';
 
 const emptySubscribe = () => () => {};
 
+// Module-level flag: persists across client-side page transitions in Next.js,
+// so switching from another page back to Home will NOT re-trigger the popup.
+// Resets on full page reload or initial website visit.
+let hasShownInSession = false;
+
 export default function ConcertModalPopup() {
   const isClient = useSyncExternalStore(
     emptySubscribe,
@@ -17,15 +22,23 @@ export default function ConcertModalPopup() {
   );
   const [isOpen, setIsOpen] = useState(false);
 
+  const handleClose = () => {
+    hasShownInSession = true;
+    setIsOpen(false);
+  };
+
   useEffect(() => {
-    // Open popup shortly after page load / reload
+    // Only open on the first time opening the home screen; do not re-open when switching pages
+    if (hasShownInSession) return;
+
     const timer = setTimeout(() => {
+      hasShownInSession = true;
       setIsOpen(true);
     }, 500);
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        setIsOpen(false);
+        handleClose();
       }
     };
 
@@ -59,7 +72,7 @@ export default function ConcertModalPopup() {
       {/* Backdrop */}
       <div
         className="fixed inset-0 bg-ink/75 backdrop-blur-md transition-opacity duration-300"
-        onClick={() => setIsOpen(false)}
+        onClick={handleClose}
         aria-hidden="true"
       />
 
@@ -68,7 +81,7 @@ export default function ConcertModalPopup() {
         {/* Close Button */}
         <button
           type="button"
-          onClick={() => setIsOpen(false)}
+          onClick={handleClose}
           className="absolute right-3.5 top-3.5 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-ink/65 text-white backdrop-blur-md transition-colors hover:bg-ink focus:outline-none"
           aria-label="Close announcement"
         >
@@ -148,7 +161,7 @@ export default function ConcertModalPopup() {
 
               <Link
                 href="/events/atif-aslam-live-in-nepal"
-                onClick={() => setIsOpen(false)}
+                onClick={handleClose}
                 className="btn btn-outline justify-center py-2.5 text-xs font-semibold"
               >
                 <span>Concert Details</span>
@@ -161,7 +174,7 @@ export default function ConcertModalPopup() {
               </span>
               <Link
                 href="/contact?topic=concert-sponsorship"
-                onClick={() => setIsOpen(false)}
+                onClick={handleClose}
                 className="font-medium text-forest hover:underline"
               >
                 Call for Sponsors &rarr;
