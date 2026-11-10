@@ -13,7 +13,7 @@ export function getFirebaseApp(): FirebaseApp {
   if (!app) {
     if (!isFirebaseClientConfigured) {
       throw new Error(
-        'Firebase Client SDK is not configured. Please set NEXT_PUBLIC_FIREBASE_* environment variables in .env.local.'
+        'Firebase Client SDK is not configured. Please add the NEXT_PUBLIC_FIREBASE_* environment variables in your deployment dashboard or .env.local.'
       );
     }
     app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
