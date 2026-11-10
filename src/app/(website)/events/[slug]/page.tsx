@@ -1,11 +1,10 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowUpRight, Play } from 'lucide-react';
+import { ArrowUpRight, CheckCircle2, Play } from 'lucide-react';
 import PageHero from '@/components/shared/PageHero';
 import SectionHeading from '@/components/shared/SectionHeading';
 import CtaBand from '@/components/shared/CtaBand';
-import Reveal from '@/components/motion/Reveal';
 import { EVENTS_DATA } from '@/config/events-data';
 import { getEventBySlug, listEvents } from '@/lib/events-store';
 import { generatePageMetadata } from '@/lib/seo';
@@ -24,7 +23,8 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const event = getEventBySlug(slug) || EVENTS_DATA.find((e) => e.slug === slug);
+  const event =
+    getEventBySlug(slug) || EVENTS_DATA.find((e) => e.slug === slug);
   if (!event) return {};
 
   return generatePageMetadata({
@@ -36,7 +36,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function EventDetailPage({ params }: Props) {
   const { slug } = await params;
   const allEvents = listEvents();
-  const event = getEventBySlug(slug) || EVENTS_DATA.find((e) => e.slug === slug);
+  const event =
+    getEventBySlug(slug) || EVENTS_DATA.find((e) => e.slug === slug);
 
   if (!event) {
     notFound();
@@ -50,7 +51,7 @@ export default async function EventDetailPage({ params }: Props) {
     <div className="min-h-screen bg-paper text-ink">
       <PageHero
         breadcrumb={{ label: 'All productions', href: '/events' }}
-        eyebrow={`${event.category} / ${event.seasonOrYear}`}
+        eyebrow={`${event.category} • ${event.seasonOrYear}`}
         title={event.title}
         description={event.tagline}
         image={event.coverBanner || event.heroStageImage || event.image}
@@ -61,253 +62,218 @@ export default async function EventDetailPage({ params }: Props) {
           { label: 'Organizer', value: 'Jay Media Management' },
           {
             label: event.ticketUrl ? 'Ticketing Partner' : 'Format',
-            value: event.ticketPartner || 'Live + broadcast',
+            value: event.ticketPartner || 'Live & Broadcast',
           },
         ]}
       />
 
-      <section className="py-20 md:py-28">
-        <div className="container-ed grid gap-12 lg:grid-cols-12 lg:gap-10">
+      {/* Overview & Key Details */}
+      <section className="border-b border-line py-16 md:py-20">
+        <div className="container-ed grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-7">
-            <span className="eyebrow flex items-center gap-2.5 text-accent">
-              <span className="h-px w-6 bg-accent" aria-hidden="true" />
-              01 / Production background
-            </span>
+            <p className="text-xs font-semibold uppercase tracking-wider text-forest">
+              Overview
+            </p>
+            <h2 className="mt-2 text-2xl font-semibold text-ink sm:text-3xl">
+              About {event.title}
+            </h2>
+            <p className="mt-4 text-sm leading-relaxed text-muted sm:text-base">
+              {event.overview}
+            </p>
 
-            <Reveal>
-              <h2 className="display mt-5 max-w-[14ch] text-balance text-[clamp(2.2rem,4.5vw,4.7rem)] text-ink">
-                A legacy of stagecraft in{' '}
-                <span className="serif italic text-accent">Koshi.</span>
-              </h2>
-            </Reveal>
-
-            <Reveal delay={90}>
-              <p className="mt-8 max-w-2xl text-pretty text-sm leading-relaxed text-muted md:text-base">
-                {event.overview}
-              </p>
-
-              <h3 className="eyebrow mt-10 text-faint">Signature accolades</h3>
-              <ul className="mt-4 grid gap-x-8 gap-y-3 sm:grid-cols-2">
-                {event.highlights.map((highlight, index) => (
-                  <li
-                    key={highlight}
-                    className="flex items-start gap-3 border-t border-line pt-3 text-sm leading-relaxed text-muted"
-                  >
-                    <span className="mono pt-0.5 text-[9px] tracking-[0.16em] text-accent">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                    {highlight}
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
+            <h3 className="mt-8 text-xs font-semibold uppercase tracking-wider text-ink">
+              Key Highlights
+            </h3>
+            <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+              {event.highlights.map((highlight) => (
+                <li
+                  key={highlight}
+                  className="flex items-start gap-2.5 rounded-lg border border-line bg-paper-deep/60 p-3.5 text-sm text-ink-soft"
+                >
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
+                  <span>{highlight}</span>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          <div className="lg:col-span-4 lg:col-start-9">
-            <Reveal delay={120}>
-              <div className="border border-line bg-card p-6 md:p-7">
-                <span className="eyebrow text-accent">
-                  {event.ticketUrl
-                    ? `Official Tickets • ${event.ticketPartner || 'Khalti'}`
-                    : event.registrationOpen
-                      ? 'Active Competition • Register Open'
-                      : 'Titleholders & recognition'}
-                </span>
-                {event.prizes && (
-                  <div className="mt-4 grid grid-cols-2 gap-2.5 border-b border-line pb-5">
-                    {event.prizes.map((p) => (
-                      <div
-                        key={p.rank}
-                        className="rounded-[6px] border border-line bg-paper p-3"
-                      >
-                        <span className="block font-mono text-[9px] uppercase tracking-wider text-muted">
-                          {p.rank}
-                        </span>
-                        <span className="mono mt-0.5 block text-sm font-bold text-forest">
-                          {p.amount}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-                <div className="mt-5">
-                  {event.hallOfFameOrWinners.map((winner) => (
+          <div className="lg:col-span-5">
+            <div className="rounded-xl border border-line bg-paper-deep/50 p-6">
+              <span className="text-xs font-semibold uppercase tracking-wider text-forest">
+                {event.ticketUrl
+                  ? `Official Tickets • ${event.ticketPartner || 'Khalti'}`
+                  : event.registrationOpen
+                    ? 'Active Competition • Registration Open'
+                    : 'Titleholders & Recognition'}
+              </span>
+
+              {event.prizes && (
+                <div className="mt-4 grid grid-cols-2 gap-2.5 border-b border-line pb-5">
+                  {event.prizes.map((p) => (
                     <div
-                      key={winner.title}
-                      className="border-b border-line py-5 first:pt-0 last:border-b-0 last:pb-0"
+                      key={p.rank}
+                      className="rounded-lg border border-line bg-white p-3"
                     >
-                      <h3 className="display text-2xl text-ink">
-                        {winner.title}
-                      </h3>
-                      <p className="mt-2 text-xs leading-relaxed text-muted">
-                        {winner.note}
-                      </p>
+                      <span className="block text-xs text-muted">{p.rank}</span>
+                      <span className="mt-0.5 block text-sm font-semibold text-ink">
+                        {p.amount}
+                      </span>
                     </div>
                   ))}
                 </div>
+              )}
 
+              <div className="mt-4 divide-y divide-line">
+                {event.hallOfFameOrWinners.map((winner) => (
+                  <div
+                    key={winner.title}
+                    className="py-4 first:pt-0 last:pb-0"
+                  >
+                    <h3 className="text-base font-semibold text-ink">
+                      {winner.title}
+                    </h3>
+                    <p className="mt-1 text-xs leading-relaxed text-muted">
+                      {winner.note}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-6">
                 {event.ticketUrl ? (
                   <a
                     href={event.ticketUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="btn btn-accent mt-6 w-full"
+                    className="btn btn-primary w-full"
                   >
-                    Buy Tickets on {event.ticketPartner || 'Khalti'}
+                    <span>Buy Tickets on {event.ticketPartner || 'Khalti'}</span>
                     <ArrowUpRight className="h-4 w-4" />
                   </a>
                 ) : event.registrationOpen ? (
                   <Link
                     href={`/register/${event.slug}`}
-                    className="btn btn-accent mt-6 w-full"
+                    className="btn btn-primary w-full"
                   >
-                    Register Contestant Now
+                    <span>Register Contestant Now</span>
                     <ArrowUpRight className="h-4 w-4" />
                   </Link>
                 ) : (
-                  <Link href="/contact" className="text-link mt-6 text-ink">
-                    Sponsor this production
-                    <ArrowUpRight className="h-3.5 w-3.5 text-accent" />
+                  <Link href="/contact" className="btn btn-outline w-full">
+                    <span>Sponsor This Production</span>
+                    <ArrowUpRight className="h-4 w-4" />
                   </Link>
                 )}
               </div>
-            </Reveal>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="border-y border-line bg-paper-deep py-20 md:py-28">
+      {/* Schedule / Stages */}
+      <section className="border-b border-line bg-paper-deep/50 py-16 md:py-20">
         <div className="container-ed">
           <SectionHeading
-            eyebrow="02 / Stages of competition"
-            title={
-              <>
-                From auditions to the{' '}
-                <span className="serif italic text-accent">coronation.</span>
-              </>
-            }
-            description="Each edition is built as a sequence of moments, engineered to build anticipation towards the finale."
+            eyebrow="Format & Schedule"
+            title="Stages of the production."
+            description="Each edition is structured as a clear progression from initial access to the main arena event."
           />
 
-          <div className="grid gap-8 md:grid-cols-3 md:gap-10">
+          <div className="grid gap-6 md:grid-cols-3">
             {event.scheduleOrPhases.map((phase, index) => (
-              <Reveal key={phase.title} delay={index * 70}>
-                <div className="border-t border-line-strong pt-6">
-                  <span className="display block text-6xl leading-none text-outline md:text-7xl">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                  <span className="eyebrow mt-6 block text-[8px] text-accent">
-                    Stage {String(index + 1).padStart(2, '0')}
-                  </span>
-                  <h3 className="display mt-3 text-2xl text-ink md:text-3xl">
-                    {phase.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-muted">
-                    {phase.description}
-                  </p>
-                </div>
-              </Reveal>
+              <div
+                key={phase.title}
+                className="rounded-xl border border-line bg-white p-6"
+              >
+                <span className="inline-flex rounded-md bg-forest-soft px-2.5 py-1 text-xs font-semibold text-forest">
+                  Stage 0{index + 1}
+                </span>
+                <h3 className="mt-3 text-lg font-semibold text-ink">
+                  {phase.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted">
+                  {phase.description}
+                </p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-20 md:py-28">
-        <div className="container-ed grid gap-12 lg:grid-cols-12 lg:gap-10">
+      {/* Production Scope */}
+      <section className="border-b border-line py-16 md:py-20">
+        <div className="container-ed grid gap-10 lg:grid-cols-12">
           <div className="lg:col-span-7">
-            <span className="eyebrow flex items-center gap-2.5 text-accent">
-              <span className="h-px w-6 bg-accent" aria-hidden="true" />
-              03 / Behind the scenes
-            </span>
+            <p className="text-xs font-semibold uppercase tracking-wider text-forest">
+              Behind the Scenes
+            </p>
+            <h2 className="mt-2 text-2xl font-semibold text-ink sm:text-3xl">
+              Production &amp; Technical Scope
+            </h2>
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted sm:text-base">
+              Every edition combines spatial planning, lighting and sound
+              engineering, and broadcast management from our Biratnagar team.
+            </p>
 
-            <Reveal>
-              <h2 className="display mt-5 text-balance text-[clamp(2.1rem,4vw,4.2rem)] text-ink">
-                Engineered by{' '}
-                <span className="serif italic text-accent">Jay Media.</span>
-              </h2>
-            </Reveal>
-
-            <Reveal delay={90}>
-              <p className="mt-7 max-w-xl text-pretty text-sm leading-relaxed text-muted md:text-base">
-                Every edition represents weeks of spatial modelling, lighting
-                programming, and broadcast rehearsal in Biratnagar to ensure a
-                world-class audience experience.
-              </p>
-
-              <ul className="mt-8 border-t border-line">
-                {event.productionScope.map((scope, index) => (
-                  <li
-                    key={scope}
-                    className="flex items-start gap-5 border-b border-line py-4"
-                  >
-                    <span className="mono pt-0.5 text-[9px] tracking-[0.16em] text-faint">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                    <span className="text-sm leading-relaxed text-muted">
-                      {scope}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
+            <ul className="mt-6 divide-y divide-line border-y border-line">
+              {event.productionScope.map((scope) => (
+                <li
+                  key={scope}
+                  className="flex items-start gap-3 py-3.5 text-sm text-ink-soft"
+                >
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
+                  <span>{scope}</span>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          <div className="lg:col-span-4 lg:col-start-9">
-            <Reveal delay={120}>
-              <div className="relative overflow-hidden rounded-[0.4rem] bg-forest p-7 text-cream md:p-8">
-                <div
-                  className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-gold/10 blur-[60px]"
-                  aria-hidden="true"
-                />
-                <span className="eyebrow relative text-gold">
-                  Official broadcaster
-                </span>
-                <h3 className="display relative mt-4 text-3xl text-cream">
-                  Watch the grand finale archive.
-                </h3>
-                <p className="relative mt-4 text-sm leading-relaxed text-cream/70">
-                  Catch full-event broadcasts, coronation announcements, and
-                  backstage interviews on our official YouTube channel.
-                </p>
+          <div className="lg:col-span-5">
+            <div className="rounded-xl border border-line bg-paper-deep p-6 sm:p-7">
+              <span className="text-xs font-semibold uppercase tracking-wider text-forest">
+                Official Archive
+              </span>
+              <h3 className="mt-2 text-xl font-semibold text-ink">
+                Watch highlights &amp; broadcasts.
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted">
+                Catch full-event broadcasts, coronation announcements, and
+                backstage interviews on our official YouTube channel.
+              </p>
 
+              <div className="mt-6 flex flex-wrap gap-3">
                 <a
-                  href="https://www.youtube.com/@jaymediamanagement"
+                  href="https://www.youtube.com/@JayMediaManagementPvtLtd"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn btn-white relative mt-7 w-full"
+                  className="btn btn-primary"
                 >
                   <Play className="h-3.5 w-3.5" />
-                  Open broadcasts
+                  <span>YouTube Channel</span>
                 </a>
-
-                <Link
-                  href="/contact"
-                  className="relative mt-6 inline-flex items-center gap-2 border-b border-cream/35 pb-1 text-[13px] font-semibold text-cream transition-colors hover:border-cream"
-                >
-                  Partner or sponsor
-                  <ArrowUpRight className="h-3.5 w-3.5 text-gold" />
+                <Link href="/contact" className="btn btn-outline">
+                  Partner or Sponsor
                 </Link>
               </div>
-            </Reveal>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="border-t border-line py-12 md:py-16">
-        <div className="container-ed flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+      {/* Next Production */}
+      <section className="py-10">
+        <div className="container-ed flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
           <div>
-            <span className="eyebrow text-faint">Next production</span>
+            <span className="text-xs text-muted">Next production</span>
             <Link
               href={`/events/${nextEvent.slug}`}
-              className="group mt-4 flex items-center gap-4"
+              className="group mt-1 flex items-center gap-2 text-lg font-semibold text-ink hover:text-forest"
             >
-              <span className="display text-[clamp(1.8rem,4vw,3.8rem)] text-ink transition-colors duration-300 group-hover:text-accent">
-                {nextEvent.title}
-              </span>
-              <ArrowUpRight className="h-6 w-6 shrink-0 text-accent transition-transform duration-500 group-hover:translate-x-1 group-hover:-translate-y-1 md:h-8 md:w-8" />
+              <span>{nextEvent.title}</span>
+              <ArrowUpRight className="h-4 w-4 text-forest" />
             </Link>
           </div>
-          <span className="eyebrow text-faint">{nextEvent.seasonOrYear}</span>
+          <span className="text-xs text-muted">{nextEvent.seasonOrYear}</span>
         </div>
       </section>
 

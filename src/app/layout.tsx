@@ -1,20 +1,8 @@
 import type { Metadata, Viewport } from 'next';
-import {
-  Bricolage_Grotesque,
-  IBM_Plex_Mono,
-  Plus_Jakarta_Sans,
-  Rubik,
-} from 'next/font/google';
+import { IBM_Plex_Mono, Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import { siteConfig } from '@/config/site';
 import { generateOrganizationSchema } from '@/lib/seo';
-
-const bricolage = Bricolage_Grotesque({
-  subsets: ['latin'],
-  variable: '--font-bricolage',
-  display: 'swap',
-  weight: ['500', '600', '700', '800'],
-});
 
 const jakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -23,18 +11,11 @@ const jakartaSans = Plus_Jakarta_Sans({
   weight: ['400', '500', '600', '700'],
 });
 
-const rubik = Rubik({
-  subsets: ['latin'],
-  variable: '--font-rubik',
-  display: 'swap',
-  weight: ['400', '500', '600', '700'],
-});
-
 const plexMono = IBM_Plex_Mono({
   subsets: ['latin'],
   variable: '--font-plex-mono',
   display: 'swap',
-  weight: ['400', '500', '600'],
+  weight: ['400', '500'],
 });
 
 export const metadata: Metadata = {
@@ -96,14 +77,9 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${bricolage.variable} ${jakartaSans.variable} ${rubik.variable} ${plexMono.variable}`}
+      className={`${jakartaSans.variable} ${plexMono.variable}`}
     >
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `document.documentElement.classList.add('js');`,
-          }}
-        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

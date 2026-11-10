@@ -4,8 +4,6 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
-  AlertCircle,
-  ArrowUpRight,
   Camera,
   CheckCircle2,
   FileImage,
@@ -27,10 +25,9 @@ interface EventRegistrationFormProps {
 }
 
 const fieldClass =
-  'w-full rounded-[8px] border border-line-strong bg-white px-4 py-3 text-sm text-ink placeholder:text-faint focus:border-forest focus:outline-none focus:ring-2 focus:ring-forest/15';
+  'w-full rounded-lg border border-line-strong bg-white px-3.5 py-2.5 text-sm text-ink placeholder:text-faint focus:border-forest focus:outline-none';
 
-const labelClass =
-  'mb-1.5 block font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-ink-soft';
+const labelClass = 'mb-1.5 block text-xs font-medium text-ink';
 
 export default function EventRegistrationForm({
   eventSlug,
@@ -60,14 +57,19 @@ export default function EventRegistrationForm({
   const [parentPhone, setParentPhone] = useState('');
   const [paymentTransactionId, setPaymentTransactionId] = useState('');
   const [paymentReceiptFilename, setPaymentReceiptFilename] = useState('');
-  const [receiptPreviewUrl, setReceiptPreviewUrl] = useState<string | null>(null);
+  const [receiptPreviewUrl, setReceiptPreviewUrl] = useState<string | null>(
+    null
+  );
 
   const [termsAccepted, setTermsAccepted] = useState(false);
-  const [guardianAgreementAccepted, setGuardianAgreementAccepted] = useState(false);
+  const [guardianAgreementAccepted, setGuardianAgreementAccepted] =
+    useState(false);
 
   const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
-  const [issuedRecord, setIssuedRecord] = useState<RegistrationRecord | null>(null);
+  const [issuedRecord, setIssuedRecord] = useState<RegistrationRecord | null>(
+    null
+  );
 
   useEffect(() => {
     let active = true;
@@ -76,7 +78,9 @@ export default function EventRegistrationForm({
       .then((data) => {
         if (active && Array.isArray(data?.events) && data.events.length > 0) {
           setEventsList(
-            data.events.filter((e: EventDetailData) => e.registrationOpen !== false)
+            data.events.filter(
+              (e: EventDetailData) => e.registrationOpen !== false
+            )
           );
         }
       })
@@ -89,7 +93,11 @@ export default function EventRegistrationForm({
   const currentEvent =
     eventsList.find((e) => e.slug === selectedEventSlug) || eventsList[0];
   const activeEventTitle = currentEvent?.title || eventTitle;
-  const ageRange = currentEvent?.ageRange || { min: 4, max: 40, placeholder: 'Age' };
+  const ageRange = currentEvent?.ageRange || {
+    min: 4,
+    max: 40,
+    placeholder: 'Age',
+  };
 
   function handlePhotoSelect(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -111,8 +119,6 @@ export default function EventRegistrationForm({
     setErrorMsg('');
 
     try {
-      // Note: Upload contestantPhoto & paymentReceipt files to Firebase Storage here
-      // before saving their downloadURL to Firestore alongside these metadata fields.
       const res = await fetch('/api/registrations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -141,7 +147,8 @@ export default function EventRegistrationForm({
       const data = await res.json();
       if (!res.ok) {
         throw new Error(
-          data.error || 'Please review required fields and accept both agreements.'
+          data.error ||
+            'Please review required fields and accept both agreements.'
         );
       }
 
@@ -157,105 +164,85 @@ export default function EventRegistrationForm({
 
   if (issuedRecord) {
     return (
-      <div className="overflow-hidden rounded-[6px] border-2 border-forest bg-white p-8 shadow-xl sm:p-10">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-6">
+      <div className="rounded-xl border border-line bg-white p-6 sm:p-8">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-5">
           <div className="flex items-center gap-3">
-            <span className="flex h-12 w-12 items-center justify-center rounded-[4px] bg-forest text-gold">
-              <CheckCircle2 className="h-6 w-6" />
+            <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-forest-soft text-forest">
+              <CheckCircle2 className="h-5 w-5" />
             </span>
             <div>
-              <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-forest">
+              <span className="text-xs font-medium text-forest">
                 Registration Confirmed
               </span>
-              <h2 className="display text-2xl font-bold text-ink sm:text-3xl">
+              <h2 className="text-xl font-semibold text-ink">
                 Official Contestant Slip
               </h2>
             </div>
           </div>
 
-          <div className="rounded-[8px] bg-sand px-5 py-3 text-center">
-            <span className="block font-mono text-[9px] uppercase tracking-wider text-muted">
-              Contestant User Code
+          <div className="rounded-lg border border-line bg-paper-deep px-4 py-2.5 text-center">
+            <span className="block text-[11px] text-muted">
+              Contestant Code
             </span>
-            <span className="mono text-xl font-bold tracking-tight text-forest">
+            <span className="mono text-lg font-semibold text-forest">
               {issuedRecord.userCode}
             </span>
           </div>
         </div>
 
-        <dl className="mt-6 grid gap-5 sm:grid-cols-2 md:grid-cols-3">
+        <dl className="mt-6 grid gap-4 sm:grid-cols-2 md:grid-cols-3">
           <div>
-            <dt className="font-mono text-[10px] uppercase tracking-wider text-faint">
-              Contestant Name
-            </dt>
-            <dd className="mt-1 text-base font-bold text-ink">
+            <dt className="text-xs text-muted">Contestant Name</dt>
+            <dd className="mt-0.5 text-sm font-semibold text-ink">
               {issuedRecord.name}
             </dd>
           </div>
           <div>
-            <dt className="font-mono text-[10px] uppercase tracking-wider text-faint">
-              Audition Mode
-            </dt>
-            <dd className="mt-1 text-sm font-semibold text-forest">
+            <dt className="text-xs text-muted">Audition Mode</dt>
+            <dd className="mt-0.5 text-sm font-medium text-forest">
               {issuedRecord.auditionMode}
             </dd>
           </div>
           <div>
-            <dt className="font-mono text-[10px] uppercase tracking-wider text-faint">
-              Application Status
-            </dt>
-            <dd className="mt-1 text-sm font-semibold text-ink-soft">
+            <dt className="text-xs text-muted">Application Status</dt>
+            <dd className="mt-0.5 text-sm font-medium text-ink">
               {issuedRecord.status}
             </dd>
           </div>
           <div>
-            <dt className="font-mono text-[10px] uppercase tracking-wider text-faint">
-              Age &amp; Gender
-            </dt>
-            <dd className="mt-1 text-sm text-ink-soft">
+            <dt className="text-xs text-muted">Age &amp; Gender</dt>
+            <dd className="mt-0.5 text-sm text-ink-soft">
               {issuedRecord.age} Years ({issuedRecord.gender})
             </dd>
           </div>
           <div>
-            <dt className="font-mono text-[10px] uppercase tracking-wider text-faint">
-              School / Academy
-            </dt>
-            <dd className="mt-1 text-sm text-ink-soft">{issuedRecord.school}</dd>
+            <dt className="text-xs text-muted">School / Academy</dt>
+            <dd className="mt-0.5 text-sm text-ink-soft">
+              {issuedRecord.school}
+            </dd>
           </div>
           <div>
-            <dt className="font-mono text-[10px] uppercase tracking-wider text-faint">
-              Guardian Name
-            </dt>
-            <dd className="mt-1 text-sm text-ink-soft">
+            <dt className="text-xs text-muted">Guardian Name</dt>
+            <dd className="mt-0.5 text-sm text-ink-soft">
               {issuedRecord.parentName}
             </dd>
           </div>
         </dl>
 
-        <div className="mt-8 rounded-[8px] bg-forest-soft p-4 text-sm text-forest">
-          Save your User Code <strong>{issuedRecord.userCode}</strong>. Track
-          QR verification and audition hub scheduling anytime in the{' '}
-          <Link
-            href="/#application-status"
-            className="font-bold underline underline-offset-4"
-          >
-            Application Status Tracker
-          </Link>
-          .
+        <div className="mt-6 rounded-lg bg-forest-soft p-4 text-xs leading-relaxed text-forest">
+          Save your User Code <strong>{issuedRecord.userCode}</strong> to track
+          your application status anytime on our homepage.
         </div>
 
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Link
-            href="/#application-status"
-            className="btn btn-accent rounded-[3px] px-6 py-3 text-xs font-bold uppercase tracking-wider"
-          >
-            <UserCheck className="h-4 w-4 text-gold" />
+        <div className="mt-6 flex flex-wrap gap-3">
+          <Link href="/#application-status" className="btn btn-primary">
+            <UserCheck className="h-4 w-4" />
             <span>Check Application Status</span>
           </Link>
           <button
             type="button"
             onClick={() => setIssuedRecord(null)}
-            className="btn btn-outline rounded-[3px] bg-white px-6 py-3 text-xs font-bold uppercase tracking-wider"
+            className="btn btn-outline"
           >
             Register Another Contestant
           </button>
@@ -265,37 +252,26 @@ export default function EventRegistrationForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8">
-      <div className="flex items-center gap-3 rounded-[8px] border border-amber-500/30 bg-amber-50 px-5 py-3.5 text-sm text-amber-950">
-        <AlertCircle className="h-4 w-4 shrink-0 text-amber-700" />
-        <span>
-          <strong>Note:</strong> Fields marked with{' '}
-          <span className="font-bold text-red-600">*</span> are mandatory for{' '}
-          {activeEventTitle} audition processing.
-        </span>
-      </div>
-
+    <form onSubmit={handleSubmit} className="space-y-6">
       {errorMsg && (
         <div
           role="alert"
-          className="rounded-[2px] border border-danger/40 bg-red-50 px-5 py-4 text-sm font-medium text-danger"
+          className="rounded-lg border border-danger/30 bg-red-50 px-4 py-3 text-sm font-medium text-danger"
         >
           {errorMsg}
         </div>
       )}
 
-      {/* ─── Card 1: Personal Details & Photo ────────────────────── */}
-      <div className="overflow-hidden rounded-[2px] border border-line bg-white shadow-xs">
-        <div className="bg-forest px-6 py-4 text-white">
-          <h2 className="display text-lg font-bold tracking-wide">
-            1. Production Selection &amp; Contestant Details
-          </h2>
-        </div>
+      {/* Section 1: Contestant Details */}
+      <div className="rounded-xl border border-line bg-white p-6 sm:p-8">
+        <h2 className="border-b border-line pb-4 text-lg font-semibold text-ink">
+          1. Contestant Details
+        </h2>
 
-        <div className="grid gap-5 p-6 sm:grid-cols-2 sm:p-8">
+        <div className="mt-5 grid gap-4 sm:grid-cols-2">
           <div className="sm:col-span-2">
             <label htmlFor="reg-event" className={labelClass}>
-              Applying For Production / Event <span className="text-red-600">*</span>
+              Production / Event *
             </label>
             <select
               id="reg-event"
@@ -313,7 +289,7 @@ export default function EventRegistrationForm({
 
           <div className="sm:col-span-2">
             <label htmlFor="reg-name" className={labelClass}>
-              Contestant Full Name <span className="text-red-600">*</span>
+              Contestant Full Name *
             </label>
             <input
               id="reg-name"
@@ -328,7 +304,7 @@ export default function EventRegistrationForm({
 
           <div>
             <label htmlFor="reg-phone" className={labelClass}>
-              Contact Phone <span className="text-red-600">*</span>
+              Contact Phone *
             </label>
             <input
               id="reg-phone"
@@ -341,10 +317,10 @@ export default function EventRegistrationForm({
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3">
             <div>
               <label htmlFor="reg-gender" className={labelClass}>
-                Gender <span className="text-red-600">*</span>
+                Gender *
               </label>
               <select
                 id="reg-gender"
@@ -362,7 +338,7 @@ export default function EventRegistrationForm({
 
             <div>
               <label htmlFor="reg-age" className={labelClass}>
-                Age <span className="text-red-600">*</span>
+                Age *
               </label>
               <input
                 id="reg-age"
@@ -380,8 +356,7 @@ export default function EventRegistrationForm({
 
           <div>
             <label htmlFor="reg-address" className={labelClass}>
-              Address (City / District / Country){' '}
-              <span className="text-red-600">*</span>
+              Address (City / District) *
             </label>
             <input
               id="reg-address"
@@ -389,14 +364,14 @@ export default function EventRegistrationForm({
               required
               value={address}
               onChange={(e) => setAddress(e.target.value)}
-              placeholder="e.g. Biratnagar-09, Morang"
+              placeholder="e.g. Biratnagar, Morang"
               className={fieldClass}
             />
           </div>
 
           <div>
             <label htmlFor="reg-school" className={labelClass}>
-              School / Academy Name <span className="text-red-600">*</span>
+              School / Academy Name *
             </label>
             <input
               id="reg-school"
@@ -435,15 +410,17 @@ export default function EventRegistrationForm({
                     type="button"
                     onClick={() => setAuditionMode(mode.value)}
                     className={cn(
-                      'flex items-start gap-3 rounded-[8px] border p-4 text-left transition-all',
+                      'flex items-start gap-3 rounded-lg border p-3.5 text-left transition-colors',
                       selected
-                        ? 'border-forest bg-forest-soft text-forest shadow-2xs'
-                        : 'border-line-strong bg-white text-ink hover:border-forest/50'
+                        ? 'border-forest bg-forest-soft/60 text-ink'
+                        : 'border-line bg-white text-ink hover:border-line-strong'
                     )}
                   >
                     <Icon className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
                     <div>
-                      <span className="block text-sm font-bold">{mode.value}</span>
+                      <span className="block text-sm font-medium">
+                        {mode.value}
+                      </span>
                       <span className="mt-0.5 block text-xs text-muted">
                         {mode.note}
                       </span>
@@ -457,27 +434,27 @@ export default function EventRegistrationForm({
           {auditionMode === 'Online Video Audition' && (
             <div className="sm:col-span-2">
               <label htmlFor="reg-video-url" className={labelClass}>
-                Unlisted Audition Video URL (YouTube / Google Drive Link)
+                Audition Video URL (YouTube / Google Drive Link)
               </label>
               <input
                 id="reg-video-url"
                 type="url"
                 value={auditionVideoUrl}
                 onChange={(e) => setAuditionVideoUrl(e.target.value)}
-                placeholder="https://youtube.com/... (Optional now; can submit later)"
+                placeholder="https://youtube.com/... (Optional)"
                 className={fieldClass}
               />
             </div>
           )}
 
-          {/* Contestant Photo Upload Ready for Firebase Storage */}
+          {/* Contestant Photo Upload */}
           <div className="sm:col-span-2">
             <label htmlFor="reg-photo" className={labelClass}>
-              Contestant Headshot / Portrait (Firebase Storage Ready)
+              Contestant Portrait Photo
             </label>
-            <div className="flex flex-wrap items-center gap-4 rounded-[8px] border border-dashed border-line-strong bg-paper p-4">
+            <div className="flex flex-wrap items-center gap-4 rounded-lg border border-dashed border-line-strong bg-paper-deep/50 p-4">
               {photoPreviewUrl ? (
-                <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-[8px] border border-forest/30 bg-white">
+                <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg border border-line bg-white">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={photoPreviewUrl}
@@ -486,8 +463,8 @@ export default function EventRegistrationForm({
                   />
                 </div>
               ) : (
-                <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[8px] bg-sand text-forest">
-                  <Camera className="h-6 w-6" />
+                <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-sand text-forest">
+                  <Camera className="h-5 w-5" />
                 </span>
               )}
               <div className="min-w-0 flex-1">
@@ -496,11 +473,11 @@ export default function EventRegistrationForm({
                   type="file"
                   accept="image/*"
                   onChange={handlePhotoSelect}
-                  className="block w-full text-xs text-muted file:mr-4 file:rounded-[3px] file:border-0 file:bg-forest file:px-4 file:py-2 file:text-xs file:font-bold file:text-white hover:file:bg-ink"
+                  className="block w-full text-xs text-muted file:mr-3 file:rounded-md file:border-0 file:bg-forest file:px-3.5 file:py-1.5 file:text-xs file:font-medium file:text-white hover:file:bg-accent-hover"
                 />
-                <p className="mt-1.5 text-[11px] text-muted">
+                <p className="mt-1 text-xs text-muted">
                   {photoFilename
-                    ? `Selected portrait: ${photoFilename}`
+                    ? `Selected: ${photoFilename}`
                     : 'Clear front-facing portrait JPG/PNG (max 5MB).'}
                 </p>
               </div>
@@ -509,35 +486,30 @@ export default function EventRegistrationForm({
 
           <div className="sm:col-span-2">
             <label htmlFor="reg-hobbies" className={labelClass}>
-              Hobbies &amp; Musical Interests{' '}
-              <span className="font-normal lowercase text-muted">
-                (Optional — comma separated)
-              </span>
+              Hobbies &amp; Interests (Optional)
             </label>
             <textarea
               id="reg-hobbies"
-              rows={3}
+              rows={2}
               value={hobbies}
               onChange={(e) => setHobbies(e.target.value)}
-              placeholder="e.g. Classical singing, folk music, stage performance"
+              placeholder="e.g. Singing, dancing, stage performance"
               className={fieldClass}
             />
           </div>
         </div>
       </div>
 
-      {/* ─── Card 2: Parent / Guardian Information ────────────────── */}
-      <div className="overflow-hidden rounded-[14px] border border-line bg-white shadow-xs">
-        <div className="bg-forest px-6 py-4 text-white">
-          <h2 className="display text-lg font-bold tracking-wide">
-            2. Parent / Guardian Information
-          </h2>
-        </div>
+      {/* Section 2: Parent / Guardian Information */}
+      <div className="rounded-xl border border-line bg-white p-6 sm:p-8">
+        <h2 className="border-b border-line pb-4 text-lg font-semibold text-ink">
+          2. Parent / Guardian Information
+        </h2>
 
-        <div className="grid gap-5 p-6 sm:grid-cols-2 sm:p-8">
+        <div className="mt-5 grid gap-4 sm:grid-cols-2">
           <div className="sm:col-span-2">
             <label htmlFor="reg-parent-name" className={labelClass}>
-              Parent / Guardian Full Name <span className="text-red-600">*</span>
+              Parent / Guardian Full Name *
             </label>
             <input
               id="reg-parent-name"
@@ -580,29 +552,29 @@ export default function EventRegistrationForm({
         </div>
       </div>
 
-      {/* ─── Card 3: Payment QR & Proof Upload ────────────────────── */}
-      <div className="overflow-hidden rounded-[14px] border border-line bg-white shadow-xs">
-        <div className="flex items-center justify-between bg-forest px-6 py-4 text-white">
-          <h2 className="display text-lg font-bold tracking-wide">
-            3. Payment Information &amp; Receipt Proof
+      {/* Section 3: Payment QR & Proof Upload */}
+      <div className="rounded-xl border border-line bg-white p-6 sm:p-8">
+        <div className="flex items-center justify-between border-b border-line pb-4">
+          <h2 className="text-lg font-semibold text-ink">
+            3. Payment &amp; Receipt Proof
           </h2>
-          <QrCode className="h-5 w-5 text-gold" />
+          <QrCode className="h-5 w-5 text-forest" />
         </div>
 
-        <div className="grid items-start gap-8 p-6 sm:grid-cols-12 sm:p-8">
+        <div className="mt-5 grid items-start gap-6 sm:grid-cols-12">
           <div className="sm:col-span-5">
-            <div className="relative aspect-[1280/1164] w-full max-w-xs overflow-hidden rounded-[8px] border border-line bg-paper p-2 shadow-sm">
+            <div className="relative aspect-[1280/1164] w-full max-w-[260px] overflow-hidden rounded-lg border border-line bg-paper-deep p-2">
               <Image
                 src="/images/official/payment-qr.jpeg"
                 alt="Official Jay Media Management Payment QR Code"
                 fill
-                sizes="320px"
+                sizes="260px"
                 className="object-contain"
               />
             </div>
-            <p className="mt-3 text-xs text-muted">
-              Scan via eSewa, Khalti, or Fonepay. Desk helpline:{' '}
-              <strong className="text-forest">9851143338 | 9802708000</strong>
+            <p className="mt-2.5 text-xs text-muted">
+              Scan via eSewa, Khalti, or Fonepay. Helpline:{' '}
+              <strong className="text-ink">9851143338 / 9802708000</strong>
             </p>
           </div>
 
@@ -616,7 +588,7 @@ export default function EventRegistrationForm({
                 type="text"
                 value={paymentTransactionId}
                 onChange={(e) => setPaymentTransactionId(e.target.value)}
-                placeholder="e.g. ESEWA-991042 or Fonepay Ref"
+                placeholder="e.g. eSewa or Fonepay Reference"
                 className={fieldClass}
               />
             </div>
@@ -625,9 +597,9 @@ export default function EventRegistrationForm({
               <label htmlFor="reg-receipt" className={labelClass}>
                 Upload Payment Receipt Screenshot
               </label>
-              <div className="flex items-center gap-4 rounded-[8px] border border-dashed border-line-strong bg-paper p-4">
+              <div className="flex items-center gap-4 rounded-lg border border-dashed border-line-strong bg-paper-deep/50 p-4">
                 {receiptPreviewUrl ? (
-                  <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-[6px] border border-forest/30 bg-white">
+                  <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg border border-line bg-white">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={receiptPreviewUrl}
@@ -636,7 +608,7 @@ export default function EventRegistrationForm({
                     />
                   </div>
                 ) : (
-                  <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[6px] bg-sand text-forest">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-sand text-forest">
                     <FileImage className="h-5 w-5" />
                   </span>
                 )}
@@ -646,12 +618,12 @@ export default function EventRegistrationForm({
                     type="file"
                     accept="image/*"
                     onChange={handleReceiptSelect}
-                    className="block w-full text-xs text-muted file:mr-4 file:rounded-[3px] file:border-0 file:bg-forest file:px-4 file:py-2 file:text-xs file:font-bold file:text-white hover:file:bg-ink"
+                    className="block w-full text-xs text-muted file:mr-3 file:rounded-md file:border-0 file:bg-forest file:px-3.5 file:py-1.5 file:text-xs file:font-medium file:text-white hover:file:bg-accent-hover"
                   />
-                  <p className="mt-1.5 text-[11px] text-muted">
+                  <p className="mt-1 text-xs text-muted">
                     {paymentReceiptFilename
                       ? `Attached: ${paymentReceiptFilename}`
-                      : 'Attach your eSewa/Fonepay receipt for faster verification.'}
+                      : 'Attach your payment screenshot for verification.'}
                   </p>
                 </div>
               </div>
@@ -660,14 +632,16 @@ export default function EventRegistrationForm({
         </div>
       </div>
 
-      {/* ─── Card 4: Terms and Conditions ─────────────────────────── */}
-      <div className="overflow-hidden rounded-[14px] border border-line bg-white shadow-xs">
-        <div className="flex items-center gap-2 border-b border-line bg-sand px-6 py-4 text-ink">
+      {/* Section 4: Terms and Conditions */}
+      <div className="rounded-xl border border-line bg-white p-6 sm:p-8">
+        <div className="flex items-center gap-2 border-b border-line pb-4">
           <ShieldCheck className="h-5 w-5 text-forest" />
-          <h2 className="display text-lg font-bold">4. Terms and Conditions</h2>
+          <h2 className="text-lg font-semibold text-ink">
+            4. Terms and Conditions
+          </h2>
         </div>
 
-        <div className="space-y-4 p-6 sm:p-8">
+        <div className="mt-5 space-y-3.5">
           <label className="flex cursor-pointer items-start gap-3">
             <input
               type="checkbox"
@@ -677,8 +651,7 @@ export default function EventRegistrationForm({
               className="mt-1 h-4 w-4 accent-forest"
             />
             <span className="text-sm font-medium text-ink">
-              I agree to the competition terms and conditions.{' '}
-              <span className="text-red-600">*</span>
+              I agree to the competition terms and conditions. *
             </span>
           </label>
 
@@ -695,23 +668,16 @@ export default function EventRegistrationForm({
               information provided in this entry form. We agree to abide by all
               competition rules and understand that photographs and broadcast
               footage may be published or televised in connection with{' '}
-              {activeEventTitle}. The decision of Jay Media Management Pvt. Ltd. is
-              final and binding. <span className="text-red-600">*</span>
+              {activeEventTitle}. *
             </span>
           </label>
-
-          <div className="rounded-[8px] border border-amber-500/30 bg-amber-50 px-4 py-3 text-xs text-amber-950">
-            After registering, you will immediately receive your{' '}
-            <strong>Contestant User Code</strong> for status tracking and
-            audition scheduling.
-          </div>
         </div>
 
-        <div className="border-t border-line bg-paper px-6 py-5 sm:px-8">
+        <div className="mt-6 border-t border-line pt-5">
           <button
             type="submit"
             disabled={submitting}
-            className="btn btn-accent rounded-[3px] px-8 py-4 text-sm font-bold uppercase tracking-[0.12em] shadow-sm disabled:opacity-60"
+            className="btn btn-primary px-6 py-3 disabled:opacity-60"
           >
             {submitting ? (
               <>
@@ -719,10 +685,7 @@ export default function EventRegistrationForm({
                 <span>Submitting Registration...</span>
               </>
             ) : (
-              <>
-                <span>Complete Registration</span>
-                <ArrowUpRight className="h-4 w-4 text-gold" />
-              </>
+              <span>Complete Registration</span>
             )}
           </button>
         </div>

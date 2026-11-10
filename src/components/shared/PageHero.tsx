@@ -1,10 +1,7 @@
 import type { ReactNode } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
-import Reveal from '@/components/motion/Reveal';
-import RevealImage from '@/components/motion/RevealImage';
-import { Tilt3D } from '@/components/motion';
-import { PavilionScene } from '@/components/three';
 import { cn } from '@/lib/utils';
 
 interface PageHeroProps {
@@ -29,101 +26,67 @@ export default function PageHero({
   meta,
   className,
 }: PageHeroProps) {
+  const cleanEyebrow = eyebrow.replace(/^\d+\s*\/\s*/, '');
+
   return (
     <section
       className={cn(
-        'relative overflow-hidden border-b border-line bg-paper-deep pt-8 md:pt-12',
+        'border-b border-line bg-paper-deep/60 py-10 md:py-14',
         className
       )}
     >
-      <PavilionScene />
-
-      <div className="container-ed relative z-10">
-        <div className="flex items-center justify-between gap-6 border-b border-line pb-4">
-          <div className="flex items-center gap-4">
-            {breadcrumb ? (
-              <Link
-                href={breadcrumb.href}
-                className="group inline-flex items-center gap-2 font-mono text-[10.5px] font-semibold uppercase tracking-[0.16em] text-muted transition-colors hover:text-forest"
-              >
-                <ArrowLeft className="h-3.5 w-3.5 text-forest transition-transform duration-300 group-hover:-translate-x-1" />
-                {breadcrumb.label}
-              </Link>
-            ) : (
-              <span className="eyebrow text-faint">Jay Media Directory</span>
-            )}
+      <div className="container-ed">
+        {breadcrumb && (
+          <div className="mb-4">
+            <Link
+              href={breadcrumb.href}
+              className="inline-flex items-center gap-1.5 text-xs font-medium text-muted transition-colors hover:text-ink"
+            >
+              <ArrowLeft className="h-3.5 w-3.5" />
+              <span>{breadcrumb.label}</span>
+            </Link>
           </div>
-          <span className="eyebrow hidden text-faint sm:block">
-            Biratnagar, Nepal
-          </span>
+        )}
+
+        <div className="max-w-3xl">
+          <p className="text-xs font-semibold uppercase tracking-wider text-forest">
+            {cleanEyebrow}
+          </p>
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+            {title}
+          </h1>
+          {description && (
+            <p className="mt-3 text-base leading-relaxed text-muted">
+              {description}
+            </p>
+          )}
         </div>
 
-        <div className="grid gap-8 pb-10 pt-8 lg:grid-cols-12 lg:gap-10 lg:pb-12 lg:pt-12">
-          <Reveal as="div" className="lg:col-span-8">
-            <span className="eyebrow inline-flex items-center gap-2.5 text-forest">
-              <span className="h-2.5 w-1 bg-forest" aria-hidden="true" />
-              {eyebrow}
-            </span>
-            <h1 className="display mt-5 max-w-[18ch] text-balance text-[clamp(2.4rem,5.4vw,4.8rem)] font-bold text-ink">
-              {title}
-            </h1>
-          </Reveal>
+        {meta && meta.length > 0 && (
+          <dl className="mt-7 grid grid-cols-2 gap-4 border-t border-line pt-5 sm:grid-cols-4">
+            {meta.map((item) => (
+              <div key={item.label}>
+                <dt className="text-xs text-muted">{item.label}</dt>
+                <dd className="mt-0.5 text-sm font-medium text-ink">
+                  {item.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        )}
 
-          <div className="self-end lg:col-span-4">
-            {description && (
-              <Reveal delay={90}>
-                <p className="max-w-md text-pretty text-sm leading-relaxed text-muted md:text-[0.95rem]">
-                  {description}
-                </p>
-              </Reveal>
-            )}
-
-            {meta && (
-              <Reveal delay={150}>
-                <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-4 border-t border-line pt-5">
-                  {meta.map((item) => (
-                    <div key={item.label}>
-                      <dt className="eyebrow text-[9px] text-faint">
-                        {item.label}
-                      </dt>
-                      <dd className="mt-1.5 text-sm font-medium leading-snug text-ink">
-                        {item.value}
-                      </dd>
-                    </div>
-                  ))}
-                </dl>
-              </Reveal>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {image && (
-        <div className="container-ed relative z-10">
-          <Tilt3D maxTilt={3} scale={1.005}>
-            <RevealImage
+        {breadcrumb && image && (
+          <div className="relative mt-8 aspect-[16/7] w-full overflow-hidden rounded-xl border border-line bg-sand">
+            <Image
               src={image}
               alt={imageAlt}
-              aspect="aspect-[2/1]"
-              sizes="(max-width: 1408px) 100vw, 1344px"
+              fill
               priority
-              parallax={false}
-              className="rounded-[2px] border border-line bg-[#020816]"
+              sizes="(max-width: 1280px) 100vw, 1200px"
+              className="object-cover"
             />
-          </Tilt3D>
-        </div>
-      )}
-
-      <div
-        className={cn(
-          'container-ed relative z-10 flex items-center justify-between gap-4',
-          image ? 'pb-6 pt-4 md:pb-8' : 'pb-10 pt-4 md:pb-12'
+          </div>
         )}
-      >
-        <span className="eyebrow text-faint">
-          {image ? imageAlt || eyebrow : 'Jay Media Management'}
-        </span>
-        <span className="eyebrow hidden text-faint md:block">Est. 2013</span>
       </div>
     </section>
   );

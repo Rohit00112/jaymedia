@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { X, ChevronLeft, ChevronRight, ArrowUpRight } from 'lucide-react';
 import PageHero from '@/components/shared/PageHero';
 import CtaBand from '@/components/shared/CtaBand';
-import { Tilt3D } from '@/components/motion';
 import { useEscapeKey, useBodyLock } from '@/hooks';
 import { cn } from '@/lib/utils';
 
@@ -26,7 +25,6 @@ interface GalleryPhoto {
   aspect: string;
   image: string;
   caption: string;
-  featuredInSection?: boolean;
 }
 
 interface GallerySectionMeta {
@@ -47,7 +45,7 @@ const GALLERY_SECTIONS: GallerySectionMeta[] = [
     description:
       'Official tour poster, stage showcase, and Itahari Stadium (Rangasala) venue frames for the December 19, 2026 concert organized by Jay Media Management.',
     href: '/events/atif-aslam-live-in-nepal',
-    linkLabel: 'Concert Dossier',
+    linkLabel: 'Concert Details',
     ticketUrl: 'https://events.khalti.com/events/ET26BJD3F93W',
   },
   {
@@ -103,7 +101,7 @@ const GALLERY_PHOTOS: GalleryPhoto[] = [
     title: 'Atif Aslam Live in Nepal — Subah Aye Na Tour (Eastern Echoes)',
     badge: 'Official Tour Poster',
     category: 'Atif Aslam Live in Nepal',
-    aspect: 'aspect-[4/4.8]',
+    aspect: 'aspect-[4/4.5]',
     image: '/images/official/atif-aslam-poster.jpg',
     caption:
       'Jay Media Management presents Atif Aslam Live in Nepal at Itahari Stadium (Itahari Rangasala) on December 19, 2026. Official digital ticketing via Khalti by IME.',
@@ -113,7 +111,7 @@ const GALLERY_PHOTOS: GalleryPhoto[] = [
     title: 'Subah Aye Na Tour — Official Concert Showcase',
     badge: 'Headline Showcase',
     category: 'Atif Aslam Live in Nepal',
-    aspect: 'aspect-[4/4.8]',
+    aspect: 'aspect-[4/4.5]',
     image: '/images/official/atif-aslam-stage.jpg',
     caption:
       'Official showcase artwork for Atif Aslam Live in Nepal: Subah Aye Na Tour (Eastern Echoes) on Saturday, December 19, 2026.',
@@ -123,7 +121,7 @@ const GALLERY_PHOTOS: GalleryPhoto[] = [
     title: 'Itahari Stadium (Itahari Rangasala) — Concert Arena',
     badge: 'Host Stadium Venue',
     category: 'Atif Aslam Live in Nepal',
-    aspect: 'aspect-[4/4.8]',
+    aspect: 'aspect-[4/4.5]',
     image: '/images/official/itahari-stadium.jpg',
     caption:
       'Itahari Stadium in Sunsari, Koshi Province — host arena for Atif Aslam Live in Nepal on December 19, 2026 (6:00 PM onwards).',
@@ -137,14 +135,13 @@ const GALLERY_PHOTOS: GalleryPhoto[] = [
     image: '/images/official/koshi-2024-cover.png',
     caption:
       'Complete winners and runners-up roster of Miss Koshi 2024 Season #8 crowned by Jay Media Management Pvt. Ltd. in Biratnagar.',
-    featuredInSection: true,
   },
   {
     id: 'koshi-2024-winner',
     title: 'Subha Laxmi Rai — Miss Koshi 2024 Winner',
     badge: 'Grand Winner • #16',
     category: 'Miss Koshi 2024',
-    aspect: 'aspect-[3/3.8]',
+    aspect: 'aspect-[4/4.5]',
     image: '/images/official/koshi-winner.png',
     caption:
       'Contestant No. 16 from Itahari crowned Miss Koshi 2024 Season #8 Grand Winner.',
@@ -154,7 +151,7 @@ const GALLERY_PHOTOS: GalleryPhoto[] = [
     title: "Organizer's Choice Winner — Miss Koshi 2024",
     badge: "Organizer's Choice",
     category: 'Miss Koshi 2024',
-    aspect: 'aspect-[3/3.8]',
+    aspect: 'aspect-[4/4.5]',
     image: '/images/official/koshi-organizers-choice.png',
     caption:
       "Honoring the Organizer's Choice titleholder of Miss Koshi Season #8.",
@@ -164,7 +161,7 @@ const GALLERY_PHOTOS: GalleryPhoto[] = [
     title: 'Nishahangma Limbu — 1st Runner Up',
     badge: '1st Runner Up • #09',
     category: 'Miss Koshi 2024',
-    aspect: 'aspect-[3/3.8]',
+    aspect: 'aspect-[4/4.5]',
     image: '/images/official/koshi-runner-1.png',
     caption:
       'Contestant No. 09 (Dharan) honored as 1st Runner Up at Miss Koshi 2024 Season #8.',
@@ -174,7 +171,7 @@ const GALLERY_PHOTOS: GalleryPhoto[] = [
     title: '2nd Runner Up — Miss Koshi 2024',
     badge: '2nd Runner Up',
     category: 'Miss Koshi 2024',
-    aspect: 'aspect-[3/3.8]',
+    aspect: 'aspect-[4/4.5]',
     image: '/images/official/koshi-runner-2.png',
     caption: 'Official 2nd Runner Up presentation of Miss Koshi 2024 Season #8.',
   },
@@ -183,7 +180,7 @@ const GALLERY_PHOTOS: GalleryPhoto[] = [
     title: '3rd Runner Up — Miss Koshi 2024',
     badge: '3rd Runner Up',
     category: 'Miss Koshi 2024',
-    aspect: 'aspect-[3/3.8]',
+    aspect: 'aspect-[4/4.5]',
     image: '/images/official/koshi-runner-3.png',
     caption: 'Official 3rd Runner Up presentation of Miss Koshi 2024 Season #8.',
   },
@@ -192,7 +189,7 @@ const GALLERY_PHOTOS: GalleryPhoto[] = [
     title: '4th Runner Up — Miss Koshi 2024',
     badge: '4th Runner Up',
     category: 'Miss Koshi 2024',
-    aspect: 'aspect-[3/3.8]',
+    aspect: 'aspect-[4/4.5]',
     image: '/images/official/koshi-runner-4.png',
     caption: 'Official 4th Runner Up presentation of Miss Koshi 2024 Season #8.',
   },
@@ -201,7 +198,7 @@ const GALLERY_PHOTOS: GalleryPhoto[] = [
     title: 'Nepal Kids Idol — Jury Announcement (Lochan Bhattarai)',
     badge: 'Official Jury Panel',
     category: 'Nepal Kids Idol',
-    aspect: 'aspect-[4/4.6]',
+    aspect: 'aspect-[4/4.5]',
     image: '/images/official/nki-cover.png',
     caption:
       'Celebrated vocalist Mrs. Lochan Bhattarai joining the official jury panel for Nepal Kids Idol Season One.',
@@ -211,7 +208,7 @@ const GALLERY_PHOTOS: GalleryPhoto[] = [
     title: 'Nepal Kids Idol — Auditions Open Nationwide',
     badge: '77 Districts + Global',
     category: 'Nepal Kids Idol',
-    aspect: 'aspect-[4/4.6]',
+    aspect: 'aspect-[4/4.5]',
     image: '/images/official/nki-poster.png',
     caption:
       'National & international audition call spanning all 77 districts of Nepal plus global diaspora centers with Rs. 20 Lakhs prize pool.',
@@ -221,7 +218,7 @@ const GALLERY_PHOTOS: GalleryPhoto[] = [
     title: 'Nepal Kids Idol — Lead Jury Panelist Ananda Karki',
     badge: 'Lead Jury Maestro',
     category: 'Nepal Kids Idol',
-    aspect: 'aspect-[4/4.6]',
+    aspect: 'aspect-[4/4.5]',
     image: '/images/official/judge-ananda.png',
     caption:
       'Nepali playback maestro Ananda Karki on the official Nepal Kids Idol television jury panel.',
@@ -335,360 +332,199 @@ export default function GalleryPage() {
   return (
     <div className="min-h-screen bg-paper text-ink">
       <PageHero
-        eyebrow="Production archive"
-        title={
-          <>
-            Moments caught in{' '}
-            <span className="serif italic text-accent">the spotlight.</span>
-          </>
-        }
-        description="A curated photographic retrospective of live stadium concerts, pageant coronations, and broadcast stagecraft across Itahari, Biratnagar, and Koshi Province."
-        image="/images/official/atif-aslam-banner.jpg"
-        imageAlt="Atif Aslam Live in Nepal concert and stage lighting production"
-        compact
+        eyebrow="Photo Gallery"
+        title="Productions & event moments."
+        description="Official concert posters, pageant titleholder portraits, and live stage photography across Itahari, Biratnagar, and Koshi Province."
         meta={[
-          {
-            label: 'Archive',
-            value: `${GALLERY_PHOTOS.length} official frames`,
-          },
-          {
-            label: 'Collections',
-            value: `0${GALLERY_SECTIONS.length} event sections`,
-          },
+          { label: 'Photos', value: `${GALLERY_PHOTOS.length} official frames` },
+          { label: 'Collections', value: `${GALLERY_SECTIONS.length} events` },
           { label: 'Region', value: 'Koshi Province' },
           { label: 'Studio', value: 'Central Mall, Biratnagar' },
         ]}
       />
 
-      {/* Minimal Architectural Filter Bar */}
-      <div className="sticky top-[4.5rem] z-30 border-b border-line bg-paper/95 backdrop-blur-xl">
-        <div className="container-ed flex items-center justify-between gap-4 overflow-x-auto py-4 no-scrollbar">
-          <div className="flex shrink-0 items-center gap-6">
-            <span className="eyebrow shrink-0 text-faint">Filter</span>
-            {CATEGORIES.map((category, idx) => {
-              const active = selectedCategory === category;
-              return (
-                <button
-                  key={category}
-                  type="button"
-                  onClick={() => {
-                    setSelectedCategory(category);
-                    setActivePhotoIndex(null);
-                  }}
-                  aria-pressed={active}
-                  className={cn(
-                    'relative whitespace-nowrap pb-1.5 font-sans text-xs font-medium transition-colors duration-200',
-                    active ? 'text-ink' : 'text-muted hover:text-ink'
-                  )}
-                >
-                  <span className="mono mr-1.5 text-[9.5px] text-faint">
-                    0{idx + 1}
-                  </span>
-                  {category}
-                  {active && (
-                    <span
-                      className="absolute inset-x-0 bottom-0 h-[1.5px] bg-ink"
-                      aria-hidden="true"
-                    />
-                  )}
-                </button>
-              );
-            })}
-          </div>
+      {/* Category Filter Bar */}
+      <div className="sticky top-16 z-30 border-b border-line bg-white/95 backdrop-blur-md">
+        <div className="container-ed flex items-center gap-2 overflow-x-auto py-3 no-scrollbar">
+          {CATEGORIES.map((category) => {
+            const active = selectedCategory === category;
+            return (
+              <button
+                key={category}
+                type="button"
+                onClick={() => {
+                  setSelectedCategory(category);
+                  setActivePhotoIndex(null);
+                }}
+                aria-pressed={active}
+                className={cn(
+                  'shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors',
+                  active
+                    ? 'bg-forest text-white'
+                    : 'bg-paper-deep text-muted hover:bg-sand hover:text-ink'
+                )}
+              >
+                {category}
+              </button>
+            );
+          })}
         </div>
       </div>
 
       {/* Grouped Event Sections */}
-      <section className="py-14 md:py-20">
-        <div className="container-ed space-y-16 md:space-y-24">
-          {visibleSections.map((section, sectionIdx) => {
+      <section className="py-14 md:py-18">
+        <div className="container-ed space-y-16">
+          {visibleSections.map((section) => {
             const sectionPhotos = GALLERY_PHOTOS.filter(
               (photo) => photo.category === section.category
             );
             if (sectionPhotos.length === 0) return null;
 
-            const featuredPhoto = sectionPhotos.find(
-              (p) => p.featuredInSection
-            );
-            const gridPhotos = featuredPhoto
-              ? sectionPhotos.filter((p) => p.id !== featuredPhoto.id)
-              : sectionPhotos;
-
             return (
               <div
                 key={section.category}
-                className="border-t border-ink/15 pt-10 first:border-t-0 first:pt-0"
+                className="border-t border-line pt-10 first:border-t-0 first:pt-0"
               >
                 {/* Section Header */}
-                <div className="mb-8 flex flex-col justify-between gap-4 border-b border-line pb-6 md:flex-row md:items-end">
+                <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-end">
                   <div>
-                    <span className="eyebrow inline-flex items-center gap-2 text-forest">
-                      <span
-                        className="h-2.5 w-1 bg-forest"
-                        aria-hidden="true"
-                      />
-                      0{sectionIdx + 1} / {section.eyebrow}
+                    <span className="text-xs font-semibold uppercase tracking-wider text-forest">
+                      {section.eyebrow}
                     </span>
-                    <h2 className="display mt-2 text-2xl font-bold text-ink sm:text-3xl md:text-4xl">
+                    <h2 className="mt-1 text-2xl font-semibold text-ink">
                       {section.title}
                     </h2>
-                    <p className="mt-2 max-w-2xl text-xs leading-relaxed text-muted sm:text-sm">
+                    <p className="mt-1.5 max-w-2xl text-sm leading-relaxed text-muted">
                       {section.description}
                     </p>
                   </div>
 
-                  <div className="flex flex-wrap items-center gap-3">
-                    <span className="rounded-[2px] border border-line bg-paper-deep px-3 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
-                      {String(sectionPhotos.length).padStart(2, '0')}{' '}
-                      {sectionPhotos.length === 1 ? 'Frame' : 'Frames'}
-                    </span>
-
+                  <div className="flex flex-wrap items-center gap-2.5">
                     {section.ticketUrl && (
                       <a
                         href={section.ticketUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 rounded-[2px] bg-forest px-3.5 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-white transition-colors hover:bg-ink"
+                        className="btn btn-primary py-2 text-xs"
                       >
                         <span>Buy Tickets (Khalti)</span>
-                        <ArrowUpRight className="h-3 w-3 text-gold" />
+                        <ArrowUpRight className="h-3.5 w-3.5" />
                       </a>
                     )}
 
                     {section.href && (
                       <Link
                         href={section.href}
-                        className="inline-flex items-center gap-1.5 rounded-[2px] border border-ink/20 bg-white px-3.5 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-ink transition-colors hover:border-forest hover:text-forest"
+                        className="btn btn-outline py-2 text-xs"
                       >
                         <span>{section.linkLabel || 'View Event'}</span>
-                        <ArrowUpRight className="h-3 w-3 text-forest" />
+                        <ArrowUpRight className="h-3.5 w-3.5" />
                       </Link>
                     )}
                   </div>
                 </div>
 
-                {/* Optional Lead Plate (e.g., Miss Koshi 2024 Titleholders Cover) */}
-                {featuredPhoto && (
-                  <div className="mb-8 grid items-center gap-6 rounded-[2px] border border-line bg-paper-deep/50 p-5 sm:p-7 lg:grid-cols-12">
-                    <div className="lg:col-span-5">
-                      <Tilt3D maxTilt={5} scale={1.01}>
-                        <button
-                          type="button"
-                          onClick={() => openPhotoById(featuredPhoto.id)}
-                          aria-label={`Open ${featuredPhoto.title}`}
-                          className="group relative block aspect-[4/4.4] w-full overflow-hidden rounded-[2px] border border-ink/15 bg-white text-left"
-                        >
-                          <Image
-                            src={featuredPhoto.image}
-                            alt={featuredPhoto.title}
-                            fill
-                            sizes="(max-width: 1024px) 100vw, 42vw"
-                            className="img-zoom object-cover"
-                          />
-                          <span className="absolute bottom-3 right-3 inline-flex h-9 w-9 items-center justify-center rounded-[2px] bg-white/95 text-ink opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                            <ArrowUpRight className="h-4 w-4" />
-                          </span>
-                        </button>
-                      </Tilt3D>
-                    </div>
-
-                    <div className="flex flex-col justify-between lg:col-span-7 lg:pl-4">
-                      <div>
-                        <span className="eyebrow text-forest">
-                          Lead Exhibition Plate &bull; {featuredPhoto.category}
-                        </span>
-                        <h3 className="display mt-2 text-2xl font-bold text-ink sm:text-3xl">
-                          {featuredPhoto.title}
-                        </h3>
-                        <p className="mt-3 text-sm leading-relaxed text-muted">
-                          {featuredPhoto.caption}
-                        </p>
-
-                        <dl className="mt-6 grid grid-cols-2 gap-4 border-y border-line py-4 sm:grid-cols-3">
-                          <div>
-                            <dt className="eyebrow text-[9px] text-faint">
-                              Season #8 Winner
-                            </dt>
-                            <dd className="mt-1 text-xs font-semibold text-ink">
-                              Subha Laxmi Rai (#16)
-                            </dd>
-                          </div>
-                          <div>
-                            <dt className="eyebrow text-[9px] text-faint">
-                              1st Runner Up
-                            </dt>
-                            <dd className="mt-1 text-xs font-semibold text-ink">
-                              Nishahangma Limbu (#09)
-                            </dd>
-                          </div>
-                          <div>
-                            <dt className="eyebrow text-[9px] text-faint">
-                              Coronation Stage
-                            </dt>
-                            <dd className="mt-1 text-xs font-semibold text-ink">
-                              Biratnagar, Koshi
-                            </dd>
-                          </div>
-                        </dl>
-                      </div>
-
-                      <div className="mt-5 flex flex-wrap items-center gap-3">
-                        <button
-                          type="button"
-                          onClick={() => openPhotoById(featuredPhoto.id)}
-                          className="btn btn-accent"
-                        >
-                          <span>Inspect Full Frame</span>
-                          <ArrowUpRight className="h-4 w-4 text-gold" />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Unified 3D-Tilted Photo Grid for this Event */}
+                {/* Photo Grid */}
                 <div
                   className={cn(
                     'grid gap-6',
-                    gridPhotos.length === 1
-                      ? 'max-w-2xl grid-cols-1'
+                    sectionPhotos.length === 1
+                      ? 'max-w-xl grid-cols-1'
                       : 'sm:grid-cols-2 lg:grid-cols-3'
                   )}
                 >
-                  {gridPhotos.map((photo, index) => (
-                    <Tilt3D
+                  {sectionPhotos.map((photo) => (
+                    <figure
                       key={photo.id}
-                      maxTilt={4.5}
-                      scale={1.01}
-                      className="h-full"
+                      className="group flex flex-col justify-between overflow-hidden rounded-xl border border-line bg-white transition-colors hover:border-line-strong"
                     >
-                      <figure className="group flex h-full flex-col justify-between rounded-[2px] border border-line bg-white p-3 transition-colors duration-300 hover:border-forest">
-                        <button
-                          type="button"
-                          onClick={() => openPhotoById(photo.id)}
-                          aria-label={`Open ${photo.title}`}
-                          className={cn(
-                            'relative block w-full overflow-hidden rounded-[2px] bg-[#040d1a] text-left',
-                            photo.aspect
-                          )}
-                        >
-                          <Image
-                            src={photo.image}
-                            alt={photo.title}
-                            fill
-                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                            className="img-zoom object-cover"
-                            loading={
-                              sectionIdx === 0 && index < 3 ? 'eager' : 'lazy'
-                            }
-                          />
+                      <button
+                        type="button"
+                        onClick={() => openPhotoById(photo.id)}
+                        aria-label={`Open ${photo.title}`}
+                        className={cn(
+                          'relative block w-full overflow-hidden bg-paper-deep text-left',
+                          photo.aspect
+                        )}
+                      >
+                        <Image
+                          src={photo.image}
+                          alt={photo.title}
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          className="img-zoom object-cover"
+                        />
+                      </button>
 
-                          <span
-                            className="absolute inset-0 bg-ink/15 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                            aria-hidden="true"
-                          />
-
-                          <span className="absolute bottom-3 right-3 inline-flex h-9 w-9 translate-y-1 items-center justify-center rounded-[2px] bg-white/95 text-ink opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-                            <ArrowUpRight className="h-4 w-4" />
+                      <figcaption className="flex flex-1 flex-col justify-between p-4">
+                        <div>
+                          <span className="text-xs font-medium text-forest">
+                            {photo.badge || photo.category}
                           </span>
-                        </button>
-
-                        <figcaption className="mt-3.5 flex flex-1 flex-col justify-between px-1 pb-1">
-                          <div>
-                            <div className="flex items-baseline justify-between gap-3">
-                              <h3 className="display text-base font-bold text-ink transition-colors group-hover:text-forest md:text-lg">
-                                {photo.title}
-                              </h3>
-                              <span className="eyebrow shrink-0 text-[9px] text-faint">
-                                0{index + 1}
-                              </span>
-                            </div>
-                            <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-muted">
-                              {photo.caption}
-                            </p>
-                          </div>
-
-                          <div className="mt-3 flex items-center justify-between border-t border-line pt-2.5 font-mono text-[9px] uppercase tracking-[0.14em] text-muted">
-                            <span>{photo.badge || photo.category}</span>
-                            <button
-                              type="button"
-                              onClick={() => openPhotoById(photo.id)}
-                              className="inline-flex items-center gap-1 text-forest hover:underline"
-                            >
-                              <span>Expand</span>
-                              <ArrowUpRight className="h-3 w-3" />
-                            </button>
-                          </div>
-                        </figcaption>
-                      </figure>
-                    </Tilt3D>
+                          <h3 className="mt-1 text-base font-semibold text-ink">
+                            {photo.title}
+                          </h3>
+                          <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-muted">
+                            {photo.caption}
+                          </p>
+                        </div>
+                      </figcaption>
+                    </figure>
                   ))}
                 </div>
               </div>
             );
           })}
-
-          <p className="mt-10 border-t border-line pt-8 text-center font-mono text-[10px] uppercase tracking-[0.16em] text-muted">
-            Showing {filteredPhotos.length} of {GALLERY_PHOTOS.length} official
-            frames across {visibleSections.length}{' '}
-            {visibleSections.length === 1 ? 'event section' : 'event sections'}
-          </p>
         </div>
       </section>
 
-      {/* Clean Minimal Full-Screen Lightbox */}
+      {/* Lightbox Modal */}
       {activePhoto && (
         <div
           role="dialog"
           aria-modal="true"
           aria-label={activePhoto.title}
           onClick={() => setActivePhotoIndex(null)}
-          className="backdrop-in fixed inset-0 z-[100] flex flex-col justify-between bg-ink/95 p-4 text-white backdrop-blur-md sm:p-6 md:p-10"
+          className="fixed inset-0 z-[100] flex flex-col justify-between bg-ink/95 p-4 text-white backdrop-blur-sm sm:p-6"
         >
-          {/* Top Bar */}
           <div
             onClick={(e) => e.stopPropagation()}
-            className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 border-b border-white/15 pb-4"
+            className="mx-auto flex w-full max-w-5xl items-center justify-between gap-4 border-b border-white/15 pb-3"
           >
             <div>
-              <span className="eyebrow text-gold">{activePhoto.category}</span>
-              <h2 className="display mt-1 text-lg font-bold text-white sm:text-2xl">
+              <span className="text-xs text-white/70">
+                {activePhoto.category}
+              </span>
+              <h2 className="text-base font-semibold text-white sm:text-lg">
                 {activePhoto.title}
               </h2>
             </div>
 
-            <div className="flex items-center gap-4">
-              <span className="mono hidden text-xs text-white/60 sm:inline">
-                {String(activePhotoIndex! + 1).padStart(2, '0')} /{' '}
-                {String(filteredPhotos.length).padStart(2, '0')}
-              </span>
-              <button
-                type="button"
-                onClick={() => setActivePhotoIndex(null)}
-                autoFocus
-                aria-label="Close gallery lightbox"
-                className="flex h-10 w-10 items-center justify-center rounded-[2px] border border-white/20 bg-white/10 text-white transition-colors hover:bg-white hover:text-ink"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            </div>
+            <button
+              type="button"
+              onClick={() => setActivePhotoIndex(null)}
+              autoFocus
+              aria-label="Close gallery lightbox"
+              className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/20 bg-white/10 text-white hover:bg-white hover:text-ink"
+            >
+              <X className="h-4 w-4" />
+            </button>
           </div>
 
-          {/* Center Image Stage */}
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative mx-auto my-4 flex w-full max-w-6xl flex-1 items-center justify-center"
+            className="relative mx-auto my-4 flex w-full max-w-5xl flex-1 items-center justify-center"
           >
             <button
               type="button"
               onClick={handlePrev}
               aria-label="Previous image"
-              className="absolute left-0 z-20 flex h-11 w-11 items-center justify-center rounded-[2px] border border-white/20 bg-ink/80 text-white transition-colors hover:bg-white hover:text-ink sm:left-2"
+              className="absolute left-0 z-20 flex h-10 w-10 items-center justify-center rounded-lg border border-white/20 bg-ink/80 text-white hover:bg-white hover:text-ink"
             >
               <ChevronLeft className="h-5 w-5" />
             </button>
 
-            <div className="relative h-[58vh] w-full max-w-4xl sm:h-[68vh]">
+            <div className="relative h-[60vh] w-full max-w-4xl sm:h-[68vh]">
               <Image
                 src={activePhoto.image}
                 alt={activePhoto.title}
@@ -703,50 +539,17 @@ export default function GalleryPage() {
               type="button"
               onClick={handleNext}
               aria-label="Next image"
-              className="absolute right-0 z-20 flex h-11 w-11 items-center justify-center rounded-[2px] border border-white/20 bg-ink/80 text-white transition-colors hover:bg-white hover:text-ink sm:right-2"
+              className="absolute right-0 z-20 flex h-10 w-10 items-center justify-center rounded-lg border border-white/20 bg-ink/80 text-white hover:bg-white hover:text-ink"
             >
               <ChevronRight className="h-5 w-5" />
             </button>
           </div>
 
-          {/* Bottom Caption & Filmstrip */}
           <div
             onClick={(e) => e.stopPropagation()}
-            className="mx-auto w-full max-w-6xl border-t border-white/15 pt-4"
+            className="mx-auto w-full max-w-5xl border-t border-white/15 pt-3 text-xs text-white/75"
           >
-            <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
-              <p className="max-w-2xl text-xs leading-relaxed text-white/75 sm:text-sm">
-                {activePhoto.caption}
-              </p>
-
-              <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
-                {filteredPhotos.map((thumb, idx) => {
-                  const isCurrent = idx === activePhotoIndex;
-                  return (
-                    <button
-                      key={thumb.id}
-                      type="button"
-                      onClick={() => setActivePhotoIndex(idx)}
-                      aria-label={`View ${thumb.title}`}
-                      className={cn(
-                        'relative h-11 w-11 shrink-0 overflow-hidden rounded-[2px] border transition-opacity',
-                        isCurrent
-                          ? 'border-gold opacity-100'
-                          : 'border-white/20 opacity-45 hover:opacity-85'
-                      )}
-                    >
-                      <Image
-                        src={thumb.image}
-                        alt={thumb.title}
-                        fill
-                        sizes="44px"
-                        className="object-cover"
-                      />
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
+            {activePhoto.caption}
           </div>
         </div>
       )}

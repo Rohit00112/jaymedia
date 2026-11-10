@@ -18,7 +18,8 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const event = getEventBySlug(slug) || EVENTS_DATA.find((e) => e.slug === slug);
+  const event =
+    getEventBySlug(slug) || EVENTS_DATA.find((e) => e.slug === slug);
   const title = event ? `Register for ${event.title}` : 'Event Registration';
   return generatePageMetadata({
     title: `${title} | Jay Media Management`,
@@ -42,14 +43,9 @@ export default async function EventRegisterPage({ params }: Props) {
     <div className="min-h-screen bg-paper text-ink">
       <PageHero
         breadcrumb={{ label: 'All open registrations', href: '/register' }}
-        eyebrow="Official Contestant Entry"
-        title={
-          <>
-            Register for <span className="text-forest">{event.title}</span>
-          </>
-        }
+        eyebrow="Contestant Registration"
+        title={`Register for ${event.title}`}
         description={event.tagline}
-        compact
         meta={[
           { label: 'Season', value: event.seasonOrYear },
           { label: 'Eligibility', value: event.eligibility },
@@ -61,45 +57,48 @@ export default async function EventRegisterPage({ params }: Props) {
       {/* Event Panel Strip */}
       <section className="border-b border-line bg-white py-10">
         <div className="container-ed">
-          <div className="mb-7 flex flex-wrap items-center justify-between gap-4">
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
             <div>
-              <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-forest">
+              <span className="text-xs font-semibold uppercase tracking-wider text-forest">
                 {isKidsIdol ? 'Jury Panel' : 'Production Leadership'}
               </span>
-              <h2 className="display mt-1 text-2xl font-bold text-ink">
+              <h2 className="mt-1 text-xl font-semibold text-ink">
                 {isKidsIdol
                   ? 'Official Event Judges'
-                  : 'Jay Media Producers & Direction'}
+                  : 'Producers & Direction'}
               </h2>
             </div>
             <div className="flex flex-wrap gap-2.5">
-              <Link href="/register" className="btn btn-outline bg-white">
-                <span>Switch Production</span>
+              <Link href="/register" className="btn btn-outline py-2 text-xs">
+                Switch Production
               </Link>
-              <Link href="/#application-status" className="btn btn-outline bg-white">
-                <span>Already Registered? Check Pass</span>
+              <Link
+                href="/#application-status"
+                className="btn btn-outline py-2 text-xs"
+              >
+                Check Application Status
               </Link>
             </div>
           </div>
 
-          <div className="grid max-w-3xl grid-cols-1 gap-5 sm:grid-cols-2">
+          <div className="grid max-w-2xl grid-cols-1 gap-4 sm:grid-cols-2">
             {peopleStrip.map((person) => (
               <Link
                 key={person.slug}
                 href={`/team/${person.slug}`}
-                className="group flex items-center gap-4 rounded-[2px] border border-line bg-paper-deep/50 p-3 transition-colors hover:border-forest hover:bg-white"
+                className="group flex items-center gap-3.5 rounded-xl border border-line bg-paper-deep/50 p-3 transition-colors hover:border-line-strong hover:bg-white"
               >
-                <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-[2px] bg-sand">
+                <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-sand">
                   <Image
                     src={person.image}
                     alt={person.name}
                     fill
-                    sizes="80px"
+                    sizes="56px"
                     className="object-cover object-top"
                   />
                 </div>
                 <div>
-                  <h3 className="display text-lg font-bold text-ink group-hover:text-forest">
+                  <h3 className="text-sm font-semibold text-ink group-hover:text-forest">
                     {person.name}
                   </h3>
                   <p className="text-xs text-muted">
@@ -113,7 +112,7 @@ export default async function EventRegisterPage({ params }: Props) {
       </section>
 
       {/* Registration Form */}
-      <section className="py-14 md:py-20">
+      <section className="py-14 md:py-18">
         <div className="container-ed max-w-4xl">
           <EventRegistrationForm
             eventSlug={event.slug}

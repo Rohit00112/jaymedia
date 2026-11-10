@@ -79,50 +79,42 @@ export default function AboutPage() {
     <div className="min-h-screen bg-paper text-ink">
       <PageHero
         eyebrow="About Jay Media Management"
-        title={
-          <>
-            Orchestrating moments since{' '}
-            <span className="serif italic text-accent">2013.</span>
-          </>
-        }
+        title="Orchestrating live events, television, and cinema since 2013."
         description="Registered in Biratnagar, Nepal — uniting cinema production, award shows, national television talent competitions, and corporate brand experiences."
-        image="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1800&q=85"
-        imageAlt="Live arena audience and event stage production by Jay Media Management"
         meta={[
           { label: 'Established', value: '2013 (Reg. 2014)' },
           { label: 'Headquarters', value: 'Central Mall, Biratnagar' },
           { label: 'Leadership', value: 'Jay Raj Roy & Neesha Khatiwada' },
-          { label: 'Phone', value: '9851143338 | 9802708000' },
+          { label: 'Phone', value: '9851143338 / 9802708000' },
         ]}
       />
 
       {/* Story & Heritage */}
-      <section className="py-20 md:py-28">
-        <div className="container-ed grid items-start gap-12 lg:grid-cols-12">
+      <section className="border-b border-line py-16 md:py-20">
+        <div className="container-ed grid items-start gap-10 lg:grid-cols-12">
           <div className="lg:col-span-5">
-            <span className="eyebrow flex items-center gap-2.5 text-accent">
-              <span className="h-px w-6 bg-accent" aria-hidden="true" />
-              01 / Company Chronicle
-            </span>
-            <h2 className="display mt-4 text-3xl font-bold text-ink sm:text-4xl">
+            <p className="text-xs font-semibold uppercase tracking-wider text-forest">
+              Our Story
+            </p>
+            <h2 className="mt-2 text-2xl font-semibold text-ink sm:text-3xl">
               Rooted in Biratnagar. Respected nationwide.
             </h2>
 
-            <div className="mt-7 rounded-[10px] border border-line border-l-4 border-l-forest bg-sand/70 p-6">
-              <p className="text-sm italic leading-relaxed text-ink-soft">
+            <blockquote className="mt-6 rounded-xl border border-line bg-paper-deep p-5">
+              <p className="text-sm leading-relaxed text-ink-soft">
                 &ldquo;From day one, our purpose has been straightforward:
                 deliver stagecraft, television broadcasting, and artistic talent
                 platforms in Biratnagar that inspire an entire generation.&rdquo;
               </p>
-              <span className="mt-3 block font-mono text-[10px] font-bold uppercase tracking-widest text-forest">
-                — Jay Raj Roy, Chairman
-              </span>
-            </div>
+              <footer className="mt-3 text-xs font-medium text-forest">
+                &mdash; Jay Raj Roy, Chairman
+              </footer>
+            </blockquote>
           </div>
 
-          <div className="space-y-6 text-base leading-relaxed text-ink-soft lg:col-span-7">
+          <div className="space-y-4 text-sm leading-relaxed text-muted sm:text-base lg:col-span-7">
             <p>
-              <strong className="font-bold text-ink">
+              <strong className="font-semibold text-ink">
                 Jay Media Management Pvt. Ltd.
               </strong>{' '}
               was established in <strong className="text-ink">2013</strong> and
@@ -134,18 +126,20 @@ export default function AboutPage() {
               .
             </p>
             <p>
-              Under the guidance of Chairman <strong className="text-ink">Jay Raj Roy</strong>{' '}
-              and CEO <strong className="text-ink">Neesha Khatiwada</strong>,
-              the organization has continuously upgraded its capabilities across
+              Under the guidance of Chairman{' '}
+              <strong className="text-ink">Jay Raj Roy</strong> and CEO{' '}
+              <strong className="text-ink">Neesha Khatiwada</strong>, the
+              organization has continuously upgraded its capabilities across
               four pillars: Movie Production, Event Execution, Award Shows, and
               Turnkey Event Management.
             </p>
             <p>
               Our portfolio includes feature cinema (<em>The Karma</em>,{' '}
               <em>Tantra</em>, and the upcoming bilingual movie <em>MEOW</em>),
-              sports franchise execution (<em>Women&apos;s T20 Cricket League</em>
-              ), iconic regional pageants (<em>Miss Koshi Seasons 1–8</em>,{' '}
-              <em>Mrs. Koshi</em>, <em>Mr. &amp; Miss Purwanchal</em>,{' '}
+              sports franchise execution (
+              <em>Women&apos;s T20 Cricket League</em>), iconic regional
+              pageants (<em>Miss Koshi Seasons 1–8</em>, <em>Mrs. Koshi</em>,{' '}
+              <em>Mr. &amp; Miss Purwanchal</em>,{' '}
               <em>Mr. &amp; Miss Little Koshi</em>, <em>Mr. &amp; Miss SEE</em>,
               and <em>JMM Runway Fashion Show</em>), and our flagship televised
               competition <em>Nepal Kids Idol</em>.
@@ -155,49 +149,40 @@ export default function AboutPage() {
       </section>
 
       {/* Mission & Vision */}
-      <section className="border-y border-line bg-sand py-16 md:py-24">
-        <div className="container-ed grid gap-8 md:grid-cols-2">
-          <div className="rounded-[6px] border border-line bg-white p-8 shadow-2xs sm:p-10">
-            <span className="inline-flex h-11 w-11 items-center justify-center rounded-[4px] border border-forest/20 bg-forest-soft text-forest">
+      <section className="border-b border-line bg-paper-deep/50 py-16 md:py-20">
+        <div className="container-ed grid gap-6 md:grid-cols-2">
+          <div className="rounded-xl border border-line bg-white p-6 sm:p-8">
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-forest-soft text-forest">
               <Compass className="h-5 w-5" />
             </span>
-            <h3 className="display mt-5 text-2xl font-bold text-ink">
-              Our Mission
-            </h3>
-            <p className="mt-3 text-sm leading-relaxed text-muted sm:text-base">
-              To engineer unforgettable live events, films, and televised
-              talent competitions that uplift emerging Nepali talent, elevate
-              brands, and uphold ethical production excellence.
+            <h3 className="mt-4 text-xl font-semibold text-ink">Our Mission</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted">
+              To engineer unforgettable live events, films, and televised talent
+              competitions that uplift emerging Nepali talent, elevate brands,
+              and uphold ethical production excellence.
             </p>
           </div>
 
-          <div className="rounded-[6px] border border-line bg-white p-8 shadow-2xs sm:p-10">
-            <span className="inline-flex h-11 w-11 items-center justify-center rounded-[4px] border border-forest/20 bg-forest-soft text-forest">
+          <div className="rounded-xl border border-line bg-white p-6 sm:p-8">
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-forest-soft text-forest">
               <Eye className="h-5 w-5" />
             </span>
-            <h3 className="display mt-5 text-2xl font-bold text-ink">
-              Our Vision
-            </h3>
-            <p className="mt-3 text-sm leading-relaxed text-muted sm:text-base">
+            <h3 className="mt-4 text-xl font-semibold text-ink">Our Vision</h3>
+            <p className="mt-2 text-sm leading-relaxed text-muted">
               To remain Eastern Nepal&apos;s trusted creative powerhouse and set
-              national benchmarks in youth talent discovery, cinema storytelling,
-              and corporate brand activation.
+              national benchmarks in youth talent discovery, cinema
+              storytelling, and corporate brand activation.
             </p>
           </div>
         </div>
       </section>
 
       {/* Guiding Values */}
-      <section className="py-20 md:py-28">
+      <section className="border-b border-line py-16 md:py-20">
         <div className="container-ed">
           <SectionHeading
-            eyebrow="02 / Guiding Principles"
-            title={
-              <>
-                Built on values that{' '}
-                <span className="serif italic text-accent">endure.</span>
-              </>
-            }
+            eyebrow="Guiding Principles"
+            title="Built on values that endure."
           />
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -206,13 +191,13 @@ export default function AboutPage() {
               return (
                 <div
                   key={val.title}
-                  className="rounded-[10px] border border-line bg-white p-7 shadow-xs transition-all hover:border-forest"
+                  className="rounded-xl border border-line bg-white p-6"
                 >
-                  <Icon className="h-7 w-7 text-forest" />
-                  <h4 className="display mt-5 text-xl font-bold text-ink">
+                  <Icon className="h-5 w-5 text-forest" />
+                  <h4 className="mt-4 text-base font-semibold text-ink">
                     {val.title}
                   </h4>
-                  <p className="mt-2.5 text-sm leading-relaxed text-muted">
+                  <p className="mt-2 text-sm leading-relaxed text-muted">
                     {val.description}
                   </p>
                 </div>
@@ -223,31 +208,26 @@ export default function AboutPage() {
       </section>
 
       {/* Milestones */}
-      <section className="border-y border-line bg-white py-20 md:py-28">
+      <section className="border-b border-line bg-paper-deep/50 py-16 md:py-20">
         <div className="container-ed">
           <SectionHeading
-            eyebrow="03 / Chronicle"
-            title={
-              <>
-                Our decade of{' '}
-                <span className="serif italic text-accent">milestones.</span>
-              </>
-            }
+            eyebrow="Chronicle"
+            title="Over a decade of milestones."
           />
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {MILESTONES.map((item) => (
               <div
                 key={item.year}
-                className="rounded-[10px] border border-line border-t-4 border-t-forest bg-paper p-6"
+                className="rounded-xl border border-line bg-white p-6"
               >
-                <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-forest">
+                <span className="text-xs font-semibold text-forest">
                   {item.year}
                 </span>
-                <h4 className="display mt-2 text-xl font-bold text-ink">
+                <h4 className="mt-1.5 text-base font-semibold text-ink">
                   {item.title}
                 </h4>
-                <p className="mt-2.5 text-sm leading-relaxed text-muted">
+                <p className="mt-2 text-sm leading-relaxed text-muted">
                   {item.description}
                 </p>
               </div>
@@ -257,16 +237,11 @@ export default function AboutPage() {
       </section>
 
       {/* Leadership Teaser */}
-      <section className="bg-sand py-20 md:py-24">
+      <section className="py-16 md:py-20">
         <div className="container-ed">
           <SectionHeading
-            eyebrow="04 / Leadership"
-            title={
-              <>
-                Meet the{' '}
-                <span className="serif italic text-accent">team.</span>
-              </>
-            }
+            eyebrow="Leadership"
+            title="Meet the team."
             link={{ href: '/team', label: 'View full profiles' }}
           />
 
@@ -275,24 +250,22 @@ export default function AboutPage() {
               <Link
                 key={member.slug}
                 href={`/team/${member.slug}`}
-                className="group overflow-hidden rounded-[10px] border border-line bg-white shadow-xs transition-all hover:border-forest"
+                className="group overflow-hidden rounded-xl border border-line bg-white transition-colors hover:border-line-strong"
               >
-                <div className="relative aspect-[4/4.2] w-full overflow-hidden bg-paper">
+                <div className="relative aspect-[4/4.2] w-full overflow-hidden bg-sand">
                   <Image
                     src={member.image}
                     alt={member.name}
                     fill
                     sizes="(max-width: 640px) 100vw, 25vw"
-                    className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                    className="img-zoom object-cover object-top"
                   />
                 </div>
-                <div className="p-5 text-center">
-                  <h3 className="display text-lg font-bold text-forest">
+                <div className="p-4">
+                  <h3 className="text-base font-semibold text-ink group-hover:text-forest">
                     {member.name}
                   </h3>
-                  <p className="mt-1 font-mono text-[10px] uppercase tracking-wider text-muted">
-                    {member.role}
-                  </p>
+                  <p className="mt-0.5 text-xs text-muted">{member.role}</p>
                 </div>
               </Link>
             ))}

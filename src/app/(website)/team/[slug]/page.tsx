@@ -67,16 +67,15 @@ export default async function TeamProfileDetailPage({ params }: Props) {
         eyebrow={person.category}
         title={person.name}
         description={`${person.role} • ${person.location}`}
-        compact
       />
 
-      <section className="py-16 md:py-24">
+      <section className="py-16 md:py-20">
         <div className="container-ed">
-          <div className="grid items-start gap-12 lg:grid-cols-12">
-            {/* Sticky Portrait */}
+          <div className="grid items-start gap-10 lg:grid-cols-12">
+            {/* Portrait */}
             <div className="lg:col-span-4">
-              <div className="overflow-hidden rounded-[12px] border border-line bg-white p-2.5 shadow-md lg:sticky lg:top-28">
-                <div className="relative aspect-[4/4.4] w-full overflow-hidden rounded-[8px] bg-sand">
+              <div className="overflow-hidden rounded-xl border border-line bg-white p-3">
+                <div className="relative aspect-[4/4.4] w-full overflow-hidden rounded-lg bg-sand">
                   <Image
                     src={person.image}
                     alt={person.name}
@@ -86,40 +85,38 @@ export default async function TeamProfileDetailPage({ params }: Props) {
                     className="object-cover object-top"
                   />
                 </div>
-                <div className="p-4 text-center">
-                  <h2 className="display text-2xl font-bold text-forest">
+                <div className="p-3 text-center">
+                  <h2 className="text-lg font-semibold text-ink">
                     {person.name}
                   </h2>
-                  <p className="mt-1 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-muted">
-                    Designation: {person.role}
-                  </p>
+                  <p className="mt-0.5 text-xs text-muted">{person.role}</p>
                 </div>
               </div>
             </div>
 
             {/* Bio & Credits */}
-            <div className="space-y-8 lg:col-span-8">
-              <div className="rounded-[12px] border border-line bg-white p-8 shadow-xs sm:p-10">
-                <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-forest">
-                  Verified Profile
+            <div className="lg:col-span-8">
+              <div className="rounded-xl border border-line bg-white p-6 sm:p-8">
+                <span className="text-xs font-semibold uppercase tracking-wider text-forest">
+                  Profile
                 </span>
-                <h2 className="display mt-2 text-3xl font-bold text-ink">
+                <h2 className="mt-1.5 text-2xl font-semibold text-ink">
                   Leadership &amp; Creative Portfolio
                 </h2>
 
-                <p className="mt-6 text-base leading-relaxed text-ink-soft sm:text-lg">
+                <p className="mt-4 text-sm leading-relaxed text-muted sm:text-base">
                   {person.bio}
                 </p>
 
-                <div className="mt-8 border-t border-line pt-7">
-                  <h3 className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-forest">
+                <div className="mt-8 border-t border-line pt-6">
+                  <h3 className="text-xs font-semibold uppercase tracking-wider text-ink">
                     Notable Credits &amp; Responsibilities
                   </h3>
                   <ul className="mt-4 grid gap-3 sm:grid-cols-2">
                     {person.credits.map((credit) => (
                       <li
                         key={credit}
-                        className="flex items-start gap-2.5 rounded-[8px] border border-line bg-paper px-4 py-3 text-sm font-medium text-ink"
+                        className="flex items-start gap-2.5 rounded-lg border border-line bg-paper-deep/60 px-3.5 py-2.5 text-sm text-ink-soft"
                       >
                         <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
                         <span>{credit}</span>
@@ -128,20 +125,14 @@ export default async function TeamProfileDetailPage({ params }: Props) {
                   </ul>
                 </div>
 
-                <div className="mt-8 flex flex-wrap gap-4 border-t border-line pt-6">
-                  <Link
-                    href="/team"
-                    className="btn btn-outline rounded-[3px]"
-                  >
+                <div className="mt-8 flex flex-wrap gap-3 border-t border-line pt-6">
+                  <Link href="/team" className="btn btn-outline">
                     <ArrowLeft className="h-3.5 w-3.5" />
                     <span>All Team Members</span>
                   </Link>
-                  <Link
-                    href="/contact"
-                    className="btn btn-accent rounded-[3px]"
-                  >
+                  <Link href="/contact" className="btn btn-primary">
                     <span>Connect With Studio</span>
-                    <ArrowUpRight className="h-3.5 w-3.5 text-gold" />
+                    <ArrowUpRight className="h-3.5 w-3.5" />
                   </Link>
                 </div>
               </div>
@@ -154,4 +145,3 @@ export default async function TeamProfileDetailPage({ params }: Props) {
     </div>
   );
 }
-

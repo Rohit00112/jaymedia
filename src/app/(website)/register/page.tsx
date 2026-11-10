@@ -19,52 +19,42 @@ export default function RegisterHubPage() {
     <div className="min-h-screen bg-paper text-ink">
       <PageHero
         eyebrow="Audition & Contestant Portal"
-        title={
-          <>
-            Register across <span className="text-forest">all Jay Media events.</span>
-          </>
-        }
-        description="Choose an open Jay Media production below to open its dedicated brief or submit your entry directly in the unified form."
-        compact
+        title="Register for Jay Media events."
+        description="Select an open production below or complete your entry directly in the online registration form."
         meta={[
-          { label: 'Open Events', value: `${String(openEvents.length).padStart(2, '0')} active` },
-          { label: 'Base Studio', value: 'Biratnagar HQ' },
-          { label: 'Audition Access', value: 'In-Person & Online' },
-          { label: 'Pass Tracking', value: 'Instant User Code' },
+          { label: 'Open Events', value: `${openEvents.length} active` },
+          { label: 'Studio', value: 'Biratnagar HQ' },
+          { label: 'Auditions', value: 'In-Person & Online' },
+          { label: 'Tracking', value: 'Instant User Code' },
         ]}
       />
 
       {/* Active Event Cards Selector */}
-      <section className="border-b border-line bg-paper-deep py-14">
+      <section className="border-b border-line bg-paper-deep/50 py-14">
         <div className="container-ed">
-          <div className="mb-8 flex flex-wrap items-end justify-between gap-4 border-b border-ink/15 pb-4">
+          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
-              <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-forest">
-                01 / Active Productions
+              <span className="text-xs font-semibold uppercase tracking-wider text-forest">
+                Open Productions
               </span>
-              <h2 className="display mt-1.5 text-2xl font-bold text-ink sm:text-3xl">
-                Select Your Production &amp; Audition Division
+              <h2 className="mt-1 text-2xl font-semibold text-ink">
+                Choose a production
               </h2>
             </div>
 
-            <Link href="/#application-status" className="btn btn-outline bg-white">
-              <span>Already Registered? Verify Pass</span>
+            <Link href="/#application-status" className="btn btn-outline">
+              Check Application Status
             </Link>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {openEvents.map((event, idx) => (
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {openEvents.map((event) => (
               <div
                 key={event.slug}
-                className="flex flex-col justify-between border border-line bg-white transition-colors hover:border-forest"
+                className="flex flex-col justify-between overflow-hidden rounded-xl border border-line bg-white"
               >
                 <div>
-                  <div className="flex items-center justify-between border-b border-line px-4 py-2.5 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-forest">
-                    <span>0{idx + 1} &bull; {event.codePrefix}</span>
-                    <span className="text-muted">{event.eligibility}</span>
-                  </div>
-
-                  <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-line bg-sand">
+                  <div className="relative aspect-[16/10] w-full overflow-hidden bg-sand">
                     <Image
                       src={event.heroStageImage || event.image}
                       alt={event.title}
@@ -75,14 +65,17 @@ export default function RegisterHubPage() {
                   </div>
 
                   <div className="p-4">
-                    <h3 className="display text-lg font-bold text-ink">
+                    <span className="text-xs font-medium text-forest">
+                      {event.eligibility}
+                    </span>
+                    <h3 className="mt-1 text-base font-semibold text-ink">
                       {event.title}
                     </h3>
                     <p className="mt-1.5 line-clamp-2 text-xs leading-relaxed text-muted">
                       {event.tagline}
                     </p>
-                    <p className="mt-3 flex items-center gap-1.5 font-mono text-[10px] text-ink-soft">
-                      <MapPin className="h-3 w-3 shrink-0 text-forest" />
+                    <p className="mt-3 flex items-center gap-1.5 text-xs text-muted">
+                      <MapPin className="h-3.5 w-3.5 shrink-0 text-forest" />
                       <span className="truncate">{event.coverageLabel}</span>
                     </p>
                   </div>
@@ -91,10 +84,10 @@ export default function RegisterHubPage() {
                 <div className="border-t border-line p-4">
                   <Link
                     href={`/register/${event.slug}`}
-                    className="btn btn-accent w-full"
+                    className="btn btn-primary w-full py-2 text-xs"
                   >
-                    <span>Register Here</span>
-                    <ArrowUpRight className="h-3.5 w-3.5 text-gold" />
+                    <span>Register</span>
+                    <ArrowUpRight className="h-3.5 w-3.5" />
                   </Link>
                 </div>
               </div>
@@ -103,15 +96,15 @@ export default function RegisterHubPage() {
         </div>
       </section>
 
-      {/* Unified Form with Live Event Selector */}
-      <section className="py-14 md:py-20">
+      {/* Unified Form */}
+      <section className="py-14 md:py-18">
         <div className="container-ed max-w-4xl">
-          <div className="mb-8 border-b border-line pb-4">
-            <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-forest">
-              02 / Direct Entry Sheet
+          <div className="mb-8">
+            <span className="text-xs font-semibold uppercase tracking-wider text-forest">
+              Online Entry
             </span>
-            <h2 className="display mt-1.5 text-2xl font-bold text-ink">
-              Submit Registration Online
+            <h2 className="mt-1 text-2xl font-semibold text-ink">
+              Submit Registration Form
             </h2>
           </div>
 

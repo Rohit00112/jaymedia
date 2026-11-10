@@ -1,9 +1,7 @@
 import { Metadata } from 'next';
-import { ArrowUpRight, Mail, MapPin, Phone } from 'lucide-react';
-import Link from 'next/link';
+import { ArrowUpRight, Clock, Mail, MapPin, Phone } from 'lucide-react';
 import PageHero from '@/components/shared/PageHero';
 import ContactForm from '@/components/forms/ContactForm';
-import Reveal from '@/components/motion/Reveal';
 import { generatePageMetadata } from '@/lib/seo';
 import { siteConfig } from '@/config/site';
 
@@ -13,12 +11,6 @@ export const metadata: Metadata = generatePageMetadata({
     'Get in touch with Jay Media Management Pvt. Ltd. near Traffic Chowk, Main Road, Biratnagar, Nepal. Inquire for event management, media production, and pageant sponsorships.',
 });
 
-const HOURS = [
-  'Sunday — Friday',
-  '10:00 AM — 6:00 PM',
-  'Saturday by appointment',
-];
-
 export default function ContactPage() {
   const fullAddress = `${siteConfig.location.address}, ${siteConfig.location.city}, ${siteConfig.location.province}, ${siteConfig.location.country}`;
   const mapsHref = `https://maps.google.com/?q=${encodeURIComponent(fullAddress)}`;
@@ -26,228 +18,166 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen bg-paper text-ink">
       <PageHero
-        eyebrow="Start a project"
-        title={
-          <>
-            Tell us what you&apos;re{' '}
-            <span className="serif italic text-accent">imagining.</span>
-          </>
-        }
-        description="An ambitious event, a pageant partnership, or a campaign that needs a stage — share the shape of it and our Biratnagar production desk will take it from there."
+        eyebrow="Contact Us"
+        title="Get in touch with our team."
+        description="Whether you are planning a live event, inquiring about concert sponsorships, or registering for a production, our Biratnagar office is here to help."
         meta={[
-          { label: 'Studio', value: 'Biratnagar, Nepal' },
-          { label: 'Response', value: 'Within one business day' },
-          { label: 'Working hours', value: 'Sun–Fri / 10–6 NST' },
-          { label: 'New inquiries', value: 'Always welcome' },
+          { label: 'Office', value: 'Central Mall, Biratnagar' },
+          { label: 'Response Time', value: 'Within 1 business day' },
+          { label: 'Hours', value: 'Sun–Fri, 10 AM – 6 PM' },
+          { label: 'Phone', value: '9851143338 / 9802708000' },
         ]}
       />
 
-      <section className="py-20 md:py-28">
-        <div className="container-ed grid gap-12 lg:grid-cols-12 lg:gap-10">
+      <section className="border-b border-line py-16 md:py-20">
+        <div className="container-ed grid gap-10 lg:grid-cols-12">
+          {/* Inquiry Form */}
           <div className="lg:col-span-7">
-            <Reveal>
-              <span className="eyebrow flex items-center gap-2.5 text-accent">
-                <span className="h-px w-6 bg-accent" aria-hidden="true" />
-                01 / Production inquiry
-              </span>
-              <h2 className="display mt-5 max-w-[14ch] text-balance text-[clamp(2.1rem,4vw,4.1rem)] text-ink">
-                The brief starts{' '}
-                <span className="serif italic text-accent">here.</span>
+            <div className="rounded-xl border border-line bg-white p-6 sm:p-8">
+              <h2 className="text-xl font-semibold text-ink">
+                Send an Inquiry
               </h2>
-              <p className="mt-5 max-w-lg text-pretty text-sm leading-relaxed text-muted md:text-base">
-                The more we know about the room, the date, and the feeling you
-                want to leave behind, the sharper our first response will be.
+              <p className="mt-1 text-sm text-muted">
+                Share your event details, target dates, or sponsorship questions
+                below.
               </p>
-            </Reveal>
-
-            <Reveal delay={90}>
-              <div className="mt-10 rounded-[0.5rem] border border-line bg-card p-6 md:p-8">
+              <div className="mt-6">
                 <ContactForm />
               </div>
-            </Reveal>
+            </div>
           </div>
 
-          <aside className="lg:col-span-4 lg:col-start-9">
-            <div className="space-y-8 lg:sticky lg:top-28">
-              <Reveal delay={70}>
-                <div className="border-t-2 border-accent bg-paper-deep p-6 md:p-7">
-                  <span className="eyebrow text-accent">Biratnagar studio</span>
-                  <h2 className="display mt-4 max-w-[14ch] text-2xl text-ink md:text-3xl">
-                    Central Mall, 1st Floor, Biratnagar.
-                  </h2>
+          {/* Office Details */}
+          <aside className="space-y-6 lg:col-span-5">
+            <div className="rounded-xl border border-line bg-paper-deep/60 p-6 sm:p-7">
+              <span className="text-xs font-semibold uppercase tracking-wider text-forest">
+                Headquarters
+              </span>
+              <h2 className="mt-1.5 text-xl font-semibold text-ink">
+                Central Mall, 1st Floor, Biratnagar
+              </h2>
 
-                  <dl className="mt-7 border-t border-line">
-                    <div className="border-b border-line py-4">
-                      <dt className="eyebrow flex items-center gap-2 text-faint">
-                        <MapPin className="h-3 w-3 text-accent" />
-                        Address
-                      </dt>
-                      <dd className="mt-2">
-                        <a
-                          href={mapsHref}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-sm leading-relaxed text-ink-soft transition-colors hover:text-accent"
-                        >
-                          {siteConfig.location.address}
-                          <br />
-                          {siteConfig.location.city},{' '}
-                          {siteConfig.location.province}
-                          <br />
-                          {siteConfig.location.country}
-                        </a>
-                      </dd>
-                    </div>
-
-                    <div className="border-b border-line py-4">
-                      <dt className="eyebrow flex items-center gap-2 text-faint">
-                        <Mail className="h-3 w-3 text-accent" />
-                        Email
-                      </dt>
-                      <dd className="mt-2">
-                        <a
-                          href={`mailto:${siteConfig.contact.email}`}
-                          className="break-all text-sm text-ink-soft transition-colors hover:text-accent"
-                        >
-                          {siteConfig.contact.email}
-                        </a>
-                      </dd>
-                    </div>
-
-                    <div className="border-b border-line py-4">
-                      <dt className="eyebrow flex items-center gap-2 text-faint">
-                        <Phone className="h-3 w-3 text-accent" />
-                        Phone
-                      </dt>
-                      <dd className="mt-2 flex flex-wrap gap-x-2 text-sm text-ink-soft">
-                        <a
-                          href={`tel:${siteConfig.contact.phone}`}
-                          className="font-semibold transition-colors hover:text-accent"
-                        >
-                          {siteConfig.contact.phone}
-                        </a>
-                        <span className="text-muted">|</span>
-                        <a
-                          href={`tel:${siteConfig.contact.secondaryPhone}`}
-                          className="font-semibold transition-colors hover:text-accent"
-                        >
-                          {siteConfig.contact.secondaryPhone}
-                        </a>
-                      </dd>
-                    </div>
-
-                    <div className="py-4">
-                      <dt className="eyebrow text-faint">Hours</dt>
-                      <dd className="mt-2 text-sm leading-relaxed text-ink-soft">
-                        {HOURS[0]}
-                        <br />
-                        {HOURS[1]}
-                        <span className="mt-1 block text-xs text-muted">
-                          {HOURS[2]}
-                        </span>
-                      </dd>
-                    </div>
-                  </dl>
-
-                  <a
-                    href={mapsHref}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn btn-outline mt-5 w-full"
-                  >
-                    Open in maps
-                    <ArrowUpRight className="h-3.5 w-3.5" />
-                  </a>
+              <dl className="mt-5 divide-y divide-line text-sm">
+                <div className="flex items-start gap-3 py-3.5 first:pt-0">
+                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
+                  <div>
+                    <dt className="text-xs font-medium text-muted">Address</dt>
+                    <dd className="mt-0.5 text-ink">
+                      <a
+                        href={mapsHref}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-forest"
+                      >
+                        {siteConfig.location.address},{' '}
+                        {siteConfig.location.city},{' '}
+                        {siteConfig.location.province},{' '}
+                        {siteConfig.location.country}
+                      </a>
+                    </dd>
+                  </div>
                 </div>
-              </Reveal>
 
-              <Reveal delay={110}>
-                <div className="rounded-[0.4rem] bg-forest p-6 text-cream md:p-7">
-                  <span className="eyebrow text-gold">Brand partnerships</span>
-                  <h3 className="display mt-4 text-2xl text-cream">
-                    Pageant title &amp; category sponsorships.
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-cream/70">
-                    Sponsoring Miss Koshi or Mr. and Miss Little Koshi offers
-                    direct brand engagement with families across Eastern Nepal
-                    through broadcast, billboards, and social streams.
-                  </p>
-                  <Link
-                    href={`mailto:${siteConfig.contact.email}`}
-                    className="mt-6 inline-flex items-center gap-2 border-b border-cream/35 pb-1 text-[13px] font-semibold text-cream transition-colors hover:border-cream"
-                  >
-                    Partnership desk
-                    <ArrowUpRight className="h-3.5 w-3.5 text-gold" />
-                  </Link>
+                <div className="flex items-start gap-3 py-3.5">
+                  <Phone className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
+                  <div>
+                    <dt className="text-xs font-medium text-muted">Phone</dt>
+                    <dd className="mt-0.5 flex flex-wrap gap-x-2 font-medium text-ink">
+                      <a
+                        href={`tel:${siteConfig.contact.phone}`}
+                        className="hover:text-forest"
+                      >
+                        {siteConfig.contact.phone}
+                      </a>
+                      <span className="text-muted">/</span>
+                      <a
+                        href={`tel:${siteConfig.contact.secondaryPhone}`}
+                        className="hover:text-forest"
+                      >
+                        {siteConfig.contact.secondaryPhone}
+                      </a>
+                    </dd>
+                  </div>
                 </div>
-              </Reveal>
+
+                <div className="flex items-start gap-3 py-3.5">
+                  <Mail className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
+                  <div>
+                    <dt className="text-xs font-medium text-muted">Email</dt>
+                    <dd className="mt-0.5 text-ink">
+                      <a
+                        href={`mailto:${siteConfig.contact.email}`}
+                        className="break-all hover:text-forest"
+                      >
+                        {siteConfig.contact.email}
+                      </a>
+                    </dd>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3 py-3.5 last:pb-0">
+                  <Clock className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
+                  <div>
+                    <dt className="text-xs font-medium text-muted">
+                      Working Hours
+                    </dt>
+                    <dd className="mt-0.5 text-ink">
+                      Sunday &ndash; Friday, 10:00 AM &ndash; 6:00 PM
+                      <span className="block text-xs text-muted">
+                        Saturday by appointment
+                      </span>
+                    </dd>
+                  </div>
+                </div>
+              </dl>
+
+              <a
+                href={mapsHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-outline mt-6 w-full"
+              >
+                <span>Open in Google Maps</span>
+                <ArrowUpRight className="h-4 w-4" />
+              </a>
+            </div>
+
+            <div className="rounded-xl border border-line bg-white p-6">
+              <span className="text-xs font-semibold uppercase tracking-wider text-forest">
+                Brand Partnerships
+              </span>
+              <h3 className="mt-1.5 text-lg font-semibold text-ink">
+                Concert &amp; pageant sponsorships.
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted">
+                Partnering on Atif Aslam Live in Nepal, Miss Koshi, or Nepal
+                Kids Idol connects your brand with audiences across Koshi
+                Province and national television.
+              </p>
+              <a
+                href={`mailto:${siteConfig.contact.email}`}
+                className="text-link mt-4"
+              >
+                <span>Email partnership desk</span>
+                <ArrowUpRight className="h-3.5 w-3.5" />
+              </a>
             </div>
           </aside>
         </div>
       </section>
 
-      <section className="overflow-hidden border-y border-line bg-paper-deep py-16 md:py-20">
+      {/* Map */}
+      <section className="bg-paper-deep/50 py-14 md:py-16">
         <div className="container-ed">
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-4">
-            <span className="eyebrow flex items-center gap-2.5 text-accent">
-              <span className="h-px w-6 bg-accent" aria-hidden="true" />
-              Find Us In Biratnagar
-            </span>
-            <span className="eyebrow text-faint">{siteConfig.location.coordinates}</span>
-          </div>
-
-          <div className="mt-8 overflow-hidden rounded-[12px] border border-line bg-white p-2 shadow-sm">
+          <div className="overflow-hidden rounded-xl border border-line bg-white">
             <iframe
               title="Jay Media Management Pvt. Ltd. Location Map — Central Mall, Biratnagar"
               src={siteConfig.location.mapEmbedUrl}
-              className="h-[380px] w-full rounded-[8px] border-0"
+              className="h-[360px] w-full border-0"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               allowFullScreen
             />
-          </div>
-
-          <div className="mt-10 grid gap-8 border-t border-line pt-6 sm:grid-cols-3">
-            <div>
-              <span className="eyebrow text-faint">Visit</span>
-              <p className="mt-3 text-sm leading-relaxed text-ink-soft">
-                {siteConfig.location.address}
-                <br />
-                {siteConfig.location.city}, {siteConfig.location.province}
-              </p>
-            </div>
-
-            <div>
-              <span className="eyebrow text-faint">Write</span>
-              <a
-                href={`mailto:${siteConfig.contact.email}`}
-                className="mt-3 block break-all text-sm text-ink-soft transition-colors hover:text-accent"
-              >
-                {siteConfig.contact.email}
-              </a>
-            </div>
-
-            <div>
-              <span className="eyebrow text-faint">Follow</span>
-              <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-sm text-ink-soft">
-                <a
-                  href={siteConfig.social.facebook}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="transition-colors hover:text-accent"
-                >
-                  Facebook
-                </a>
-                <a
-                  href={siteConfig.social.youtube}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="transition-colors hover:text-accent"
-                >
-                  YouTube
-                </a>
-              </div>
-            </div>
           </div>
         </div>
       </section>
