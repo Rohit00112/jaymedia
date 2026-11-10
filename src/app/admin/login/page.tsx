@@ -23,11 +23,30 @@ export default function AdminLoginPage() {
       await login(email, password);
       router.push('/admin');
     } catch (err: unknown) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : 'Invalid credentials. Only authorized Jay Media administrators may sign in.'
-      );
+      const msg = err instanceof Error ? err.message : '';
+      if (
+        msg.includes('auth/invalid-credential') ||
+        msg.includes('auth/wrong-password') ||
+        msg.includes('auth/user-not-found') ||
+        msg.includes('INVALID_LOGIN_CREDENTIALS')
+      ) {
+        setError(
+          'Invalid admin credentials. Please verify your administrator email and password.'
+        );
+      } else if (msg.includes('auth/too-many-requests')) {
+        setError(
+          'Access temporarily blocked due to multiple failed attempts. Please wait a moment and try again.'
+        );
+      } else if (msg.includes('auth/network-request-failed')) {
+        setError(
+          'Network connection error. Please check your internet connection and try again.'
+        );
+      } else {
+        setError(
+          msg ||
+            'Invalid credentials. Only authorized Jay Media administrators may sign in.'
+        );
+      }
     } finally {
       setLoading(false);
     }
