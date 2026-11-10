@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight } from 'lucide-react';
 import PageHero from '@/components/shared/PageHero';
 import CtaBand from '@/components/shared/CtaBand';
 import Reveal from '@/components/motion/Reveal';
@@ -101,10 +101,9 @@ export default async function TeamProfileDetailPage({ params }: Props) {
                     {person.credits.map((credit) => (
                       <li
                         key={credit}
-                        className="flex items-start gap-2.5 rounded-lg border border-line bg-paper-deep/60 px-3.5 py-2.5 text-sm text-ink-soft transition-colors hover:border-line-strong"
+                        className="rounded-lg border border-line bg-paper-deep/60 px-3.5 py-2.5 text-sm text-ink-soft transition-colors hover:border-line-strong"
                       >
-                        <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
-                        <span>{credit}</span>
+                        {credit}
                       </li>
                     ))}
                   </ul>
