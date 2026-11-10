@@ -1,19 +1,27 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
+import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import Link from 'next/link';
 import { X, Calendar, MapPin, ArrowUpRight, Ticket } from 'lucide-react';
 import ConcertCountdown from '@/components/shared/ConcertCountdown';
 
+const emptySubscribe = () => () => {};
+
 export default function ConcertModalPopup() {
+  const isClient = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     // Open popup shortly after page load / reload
     const timer = setTimeout(() => {
       setIsOpen(true);
-    }, 600);
+    }, 500);
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -28,29 +36,40 @@ export default function ConcertModalPopup() {
     };
   }, []);
 
-  if (!isOpen) return null;
+  // Lock body scroll while modal is visible in viewport
+  useEffect(() => {
+    if (isOpen) {
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = originalOverflow;
+      };
+    }
+  }, [isOpen]);
 
-  return (
+  if (!isClient || !isOpen) return null;
+
+  return createPortal(
     <div
       role="dialog"
       aria-modal="true"
       aria-labelledby="concert-popup-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+      className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6"
     >
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-ink/75 backdrop-blur-sm transition-opacity duration-300"
+        className="fixed inset-0 bg-ink/75 backdrop-blur-md transition-opacity duration-300"
         onClick={() => setIsOpen(false)}
         aria-hidden="true"
       />
 
       {/* Modal Container */}
-      <div className="relative z-10 w-full max-w-3xl overflow-hidden rounded-2xl border border-line bg-white shadow-2xl transition-all duration-300 max-h-[92vh] flex flex-col md:flex-row">
+      <div className="relative z-10 w-full max-w-3xl overflow-hidden rounded-2xl border border-line bg-white shadow-2xl transition-all duration-300 max-h-[92vh] flex flex-col md:flex-row animate-in fade-in zoom-in-95 duration-200">
         {/* Close Button */}
         <button
           type="button"
           onClick={() => setIsOpen(false)}
-          className="absolute right-3.5 top-3.5 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-ink/60 text-white backdrop-blur-md transition-colors hover:bg-ink focus:outline-none"
+          className="absolute right-3.5 top-3.5 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-ink/65 text-white backdrop-blur-md transition-colors hover:bg-ink focus:outline-none"
           aria-label="Close announcement"
         >
           <X className="h-4 w-4" />
@@ -149,6 +168,8 @@ export default function ConcertModalPopup() {
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
+
