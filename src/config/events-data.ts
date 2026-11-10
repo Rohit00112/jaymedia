@@ -49,13 +49,13 @@ export interface EventDetailData {
 export const EVENTS_DATA: EventDetailData[] = [
   {
     slug: 'atif-aslam-live-in-nepal',
-    title: 'Atif Aslam Live in Nepal',
-    shortLabel: 'Atif Aslam Live',
-    category: 'International Live Concert • Subah Aye Na Tour',
+    title: 'Eastern Echoes',
+    shortLabel: 'Eastern Echoes',
+    category: 'International Live Concert • Atif Aslam Live',
     seasonOrYear: '19 Dec 2026 (Poush 4) • 6:00 PM',
     location: 'Itahari Stadium (Itahari Rangasala), Koshi Province',
     tagline:
-      'Jay Media Management presents legendary global vocalist Atif Aslam live in Itahari for the Subah Aye Na Tour — Eastern Echoes.',
+      'Jay Media Management presents Eastern Echoes — featuring legendary global vocalist Atif Aslam live in concert at Itahari Stadium.',
     image: '/images/official/atif-aslam-poster.jpg',
     heroStageImage: '/images/official/atif-aslam-stage.jpg',
     coverBanner: '/images/official/atif-aslam-banner.jpg',
@@ -64,18 +64,18 @@ export const EVENTS_DATA: EventDetailData[] = [
     registrationOpen: false,
     ticketUrl: 'https://events.khalti.com/events/ET26BJD3F93W',
     ticketPartner: 'Khalti by IME',
-    ledgerTitle: 'Atif Aslam Live in Nepal — Official Khalti Ticket Tiers',
+    ledgerTitle: 'Eastern Echoes — Official Khalti Ticket Partner',
     status: 'published',
     eligibility: 'Dec 19, 2026 • 6:00 PM',
     coverageLabel: 'Itahari Stadium, Nepal',
     prizePoolLabel: 'Tickets via Khalti',
     codePrefix: 'AAL',
     summary:
-      'Jay Media Management Pvt. Ltd. proudly presents Atif Aslam Live in Nepal: Subah Aye Na Tour (Eastern Echoes) on Saturday, December 19, 2026 (Poush 4) from 6:00 PM onwards at Itahari Stadium (Itahari Rangasala) — with Khalti by IME as the official digital ticketing partner.',
+      'Jay Media Management Pvt. Ltd. proudly presents Eastern Echoes featuring Atif Aslam live in concert on Saturday, December 19, 2026 (Poush 4) from 6:00 PM onwards at Itahari Stadium (Itahari Rangasala) — with Khalti by IME as the official digital ticketing partner.',
     overview:
-      'Bringing one of South Asia’s most celebrated voices to Eastern Nepal for a landmark stadium spectacle, Jay Media Management Pvt. Ltd. presents Atif Aslam Live in Nepal as part of his international "Subah Aye Na Tour — Eastern Echoes." Scheduled for December 19, 2026 (Poush 4, 2083) at Itahari Stadium (Itahari Rangasala), the concert features live full-band renditions of iconic hits including "Tajdar-e-Haram," "Tere Bin," "Dil Diyan Gallan," and "Jeena Jeena," drawing fans from across Nepal and neighboring cross-border hubs. Official digital tickets are available seamlessly via Khalti by IME across General, Fanpit, VIP, and VVIP enclosures.',
+      'Bringing one of South Asia’s most celebrated voices to Eastern Nepal for a landmark stadium spectacle, Jay Media Management Pvt. Ltd. presents Eastern Echoes featuring Atif Aslam live in concert. Scheduled for December 19, 2026 (Poush 4, 2083) at Itahari Stadium (Itahari Rangasala), the concert features live full-band renditions of iconic hits including "Tajdar-e-Haram," "Tere Bin," "Dil Diyan Gallan," and "Jeena Jeena," drawing fans from across Nepal and neighboring cross-border hubs. Official digital tickets are available seamlessly via Khalti by IME across General, Fanpit, VIP, and VVIP enclosures.',
     highlights: [
-      'Headliner: Global Icon Atif Aslam — Subah Aye Na Tour (Eastern Echoes)',
+      'Headliner: Global Icon Atif Aslam Live at Eastern Echoes',
       'Date & Time: Saturday, December 19, 2026 (Poush 4) • 6:00 PM Onwards',
       'Venue: Itahari Stadium (Itahari Rangasala), Itahari, Koshi Province',
       'Official Digital Ticketing Partner: Khalti by IME',
@@ -93,15 +93,15 @@ export const EVENTS_DATA: EventDetailData[] = [
           'Multi-lane digital QR entry at Itahari Rangasala with dedicated VVIP/VIP hospitality lounges, fanpit barricades, and curated opening sets.',
       },
       {
-        title: 'Atif Aslam Live Stadium Concert (6:00 PM Onwards)',
+        title: 'Eastern Echoes — Atif Aslam Live Concert (6:00 PM Onwards)',
         description:
           'A four-hour live arena concert experience as Atif Aslam and his full touring band perform his greatest romantic and Sufi anthems under the Itahari sky.',
       },
     ],
     hallOfFameOrWinners: [
       {
-        title: 'Subah Aye Na Tour • Eastern Echoes',
-        note: 'Historic Koshi Province stadium concert headlined by Atif Aslam performing "Tajdar-e-Haram," "Tere Bin," "Dil Diyan Gallan," and his 2026 album live at Itahari Stadium.',
+        title: 'Eastern Echoes • Atif Aslam Live',
+        note: 'Historic Koshi Province stadium concert headlined by Atif Aslam performing "Tajdar-e-Haram," "Tere Bin," "Dil Diyan Gallan," and his greatest hits live at Itahari Stadium.',
       },
       {
         title: 'Official Ticketing Partner — Khalti by IME',

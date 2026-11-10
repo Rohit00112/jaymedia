@@ -12,7 +12,7 @@ import { useEscapeKey, useBodyLock } from '@/hooks';
 import { cn } from '@/lib/utils';
 
 type GalleryCategory =
-  | 'Atif Aslam Live in Nepal'
+  | 'Eastern Echoes'
   | 'Miss Koshi 2024'
   | 'Nepal Kids Idol'
   | 'Mr. & Miss Little Koshi'
@@ -41,11 +41,11 @@ interface GallerySectionMeta {
 
 const GALLERY_SECTIONS: GallerySectionMeta[] = [
   {
-    category: 'Atif Aslam Live in Nepal',
+    category: 'Eastern Echoes',
     eyebrow: 'International Stadium Concert • 19 Dec 2026',
-    title: 'Atif Aslam Live in Nepal — Subah Aye Na Tour',
+    title: 'Eastern Echoes — Atif Aslam Live',
     description:
-      'Official tour poster, stage showcase, and Itahari Stadium (Rangasala) venue frames for the December 19, 2026 concert organized by Jay Media Management.',
+      'Official concert poster, stage showcase, and Itahari Stadium (Rangasala) venue frames for Eastern Echoes on December 19, 2026 organized by Jay Media Management.',
     href: '/events/atif-aslam-live-in-nepal',
     linkLabel: 'Concert Details',
     ticketUrl: 'https://events.khalti.com/events/ET26BJD3F93W',
@@ -100,33 +100,33 @@ const GALLERY_SECTIONS: GallerySectionMeta[] = [
 const GALLERY_PHOTOS: GalleryPhoto[] = [
   {
     id: 'atif-aslam-poster',
-    title: 'Atif Aslam Live in Nepal — Subah Aye Na Tour (Eastern Echoes)',
-    badge: 'Official Tour Poster',
-    category: 'Atif Aslam Live in Nepal',
+    title: 'Eastern Echoes — Atif Aslam Live Concert Poster',
+    badge: 'Official Concert Poster',
+    category: 'Eastern Echoes',
     aspect: 'aspect-[4/4.5]',
     image: '/images/official/atif-aslam-poster.jpg',
     caption:
-      'Jay Media Management presents Atif Aslam Live in Nepal at Itahari Stadium (Itahari Rangasala) on December 19, 2026. Official digital ticketing via Khalti by IME.',
+      'Jay Media Management presents Eastern Echoes featuring Atif Aslam live at Itahari Stadium (Itahari Rangasala) on December 19, 2026. Official digital ticketing via Khalti by IME.',
   },
   {
     id: 'atif-aslam-banner',
-    title: 'Subah Aye Na Tour — Official Concert Showcase',
+    title: 'Eastern Echoes — Official Concert Showcase',
     badge: 'Headline Showcase',
-    category: 'Atif Aslam Live in Nepal',
+    category: 'Eastern Echoes',
     aspect: 'aspect-[4/4.5]',
     image: '/images/official/atif-aslam-stage.jpg',
     caption:
-      'Official showcase artwork for Atif Aslam Live in Nepal: Subah Aye Na Tour (Eastern Echoes) on Saturday, December 19, 2026.',
+      'Official showcase artwork for Eastern Echoes featuring Atif Aslam on Saturday, December 19, 2026 at Itahari Stadium.',
   },
   {
     id: 'atif-aslam-venue',
     title: 'Itahari Stadium (Itahari Rangasala) — Concert Arena',
     badge: 'Host Stadium Venue',
-    category: 'Atif Aslam Live in Nepal',
+    category: 'Eastern Echoes',
     aspect: 'aspect-[4/4.5]',
     image: '/images/official/itahari-stadium.jpg',
     caption:
-      'Itahari Stadium in Sunsari, Koshi Province — host arena for Atif Aslam Live in Nepal on December 19, 2026 (6:00 PM onwards).',
+      'Itahari Stadium in Sunsari, Koshi Province — host arena for Eastern Echoes on December 19, 2026 (6:00 PM onwards).',
   },
   {
     id: 'koshi-2024-all',
@@ -242,7 +242,7 @@ const GALLERY_PHOTOS: GalleryPhoto[] = [
 
 const CATEGORIES = [
   'All',
-  'Atif Aslam Live in Nepal',
+  'Eastern Echoes',
   'Miss Koshi 2024',
   'Nepal Kids Idol',
   'Mr. & Miss Little Koshi',

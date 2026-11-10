@@ -10,7 +10,7 @@ export const siteConfig = {
   established: 2013,
   registered: 2014,
   description:
-    'Premier event execution, international stadium concerts, movie production, award shows, and broadcast media house established in 2013 in Biratnagar, Nepal. Organizers of Atif Aslam Live in Nepal (Subah Aye Na Tour), Miss Koshi, Nepal Kids Idol, and Mr. & Miss Little Koshi.',
+    'Premier event execution, international stadium concerts, movie production, award shows, and broadcast media house established in 2013 in Biratnagar, Nepal. Organizers of Eastern Echoes (Atif Aslam Live), Miss Koshi, Nepal Kids Idol, and Mr. & Miss Little Koshi.',
   url: 'https://www.jaymediamanagement.com',
   logo: '/images/official/main-logo.png',
   ogImage: '/images/official/atif-aslam-banner.jpg',
@@ -39,8 +39,8 @@ export const siteConfig = {
   },
   keywords: [
     'Jay Media Management',
-    'Atif Aslam Live in Nepal',
-    'Subah Aye Na Tour Itahari',
+    'Eastern Echoes',
+    'Atif Aslam Live Itahari',
     'Atif Aslam Concert Itahari Stadium',
     'Miss Koshi',
     'Nepal Kids Idol',

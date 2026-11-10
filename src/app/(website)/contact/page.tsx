@@ -151,9 +151,9 @@ export default function ContactPage() {
                 Concert &amp; pageant sponsorships.
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-muted">
-                Partnering on Atif Aslam Live in Nepal, Miss Koshi, or Nepal
-                Kids Idol connects your brand with audiences across Koshi
-                Province and national television.
+                Partnering on Eastern Echoes, Miss Koshi, or Nepal Kids Idol
+                connects your brand with audiences across Koshi Province and
+                national television.
               </p>
               <a
                 href={`mailto:${siteConfig.contact.email}`}

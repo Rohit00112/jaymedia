@@ -30,7 +30,7 @@ export default function HeroEventShowcase({ event }: HeroEventShowcaseProps) {
             </h1>
 
             <p className="mt-2 text-base font-medium text-forest sm:text-lg">
-              Subah Aye Na Tour &mdash; Eastern Echoes
+              Atif Aslam Live in Concert &mdash; Itahari Stadium
             </p>
 
             <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted sm:text-base">

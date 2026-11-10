@@ -13,7 +13,7 @@ import { listEvents } from '@/lib/events-store';
 export const metadata: Metadata = generatePageMetadata({
   title: 'Events & Productions Portfolio | Jay Media Management',
   description:
-    'Explore signature event productions by Jay Media Management in Biratnagar, Nepal: Atif Aslam Live in Nepal (Subah Aye Na Tour), Miss Koshi Grand Pageant, Nepal Kids Idol, Mr. & Miss Little Koshi, and bespoke corporate galas.',
+    'Explore signature event productions by Jay Media Management in Biratnagar, Nepal: Eastern Echoes (Atif Aslam Live), Miss Koshi Grand Pageant, Nepal Kids Idol, Mr. & Miss Little Koshi, and bespoke corporate galas.',
 });
 
 export default function EventsPage() {
@@ -25,7 +25,7 @@ export default function EventsPage() {
       <PageHero
         eyebrow="Productions & Franchises"
         title="Live concerts, pageants, and national talent shows."
-        description="From international stadium concerts like Atif Aslam Live in Nepal to regional beauty pageants and televised youth showcases across Koshi Province."
+        description="From international stadium concerts like Eastern Echoes featuring Atif Aslam to regional beauty pageants and televised youth showcases across Koshi Province."
         meta={[
           {
             label: 'Productions',
