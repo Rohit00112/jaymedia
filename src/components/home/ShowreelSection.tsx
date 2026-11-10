@@ -33,7 +33,7 @@ export default function ShowreelSection() {
   return (
     <section
       id="showreel"
-      className="border-b border-line bg-white py-20 md:py-28"
+      className="border-b border-line bg-paper py-20 md:py-28"
     >
       <div className="container-ed">
         {/* Header */}

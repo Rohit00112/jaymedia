@@ -127,18 +127,21 @@ export default function AuditionHubSection() {
       className="border-b border-line bg-white py-16 md:py-20"
     >
       <div className="container-ed">
-        <div className="grid gap-8 lg:grid-cols-12">
-          {/* Left: Clean Architectural Tabbed Audition Hub Directory */}
-          <div className="rounded-[6px] border border-line bg-paper p-6 sm:p-8 lg:col-span-6">
+        <div className="grid items-start gap-10 lg:grid-cols-12 lg:gap-12">
+          {/* Left: Open Editorial Audition Network */}
+          <div className="lg:col-span-7">
             <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-forest">
               Nepal Kids Idol — Audition Network
             </span>
-            <h2 className="display mt-2 text-2xl font-bold text-ink sm:text-3xl">
-              Audition Regions &amp; Digital Entry
+            <h2 className="display mt-2.5 text-3xl font-bold text-ink sm:text-4xl">
+              Audition Regions &amp;{' '}
+              <span className="serif italic font-normal text-forest">
+                Digital Entry
+              </span>
             </h2>
 
-            {/* Underline Segmented Tabs (Zero Bubble Pills) */}
-            <div className="mt-6 flex flex-wrap gap-6 border-b border-line">
+            {/* Underline Segmented Tabs */}
+            <div className="mt-6 flex flex-wrap gap-7 border-b border-line">
               {(
                 [
                   { key: 'nepal', label: 'Nepal (77 Districts)' },
@@ -162,38 +165,41 @@ export default function AuditionHubSection() {
               ))}
             </div>
 
-            <div className="mt-6 rounded-[4px] border border-line bg-white p-5">
-              <h3 className="display text-lg font-bold text-forest">
-                {currentHub.label}
-              </h3>
-              <p className="mt-1 text-xs leading-relaxed text-muted">
-                {currentHub.subtitle}
-              </p>
+            <div className="mt-6">
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <h3 className="display text-xl font-bold text-ink">
+                  {currentHub.label}
+                </h3>
+                <p className="text-xs text-muted">{currentHub.subtitle}</p>
+              </div>
 
-              <div ref={hubGridRef} className="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-3">
+              <div
+                ref={hubGridRef}
+                className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3"
+              >
                 {currentHub.cities.map((city) => (
                   <span
                     key={city}
-                    className="inline-flex items-center gap-1.5 border border-line bg-paper px-3 py-2 text-xs font-medium text-ink"
+                    className="inline-flex items-center gap-2 rounded-[4px] border border-line bg-paper px-3.5 py-3 text-xs font-semibold text-ink transition-colors hover:border-forest"
                   >
                     {activeHub === 'global' ? (
-                      <Video className="h-3 w-3 shrink-0 text-forest" />
+                      <Video className="h-3.5 w-3.5 shrink-0 text-forest" />
                     ) : (
-                      <MapPin className="h-3 w-3 shrink-0 text-forest" />
+                      <MapPin className="h-3.5 w-3.5 shrink-0 text-forest" />
                     )}
                     <span className="truncate">{city}</span>
                   </span>
                 ))}
               </div>
 
-              <p className="mt-4 border-t border-line pt-3 text-xs font-medium text-forest">
+              <p className="mt-5 border-t border-line pt-4 text-xs font-medium text-forest">
                 {currentHub.highlight}
               </p>
             </div>
           </div>
 
-          {/* Right: Application Status Lookup Desk */}
-          <div className="flex flex-col justify-between rounded-[6px] border border-line bg-paper p-6 sm:p-8 lg:col-span-6">
+          {/* Right: Warm Stone Status Desk Card With Emerald Top Accent */}
+          <div className="flex flex-col justify-between rounded-[6px] border border-line border-t-[3px] border-t-forest bg-sand p-6 shadow-xs sm:p-8 lg:col-span-5">
             <div>
               <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-forest">
                 Contestant Verification Desk

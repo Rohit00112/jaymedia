@@ -200,10 +200,10 @@ export default function HeroSection() {
             </dl>
           </div>
 
-          {/* Right Uncluttered Architectural Stage Frame */}
+          {/* Right Uncluttered Editorial Stage Frame */}
           <div className="hero-media lg:col-span-5">
-            <div className="relative mx-auto max-w-md border border-line bg-white p-2.5 shadow-[0_32px_64px_-28px_rgba(1,64,43,0.2)] rounded-[6px] lg:max-w-none">
-              <div className="relative aspect-[4/4.6] overflow-hidden rounded-[4px] bg-sand">
+            <div className="relative mx-auto max-w-md lg:max-w-none">
+              <div className="relative aspect-[4/4.6] overflow-hidden rounded-[6px] border border-line bg-sand shadow-[0_32px_64px_-28px_rgba(1,64,43,0.22)]">
                 <Image
                   src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=1200&q=85"
                   alt="Live singing performance on the Jay Media production stage"
@@ -212,29 +212,25 @@ export default function HeroSection() {
                   sizes="(max-width: 1024px) 100vw, 42vw"
                   className="object-cover"
                 />
+                <div
+                  className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/35 via-transparent to-transparent"
+                  aria-hidden="true"
+                />
               </div>
 
-              <div className="mt-2.5 flex items-center justify-between gap-4 border-t border-line bg-paper px-4 py-3.5">
-                <div>
-                  <span className="block font-mono text-[9.5px] font-bold uppercase tracking-[0.16em] text-forest">
-                    Biratnagar Broadcast HQ
-                  </span>
-                  <h2 className="display mt-0.5 text-lg font-bold text-ink">
-                    Online &amp; District Auditions
-                  </h2>
-                </div>
-                <Link
-                  href="/register/nepal-kids-idol"
-                  className="shrink-0 rounded-[3px] bg-forest px-4 py-2 text-[11px] font-bold uppercase tracking-[0.12em] text-white transition-colors hover:bg-ink"
-                >
-                  Apply Now
-                </Link>
+              <div className="mt-3.5 flex items-center justify-between gap-4 border-t border-line pt-3 text-xs">
+                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-forest">
+                  Biratnagar Broadcast HQ
+                </span>
+                <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
+                  Season One • Ages 5–15
+                </span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* ─── Architectural Award Plaques ─────────────────────────── */}
+        {/* ─── Unified Architectural Championship Awards Ledger ───── */}
         {nki.prizes && (
           <div className="mt-16 border-t border-line pt-10 md:mt-20">
             <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
@@ -248,42 +244,43 @@ export default function HeroSection() {
                 </h2>
               </div>
               <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
-                Awards &amp; Recording Contracts
+                Awards &amp; National Television Contracts
               </span>
             </div>
 
             <AnimeStaggerContainer
-              stagger={95}
-              delay={100}
-              distance={24}
-              className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
+              stagger={85}
+              delay={90}
+              distance={20}
+              className="grid grid-cols-1 divide-y divide-line overflow-hidden rounded-[6px] border border-line bg-white shadow-2xs sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-4 lg:divide-x"
             >
-              {nki.prizes.map((prize) => {
+              {nki.prizes.map((prize, idx) => {
                 const style = PRIZE_STYLES[prize.tier];
                 const Icon = style.icon;
+                const isFirst = idx === 0;
                 return (
                   <div
                     key={prize.rank}
                     className={cn(
-                      'group flex flex-col justify-between overflow-hidden rounded-[6px] border p-6 shadow-2xs transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md',
-                      style.card
+                      'group flex flex-col justify-between p-6 transition-colors duration-300 hover:bg-paper/80 sm:border-b sm:border-line lg:border-b-0',
+                      isFirst && 'bg-gradient-to-b from-[#FCF7E6] to-white'
                     )}
                   >
                     <div className="flex items-center justify-between">
                       <span
                         className={cn(
-                          'inline-flex h-10 w-10 items-center justify-center rounded-[4px]',
+                          'inline-flex h-9 w-9 items-center justify-center rounded-[4px]',
                           style.badge
                         )}
                       >
-                        <Icon className="h-5 w-5" />
+                        <Icon className="h-4 w-4" />
                       </span>
                       <span className="font-mono text-[9.5px] font-medium uppercase tracking-[0.14em] text-faint">
-                        Cash Prize
+                        {isFirst ? 'Grand Titleholder' : 'Laureate'}
                       </span>
                     </div>
 
-                    <div className="mt-6 border-t border-line/70 pt-4">
+                    <div className="mt-7">
                       <h3
                         className={cn(
                           'font-mono text-[11px] font-bold uppercase tracking-[0.14em]',

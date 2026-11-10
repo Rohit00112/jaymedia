@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import SectionHeading from '@/components/shared/SectionHeading';
 import Reveal from '@/components/motion/Reveal';
+import { AnimeStaggerContainer } from '@/components/motion';
 import { NEWS_DATA } from '@/config/news-data';
 import { formatDate } from '@/lib/utils';
 
@@ -24,100 +25,122 @@ export default function JournalSection() {
           link={{ href: '/news', label: 'All dispatches' }}
         />
 
-        <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
-          <Reveal className="lg:col-span-7">
+        {/* Lead Dispatch Asymmetric 5 / 7 Spread (Matches Vertical Miss Koshi Ratio Cleanly) */}
+        <div className="grid items-start gap-10 lg:grid-cols-12 lg:gap-12">
+          <Reveal className="lg:col-span-5">
             <Link href={`/news/${featured.slug}`} className="group block">
-              <div className="relative aspect-[16/10] overflow-hidden rounded-[0.5rem] border border-line bg-sand">
+              <div className="relative aspect-[1313/1550] overflow-hidden rounded-[6px] border border-line bg-sand shadow-xs transition-all group-hover:border-forest group-hover:shadow-md">
                 <Image
                   src={featured.image}
                   alt={featured.title}
                   fill
-                  sizes="(max-width: 1024px) 100vw, 58vw"
+                  sizes="(max-width: 1024px) 100vw, 42vw"
                   className="img-zoom object-cover"
                 />
-                <span className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-[0.2rem] bg-cream px-3 py-1.5 font-mono text-[8px] uppercase tracking-[0.16em] text-ink">
-                  <span className="h-1 w-1 rounded-full bg-accent" />
-                  Latest dispatch
-                </span>
               </div>
-
-              <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[9px] uppercase tracking-[0.13em]">
-                <span className="text-accent">{featured.category}</span>
-                <span className="text-faint" aria-hidden="true">
-                  /
-                </span>
-                <time dateTime={featured.date} className="text-faint">
+              <div className="mt-3 flex items-center justify-between gap-4 border-t border-line pt-2.5">
+                <span className="eyebrow text-faint">{featured.author}</span>
+                <time
+                  dateTime={featured.date}
+                  className="font-mono text-[9.5px] uppercase tracking-[0.15em] text-faint"
+                >
                   {formatDate(featured.date)}
                 </time>
               </div>
-
-              <h3 className="display mt-3 max-w-[24ch] text-balance text-[clamp(1.7rem,3vw,2.7rem)] text-ink transition-colors duration-300 group-hover:text-accent">
-                {featured.title}
-              </h3>
-              <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted">
-                {featured.excerpt}
-              </p>
-
-              <span className="mt-5 inline-flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.15em] text-ink">
-                Read dispatch
-                <ArrowUpRight className="h-3.5 w-3.5 text-accent transition-transform duration-500 group-hover:-translate-y-1 group-hover:translate-x-1" />
-              </span>
             </Link>
           </Reveal>
 
-          <div className="lg:col-span-5">
-            <div className="flex items-center justify-between border-b border-line pb-3">
-              <span className="eyebrow text-faint">More from the desk</span>
-              <span className="mono text-[10px] text-faint">
-                {String(rest.length).padStart(2, '0')}
-              </span>
-            </div>
+          <div className="lg:col-span-7">
+            <Reveal delay={60}>
+              <div className="border-b border-line-strong pb-8">
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em]">
+                  <span className="text-forest">Latest Dispatch</span>
+                  <span className="text-line-strong" aria-hidden="true">
+                    /
+                  </span>
+                  <span className="text-muted">{featured.category}</span>
+                  <span className="text-line-strong" aria-hidden="true">
+                    /
+                  </span>
+                  <span className="text-faint">{featured.readTime}</span>
+                </div>
 
-            {rest.map((article, index) => (
-              <Reveal key={article.slug} delay={index * 70}>
+                <h3 className="display mt-4 text-balance text-[clamp(1.8rem,3.4vw,2.9rem)] font-bold text-ink">
+                  <Link
+                    href={`/news/${featured.slug}`}
+                    className="transition-colors duration-300 hover:text-forest"
+                  >
+                    {featured.title}
+                  </Link>
+                </h3>
+
+                <p className="mt-4 max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+                  {featured.excerpt}
+                </p>
+
                 <Link
-                  href={`/news/${article.slug}`}
-                  className="group flex gap-4 border-b border-line py-5 last:border-b-0 sm:gap-5"
+                  href={`/news/${featured.slug}`}
+                  className="btn btn-accent mt-6 rounded-[3px]"
                 >
-                  <div className="relative aspect-square w-20 shrink-0 overflow-hidden rounded-[0.3rem] bg-sand sm:w-24">
-                    <Image
-                      src={article.image}
-                      alt={article.title}
-                      fill
-                      sizes="96px"
-                      className="img-zoom object-cover"
-                    />
-                  </div>
-
-                  <div className="min-w-0 flex-1">
-                    <span className="eyebrow text-[8px] text-accent">
-                      {article.category}
-                    </span>
-                    <h3 className="display mt-2 text-lg leading-snug text-ink transition-colors duration-300 group-hover:text-accent sm:text-xl">
-                      {article.title}
-                    </h3>
-                    <time
-                      dateTime={article.date}
-                      className="mt-2 block font-mono text-[8px] uppercase tracking-[0.13em] text-faint"
-                    >
-                      {formatDate(article.date)} · {article.readTime}
-                    </time>
-                  </div>
+                  Read dispatch
+                  <ArrowUpRight className="h-4 w-4 text-gold" />
                 </Link>
-              </Reveal>
-            ))}
+              </div>
+            </Reveal>
 
-            <Reveal delay={160}>
+            <div className="mt-8">
+              <div className="flex items-center justify-between border-b border-line pb-3">
+                <span className="eyebrow text-faint">More from the desk</span>
+                <span className="mono text-[10px] text-faint">
+                  {String(rest.length).padStart(2, '0')} articles
+                </span>
+              </div>
+
+              <AnimeStaggerContainer stagger={80} distance={18}>
+                {rest.map((article) => (
+                  <Link
+                    key={article.slug}
+                    href={`/news/${article.slug}`}
+                    className="group flex gap-5 border-b border-line py-5 last:border-b-0"
+                  >
+                    <div className="relative aspect-[4/3] w-28 shrink-0 overflow-hidden rounded-[4px] border border-line bg-sand sm:w-36">
+                      <Image
+                        src={article.image}
+                        alt={article.title}
+                        fill
+                        sizes="144px"
+                        className="img-zoom object-cover"
+                      />
+                    </div>
+
+                    <div className="min-w-0 flex-1">
+                      <span className="font-mono text-[9.5px] font-bold uppercase tracking-[0.14em] text-forest">
+                        {article.category}
+                      </span>
+                      <h3 className="display mt-1.5 text-lg font-bold leading-snug text-ink transition-colors duration-300 group-hover:text-forest sm:text-xl">
+                        {article.title}
+                      </h3>
+                      <time
+                        dateTime={article.date}
+                        className="mt-2 block font-mono text-[9px] uppercase tracking-[0.13em] text-faint"
+                      >
+                        {formatDate(article.date)} / {article.readTime}
+                      </time>
+                    </div>
+                  </Link>
+                ))}
+              </AnimeStaggerContainer>
+
               <Link
                 href="/news"
-                className="group mt-5 flex items-center justify-between gap-4 border border-line bg-card px-5 py-4 transition-colors duration-400 hover:border-line-strong"
+                className="group mt-5 flex items-center justify-between gap-4 rounded-[6px] border border-line bg-white px-5 py-4 transition-colors duration-300 hover:border-forest"
               >
-                <span className="text-sm text-muted transition-colors duration-300 group-hover:text-ink">
+                <span className="text-sm font-medium text-ink-soft transition-colors duration-300 group-hover:text-forest">
                   Browse the full newsroom
                 </span>
-                <ArrowUpRight className="h-4 w-4 text-accent transition-transform duration-500 group-hover:-translate-y-1 group-hover:translate-x-1" />
+                <ArrowUpRight className="h-4 w-4 text-forest transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </Link>
-            </Reveal>
+            </div>
           </div>
         </div>
       </div>

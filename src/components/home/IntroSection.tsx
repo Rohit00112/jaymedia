@@ -102,17 +102,17 @@ export default function IntroSection() {
           {/* Right Narrative + Visual + Capability Tiles */}
           <div className="space-y-8 lg:col-span-8">
             <Reveal>
-              <div className="rounded-[6px] border border-line bg-white p-7 shadow-2xs md:p-9">
-                <p className="text-pretty text-base leading-relaxed text-ink-soft md:text-lg">
+              <div className="border-b border-line-strong pb-7">
+                <p className="text-pretty text-lg font-medium leading-relaxed text-ink md:text-xl">
                   From our headquarters at{' '}
-                  <strong className="font-semibold text-ink">
+                  <strong className="font-bold text-forest">
                     Central Mall, Biratnagar
                   </strong>
                   , Jay Media Management operates across four primary
                   disciplines: Movie Production, Event Execution, Award Shows,
                   and Commercial Event Management.
                 </p>
-                <p className="mt-4 text-pretty text-sm leading-relaxed text-muted md:text-base">
+                <p className="mt-4 text-pretty text-sm leading-relaxed text-ink-soft md:text-base">
                   Our house credits span feature cinema (<em>The Karma</em>,{' '}
                   <em>Tantra</em>, and upcoming bilingual movie <em>MEOW</em>),
                   sports franchises (<em>Women&apos;s T20 Cricket League</em>),
@@ -131,7 +131,7 @@ export default function IntroSection() {
               alt="Concert stage lighting and production engineered by Jay Media Management"
               aspect="aspect-[16/9]"
               sizes="(max-width: 1024px) 100vw, 66vw"
-              className="rounded-[14px] border border-line shadow-md"
+              className="rounded-[6px] border border-line shadow-sm"
               parallax
             />
 
