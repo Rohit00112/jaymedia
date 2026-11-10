@@ -11,15 +11,17 @@ export default function Marquee({
   items,
   tone = 'dark',
   className,
-  duration = 52,
+  duration = 48,
 }: MarqueeProps) {
-  const light = tone === 'light';
+  const onPorcelain = tone === 'light';
 
   return (
     <div
       className={cn(
-        'marquee select-none border-y py-4 md:py-5',
-        light ? 'border-cream/15 bg-transparent' : 'border-line bg-paper-deep',
+        'marquee select-none border-y py-3.5 md:py-4',
+        onPorcelain
+          ? 'border-line bg-paper-deep text-ink'
+          : 'border-forest bg-forest text-white',
         className
       )}
       aria-hidden="true"
@@ -34,19 +36,26 @@ export default function Marquee({
               <span key={`${copy}-${item}`} className="flex items-center">
                 <span
                   className={cn(
-                    'display whitespace-nowrap px-4 text-[clamp(1.35rem,2.6vw,2.4rem)]',
-                    light ? 'text-cream/85' : 'text-ink',
-                    index % 2 === 1 && 'serif italic'
+                    'display whitespace-nowrap px-4 text-sm font-bold uppercase tracking-[0.14em] md:px-5 md:text-base',
+                    onPorcelain
+                      ? index % 2 === 1
+                        ? 'text-forest'
+                        : 'text-ink'
+                      : index % 2 === 1
+                        ? 'text-gold'
+                        : 'text-white'
                   )}
                 >
                   {item}
                 </span>
                 <span
                   className={cn(
-                    'mx-4 inline-block h-px w-8 md:mx-7 md:w-12',
-                    light ? 'bg-gold/60' : 'bg-line-strong'
+                    'font-mono text-xs font-semibold',
+                    onPorcelain ? 'text-line-strong' : 'text-white/35'
                   )}
-                />
+                >
+                  /
+                </span>
               </span>
             ))}
           </div>

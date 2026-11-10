@@ -1,86 +1,86 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────────────────────
-   JAY MEDIA MANAGEMENT — OFFICIAL EMERALD & STONE EDITORIAL
-   Rooted in the official #01402B Forest Emerald & #E3E3E1 Stone identity,
-   elevated onto bright #FAF9F6 paper with champagne gold #D9B15B accents.
+   JAY MEDIA MANAGEMENT — SWISS BROADCAST ATELIER SYSTEM
+   Gallery White #FFFFFF, Cool Porcelain #F2F4F2 / #EAEDEA,
+   Deep Heritage Emerald #01402B & Brushed Brass Gold #C89B3C.
    ───────────────────────────────────────────────────────────── */
 
 @theme {
-  /* Paper & Stone surfaces */
-  --color-paper: #faf9f6;
-  --color-paper-deep: #ecebe7;
+  /* Architectural Daylight Gallery Surfaces */
+  --color-paper: #ffffff;
+  --color-paper-deep: #f2f4f2;
   --color-cream: #ffffff;
   --color-card: #ffffff;
-  --color-sand: #e3e3e1;
+  --color-sand: #eaedea;
 
   /* Ink */
-  --color-ink: #0f1a15;
-  --color-ink-soft: #263830;
-  --color-muted: #4c5b53;
-  --color-faint: #5f6e66;
+  --color-ink: #0c1410;
+  --color-ink-soft: #223028;
+  --color-muted: #4b5952;
+  --color-faint: #64736b;
 
-  /* Brand Emerald & Champagne Gold Signal */
+  /* Brand Emerald & Brass Gold Signal */
   --color-accent: #01402b;
   --color-accent-hover: #02593c;
-  --color-accent-soft: #e4efe9;
+  --color-accent-soft: #e3eee8;
   --color-forest: #01402b;
-  --color-forest-soft: #e3ebe5;
-  --color-gold: #d9b15b;
-  --color-gold-deep: #b88f36;
+  --color-forest-soft: #e3eee8;
+  --color-gold: #c89b3c;
+  --color-gold-deep: #9d7520;
 
-  /* Lines */
-  --color-line: rgba(1, 64, 43, 0.13);
-  --color-line-strong: rgba(1, 64, 43, 0.28);
-  --color-line-soft: rgba(1, 64, 43, 0.065);
+  /* Sharp Architectural Lines */
+  --color-line: rgba(12, 20, 16, 0.12);
+  --color-line-strong: rgba(12, 20, 16, 0.28);
+  --color-line-soft: rgba(12, 20, 16, 0.06);
 
   /* Type */
-  --font-sans: var(--font-rubik), var(--font-instrument-sans), "Helvetica Neue", Arial, sans-serif;
-  --font-display: var(--font-fraunces), var(--font-rubik), Georgia, serif;
-  --font-serif: var(--font-instrument-serif), Georgia, "Times New Roman", serif;
-  --font-mono: var(--font-jetbrains-mono), "SFMono-Regular", Consolas, monospace;
-  --font-body: var(--font-rubik), var(--font-instrument-sans), "Helvetica Neue", Arial, sans-serif;
+  --font-sans: var(--font-jakarta), var(--font-rubik), "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-bricolage), var(--font-jakarta), sans-serif;
+  --font-serif: var(--font-bricolage), var(--font-jakarta), sans-serif;
+  --font-mono: var(--font-plex-mono), "SFMono-Regular", Consolas, monospace;
+  --font-body: var(--font-jakarta), var(--font-rubik), "Helvetica Neue", Arial, sans-serif;
   --font-rubik: var(--font-rubik), "Rubik", sans-serif;
 
-  /* Legacy aliases kept so the studio admin and older components stay cohesive */
-  --color-surface: #faf9f6;
-  --color-surface-alt: #e3e3e1;
-  --color-surface-raised: #e3e3e1;
+  /* Legacy aliases synced for Studio Admin & inner templates */
+  --color-surface: #ffffff;
+  --color-surface-alt: #f2f4f2;
+  --color-surface-raised: #eaedea;
   --color-surface-elevated: #ffffff;
-  --color-surface-muted: #e3e3e1;
-  --color-surface-base: #faf9f6;
-  --color-canvas: #faf9f6;
+  --color-surface-muted: #eaedea;
+  --color-surface-base: #ffffff;
+  --color-canvas: #ffffff;
   --color-shell: #ffffff;
-  --color-raised: #e3e3e1;
-  --color-mist: #e3e3e1;
-  --color-bone: #e3e3e1;
-  --color-bone-dim: #d6d5d1;
+  --color-raised: #eaedea;
+  --color-mist: #f2f4f2;
+  --color-bone: #eaedea;
+  --color-bone-dim: #dce0dc;
   --color-cloud: #ffffff;
-  --color-paper-ink: #0f1a15;
+  --color-paper-ink: #0c1410;
   --color-coral: #01402b;
   --color-coral-hover: #02593c;
   --color-coral-deep: #012b1d;
   --color-coral-soft: rgba(1, 64, 43, 0.1);
   --color-volt: #01402b;
-  --color-volt-soft: #e4efe9;
+  --color-volt-soft: #e3eee8;
   --color-ember: #01402b;
   --color-orchid: #01402b;
-  --color-hairline: rgba(1, 64, 43, 0.13);
-  --color-hairline-strong: rgba(1, 64, 43, 0.28);
-  --color-line-dark: rgba(1, 64, 43, 0.16);
-  --color-divider: rgba(1, 64, 43, 0.13);
-  --color-text-primary: #0f1a15;
-  --color-text-secondary: #4c5b53;
+  --color-hairline: rgba(12, 20, 16, 0.12);
+  --color-hairline-strong: rgba(12, 20, 16, 0.28);
+  --color-line-dark: rgba(12, 20, 16, 0.16);
+  --color-divider: rgba(12, 20, 16, 0.12);
+  --color-text-primary: #0c1410;
+  --color-text-secondary: #4b5952;
   --color-text-tertiary: #01402b;
-  --color-text-disabled: rgba(15, 26, 21, 0.38);
-  --color-muted-grey: #4c5b53;
-  --color-warm-ivory: #e3e3e1;
-  --color-danger: #a8341d;
+  --color-text-disabled: rgba(12, 20, 16, 0.38);
+  --color-muted-grey: #4b5952;
+  --color-warm-ivory: #eaedea;
+  --color-danger: #b83227;
   --color-success: #01402b;
   --color-emerald-prestige: #01402b;
-  --color-surface-subtle: rgba(1, 64, 43, 0.04);
+  --color-surface-subtle: rgba(12, 20, 16, 0.035);
   --radius-xs: 2px;
-  --radius-sm: 6px;
+  --radius-sm: 2px;
   --radius-md: 999px;
 }
 
@@ -131,18 +131,6 @@
     font-feature-settings: "ss01" 1;
   }
 
-  /* Very fine paper grain, kept almost imperceptible */
-  body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: 60;
-    pointer-events: none;
-    opacity: 0.022;
-    mix-blend-mode: multiply;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
   h1,
   h2,
   h3,
@@ -150,9 +138,9 @@
   h5,
   h6 {
     font-family: var(--font-display);
-    font-weight: 400;
-    line-height: 1.02;
-    letter-spacing: -0.028em;
+    font-weight: 700;
+    line-height: 0.98;
+    letter-spacing: -0.03em;
     color: inherit;
     font-optical-sizing: auto;
   }
@@ -216,35 +204,35 @@
 
   .display {
     font-family: var(--font-display);
-    font-weight: 400;
+    font-weight: 700;
     text-transform: none;
-    line-height: 0.98;
+    line-height: 0.96;
     letter-spacing: -0.032em;
     font-optical-sizing: auto;
   }
 
   .display-tight {
     font-family: var(--font-display);
-    font-weight: 400;
+    font-weight: 800;
     line-height: 0.9;
     letter-spacing: -0.04em;
   }
 
   .serif {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-weight: 400;
+    font-family: var(--font-display);
+    font-style: normal;
+    font-weight: 500;
     text-transform: none;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.025em;
     line-height: 0.98;
   }
 
   .eyebrow {
     font-family: var(--font-mono);
-    font-size: 0.625rem;
+    font-size: 0.6875rem;
     line-height: 1.2;
-    font-weight: 500;
-    letter-spacing: 0.2em;
+    font-weight: 600;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
   }
 
@@ -259,25 +247,26 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.65rem;
-    min-height: 3rem;
-    padding: 0.85rem 1.4rem;
+    gap: 0.6rem;
+    min-height: 2.9rem;
+    padding: 0.8rem 1.4rem;
     border: 1px solid transparent;
-    border-radius: 0.35rem;
+    border-radius: 2px;
     font-family: var(--font-sans);
-    font-size: 0.8125rem;
-    font-weight: 600;
-    letter-spacing: 0.005em;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
     line-height: 1;
     white-space: nowrap;
     overflow: hidden;
     isolation: isolate;
     transition:
-      color 380ms var(--ease-out),
-      border-color 380ms var(--ease-out),
-      background-color 380ms var(--ease-out),
-      box-shadow 420ms var(--ease-out),
-      transform 380ms var(--ease-out);
+      color 320ms var(--ease-out),
+      border-color 320ms var(--ease-out),
+      background-color 320ms var(--ease-out),
+      box-shadow 360ms var(--ease-out),
+      transform 320ms var(--ease-out);
   }
 
   .btn::before {

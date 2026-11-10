@@ -1,13 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import {
-  ArrowUpRight,
-  Award,
-  Globe2,
-  Medal,
-  Star,
-  Trophy,
-} from 'lucide-react';
+import { ArrowUpRight, Award, Medal, Star, Trophy } from 'lucide-react';
 import { HeroScene } from '@/components/three';
 import { AnimeCounter, AnimeStaggerContainer } from '@/components/motion';
 import { EVENTS_DATA } from '@/config/events-data';
@@ -15,31 +8,27 @@ import { cn } from '@/lib/utils';
 
 const PRIZE_STYLES = {
   gold: {
-    card: 'border-gold/70 bg-gradient-to-br from-[#FFFDF7] via-[#FBF6E8] to-[#F3E9CB]',
-    badge: 'border border-gold-deep/30 bg-gold/20 text-[#7A5610]',
-    rank: 'text-[#6A4A0B]',
-    amount: 'text-ink',
+    bar: 'border-t-[3px] border-t-forest bg-white',
+    badge: 'bg-forest text-gold',
+    rank: 'text-forest',
     icon: Trophy,
   },
   silver: {
-    card: 'border-forest/25 bg-white',
-    badge: 'border border-forest/20 bg-forest-soft text-forest',
-    rank: 'text-forest',
-    amount: 'text-ink',
+    bar: 'border-t-[3px] border-t-gold bg-white',
+    badge: 'bg-paper-deep text-forest border border-line',
+    rank: 'text-ink-soft',
     icon: Medal,
   },
   bronze: {
-    card: 'border-line bg-white',
-    badge: 'border border-line bg-sand text-ink-soft',
-    rank: 'text-ink-soft',
-    amount: 'text-ink',
+    bar: 'border-t-[3px] border-t-line-strong bg-white',
+    badge: 'bg-paper-deep text-ink-soft border border-line',
+    rank: 'text-muted',
     icon: Award,
   },
   ruby: {
-    card: 'border-line bg-white',
-    badge: 'border border-line bg-paper-deep text-muted',
+    bar: 'border-t-[3px] border-t-line bg-white',
+    badge: 'bg-paper-deep text-muted border border-line',
     rank: 'text-muted',
-    amount: 'text-ink',
     icon: Star,
   },
 } as const;
@@ -49,110 +38,78 @@ export default function HeroSection() {
     EVENTS_DATA.find((e) => e.slug === 'nepal-kids-idol') || EVENTS_DATA[0];
 
   return (
-    <section className="relative overflow-hidden bg-paper pb-16 pt-12 md:pb-24 md:pt-16">
-      {/* Three.js Harmonic Stage Wave & Emerald/Gold Particle Depth */}
+    <section className="relative overflow-hidden border-b border-line bg-paper-deep">
+      {/* Three.js Acoustic Horizon Grid & Spatial Parallax */}
       <HeroScene />
 
-      {/* Subtle architectural guide lines */}
-      <div
-        className="pointer-events-none absolute inset-0 hidden lg:block"
-        aria-hidden="true"
-      >
-        <div className="container-ed relative h-full">
-          {[25, 50, 75].map((left) => (
-            <span
-              key={left}
-              className="absolute inset-y-0 w-px bg-line-soft"
-              style={{ left: `${left}%` }}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Soft ambient paper illumination */}
-      <div
-        className="bloom pointer-events-none absolute -right-24 top-0 h-[34rem] w-[34rem] rounded-full bg-forest-soft/90 blur-[120px]"
-        aria-hidden="true"
-      />
-
-      <div className="container-ed relative z-10">
-        {/* Two-Column Editorial Hero Spread */}
-        <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-12">
-          {/* Left Narrative Column */}
-          <div className="lg:col-span-7">
-            <div className="hero-fade flex flex-wrap items-center gap-4 font-mono text-[10.5px] font-semibold uppercase tracking-[0.18em] text-forest">
-              <span className="flex items-center gap-2.5">
-                <span className="h-px w-6 bg-forest" aria-hidden="true" />
-                Season One — Auditions Open
-              </span>
-              <span className="text-line-strong" aria-hidden="true">
-                /
-              </span>
+      <div className="container-ed relative z-10 pb-14 pt-10 md:pb-20 md:pt-14">
+        <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
+          {/* Left Architectural Poster Copy Column */}
+          <div className="lg:col-span-6">
+            <div className="hero-fade inline-flex items-center gap-3 border-l-2 border-forest pl-3 font-mono text-[10.5px] font-semibold uppercase tracking-[0.16em] text-forest">
+              <span>Season One &bull; Open Worldwide</span>
+              <span className="text-line-strong">/</span>
               <span className="text-muted">30 National TV Episodes</span>
             </div>
 
-            <h1 className="display mt-7 text-[clamp(2.8rem,5.7vw,5.4rem)] leading-[0.95] text-ink">
+            <h1 className="display mt-6 text-[clamp(2.85rem,5.5vw,5.1rem)] font-extrabold leading-[0.94] tracking-[-0.038em] text-ink">
               <span className="hero-line">
-                <span style={{ animationDelay: '120ms' }}>
+                <span style={{ animationDelay: '100ms' }}>
                   Where young stars
                 </span>
               </span>
               <span className="hero-line">
-                <span style={{ animationDelay: '220ms' }}>
-                  find their{' '}
-                  <span className="serif italic text-forest">voice.</span>
+                <span style={{ animationDelay: '200ms' }}>
+                  claim the{' '}
+                  <span className="text-forest">national stage.</span>
                 </span>
               </span>
             </h1>
 
-            {/* Official Nepal Kids Idol Identity Strip */}
+            {/* Compact Flagship Program Lockup */}
             <div
-              className="hero-fade mt-8 flex items-center gap-4 border-y border-line bg-white/80 py-4 pl-3 pr-4 sm:max-w-xl"
-              style={{ animationDelay: '340ms' }}
+              className="hero-fade mt-7 flex items-center gap-4 border-y border-ink/15 bg-white px-4 py-3.5"
+              style={{ animationDelay: '320ms' }}
             >
               {nki.logoImage && (
-                <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-[6px] border border-gold/60 bg-white sm:h-16 sm:w-16">
+                <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-[2px] border border-line bg-white">
                   <Image
                     src={nki.logoImage}
                     alt="Nepal Kids Idol Crest"
                     fill
                     priority
-                    sizes="64px"
+                    sizes="56px"
                     className="object-cover"
                   />
                 </div>
               )}
               <div className="min-w-0 flex-1">
-                <span className="block font-mono text-[9.5px] font-bold uppercase tracking-[0.18em] text-forest">
-                  Flagship Production — Jay Media Management
+                <span className="block font-mono text-[9.5px] font-semibold uppercase tracking-[0.16em] text-forest">
+                  Flagship Broadcast — Jay Media Management
                 </span>
-                <p className="mt-1 text-sm leading-snug text-ink-soft">
-                  <strong className="font-semibold text-ink">
+                <p className="mt-0.5 text-sm leading-snug text-ink-soft">
+                  <strong className="font-bold text-ink">
                     Nepal Kids Idol 2025
                   </strong>{' '}
-                  — Open to vocalists aged <strong>5–15</strong> across all{' '}
-                  <strong>77 districts of Nepal</strong>, India, USA, Canada, and
-                  Australia.
+                  &mdash; Open to vocalists aged <strong>5&ndash;15</strong> across all
+                  77 districts of Nepal, India, USA, Canada, and Australia.
                 </p>
               </div>
             </div>
 
-            {/* Sharp Architectural Action Buttons */}
+            {/* Crisp Sharp Action Buttons */}
             <div
-              className="hero-fade mt-8 flex flex-wrap items-center gap-3.5"
-              style={{ animationDelay: '460ms' }}
+              className="hero-fade mt-7 flex flex-wrap items-center gap-3"
+              style={{ animationDelay: '440ms' }}
             >
-              <Link
-                href="/register/nepal-kids-idol"
-                className="btn btn-accent rounded-[3px] px-7 shadow-sm"
-              >
+              <Link href="/register/nepal-kids-idol" className="btn btn-accent">
                 <span>Register Contestant</span>
                 <ArrowUpRight className="h-4 w-4 text-gold" />
               </Link>
 
               <Link
                 href="/events/nepal-kids-idol"
-                className="btn btn-outline rounded-[3px] bg-white px-6"
+                className="btn btn-outline bg-white"
               >
                 <span>Event Prospectus</span>
               </Link>
@@ -161,140 +118,120 @@ export default function HeroSection() {
                 href="/#quote"
                 className="text-link ml-2 text-ink-soft hover:text-forest"
               >
-                Sponsor or book studio
+                <span>Sponsor Studio</span>
                 <ArrowUpRight className="h-3.5 w-3.5 text-forest" />
               </Link>
             </div>
 
-            {/* Editorial Studio Metrics with Anime.js Counters */}
+            {/* 3-Metric Baseline */}
             <dl
-              className="hero-fade mt-10 grid grid-cols-3 gap-6 border-t border-line pt-6 sm:max-w-lg"
-              style={{ animationDelay: '560ms' }}
+              className="hero-fade mt-9 grid grid-cols-3 gap-6 border-t border-ink/15 pt-6"
+              style={{ animationDelay: '520ms' }}
             >
               <div>
-                <dt className="font-mono text-[9.5px] uppercase tracking-[0.16em] text-faint">
-                  Audition Reach
+                <dt className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.14em] text-muted">
+                  Nepal Districts
                 </dt>
-                <dd className="display mt-1.5 text-2xl font-bold text-ink sm:text-3xl">
-                  <AnimeCounter target={77} />{' '}
-                  <span className="text-base font-normal text-muted">Districts</span>
+                <dd className="display mt-1 text-2xl font-extrabold text-ink sm:text-3xl">
+                  <AnimeCounter target={77} />
                 </dd>
               </div>
               <div>
-                <dt className="font-mono text-[9.5px] uppercase tracking-[0.16em] text-faint">
-                  Total Prize Pool
+                <dt className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.14em] text-muted">
+                  Prize Pool
                 </dt>
-                <dd className="display mt-1.5 text-2xl font-bold text-forest sm:text-3xl">
+                <dd className="display mt-1 text-2xl font-extrabold text-forest sm:text-3xl">
                   <AnimeCounter target={20} prefix="Rs. " suffix="L" />
                 </dd>
               </div>
               <div>
-                <dt className="font-mono text-[9.5px] uppercase tracking-[0.16em] text-faint">
-                  Global Hubs
+                <dt className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.14em] text-muted">
+                  Global Countries
                 </dt>
-                <dd className="display mt-1.5 flex items-center gap-1.5 text-2xl font-bold text-ink sm:text-3xl">
-                  <Globe2 className="h-5 w-5 text-forest" />
+                <dd className="display mt-1 text-2xl font-extrabold text-ink sm:text-3xl">
                   <AnimeCounter target={5} suffix="+" />
                 </dd>
               </div>
             </dl>
           </div>
 
-          {/* Right Uncluttered Editorial Stage Frame */}
-          <div className="hero-media lg:col-span-5">
-            <div className="relative mx-auto max-w-md lg:max-w-none">
-              <div className="relative aspect-[4/4.6] overflow-hidden rounded-[6px] border border-line bg-sand shadow-[0_32px_64px_-28px_rgba(1,64,43,0.22)]">
+          {/* Right Heavy-Framed Broadcast Showcase */}
+          <div className="hero-media lg:col-span-6">
+            <div className="border-2 border-ink bg-white p-2.5 shadow-[12px_12px_0px_0px_rgba(1,64,43,0.12)]">
+              <div className="relative aspect-[16/11] w-full overflow-hidden bg-sand lg:aspect-[5/4.2]">
                 <Image
                   src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=1200&q=85"
                   alt="Live singing performance on the Jay Media production stage"
                   fill
                   priority
-                  sizes="(max-width: 1024px) 100vw, 42vw"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover"
                 />
-                <div
-                  className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/35 via-transparent to-transparent"
-                  aria-hidden="true"
-                />
               </div>
-
-              <div className="mt-3.5 flex items-center justify-between gap-4 border-t border-line pt-3 text-xs">
-                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-forest">
-                  Biratnagar Broadcast HQ
+              <div className="mt-2.5 flex items-center justify-between gap-4 border-t border-line px-1 pt-2.5 font-mono text-[10px] uppercase tracking-[0.14em]">
+                <span className="font-semibold text-forest">
+                  Central Mall Stage &bull; Biratnagar
                 </span>
-                <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
-                  Season One • Ages 5–15
-                </span>
+                <span className="text-muted">Ages 5&ndash;15 Vocal Division</span>
               </div>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* ─── Unified Architectural Championship Awards Ledger ───── */}
-        {nki.prizes && (
-          <div className="mt-16 border-t border-line pt-10 md:mt-20">
-            <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-              <div>
-                <span className="eyebrow flex items-center gap-2 text-forest">
-                  <span className="h-px w-6 bg-forest" aria-hidden="true" />
-                  Official Awards Ledger
-                </span>
-                <h2 className="display mt-2 text-2xl font-bold text-ink sm:text-3xl">
-                  Rs. 2,000,000 Championship Prize Pool
-                </h2>
-              </div>
+      {/* Bottom Flush Architectural Prize Table */}
+      {nki.prizes && (
+        <div className="relative z-10 border-t border-ink/15 bg-white">
+          <div className="container-ed">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line py-4">
+              <span className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.16em] text-forest">
+                Official Championship Awards Ledger &bull; Total Pool Rs. 2,000,000
+              </span>
               <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
-                Awards &amp; National Television Contracts
+                Awards &amp; National Broadcast Contracts
               </span>
             </div>
 
             <AnimeStaggerContainer
-              stagger={85}
-              delay={90}
-              distance={20}
-              className="grid grid-cols-1 divide-y divide-line overflow-hidden rounded-[6px] border border-line bg-white shadow-2xs sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-4 lg:divide-x"
+              stagger={80}
+              distance={16}
+              className="grid grid-cols-1 divide-y divide-line sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-4 lg:divide-x"
             >
               {nki.prizes.map((prize, idx) => {
                 const style = PRIZE_STYLES[prize.tier];
                 const Icon = style.icon;
-                const isFirst = idx === 0;
                 return (
                   <div
                     key={prize.rank}
                     className={cn(
-                      'group flex flex-col justify-between p-6 transition-colors duration-300 hover:bg-paper/80 sm:border-b sm:border-line lg:border-b-0',
-                      isFirst && 'bg-gradient-to-b from-[#FCF7E6] to-white'
+                      'flex flex-col justify-between p-5 transition-colors hover:bg-paper-deep/60',
+                      style.bar
                     )}
                   >
                     <div className="flex items-center justify-between">
+                      <span className="font-mono text-xs font-semibold text-faint">
+                        0{idx + 1}
+                      </span>
                       <span
                         className={cn(
-                          'inline-flex h-9 w-9 items-center justify-center rounded-[4px]',
+                          'inline-flex h-8 w-8 items-center justify-center rounded-[2px]',
                           style.badge
                         )}
                       >
                         <Icon className="h-4 w-4" />
                       </span>
-                      <span className="font-mono text-[9.5px] font-medium uppercase tracking-[0.14em] text-faint">
-                        {isFirst ? 'Grand Titleholder' : 'Laureate'}
-                      </span>
                     </div>
 
-                    <div className="mt-7">
-                      <h3
+                    <div className="mt-5">
+                      <h2
                         className={cn(
-                          'font-mono text-[11px] font-bold uppercase tracking-[0.14em]',
+                          'font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em]',
                           style.rank
                         )}
                       >
                         {prize.rank}
-                      </h3>
-                      <p
-                        className={cn(
-                          'mono mt-1.5 text-2xl font-bold tracking-tight',
-                          style.amount
-                        )}
-                      >
+                      </h2>
+                      <p className="display mt-1 text-2xl font-extrabold text-ink">
                         {prize.amount}
                       </p>
                     </div>
@@ -303,8 +240,8 @@ export default function HeroSection() {
               })}
             </AnimeStaggerContainer>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </section>
   );
 }

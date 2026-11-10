@@ -1,111 +1,77 @@
 import Link from 'next/link';
-import { ArrowUpRight, Mail, MapPin } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import Reveal from '@/components/motion/Reveal';
 import { siteConfig } from '@/config/site';
 
 export default function CtaBand() {
   return (
-    <section className="relative overflow-hidden bg-paper py-16 md:py-20">
+    <section className="border-t border-line bg-paper-deep py-16 md:py-20">
       <div className="container-ed">
-        <div className="relative overflow-hidden rounded-[0.5rem] bg-forest px-6 py-12 text-cream md:px-12 md:py-16">
-          <div
-            className="pointer-events-none absolute -right-24 -top-24 h-[26rem] w-[26rem] rounded-full bg-gold/10 blur-[100px]"
-            aria-hidden="true"
-          />
-          <div
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cream/30 to-transparent"
-            aria-hidden="true"
-          />
-
-          <div className="relative flex items-center justify-between gap-6 border-b border-cream/15 pb-4">
-            <span className="eyebrow flex items-center gap-2.5 text-gold">
-              <span className="h-1 w-1 rounded-full bg-gold" aria-hidden="true" />
-              Next / Start a project
+        <div className="border-2 border-ink bg-white p-8 md:p-12">
+          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-4">
+            <span className="eyebrow inline-flex items-center gap-2.5 text-forest">
+              <span className="h-2.5 w-1 bg-forest" aria-hidden="true" />
+              Production Inquiry
             </span>
-            <span className="eyebrow hidden text-cream/70 sm:block">
-              26.45° N / 87.27° E
+            <span className="eyebrow text-faint">
+              Biratnagar &bull; Est. {siteConfig.established}
             </span>
           </div>
 
-          <div className="relative mt-10 grid gap-10 lg:grid-cols-12 lg:gap-10">
-            <div className="lg:col-span-8">
+          <div className="mt-8 grid items-end gap-8 lg:grid-cols-12">
+            <div className="lg:col-span-7">
               <Reveal>
-                <h2 className="display max-w-[14ch] text-balance text-[clamp(2.4rem,5.6vw,5.6rem)] text-cream">
-                  Let&apos;s make something{' '}
-                  <span className="serif italic text-gold">unforgettable.</span>
+                <h2 className="display max-w-[16ch] text-balance text-[clamp(2.1rem,4.5vw,4rem)] font-bold text-ink">
+                  Commission a show, launch, or live event.
                 </h2>
               </Reveal>
             </div>
 
-            <div className="self-end lg:col-span-4">
-              <Reveal delay={100}>
-                <p className="max-w-sm text-pretty text-sm leading-relaxed text-cream/70 md:text-[0.95rem]">
-                  Tell us what you are imagining. We will bring the stage, the
-                  production, and the crew to make it real.
+            <div className="lg:col-span-5">
+              <Reveal delay={90}>
+                <p className="text-sm leading-relaxed text-muted md:text-[0.95rem]">
+                  Speak directly with our Biratnagar production desk for stage
+                  architecture, sponsorship packages, and execution timelines.
                 </p>
 
-                <div className="mt-7 flex flex-wrap items-center gap-4">
-                  <Link href="/contact" className="btn btn-white">
-                    Start a conversation
-                    <ArrowUpRight className="h-3.5 w-3.5" />
+                <div className="mt-6 flex flex-wrap items-center gap-3.5">
+                  <Link href="/contact" className="btn btn-accent">
+                    <span>Start Project Brief</span>
+                    <ArrowUpRight className="h-4 w-4 text-gold" />
                   </Link>
-                  <Link
-                    href="/services"
-                    className="inline-flex items-center gap-2 border-b border-cream/35 pb-1 text-[13px] font-semibold text-cream transition-colors duration-300 hover:border-cream"
-                  >
-                    View capabilities
+                  <Link href="/services" className="btn btn-outline bg-white">
+                    <span>View Services</span>
                   </Link>
                 </div>
               </Reveal>
             </div>
           </div>
 
-          <div className="relative mt-12 grid gap-6 border-t border-cream/15 pt-6 sm:grid-cols-3">
-            <div className="flex items-start gap-3">
-              <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold" />
-              <div>
-                <span className="eyebrow block text-cream/70">Studio</span>
-                <p className="mt-2 text-sm text-cream/85">
-                  {siteConfig.location.address}, {siteConfig.location.city}
-                </p>
-              </div>
+          <dl className="mt-10 grid gap-6 border-t border-line pt-6 sm:grid-cols-3">
+            <div>
+              <dt className="eyebrow text-faint">Headquarters</dt>
+              <dd className="mt-1.5 text-sm font-medium text-ink">
+                {siteConfig.location.address}, {siteConfig.location.city}
+              </dd>
             </div>
-
-            <div className="flex items-start gap-3">
-              <Mail className="mt-0.5 h-3.5 w-3.5 shrink-0 text-gold" />
-              <div>
-                <span className="eyebrow block text-cream/70">Email</span>
+            <div>
+              <dt className="eyebrow text-faint">Direct Telephone</dt>
+              <dd className="mono mt-1.5 text-sm font-bold text-forest">
+                {siteConfig.contact.phone} / {siteConfig.contact.secondaryPhone}
+              </dd>
+            </div>
+            <div>
+              <dt className="eyebrow text-faint">Email Desk</dt>
+              <dd className="mt-1.5 text-sm font-medium text-ink">
                 <a
                   href={`mailto:${siteConfig.contact.email}`}
-                  className="mt-2 inline-block break-all text-sm text-cream/85 transition-colors duration-300 hover:text-cream"
+                  className="link-sweep text-ink"
                 >
                   {siteConfig.contact.email}
                 </a>
-              </div>
+              </dd>
             </div>
-
-            <div>
-              <span className="eyebrow block text-cream/70">Follow</span>
-              <div className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm text-cream/85">
-                <a
-                  href={siteConfig.social.facebook}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="transition-colors duration-300 hover:text-cream"
-                >
-                  Facebook
-                </a>
-                <a
-                  href={siteConfig.social.youtube}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="transition-colors duration-300 hover:text-cream"
-                >
-                  YouTube
-                </a>
-              </div>
-            </div>
-          </div>
+          </dl>
         </div>
       </div>
     </section>

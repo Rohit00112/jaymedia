@@ -1,49 +1,40 @@
 import type { Metadata, Viewport } from 'next';
 import {
-  Fraunces,
-  Instrument_Sans,
-  Instrument_Serif,
-  JetBrains_Mono,
+  Bricolage_Grotesque,
+  IBM_Plex_Mono,
+  Plus_Jakarta_Sans,
   Rubik,
 } from 'next/font/google';
 import './globals.css';
 import { siteConfig } from '@/config/site';
 import { generateOrganizationSchema } from '@/lib/seo';
 
-const rubik = Rubik({
+const bricolage = Bricolage_Grotesque({
   subsets: ['latin'],
-  variable: '--font-rubik',
+  variable: '--font-bricolage',
   display: 'swap',
-  weight: ['400', '500', '600', '700', '800'],
+  weight: ['500', '600', '700', '800'],
 });
 
-const instrumentSans = Instrument_Sans({
+const jakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  variable: '--font-instrument-sans',
+  variable: '--font-jakarta',
   display: 'swap',
   weight: ['400', '500', '600', '700'],
 });
 
-const fraunces = Fraunces({
+const rubik = Rubik({
   subsets: ['latin'],
-  variable: '--font-fraunces',
+  variable: '--font-rubik',
   display: 'swap',
-  axes: ['SOFT', 'WONK', 'opsz'],
+  weight: ['400', '500', '600', '700'],
 });
 
-const instrumentSerif = Instrument_Serif({
+const plexMono = IBM_Plex_Mono({
   subsets: ['latin'],
-  variable: '--font-instrument-serif',
+  variable: '--font-plex-mono',
   display: 'swap',
-  weight: ['400'],
-  style: ['normal', 'italic'],
-});
-
-const jetBrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-jetbrains-mono',
-  display: 'swap',
-  weight: ['400', '500'],
+  weight: ['400', '500', '600'],
 });
 
 export const metadata: Metadata = {
@@ -92,7 +83,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#FAF9F6',
+  themeColor: '#FFFFFF',
   colorScheme: 'light',
 };
 
@@ -105,7 +96,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${rubik.variable} ${fraunces.variable} ${instrumentSans.variable} ${instrumentSerif.variable} ${jetBrainsMono.variable}`}
+      className={`${bricolage.variable} ${jakartaSans.variable} ${rubik.variable} ${plexMono.variable}`}
     >
       <head>
         <script

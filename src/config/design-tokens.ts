@@ -1,44 +1,44 @@
 /**
  * Design tokens for Jay Media Management Pvt. Ltd.
- * Product identity: The Light Table — warm paper, forest ink, terracotta signal.
- * These values mirror the CSS custom properties declared in globals.css.
+ * Visual System: Swiss Broadcast Atelier — Gallery White, Cool Porcelain,
+ * Deep Emerald (#01402B), Brushed Brass Gold (#C89B3C), and crisp Carbon Ink.
  */
 
 export const colors = {
-  // Paper & Stone surfaces
-  paper: '#FAF9F6',
-  paperDeep: '#ECEBE7',
+  // Architectural Daylight Gallery Surfaces
+  paper: '#FFFFFF',
+  paperDeep: '#F2F4F2',
   cream: '#FFFFFF',
   card: '#FFFFFF',
-  sand: '#E3E3E1',
+  sand: '#EAEDEA',
 
-  // Ink
-  ink: '#0F1A15',
-  inkSoft: '#263830',
-  muted: '#4C5B53',
-  faint: '#5F6E66',
+  // Carbon Ink
+  ink: '#0C1410',
+  inkSoft: '#223028',
+  muted: '#4B5952',
+  faint: '#64736B',
 
-  // Brand Emerald & Gold Signal
+  // Brand Emerald & Brass Gold
   accent: '#01402B',
   accentHover: '#02593C',
-  accentSoft: '#E4EFE9',
+  accentSoft: '#E3EEE8',
   forest: '#01402B',
-  forestSoft: '#E3EBE5',
-  gold: '#D9B15B',
+  forestSoft: '#E3EEE8',
+  gold: '#C89B3C',
 
-  // Lines & states
-  line: 'rgba(1, 64, 43, 0.13)',
-  lineStrong: 'rgba(1, 64, 43, 0.28)',
-  lineSoft: 'rgba(1, 64, 43, 0.065)',
-  danger: '#A8341D',
+  // Architectural Lines & Status
+  line: 'rgba(12, 20, 16, 0.12)',
+  lineStrong: 'rgba(12, 20, 16, 0.28)',
+  lineSoft: 'rgba(12, 20, 16, 0.06)',
+  danger: '#B83227',
   success: '#01402B',
 } as const;
 
 export const fonts = {
-  display: '"Fraunces", "Rubik", Georgia, serif',
-  sans: '"Rubik", "Instrument Sans", "Helvetica Neue", Arial, sans-serif',
-  serif: '"Instrument Serif", Georgia, serif',
-  mono: '"JetBrains Mono", "SFMono-Regular", Consolas, monospace',
+  display: '"Bricolage Grotesque", "Plus Jakarta Sans", sans-serif',
+  sans: '"Plus Jakarta Sans", "Rubik", "Helvetica Neue", Arial, sans-serif',
+  serif: '"Bricolage Grotesque", "Plus Jakarta Sans", sans-serif',
+  mono: '"IBM Plex Mono", "SFMono-Regular", Consolas, monospace',
 } as const;
 
 export const spacing = {
@@ -54,23 +54,22 @@ export const spacing = {
 } as const;
 
 export const radius = {
-  sm: '4px',
-  md: '6px',
-  lg: '8px',
+  sm: '2px',
+  md: '4px',
+  lg: '6px',
   pill: '999px',
 } as const;
 
 export const motion = {
   duration: {
-    instant: '200ms',
-    fast: '380ms',
-    reveal: '900ms',
-    media: '1500ms',
-    page: '650ms',
-    // Numeric durations consumed by the anime.js presets.
-    sectionEntrance: 650,
-    textReveal: 650,
-    imageReveal: 850,
+    instant: '180ms',
+    fast: '340ms',
+    reveal: '750ms',
+    media: '1200ms',
+    page: '550ms',
+    sectionEntrance: 600,
+    textReveal: 600,
+    imageReveal: 800,
   },
   easing: {
     out: 'cubic-bezier(0.16, 1, 0.3, 1)',

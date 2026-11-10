@@ -4,13 +4,7 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import {
-  ArrowUpRight,
-  ChevronDown,
-  Mail,
-  MapPin,
-  Phone,
-} from 'lucide-react';
+import { ArrowUpRight, ChevronDown } from 'lucide-react';
 import { navigation } from '@/config/navigation';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
@@ -24,7 +18,7 @@ export function Navbar() {
   const [eventsDropdownOpen, setEventsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLLIElement>(null);
 
-  const scrolled = scrollY > 40;
+  const scrolled = scrollY > 24;
 
   const toggleMobileMenu = useCallback(() => {
     setMobileMenuOpen((prev) => !prev);
@@ -51,99 +45,46 @@ export function Navbar() {
 
   return (
     <>
-      {/* ─── Official Top Utility Strip ───────────────────────────────── */}
-      <div className="hidden border-b border-line bg-sand/75 text-ink lg:block">
-        <div className="container-ed flex h-9 items-center justify-between text-[11.5px]">
-          <div className="flex items-center gap-5 text-ink-soft">
-            <a
-              href={`https://maps.google.com/?q=${encodeURIComponent(
-                `${siteConfig.location.address}, ${siteConfig.location.city}, ${siteConfig.location.country}`
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 transition-colors hover:text-forest"
-            >
-              <MapPin className="h-3 w-3 text-forest" />
-              <span>Central Mall, 1st Floor, Biratnagar</span>
-            </a>
-
-            <span className="h-3 w-px bg-line-strong" aria-hidden="true" />
-
-            <a
-              href={`tel:${siteConfig.contact.phone}`}
-              className="inline-flex items-center gap-1.5 font-medium transition-colors hover:text-forest"
-            >
-              <Phone className="h-3 w-3 text-forest" />
-              <span>{siteConfig.contact.phone}</span>
-              <span className="text-muted">/</span>
-              <span>{siteConfig.contact.secondaryPhone}</span>
-            </a>
-
-            <span className="h-3 w-px bg-line-strong" aria-hidden="true" />
-
-            <a
-              href={`mailto:${siteConfig.contact.email}`}
-              className="inline-flex items-center gap-1.5 transition-colors hover:text-forest"
-            >
-              <Mail className="h-3 w-3 text-forest" />
-              <span>{siteConfig.contact.email}</span>
-            </a>
-          </div>
-
-          <div className="flex items-center gap-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-muted">
-            <span>Est. {siteConfig.established}</span>
-            <span className="h-3 w-px bg-line-strong" aria-hidden="true" />
-            {navigation.socials.map((soc, idx) => (
-              <span key={soc.label} className="inline-flex items-center gap-4">
-                <a
-                  href={soc.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-ink-soft transition-colors hover:text-forest"
-                >
-                  {soc.label}
-                </a>
-                {idx === 0 && (
-                  <span className="text-line-strong" aria-hidden="true">
-                    /
-                  </span>
-                )}
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* ─── Sticky Porcelain Navigation Header ──────────────────────── */}
-      <header className="sticky top-0 z-50 w-full border-t-[3px] border-t-forest">
+      <header className="sticky top-0 z-50 w-full">
         <nav
           aria-label="Primary Navigation"
           className={cn(
             'border-b transition-all duration-300',
             scrolled
-              ? 'border-line bg-white/95 shadow-[0_10px_30px_-18px_rgba(1,64,43,0.16)] backdrop-blur-xl'
-              : 'border-line bg-white'
+              ? 'border-ink/20 bg-white/95 shadow-[0_12px_28px_-20px_rgba(12,20,16,0.2)] backdrop-blur-lg'
+              : 'border-ink/15 bg-white'
           )}
         >
-          <div className="container-ed flex h-[var(--nav-height)] items-center justify-between gap-6">
-            {/* Unboxed Brand Logo */}
-            <Link
-              href="/"
-              aria-label="Jay Media Management Pvt. Ltd. — Home"
-              className="flex shrink-0 items-center transition-opacity hover:opacity-85"
-            >
-              <Image
-                src={siteConfig.logo}
-                alt="Jay Media Management Pvt. Ltd."
-                width={136}
-                height={56}
-                priority
-                className="h-9 w-auto object-contain sm:h-10"
-              />
-            </Link>
+          <div className="container-ed flex h-[4.5rem] items-center justify-between gap-6">
+            {/* Left Brand + Minimalist Location Anchor */}
+            <div className="flex shrink-0 items-center gap-4">
+              <Link
+                href="/"
+                aria-label="Jay Media Management Pvt. Ltd. — Home"
+                className="flex shrink-0 items-center transition-opacity hover:opacity-80"
+              >
+                <Image
+                  src={siteConfig.logo}
+                  alt="Jay Media Management Pvt. Ltd."
+                  width={132}
+                  height={52}
+                  priority
+                  className="h-9 w-auto object-contain"
+                />
+              </Link>
 
-            {/* Desktop Text Links With Architectural Underline Sweep */}
-            <ul className="hidden items-center gap-6 lg:flex xl:gap-7">
+              <span
+                className="hidden h-6 w-px bg-line-strong xl:block"
+                aria-hidden="true"
+              />
+
+              <span className="hidden font-mono text-[10px] font-medium uppercase tracking-[0.16em] text-muted xl:block">
+                Biratnagar &bull; Est. {siteConfig.established}
+              </span>
+            </div>
+
+            {/* Center Crisp Architectural Navigation */}
+            <ul className="hidden items-center gap-5 lg:flex xl:gap-7">
               {navigation.links.map((link) => {
                 const isActive =
                   pathname === link.href ||
@@ -164,22 +105,22 @@ export function Navbar() {
                         aria-haspopup="true"
                         onClick={() => setEventsDropdownOpen((prev) => !prev)}
                         className={cn(
-                          'relative inline-flex items-center gap-1 py-2 text-[13.5px] font-medium tracking-[0.01em] transition-colors',
+                          'relative inline-flex items-center gap-1 py-2 font-mono text-[11px] uppercase tracking-[0.12em] transition-colors',
                           isActive
                             ? 'font-semibold text-forest'
-                            : 'text-ink-soft hover:text-forest'
+                            : 'font-medium text-ink-soft hover:text-forest'
                         )}
                       >
                         <span>{link.label}</span>
                         <ChevronDown
                           className={cn(
-                            'h-3.5 w-3.5 transition-transform duration-200',
+                            'h-3 w-3 transition-transform duration-200',
                             eventsDropdownOpen && 'rotate-180 text-forest'
                           )}
                         />
                         {isActive && (
                           <span
-                            className="absolute inset-x-0 bottom-0 h-[2px] bg-forest"
+                            className="absolute inset-x-0 -bottom-px h-[2px] bg-forest"
                             aria-hidden="true"
                           />
                         )}
@@ -187,17 +128,17 @@ export function Navbar() {
 
                       {eventsDropdownOpen && (
                         <div className="absolute left-0 top-full pt-2">
-                          <div className="w-76 overflow-hidden rounded-[6px] border border-line bg-white p-1.5 text-ink shadow-[0_24px_48px_-16px_rgba(1,64,43,0.18)]">
+                          <div className="w-72 border border-ink/15 bg-white p-1 text-ink shadow-[0_24px_48px_-16px_rgba(12,20,16,0.18)]">
                             {link.children.map((child) => (
                               <Link
                                 key={child.href}
                                 href={child.href}
                                 onClick={() => setEventsDropdownOpen(false)}
-                                className="group flex flex-col border-b border-line-soft px-3.5 py-2.5 last:border-b-0 transition-colors hover:bg-paper"
+                                className="group flex flex-col border-b border-line px-3.5 py-2.5 last:border-b-0 transition-colors hover:bg-paper-deep"
                               >
-                                <span className="flex items-center justify-between text-[13px] font-semibold text-ink group-hover:text-forest">
+                                <span className="flex items-center justify-between text-[12.5px] font-semibold text-ink group-hover:text-forest">
                                   {child.label}
-                                  <ArrowUpRight className="h-3.5 w-3.5 text-forest opacity-50 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100" />
+                                  <ArrowUpRight className="h-3.5 w-3.5 text-forest opacity-60 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100" />
                                 </span>
                                 {child.note && (
                                   <span className="mt-0.5 text-[11px] text-muted">
@@ -219,10 +160,10 @@ export function Navbar() {
                       href={link.href}
                       aria-current={isActive ? 'page' : undefined}
                       className={cn(
-                        'link-sweep relative inline-block py-2 text-[13.5px] font-medium tracking-[0.01em] transition-colors',
+                        'link-sweep relative inline-block py-2 font-mono text-[11px] uppercase tracking-[0.12em] transition-colors',
                         isActive
                           ? 'font-semibold text-forest'
-                          : 'text-ink-soft hover:text-forest'
+                          : 'font-medium text-ink-soft hover:text-forest'
                       )}
                       data-active={isActive ? 'true' : undefined}
                     >
@@ -233,11 +174,18 @@ export function Navbar() {
               })}
             </ul>
 
-            {/* Sharp Rectangular Editorial CTA + Mobile Button */}
+            {/* Right Dual Architectural Actions */}
             <div className="flex items-center gap-3">
               <Link
+                href="/#application-status"
+                className="hidden font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] text-muted transition-colors hover:text-forest xl:inline-block"
+              >
+                Verify Pass
+              </Link>
+
+              <Link
                 href={navigation.cta.href}
-                className="hidden items-center gap-2 rounded-[3px] bg-forest px-5 py-2.5 text-[12px] font-bold uppercase tracking-[0.1em] text-white transition-colors hover:bg-ink sm:inline-flex"
+                className="hidden items-center gap-2 rounded-[2px] bg-forest px-5 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-[0.12em] text-white transition-colors hover:bg-ink sm:inline-flex"
               >
                 <span>{navigation.cta.label}</span>
                 <ArrowUpRight className="h-3.5 w-3.5 text-gold" />
@@ -249,7 +197,7 @@ export function Navbar() {
                 aria-expanded={mobileMenuOpen}
                 aria-controls="mobile-menu"
                 aria-label="Open navigation menu"
-                className="inline-flex items-center gap-2 rounded-[3px] border border-line-strong bg-paper px-4 py-2 text-xs font-semibold uppercase tracking-[0.14em] text-forest transition-colors hover:bg-forest hover:text-white lg:hidden"
+                className="inline-flex items-center gap-2 rounded-[2px] border border-ink/25 bg-paper-deep px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-ink transition-colors hover:bg-forest hover:text-white lg:hidden"
               >
                 <span>Menu</span>
                 <span className="flex flex-col gap-1">

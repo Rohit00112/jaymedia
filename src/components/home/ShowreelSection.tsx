@@ -27,8 +27,8 @@ export default function ShowreelSection() {
     anime({
       targets: metaRef.current,
       opacity: [0, 1],
-      translateY: [8, 0],
-      duration: 420,
+      translateY: [6, 0],
+      duration: 380,
       easing: 'cubicBezier(0.16, 1, 0.3, 1)',
     });
   }, [selectedIndex]);
@@ -41,19 +41,19 @@ export default function ShowreelSection() {
   return (
     <section
       id="showreel"
-      className="border-b border-line bg-paper py-20 md:py-28"
+      className="border-b border-line bg-white py-20 md:py-24"
     >
       <div className="container-ed">
         {/* Header */}
-        <div className="mb-10 flex flex-col justify-between gap-5 border-b border-line pb-6 md:mb-14 md:flex-row md:items-end">
+        <div className="mb-10 flex flex-col justify-between gap-5 border-b border-line pb-5 md:mb-12 md:flex-row md:items-end">
           <div>
-            <span className="eyebrow flex items-center gap-2.5 text-forest">
-              <span className="h-px w-6 bg-forest" aria-hidden="true" />
-              04 / Broadcast Theatre
+            <span className="eyebrow inline-flex items-center gap-2.5 text-forest">
+              <span className="h-2.5 w-1 bg-forest" aria-hidden="true" />
+              04 / Broadcast Screening Room
             </span>
-            <h2 className="display mt-4 text-[clamp(2.1rem,4.2vw,4.2rem)] text-ink">
+            <h2 className="display mt-3 text-[clamp(2.1rem,4vw,3.6rem)] font-bold text-ink">
               Moments captured{' '}
-              <span className="serif italic text-forest">on air.</span>
+              <span className="text-forest">on air.</span>
             </h2>
           </div>
 
@@ -61,19 +61,117 @@ export default function ShowreelSection() {
             href="https://www.youtube.com/@JayMediaManagementPvtLtd"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-outline rounded-[3px] bg-paper"
+            className="btn btn-outline bg-white"
           >
             <Tv className="h-3.5 w-3.5 text-forest" />
             <span>YouTube Channel</span>
           </a>
         </div>
 
-        {/* Theatre Player + Scrollable Playlist */}
+        {/* Flipped Monitor Layout: Scrollable Playlist LEFT, 16:9 Cinema Stage RIGHT */}
         <div className="grid gap-8 lg:grid-cols-12">
-          {/* Active 16:9 Cinema Stage */}
-          <div className="lg:col-span-8">
-            <div className="overflow-hidden rounded-[6px] border border-line bg-paper p-3 shadow-[0_24px_48px_-24px_rgba(1,64,43,0.16)]">
-              <div className="relative aspect-video w-full overflow-hidden rounded-[4px] bg-ink">
+          {/* Left Curated Playlist (Flush Matched Height + data-lenis-prevent) */}
+          <div className="order-2 lg:order-1 lg:col-span-4 lg:relative">
+            <div className="flex flex-col border border-line bg-paper-deep p-4 lg:absolute lg:inset-0">
+              <div className="mb-3 flex shrink-0 items-center justify-between gap-2 border-b border-line pb-3">
+                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-forest">
+                  Production Playlist
+                </span>
+
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-[10.5px] font-medium text-muted">
+                    {OFFICIAL_VIDEOS.length} Reels
+                  </span>
+                  <div className="flex items-center gap-1">
+                    <button
+                      type="button"
+                      onClick={() => scrollPlaylist('up')}
+                      aria-label="Scroll playlist up"
+                      className="inline-flex h-6 w-6 items-center justify-center rounded-[2px] border border-line bg-white text-ink transition-colors hover:border-forest hover:text-forest"
+                    >
+                      <ChevronUp className="h-3.5 w-3.5" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => scrollPlaylist('down')}
+                      aria-label="Scroll playlist down"
+                      className="inline-flex h-6 w-6 items-center justify-center rounded-[2px] border border-line bg-white text-ink transition-colors hover:border-forest hover:text-forest"
+                    >
+                      <ChevronDown className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                ref={listRef}
+                data-lenis-prevent
+                tabIndex={0}
+                aria-label="Production video playlist"
+                className="playlist-scroll min-h-0 max-h-[360px] flex-1 space-y-2 overflow-y-auto overscroll-contain pr-2 focus:outline-none lg:max-h-none"
+              >
+                {OFFICIAL_VIDEOS.map((video, idx) => {
+                  const isActive = idx === selectedIndex;
+                  return (
+                    <button
+                      key={video.id}
+                      type="button"
+                      onClick={() => handleSelectVideo(idx)}
+                      className={cn(
+                        'flex w-full items-center gap-3 rounded-[2px] border p-2 text-left transition-all',
+                        isActive
+                          ? 'border-forest bg-forest text-white'
+                          : 'border-line bg-white text-ink hover:border-forest/50'
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          'mono w-5 shrink-0 text-center text-[10px] font-semibold',
+                          isActive ? 'text-gold' : 'text-faint'
+                        )}
+                      >
+                        {String(idx + 1).padStart(2, '0')}
+                      </span>
+
+                      <div className="relative aspect-video w-20 shrink-0 overflow-hidden rounded-[2px] bg-ink">
+                        <Image
+                          src={`https://i.ytimg.com/vi/${video.youtubeId}/hqdefault.jpg`}
+                          alt={video.title}
+                          fill
+                          sizes="80px"
+                          className="object-cover"
+                        />
+                        {isActive && (
+                          <span className="absolute inset-0 flex items-center justify-center bg-forest/55">
+                            <Play className="h-3.5 w-3.5 fill-gold text-gold" />
+                          </span>
+                        )}
+                      </div>
+
+                      <div className="min-w-0 flex-1">
+                        <span
+                          className={cn(
+                            'block font-mono text-[9px] uppercase tracking-wider',
+                            isActive ? 'text-gold' : 'text-forest'
+                          )}
+                        >
+                          {video.category}
+                        </span>
+                        <p className="mt-0.5 line-clamp-2 text-xs font-bold leading-snug">
+                          {video.title}
+                        </p>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* Right Active 16:9 Broadcast Monitor */}
+          <div className="order-1 lg:order-2 lg:col-span-8">
+            <div className="border-2 border-ink bg-paper-deep p-3">
+              <div className="relative aspect-video w-full overflow-hidden rounded-[2px] bg-ink">
                 {isPlaying ? (
                   <iframe
                     key={activeVideo.youtubeId}
@@ -130,97 +228,6 @@ export default function ShowreelSection() {
                   Reel {String(selectedIndex + 1).padStart(2, '0')} /{' '}
                   {String(OFFICIAL_VIDEOS.length).padStart(2, '0')}
                 </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Curated Playlist */}
-          <div className="lg:col-span-4 lg:relative">
-            <div className="flex flex-col rounded-[6px] border border-line bg-white p-4 shadow-2xs lg:absolute lg:inset-0">
-              <div className="mb-3 flex shrink-0 items-center justify-between gap-2 border-b border-line pb-3">
-                <div>
-                  <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-forest">
-                    Production Playlist
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-medium text-muted">
-                    {OFFICIAL_VIDEOS.length} Videos
-                  </span>
-                  <div className="flex items-center gap-1">
-                    <button
-                      type="button"
-                      onClick={() => scrollPlaylist('up')}
-                      aria-label="Scroll playlist up"
-                      className="inline-flex h-6 w-6 items-center justify-center rounded-[3px] border border-line bg-paper text-ink transition-colors hover:border-forest hover:text-forest"
-                    >
-                      <ChevronUp className="h-3.5 w-3.5" />
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => scrollPlaylist('down')}
-                      aria-label="Scroll playlist down"
-                      className="inline-flex h-6 w-6 items-center justify-center rounded-[3px] border border-line bg-paper text-ink transition-colors hover:border-forest hover:text-forest"
-                    >
-                      <ChevronDown className="h-3.5 w-3.5" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div
-                ref={listRef}
-                data-lenis-prevent
-                tabIndex={0}
-                aria-label="Production video playlist"
-                className="playlist-scroll min-h-0 max-h-[360px] flex-1 space-y-2.5 overflow-y-auto overscroll-contain pr-2 focus:outline-none lg:max-h-none"
-              >
-                {OFFICIAL_VIDEOS.map((video, idx) => {
-                  const isActive = idx === selectedIndex;
-                  return (
-                    <button
-                      key={video.id}
-                      type="button"
-                      onClick={() => handleSelectVideo(idx)}
-                      className={cn(
-                        'flex w-full items-center gap-3 rounded-[4px] border p-2 text-left transition-all',
-                        isActive
-                          ? 'border-forest bg-forest text-white shadow-sm'
-                          : 'border-line bg-paper text-ink hover:border-forest/40 hover:bg-sand/50'
-                      )}
-                    >
-                      <div className="relative aspect-video w-24 shrink-0 overflow-hidden rounded-[3px] bg-ink">
-                        <Image
-                          src={`https://i.ytimg.com/vi/${video.youtubeId}/hqdefault.jpg`}
-                          alt={video.title}
-                          fill
-                          sizes="96px"
-                          className="object-cover"
-                        />
-                        {isActive && (
-                          <span className="absolute inset-0 flex items-center justify-center bg-forest/55">
-                            <Play className="h-4 w-4 fill-gold text-gold" />
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="min-w-0 flex-1">
-                        <span
-                          className={cn(
-                            'block font-mono text-[9px] uppercase tracking-wider',
-                            isActive ? 'text-gold' : 'text-forest'
-                          )}
-                        >
-                          {video.category}
-                        </span>
-                        <p className="mt-0.5 line-clamp-2 text-xs font-bold leading-snug">
-                          {video.title}
-                        </p>
-                      </div>
-                    </button>
-                  );
-                })}
               </div>
             </div>
           </div>
