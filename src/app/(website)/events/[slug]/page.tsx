@@ -8,9 +8,13 @@ import CtaBand from '@/components/shared/CtaBand';
 import ConcertCountdown from '@/components/shared/ConcertCountdown';
 import Reveal from '@/components/motion/Reveal';
 import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
+import EventShareAndCalendar from '@/components/events/EventShareAndCalendar';
+import EventStickyTicketBar from '@/components/events/EventStickyTicketBar';
+import ConcertFaqSection from '@/components/events/ConcertFaqSection';
 import { EVENTS_DATA } from '@/config/events-data';
 import { getEventRepo, listEventsRepo } from '@/lib/backend/repository';
 import { generatePageMetadata } from '@/lib/seo';
+import { siteConfig } from '@/config/site';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -50,8 +54,61 @@ export default async function EventDetailPage({ params }: Props) {
   const nextEvent =
     allEvents[(Math.max(0, currentIndex) + 1) % Math.max(1, allEvents.length)];
 
+  const isConcert = event.slug === 'atif-aslam-live-in-nepal';
+
+  const eventJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': isConcert ? 'MusicEvent' : 'Event',
+    name: isConcert ? 'Eastern Echoes — Atif Aslam Live in Nepal' : event.title,
+    description: event.summary,
+    startDate: isConcert ? '2026-12-19T18:00:00+05:45' : undefined,
+    endDate: isConcert ? '2026-12-19T23:00:00+05:45' : undefined,
+    eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+    eventStatus: 'https://schema.org/EventScheduled',
+    location: {
+      '@type': 'Place',
+      name: event.location,
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: isConcert ? 'Itahari' : 'Biratnagar',
+        addressRegion: 'Koshi Province',
+        addressCountry: 'NP',
+      },
+    },
+    image: [event.image, event.heroStageImage, event.coverBanner].filter(Boolean),
+    organizer: {
+      '@type': 'Organization',
+      name: siteConfig.name,
+      url: siteConfig.url,
+    },
+    ...(isConcert
+      ? {
+          performer: {
+            '@type': 'Person',
+            name: 'Atif Aslam',
+          },
+        }
+      : {}),
+    ...(event.ticketUrl
+      ? {
+          offers: {
+            '@type': 'Offer',
+            url: event.ticketUrl,
+            priceCurrency: 'NPR',
+            availability: 'https://schema.org/InStock',
+            validFrom: '2025-01-01T00:00:00+05:45',
+          },
+        }
+      : {}),
+  };
+
   return (
     <div className="min-h-screen bg-paper text-ink">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(eventJsonLd) }}
+      />
+
       <PageHero
         breadcrumb={{ label: 'All productions', href: '/events' }}
         eyebrow={`${event.category} • ${event.seasonOrYear}`}
@@ -100,7 +157,7 @@ export default async function EventDetailPage({ params }: Props) {
             </ul>
           </Reveal>
 
-          <Reveal delay={0.08} className="lg:col-span-5">
+          <Reveal delay={0.08} className="lg:col-span-5 space-y-6">
             <div className="rounded-xl border border-line bg-paper-deep/50 p-6">
               <span className="text-xs font-semibold uppercase tracking-wider text-forest">
                 {event.ticketUrl
@@ -165,6 +222,24 @@ export default async function EventDetailPage({ params }: Props) {
                 )}
               </div>
             </div>
+
+            {/* Share and Add to Calendar */}
+            <EventShareAndCalendar
+              title={
+                isConcert
+                  ? 'Eastern Echoes — Atif Aslam Live in Nepal'
+                  : event.title
+              }
+              startDateIso={
+                isConcert ? '2026-12-19T18:00:00+05:45' : undefined
+              }
+              endDateIso={
+                isConcert ? '2026-12-19T23:00:00+05:45' : undefined
+              }
+              location={event.location}
+              description={event.summary}
+              ticketUrl={event.ticketUrl}
+            />
           </Reveal>
         </div>
       </section>
@@ -259,6 +334,9 @@ export default async function EventDetailPage({ params }: Props) {
         </div>
       </section>
 
+      {/* Concert Attendee FAQ Section */}
+      {isConcert && <ConcertFaqSection />}
+
       {/* Next Production */}
       <section className="py-10">
         <div className="container-ed flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
@@ -277,6 +355,16 @@ export default async function EventDetailPage({ params }: Props) {
       </section>
 
       <CtaBand />
+
+      {/* Sticky Mobile Ticket Bar */}
+      {event.ticketUrl && (
+        <EventStickyTicketBar
+          title={isConcert ? 'Eastern Echoes • Atif Aslam Live' : event.title}
+          dateLabel={event.seasonOrYear}
+          ticketUrl={event.ticketUrl}
+          ticketPartner={event.ticketPartner}
+        />
+      )}
     </div>
   );
 }
