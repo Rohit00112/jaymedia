@@ -1,19 +1,28 @@
 import { connection, NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';
+import { verifyAdminRequest } from '@/lib/backend/auth';
 
 const UPLOADS_DIR = path.join(process.cwd(), 'public', 'uploads');
 const OFFICIAL_DIR = path.join(process.cwd(), 'public', 'images', 'official');
 
+// Restrict uploads strictly to safe raster image formats
 const ALLOWED_EXTENSIONS = new Set([
   '.jpg',
   '.jpeg',
   '.png',
   '.webp',
-  '.gif',
   '.avif',
-  '.svg',
 ]);
+
+const ALLOWED_MIME_TYPES = new Set([
+  'image/jpeg',
+  'image/png',
+  'image/webp',
+  'image/avif',
+]);
+
+const MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024; // 5 MB ceiling
 
 const HIDDEN_OFFICIAL = new Set([
   'judge-ananda.png',
@@ -60,6 +69,14 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    const auth = await verifyAdminRequest(request);
+    if (!auth.authenticated) {
+      return NextResponse.json(
+        { error: auth.error || 'Unauthorized. Administrator access required.' },
+        { status: 401 }
+      );
+    }
+
     const formData = await request.formData();
     const file = formData.get('file');
 
@@ -70,10 +87,24 @@ export async function POST(request: Request) {
       );
     }
 
-    const ext = path.extname(file.name || '').toLowerCase() || '.jpg';
+    if (file.size > MAX_FILE_SIZE_BYTES) {
+      return NextResponse.json(
+        { error: 'File size exceeds maximum permitted limit (5 MB).' },
+        { status: 400 }
+      );
+    }
+
+    const ext = path.extname(file.name || '').toLowerCase();
     if (!ALLOWED_EXTENSIONS.has(ext)) {
       return NextResponse.json(
-        { error: 'Unsupported file format. Please upload JPG, PNG, or WebP.' },
+        { error: 'Unsupported format. Permitted formats: JPG, PNG, WebP, AVIF.' },
+        { status: 400 }
+      );
+    }
+
+    if (file.type && !ALLOWED_MIME_TYPES.has(file.type.toLowerCase())) {
+      return NextResponse.json(
+        { error: 'Invalid file MIME type detected.' },
         { status: 400 }
       );
     }

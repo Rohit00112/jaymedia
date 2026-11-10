@@ -36,10 +36,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
         setUser(currentUser);
         if (currentUser) {
-          // Token claims or email check for admin privileges
+          const rawToken = await currentUser.getIdToken();
+          if (typeof document !== 'undefined') {
+            document.cookie = `jmm_admin_token=${encodeURIComponent(rawToken)}; path=/; SameSite=Lax; Secure`;
+          }
           const token = await currentUser.getIdTokenResult();
           setIsAdmin(!!token.claims.admin || currentUser.email?.endsWith('@jaymediamanagement.com') || false);
         } else {
+          if (typeof document !== 'undefined') {
+            document.cookie = 'jmm_admin_token=; path=/; max-age=0; SameSite=Lax; Secure';
+          }
           setIsAdmin(false);
         }
         setLoading(false);
@@ -59,6 +65,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = async () => {
     const auth = getFirebaseAuth();
     await firebaseSignOut(auth);
+    if (typeof document !== 'undefined') {
+      document.cookie = 'jmm_admin_token=; path=/; max-age=0; SameSite=Lax; Secure';
+    }
     setUser(null);
     setIsAdmin(false);
   };

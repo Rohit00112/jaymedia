@@ -1,6 +1,7 @@
 import { connection, NextResponse } from 'next/server';
 import type { EventDetailData } from '@/config/events-data';
 import { slugifyEventTitle, listEvents, getEventBySlug } from '@/lib/events-store';
+import { verifyAdminRequest } from '@/lib/backend/auth';
 import {
   deleteEventRepo,
   getEventRepo,
@@ -41,6 +42,14 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const auth = await verifyAdminRequest(request);
+    if (!auth.authenticated) {
+      return NextResponse.json(
+        { error: 'Unauthorized. Administrator access required.' },
+        { status: 401 }
+      );
+    }
+
     const body = await request.json();
     const title = String(body.title || '').trim();
     if (title.length < 2) {
@@ -175,6 +184,14 @@ export async function POST(request: Request) {
 
 export async function PATCH(request: Request) {
   try {
+    const auth = await verifyAdminRequest(request);
+    if (!auth.authenticated) {
+      return NextResponse.json(
+        { error: 'Unauthorized. Administrator access required.' },
+        { status: 401 }
+      );
+    }
+
     const body = await request.json();
     const slug = String(body.slug || '').trim();
     const existing = slug ? await getEventRepo(slug) : undefined;
@@ -253,6 +270,14 @@ export async function PATCH(request: Request) {
 }
 
 export async function DELETE(request: Request) {
+  const auth = await verifyAdminRequest(request);
+  if (!auth.authenticated) {
+    return NextResponse.json(
+      { error: 'Unauthorized. Administrator access required.' },
+      { status: 401 }
+    );
+  }
+
   const { searchParams } = new URL(request.url);
   const slug = searchParams.get('slug')?.trim();
   if (!slug) {

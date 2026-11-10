@@ -1,4 +1,5 @@
 import { connection, NextResponse } from 'next/server';
+import { verifyAdminRequest } from '@/lib/backend/auth';
 import {
   DEFAULT_SETTINGS,
   getSettingsRepo,
@@ -18,6 +19,14 @@ export async function GET() {
 
 export async function PUT(request: Request) {
   try {
+    const auth = await verifyAdminRequest(request);
+    if (!auth.authenticated) {
+      return NextResponse.json(
+        { error: 'Unauthorized. Administrator access required.' },
+        { status: 401 }
+      );
+    }
+
     const body = await request.json();
     const settings = await updateSettingsRepo(body);
     return NextResponse.json({ success: true, settings });

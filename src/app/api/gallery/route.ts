@@ -1,6 +1,7 @@
 import { connection, NextResponse } from 'next/server';
 import { slugifyEventTitle } from '@/lib/events-store';
 import { GALLERY_PHOTOS } from '@/config/gallery-data';
+import { verifyAdminRequest } from '@/lib/backend/auth';
 import type { GalleryDocument } from '@/lib/backend/schemas';
 import {
   deleteGalleryPhotoRepo,
@@ -23,6 +24,14 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const auth = await verifyAdminRequest(request);
+    if (!auth.authenticated) {
+      return NextResponse.json(
+        { error: 'Unauthorized. Administrator access required.' },
+        { status: 401 }
+      );
+    }
+
     const body = await request.json();
     const title = String(body.title || '').trim();
     const image = String(body.image || '').trim();
@@ -71,6 +80,14 @@ export async function POST(request: Request) {
 
 export async function PATCH(request: Request) {
   try {
+    const auth = await verifyAdminRequest(request);
+    if (!auth.authenticated) {
+      return NextResponse.json(
+        { error: 'Unauthorized. Administrator access required.' },
+        { status: 401 }
+      );
+    }
+
     const body = await request.json();
     const id = String(body.id || '').trim();
     const all = await listGalleryRepo();
@@ -104,6 +121,14 @@ export async function PATCH(request: Request) {
 }
 
 export async function DELETE(request: Request) {
+  const auth = await verifyAdminRequest(request);
+  if (!auth.authenticated) {
+    return NextResponse.json(
+      { error: 'Unauthorized. Administrator access required.' },
+      { status: 401 }
+    );
+  }
+
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id')?.trim();
   if (!id) {

@@ -1,6 +1,7 @@
 import { connection, NextResponse } from 'next/server';
 import { slugifyEventTitle } from '@/lib/events-store';
 import { NEWS_DATA } from '@/config/news-data';
+import { verifyAdminRequest } from '@/lib/backend/auth';
 import {
   deleteNewsRepo,
   getNewsRepo,
@@ -40,6 +41,14 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const auth = await verifyAdminRequest(request);
+    if (!auth.authenticated) {
+      return NextResponse.json(
+        { error: 'Unauthorized. Administrator access required.' },
+        { status: 401 }
+      );
+    }
+
     const body = await request.json();
     const title = String(body.title || '').trim();
     if (title.length < 3) {
@@ -102,6 +111,14 @@ export async function POST(request: Request) {
 
 export async function PATCH(request: Request) {
   try {
+    const auth = await verifyAdminRequest(request);
+    if (!auth.authenticated) {
+      return NextResponse.json(
+        { error: 'Unauthorized. Administrator access required.' },
+        { status: 401 }
+      );
+    }
+
     const body = await request.json();
     const slug = String(body.slug || '').trim();
     const existing = slug ? await getNewsRepo(slug) : undefined;
@@ -165,6 +182,14 @@ export async function PATCH(request: Request) {
 }
 
 export async function DELETE(request: Request) {
+  const auth = await verifyAdminRequest(request);
+  if (!auth.authenticated) {
+    return NextResponse.json(
+      { error: 'Unauthorized. Administrator access required.' },
+      { status: 401 }
+    );
+  }
+
   const { searchParams } = new URL(request.url);
   const slug = searchParams.get('slug')?.trim();
   if (!slug) {

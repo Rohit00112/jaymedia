@@ -1,5 +1,6 @@
 import { connection, NextResponse } from 'next/server';
 import { inquirySchema } from '@/lib/validations/inquiry';
+import { verifyAdminRequest } from '@/lib/backend/auth';
 import {
   INQUIRY_STATUS_OPTIONS,
   type InquiryStatusOption,
@@ -13,6 +14,14 @@ import {
 export async function GET(request: Request) {
   await connection();
   try {
+    const auth = await verifyAdminRequest(request);
+    if (!auth.authenticated) {
+      return NextResponse.json(
+        { error: 'Unauthorized. Administrator access required.' },
+        { status: 401 }
+      );
+    }
+
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status')?.trim();
     const inquiries = await listInquiriesRepo({ status });
@@ -26,6 +35,15 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+
+    // Honeypot bot protection
+    if (body.website || body.honeypot) {
+      return NextResponse.json(
+        { success: true, message: 'Inquiry received.' },
+        { status: 201 }
+      );
+    }
+
     const parsed = inquirySchema.safeParse(body);
 
     if (!parsed.success) {
@@ -79,6 +97,14 @@ export async function POST(request: Request) {
 
 export async function PATCH(request: Request) {
   try {
+    const auth = await verifyAdminRequest(request);
+    if (!auth.authenticated) {
+      return NextResponse.json(
+        { error: 'Unauthorized. Administrator access required.' },
+        { status: 401 }
+      );
+    }
+
     const body = await request.json();
     const id = String(body.id || '').trim();
     if (!id) {
@@ -127,6 +153,14 @@ export async function PATCH(request: Request) {
 }
 
 export async function DELETE(request: Request) {
+  const auth = await verifyAdminRequest(request);
+  if (!auth.authenticated) {
+    return NextResponse.json(
+      { error: 'Unauthorized. Administrator access required.' },
+      { status: 401 }
+    );
+  }
+
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id')?.trim();
   if (!id) {

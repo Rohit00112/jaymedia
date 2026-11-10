@@ -1,6 +1,7 @@
 import { connection, NextResponse } from 'next/server';
 import { slugifyEventTitle } from '@/lib/events-store';
 import { TEAM_PROFILES } from '@/config/team-data';
+import { verifyAdminRequest } from '@/lib/backend/auth';
 import {
   deleteTeamMemberRepo,
   listTeamRepo,
@@ -20,6 +21,14 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    const auth = await verifyAdminRequest(request);
+    if (!auth.authenticated) {
+      return NextResponse.json(
+        { error: 'Unauthorized. Administrator access required.' },
+        { status: 401 }
+      );
+    }
+
     const body = await request.json();
     const name = String(body.name || '').trim();
     const role = String(body.role || '').trim();
@@ -78,6 +87,14 @@ export async function POST(request: Request) {
 
 export async function PATCH(request: Request) {
   try {
+    const auth = await verifyAdminRequest(request);
+    if (!auth.authenticated) {
+      return NextResponse.json(
+        { error: 'Unauthorized. Administrator access required.' },
+        { status: 401 }
+      );
+    }
+
     const body = await request.json();
     const slug = String(body.slug || '').trim();
     const all = await listTeamRepo();
@@ -128,6 +145,14 @@ export async function PATCH(request: Request) {
 }
 
 export async function DELETE(request: Request) {
+  const auth = await verifyAdminRequest(request);
+  if (!auth.authenticated) {
+    return NextResponse.json(
+      { error: 'Unauthorized. Administrator access required.' },
+      { status: 401 }
+    );
+  }
+
   const { searchParams } = new URL(request.url);
   const slug = searchParams.get('slug')?.trim();
   if (!slug) {
