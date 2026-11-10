@@ -34,7 +34,7 @@ export const siteConfig = {
   social: {
     facebook: 'https://www.facebook.com/JayMediaManagement',
     youtube: 'https://www.youtube.com/@JayMediaManagementPvtLtd',
-    instagram: '',
+    instagram: 'https://www.instagram.com/jaymediamanagement/',
     linkedin: '',
   },
   keywords: [

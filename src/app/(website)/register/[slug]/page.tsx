@@ -5,7 +5,7 @@ import PageHero from '@/components/shared/PageHero';
 import EventRegistrationForm from '@/components/forms/EventRegistrationForm';
 import { EVENTS_DATA } from '@/config/events-data';
 import { getEventBySlug } from '@/lib/events-store';
-import { EVENT_JUDGES, TEAM_PROFILES } from '@/config/team-data';
+import { TEAM_PROFILES } from '@/config/team-data';
 import { generatePageMetadata } from '@/lib/seo';
 
 interface Props {
@@ -36,8 +36,7 @@ export default async function EventRegisterPage({ params }: Props) {
     EVENTS_DATA.find((e) => e.slug === slug) ||
     EVENTS_DATA[0];
 
-  const isKidsIdol = event.slug === 'nepal-kids-idol';
-  const peopleStrip = isKidsIdol ? EVENT_JUDGES : TEAM_PROFILES.slice(0, 2);
+  const peopleStrip = TEAM_PROFILES.slice(0, 2);
 
   return (
     <div className="min-h-screen bg-paper text-ink">
@@ -60,12 +59,10 @@ export default async function EventRegisterPage({ params }: Props) {
           <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
             <div>
               <span className="text-xs font-semibold uppercase tracking-wider text-forest">
-                {isKidsIdol ? 'Jury Panel' : 'Production Leadership'}
+                Production Leadership
               </span>
               <h2 className="mt-1 text-xl font-semibold text-ink">
-                {isKidsIdol
-                  ? 'Official Event Judges'
-                  : 'Producers & Direction'}
+                Producers &amp; Direction
               </h2>
             </div>
             <div className="flex flex-wrap gap-2.5">
@@ -101,9 +98,7 @@ export default async function EventRegisterPage({ params }: Props) {
                   <h3 className="text-sm font-semibold text-ink group-hover:text-forest">
                     {person.name}
                   </h3>
-                  <p className="text-xs text-muted">
-                    {'title' in person ? person.title : person.role}
-                  </p>
+                  <p className="text-xs text-muted">{person.role}</p>
                 </div>
               </Link>
             ))}

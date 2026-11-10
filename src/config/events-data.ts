@@ -68,14 +68,8 @@ export const EVENTS_DATA: EventDetailData[] = [
     status: 'published',
     eligibility: 'Dec 19, 2026 • 6:00 PM',
     coverageLabel: 'Itahari Stadium, Nepal',
-    prizePoolLabel: 'NPR 4,000 – 15,000',
+    prizePoolLabel: 'Tickets via Khalti',
     codePrefix: 'AAL',
-    prizes: [
-      { rank: 'Early Bird VVIP', amount: 'NPR 15,000', tier: 'gold' },
-      { rank: 'Early Bird VIP', amount: 'NPR 10,000', tier: 'silver' },
-      { rank: 'Early Bird Fanpit', amount: 'NPR 7,000', tier: 'bronze' },
-      { rank: 'Early Bird General', amount: 'NPR 4,000', tier: 'ruby' },
-    ],
     summary:
       'Jay Media Management Pvt. Ltd. proudly presents Atif Aslam Live in Nepal: Subah Aye Na Tour (Eastern Echoes) on Saturday, December 19, 2026 (Poush 4) from 6:00 PM onwards at Itahari Stadium (Itahari Rangasala) — with Khalti by IME as the official digital ticketing partner.',
     overview:
@@ -84,14 +78,14 @@ export const EVENTS_DATA: EventDetailData[] = [
       'Headliner: Global Icon Atif Aslam — Subah Aye Na Tour (Eastern Echoes)',
       'Date & Time: Saturday, December 19, 2026 (Poush 4) • 6:00 PM Onwards',
       'Venue: Itahari Stadium (Itahari Rangasala), Itahari, Koshi Province',
-      'Official Digital Ticketing Partner: Khalti by IME (Early Bird NPR 4,000 – 15,000)',
+      'Official Digital Ticketing Partner: Khalti by IME',
       'Full Stadium Line-Array Sound, Intelligent DMX Lighting & VVIP Hospitality',
     ],
     scheduleOrPhases: [
       {
         title: 'Digital Ticketing via Khalti by IME',
         description:
-          'Limited Early Bird digital passes live on Khalti across General (NPR 4,000), Fanpit (NPR 7,000), VIP (NPR 10,000), VVIP (NPR 15,000), and Foreigner tiers (NPR 9,600 – 32,000).',
+          'Official digital passes available on Khalti across General, Fanpit, VIP, and VVIP enclosures.',
       },
       {
         title: 'Stadium Gates & Eastern Echoes Pre-Show',
@@ -151,7 +145,7 @@ export const EVENTS_DATA: EventDetailData[] = [
     summary:
       'Jay Media Management proudly presents Nepal Kids Idol 2025 — a 30-episode national television singing competition spanning all 77 districts of Nepal and international hubs across India, the USA, Canada, and Australia.',
     overview:
-      'Searching for young superstars aged 5 to 15 across every district of Nepal and extending to Sikkim, Darjeeling, Assam, Dehradun, Siliguri, USA, Canada, and Australia. Over 30 electrifying episodes airing on national television, contestants perform in front of celebrity jury legends Lochan Bhattarai and Ananda Karki with a total cash prize pool of Rs. 2,000,000.00.',
+      'Searching for young superstars aged 5 to 15 across every district of Nepal and extending to Sikkim, Darjeeling, Assam, Dehradun, Siliguri, USA, Canada, and Australia. Over 30 electrifying episodes airing on national television, contestants compete for a total cash prize pool of Rs. 2,000,000.00.',
     highlights: [
       'Rs. 2,000,000 Total Cash Prize Pool (Rs. 10 Lakhs First Prize)',
       'Auditions Across All 77 Districts of Nepal',

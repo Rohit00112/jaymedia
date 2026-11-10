@@ -50,6 +50,7 @@ export const secondaryCta = {
 
 export const socials = [
   { label: 'Facebook', href: 'https://www.facebook.com/JayMediaManagement' },
+  { label: 'Instagram', href: 'https://www.instagram.com/jaymediamanagement/' },
   { label: 'YouTube', href: 'https://www.youtube.com/@JayMediaManagementPvtLtd' },
 ] as const;
 

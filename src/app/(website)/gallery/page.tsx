@@ -60,9 +60,9 @@ const GALLERY_SECTIONS: GallerySectionMeta[] = [
   {
     category: 'Nepal Kids Idol',
     eyebrow: 'National Television Reality Show • Season One',
-    title: 'Nepal Kids Idol — Jury & Nationwide Auditions',
+    title: 'Nepal Kids Idol — Nationwide Auditions',
     description:
-      'Official celebrity jury announcements and nationwide audition campaign posters spanning all 77 districts of Nepal and international diaspora hubs.',
+      'Official nationwide audition campaign spanning all 77 districts of Nepal and international diaspora hubs.',
     href: '/events/nepal-kids-idol',
     linkLabel: 'View Nepal Kids Idol',
   },
@@ -194,16 +194,6 @@ const GALLERY_PHOTOS: GalleryPhoto[] = [
     caption: 'Official 4th Runner Up presentation of Miss Koshi 2024 Season #8.',
   },
   {
-    id: 'nki-poster-1',
-    title: 'Nepal Kids Idol — Jury Announcement (Lochan Bhattarai)',
-    badge: 'Official Jury Panel',
-    category: 'Nepal Kids Idol',
-    aspect: 'aspect-[4/4.5]',
-    image: '/images/official/nki-cover.png',
-    caption:
-      'Celebrated vocalist Mrs. Lochan Bhattarai joining the official jury panel for Nepal Kids Idol Season One.',
-  },
-  {
     id: 'nki-poster-2',
     title: 'Nepal Kids Idol — Auditions Open Nationwide',
     badge: '77 Districts + Global',
@@ -212,16 +202,6 @@ const GALLERY_PHOTOS: GalleryPhoto[] = [
     image: '/images/official/nki-poster.png',
     caption:
       'National & international audition call spanning all 77 districts of Nepal plus global diaspora centers with Rs. 20 Lakhs prize pool.',
-  },
-  {
-    id: 'nki-judge-ananda',
-    title: 'Nepal Kids Idol — Lead Jury Panelist Ananda Karki',
-    badge: 'Lead Jury Maestro',
-    category: 'Nepal Kids Idol',
-    aspect: 'aspect-[4/4.5]',
-    image: '/images/official/judge-ananda.png',
-    caption:
-      'Nepali playback maestro Ananda Karki on the official Nepal Kids Idol television jury panel.',
   },
   {
     id: '2',

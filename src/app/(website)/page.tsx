@@ -3,7 +3,6 @@ import {
   FeaturedEventsSection,
   IntroSection,
   ShowreelSection,
-  JudgesSection,
   TeamSection,
   JournalSection,
   FacebookFeedSection,
@@ -26,7 +25,6 @@ export default function HomePage() {
       <FeaturedEventsSection />
       <IntroSection />
       <ShowreelSection />
-      <JudgesSection />
       <TeamSection />
       <JournalSection />
       <FacebookFeedSection />

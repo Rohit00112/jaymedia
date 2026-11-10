@@ -245,27 +245,32 @@ export default function AboutPage() {
             link={{ href: '/team', label: 'View full profiles' }}
           />
 
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {TEAM_PROFILES.map((member) => (
               <Link
                 key={member.slug}
                 href={`/team/${member.slug}`}
-                className="group overflow-hidden rounded-xl border border-line bg-white transition-colors hover:border-line-strong"
+                className="group flex flex-col gap-5 overflow-hidden rounded-xl border border-line bg-white p-5 transition-colors hover:border-line-strong sm:flex-row sm:items-center"
               >
-                <div className="relative aspect-[4/4.2] w-full overflow-hidden bg-sand">
+                <div className="relative aspect-[4/4.2] w-full shrink-0 overflow-hidden rounded-lg bg-sand sm:w-40">
                   <Image
                     src={member.image}
                     alt={member.name}
                     fill
-                    sizes="(max-width: 640px) 100vw, 25vw"
+                    sizes="(max-width: 640px) 100vw, 160px"
                     className="img-zoom object-cover object-top"
                   />
                 </div>
-                <div className="p-4">
-                  <h3 className="text-base font-semibold text-ink group-hover:text-forest">
+                <div>
+                  <span className="text-xs font-medium text-forest">
+                    {member.role}
+                  </span>
+                  <h3 className="mt-1 text-xl font-semibold text-ink group-hover:text-forest">
                     {member.name}
                   </h3>
-                  <p className="mt-0.5 text-xs text-muted">{member.role}</p>
+                  <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted">
+                    {member.shortBio}
+                  </p>
                 </div>
               </Link>
             ))}

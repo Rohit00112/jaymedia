@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { ArrowUpRight } from 'lucide-react';
 import SectionHeading from '@/components/shared/SectionHeading';
 import { TEAM_PROFILES } from '@/config/team-data';
 
@@ -13,32 +14,44 @@ export default function TeamSection() {
         <SectionHeading
           eyebrow="Leadership"
           title="The team behind every production."
-          description="Executive producers and creative leads guiding Jay Media Management across Biratnagar and Koshi Province."
+          description="Executive leadership guiding Jay Media Management across Biratnagar and Koshi Province."
           link={{ href: '/team', label: 'Meet the team' }}
         />
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {TEAM_PROFILES.map((member) => (
             <Link
               key={member.slug}
               href={`/team/${member.slug}`}
-              className="group flex flex-col overflow-hidden rounded-xl border border-line bg-white transition-colors hover:border-line-strong"
+              className="group flex flex-col gap-5 overflow-hidden rounded-xl border border-line bg-white p-5 transition-colors hover:border-line-strong sm:flex-row sm:items-center"
             >
-              <div className="relative aspect-[4/4.2] overflow-hidden bg-sand">
+              <div className="relative aspect-[4/4.2] w-full shrink-0 overflow-hidden rounded-lg bg-sand sm:w-44">
                 <Image
                   src={member.image}
                   alt={member.name}
                   fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  sizes="(max-width: 640px) 100vw, 180px"
                   className="img-zoom object-cover object-top"
                 />
               </div>
 
-              <div className="p-4">
-                <h3 className="text-base font-semibold text-ink transition-colors group-hover:text-forest">
-                  {member.name}
-                </h3>
-                <p className="mt-0.5 text-xs text-muted">{member.role}</p>
+              <div className="flex flex-1 flex-col justify-between">
+                <div>
+                  <span className="text-xs font-medium text-forest">
+                    {member.role}
+                  </span>
+                  <h3 className="mt-1 text-xl font-semibold text-ink transition-colors group-hover:text-forest">
+                    {member.name}
+                  </h3>
+                  <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted">
+                    {member.shortBio}
+                  </p>
+                </div>
+
+                <div className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-forest">
+                  <span>View profile</span>
+                  <ArrowUpRight className="h-3.5 w-3.5" />
+                </div>
               </div>
             </Link>
           ))}

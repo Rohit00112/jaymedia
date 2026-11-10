@@ -61,25 +61,6 @@ export default function HeroEventShowcase({ event }: HeroEventShowcaseProps) {
               Event Details
             </Link>
           </div>
-
-          {/* Early Bird Tiers */}
-          {event.prizes && event.prizes.length > 0 && (
-            <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
-              {event.prizes.map((tier) => (
-                <div
-                  key={tier.rank}
-                  className="rounded-lg border border-line bg-paper-deep/60 p-3"
-                >
-                  <span className="block text-xs text-muted">
-                    {tier.rank.replace('Early Bird ', '')}
-                  </span>
-                  <span className="mt-0.5 block text-sm font-semibold text-ink">
-                    {tier.amount}
-                  </span>
-                </div>
-              ))}
-            </div>
-          )}
         </div>
 
         {/* Right Column */}

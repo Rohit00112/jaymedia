@@ -6,36 +6,36 @@ import PageHero from '@/components/shared/PageHero';
 import SectionHeading from '@/components/shared/SectionHeading';
 import CtaBand from '@/components/shared/CtaBand';
 import { generatePageMetadata } from '@/lib/seo';
-import { TEAM_PROFILES, EVENT_JUDGES } from '@/config/team-data';
+import { TEAM_PROFILES } from '@/config/team-data';
 
 export const metadata: Metadata = generatePageMetadata({
-  title: 'Our Team, Leadership & Judges | Jay Media Management',
+  title: 'Our Leadership Team | Jay Media Management',
   description:
-    'Meet the Chairman, CEO, Mentors, and Celebrity Judges behind Jay Media Management Pvt. Ltd. in Biratnagar, Nepal.',
+    'Meet Chairman Jay Raj Roy and CEO Neesha Khatiwada leading Jay Media Management Pvt. Ltd. in Biratnagar, Nepal.',
 });
 
 export default function TeamPage() {
   return (
     <div className="min-h-screen bg-paper text-ink">
       <PageHero
-        eyebrow="Leadership & Jury"
-        title="The people behind every production."
-        description="Meet the executives, mentors, and celebrated judges steering Jay Media Management and Nepal Kids Idol across Nepal."
+        eyebrow="Leadership"
+        title="The leadership behind every production."
+        description="Meet the executive team steering Jay Media Management across live concerts, reality television, feature cinema, and regional pageants."
         meta={[
-          { label: 'Leadership', value: '4 Core Members' },
-          { label: 'Celebrity Jury', value: 'Lochan Bhattarai & Ananda Karki' },
+          { label: 'Chairman', value: 'Jay Raj Roy' },
+          { label: 'CEO', value: 'Neesha Khatiwada' },
           { label: 'Headquarters', value: 'Central Mall, Biratnagar' },
           { label: 'Founded', value: '2013 (Reg. 2014)' },
         ]}
       />
 
-      {/* Executive Leadership & Mentors */}
-      <section className="border-b border-line py-16 md:py-20">
+      {/* Executive Leadership */}
+      <section className="py-16 md:py-20">
         <div className="container-ed">
           <SectionHeading
             eyebrow="Executive Roster"
-            title="Leadership & mentors."
-            description="The producers, mentors, and directors responsible for every stage production, film project, and youth competition."
+            title="Executive leadership."
+            description="Guiding every stage production, film project, and national talent competition from Biratnagar."
           />
 
           <div className="grid gap-6 md:grid-cols-2">
@@ -75,51 +75,6 @@ export default function TeamPage() {
                       <ArrowUpRight className="h-3.5 w-3.5" />
                     </span>
                   </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Event Judges */}
-      <section className="bg-paper-deep/50 py-16 md:py-20">
-        <div className="container-ed">
-          <SectionHeading
-            eyebrow="Nepal Kids Idol Jury"
-            title="Event judges."
-            description="Celebrity music maestros guiding contestants across our televised national competition."
-          />
-
-          <div className="grid gap-6 md:grid-cols-2">
-            {EVENT_JUDGES.map((judge) => (
-              <Link
-                key={judge.slug}
-                href={`/team/${judge.slug}`}
-                className="group flex flex-col gap-5 rounded-xl border border-line bg-white p-5 transition-colors hover:border-line-strong sm:flex-row sm:items-center"
-              >
-                <div className="relative aspect-[4/4.2] w-full shrink-0 overflow-hidden rounded-lg bg-paper-deep sm:w-40">
-                  <Image
-                    src={judge.image}
-                    alt={judge.name}
-                    fill
-                    sizes="(max-width: 640px) 100vw, 160px"
-                    className="img-zoom object-cover object-top"
-                  />
-                </div>
-                <div>
-                  <span className="text-xs font-medium text-forest">
-                    Official Judge &bull; {judge.eventTitle}
-                  </span>
-                  <h3 className="mt-1 text-xl font-semibold text-ink group-hover:text-forest">
-                    {judge.name}
-                  </h3>
-                  <p className="mt-0.5 text-xs font-medium text-muted">
-                    {judge.title}
-                  </p>
-                  <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted">
-                    {judge.bio}
-                  </p>
                 </div>
               </Link>
             ))}

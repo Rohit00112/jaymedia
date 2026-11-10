@@ -5,8 +5,6 @@ import { ShieldCheck } from 'lucide-react';
 const TEAM = [
   { name: 'Jay Raj Roy', role: 'Chairman & Founder', status: 'Executive Leadership' },
   { name: 'Neesha Khatiwada', role: 'Chief Executive Officer', status: 'Executive Leadership' },
-  { name: 'Rishav Dev Ghimire', role: 'Mentor & Artistic Advisor', status: 'Mentorship' },
-  { name: 'Rajendra KC', role: 'Senior Advisor & Mentor', status: 'Mentorship' },
 ];
 
 export default function AdminTeamPage() {
