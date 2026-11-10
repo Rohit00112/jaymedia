@@ -8,9 +8,7 @@ const globalForEvents = globalThis as typeof globalThis & {
 };
 
 export function getEventsRegistry(): Map<string, EventDetailData> {
-  const signature = EVENTS_DATA.map(
-    (e) => `${e.slug}:${e.title}:${e.coverBanner || ''}:${e.heroStageImage || e.image}`
-  ).join('|');
+  const signature = JSON.stringify(EVENTS_DATA);
 
   if (
     !globalForEvents.__jayMediaEvents ||
@@ -38,7 +36,9 @@ export function getEventsRegistry(): Map<string, EventDetailData> {
   return globalForEvents.__jayMediaEvents;
 }
 
-export function listEvents(options?: { includeDrafts?: boolean }): EventDetailData[] {
+export function listEvents(options?: {
+  includeDrafts?: boolean;
+}): EventDetailData[] {
   const all = Array.from(getEventsRegistry().values());
   if (options?.includeDrafts) return all;
   return all.filter((ev) => ev.status !== 'draft');
@@ -55,4 +55,3 @@ export function slugifyEventTitle(title: string): string {
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
 }
-

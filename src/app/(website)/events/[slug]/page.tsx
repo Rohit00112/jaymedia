@@ -109,7 +109,7 @@ export default async function EventDetailPage({ params }: Props) {
                     : 'Titleholders & Recognition'}
               </span>
 
-              {event.prizes && (
+              {!event.ticketUrl && event.prizes && (
                 <div className="mt-4 grid grid-cols-2 gap-2.5 border-b border-line pb-5">
                   {event.prizes.map((p) => (
                     <div
