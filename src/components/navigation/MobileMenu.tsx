@@ -4,7 +4,7 @@ import { useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { X, Mail, Phone } from 'lucide-react';
+import { X, Mail, Phone, Ticket, ArrowUpRight } from 'lucide-react';
 import { navigation } from '@/config/navigation';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
@@ -91,7 +91,42 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       </div>
 
       <div className="container-ed flex flex-1 flex-col justify-between py-6">
-        <ul className="divide-y divide-line">
+        <div>
+          {/* Flagship Concert Card */}
+          <div className="mb-6 rounded-xl border border-forest/20 bg-forest-soft/70 p-4">
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-forest">
+              Flagship Concert • Itahari Stadium
+            </p>
+            <h3 className="mt-1 text-base font-bold text-ink">
+              Eastern Echoes • Atif Aslam Live
+            </h3>
+            <p className="mt-0.5 text-xs text-muted">
+              Saturday, Dec 19, 2026 (Poush 4) • 6:00 PM Onwards
+            </p>
+
+            <div className="mt-3 flex items-center gap-2.5">
+              <a
+                href="https://events.khalti.com/events/ET26BJD3F93W"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-primary flex-1 justify-center py-2 text-xs font-semibold shadow-xs"
+              >
+                <Ticket className="h-3.5 w-3.5" />
+                <span>Buy on Khalti</span>
+                <ArrowUpRight className="h-3 w-3" />
+              </a>
+
+              <Link
+                href="/events/atif-aslam-live-in-nepal"
+                onClick={onClose}
+                className="btn btn-outline flex-1 justify-center py-2 text-xs font-semibold"
+              >
+                Event Details
+              </Link>
+            </div>
+          </div>
+
+          <ul className="divide-y divide-line">
           {navigation.links.map((link) => {
             const isActive =
               pathname === link.href ||
@@ -116,8 +151,9 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             );
           })}
         </ul>
+      </div>
 
-        <div className="mt-8 space-y-6 border-t border-line pt-6">
+      <div className="mt-8 space-y-6 border-t border-line pt-6">
           <Link
             href={navigation.cta.href}
             onClick={onClose}

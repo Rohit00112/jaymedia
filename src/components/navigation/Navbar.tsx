@@ -15,6 +15,7 @@ import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 import { useEscapeKey } from '@/hooks';
 import { MobileMenu } from './MobileMenu';
+import { ConcertAnnouncementBar } from './ConcertAnnouncementBar';
 
 export function Navbar() {
   const pathname = usePathname();
@@ -92,6 +93,7 @@ export function Navbar() {
           scrolled ? 'border-line shadow-xs' : 'border-line'
         )}
       >
+        <ConcertAnnouncementBar />
         <nav
           aria-label="Primary Navigation"
           className="container-ed flex h-16 items-center justify-between gap-6"
