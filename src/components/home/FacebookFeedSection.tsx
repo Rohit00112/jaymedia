@@ -92,10 +92,10 @@ export default function FacebookFeedSection() {
                 </a>
 
                 <Link
-                  href="/register/nepal-kids-idol"
+                  href="/register"
                   className="btn btn-outline bg-white"
                 >
-                  <span>Register Contestant</span>
+                  <span>Open Event Registrations</span>
                 </Link>
               </div>
             </div>

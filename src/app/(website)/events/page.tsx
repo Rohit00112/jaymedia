@@ -7,16 +7,18 @@ import CtaBand from '@/components/shared/CtaBand';
 import Reveal from '@/components/motion/Reveal';
 import { generatePageMetadata } from '@/lib/seo';
 import { EVENTS_DATA } from '@/config/events-data';
+import { listEvents } from '@/lib/events-store';
 import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = generatePageMetadata({
   title: 'Events & Productions Portfolio | Jay Media Management',
   description:
-    'Explore signature event productions by Jay Media Management in Biratnagar, Nepal: Miss Koshi Grand Pageant, Mr. & Miss Little Koshi, and bespoke corporate galas.',
+    'Explore signature event productions by Jay Media Management in Biratnagar, Nepal: Nepal Kids Idol, Miss Koshi Grand Pageant, Mr. & Miss Little Koshi, and bespoke corporate galas.',
 });
 
 export default function EventsPage() {
-  const [featured, ...rest] = EVENTS_DATA;
+  const events = listEvents();
+  const [featured, ...rest] = events.length > 0 ? events : EVENTS_DATA;
 
   return (
     <div className="min-h-screen bg-paper text-ink">
@@ -32,7 +34,7 @@ export default function EventsPage() {
         image="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1800&q=85"
         imageAlt="Live concert crowd and stage lighting"
         meta={[
-          { label: 'Signature franchises', value: '04 productions' },
+          { label: 'Signature franchises', value: `${String(events.length).padStart(2, '0')} productions` },
           { label: 'Region', value: 'Koshi Province' },
           { label: 'Format', value: 'Live + broadcast' },
           { label: 'Studio', value: 'Biratnagar, Nepal' },
@@ -47,7 +49,7 @@ export default function EventsPage() {
               Flagship productions / 2020—2026
             </span>
             <span className="eyebrow text-faint">
-              {String(EVENTS_DATA.length).padStart(2, '0')} works
+              {String(events.length).padStart(2, '0')} works
             </span>
           </div>
 

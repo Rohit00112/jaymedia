@@ -1,3 +1,5 @@
+import { EVENTS_DATA } from '@/config/events-data';
+
 export interface NavChild {
   readonly label: string;
   readonly href: string;
@@ -16,26 +18,11 @@ export const navLinks: readonly NavItem[] = [
     label: 'Events',
     href: '/events',
     children: [
-      {
-        label: 'Nepal Kids Idol',
-        href: '/events/nepal-kids-idol',
-        note: 'Registrations Open • Ages 5–15',
-      },
-      {
-        label: 'Miss Koshi Grand Pageant',
-        href: '/events/miss-koshi',
-        note: 'Annual Flagship • Season #8',
-      },
-      {
-        label: 'Mr. & Miss Little Koshi',
-        href: '/events/mr-and-miss-little-koshi',
-        note: 'Youth Confidence Showcase',
-      },
-      {
-        label: 'Nepal Kids Dancing Champion',
-        href: '/events/nepal-kids-dancing-champion',
-        note: 'Televised Dance Championship',
-      },
+      ...EVENTS_DATA.map((event) => ({
+        label: event.title,
+        href: `/events/${event.slug}`,
+        note: `${event.seasonOrYear} • ${event.eligibility}`,
+      })),
       {
         label: 'All Productions',
         href: '/events',
@@ -53,7 +40,7 @@ export const navLinks: readonly NavItem[] = [
 
 export const cta = {
   label: 'Register Now',
-  href: '/register/nepal-kids-idol',
+  href: '/register',
 } as const;
 
 export const secondaryCta = {
@@ -74,5 +61,3 @@ const navigationObj = Object.assign([...navLinks], {
 });
 
 export const navigation = navigationObj;
-
-export default navigation;

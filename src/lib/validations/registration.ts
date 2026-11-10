@@ -23,7 +23,7 @@ export const registrationSchema = z.object({
     .number()
     .int()
     .min(4, { message: 'Minimum participant age is 4 years.' })
-    .max(25, { message: 'Maximum participant age for youth tier is 25.' }),
+    .max(40, { message: 'Please enter a participant age between 4 and 40.' }),
   address: z.string().min(2, { message: 'City / district / address is required.' }).max(160),
   school: z.string().min(2, { message: 'School or academy name is required.' }).max(160),
   hobbies: z.string().max(300).optional().default(''),

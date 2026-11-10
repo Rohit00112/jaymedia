@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -16,12 +16,14 @@ import {
   UserCheck,
   Video,
 } from 'lucide-react';
+import { EVENTS_DATA, type EventDetailData } from '@/config/events-data';
 import type { RegistrationRecord } from '@/lib/validations/registration';
 import { cn } from '@/lib/utils';
 
 interface EventRegistrationFormProps {
   eventSlug: string;
   eventTitle: string;
+  availableEvents?: EventDetailData[];
 }
 
 const fieldClass =
@@ -33,7 +35,12 @@ const labelClass =
 export default function EventRegistrationForm({
   eventSlug,
   eventTitle,
+  availableEvents,
 }: EventRegistrationFormProps) {
+  const [eventsList, setEventsList] = useState<EventDetailData[]>(
+    availableEvents || EVENTS_DATA.filter((e) => e.registrationOpen)
+  );
+  const [selectedEventSlug, setSelectedEventSlug] = useState(eventSlug);
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [gender, setGender] = useState<'Male' | 'Female' | 'Others'>('Female');
@@ -62,6 +69,28 @@ export default function EventRegistrationForm({
   const [errorMsg, setErrorMsg] = useState('');
   const [issuedRecord, setIssuedRecord] = useState<RegistrationRecord | null>(null);
 
+  useEffect(() => {
+    let active = true;
+    fetch('/api/events')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (active && Array.isArray(data?.events) && data.events.length > 0) {
+          setEventsList(
+            data.events.filter((e: EventDetailData) => e.registrationOpen !== false)
+          );
+        }
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const currentEvent =
+    eventsList.find((e) => e.slug === selectedEventSlug) || eventsList[0];
+  const activeEventTitle = currentEvent?.title || eventTitle;
+  const ageRange = currentEvent?.ageRange || { min: 4, max: 40, placeholder: 'Age' };
+
   function handlePhotoSelect(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -88,7 +117,7 @@ export default function EventRegistrationForm({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          eventSlug,
+          eventSlug: selectedEventSlug,
           name,
           phone,
           gender,
@@ -242,28 +271,46 @@ export default function EventRegistrationForm({
         <span>
           <strong>Note:</strong> Fields marked with{' '}
           <span className="font-bold text-red-600">*</span> are mandatory for{' '}
-          {eventTitle} audition processing.
+          {activeEventTitle} audition processing.
         </span>
       </div>
 
       {errorMsg && (
         <div
           role="alert"
-          className="rounded-[8px] border border-danger/40 bg-red-50 px-5 py-4 text-sm font-medium text-danger"
+          className="rounded-[2px] border border-danger/40 bg-red-50 px-5 py-4 text-sm font-medium text-danger"
         >
           {errorMsg}
         </div>
       )}
 
       {/* ─── Card 1: Personal Details & Photo ────────────────────── */}
-      <div className="overflow-hidden rounded-[14px] border border-line bg-white shadow-xs">
+      <div className="overflow-hidden rounded-[2px] border border-line bg-white shadow-xs">
         <div className="bg-forest px-6 py-4 text-white">
           <h2 className="display text-lg font-bold tracking-wide">
-            1. Contestant Details &amp; Audition Mode
+            1. Production Selection &amp; Contestant Details
           </h2>
         </div>
 
         <div className="grid gap-5 p-6 sm:grid-cols-2 sm:p-8">
+          <div className="sm:col-span-2">
+            <label htmlFor="reg-event" className={labelClass}>
+              Applying For Production / Event <span className="text-red-600">*</span>
+            </label>
+            <select
+              id="reg-event"
+              value={selectedEventSlug}
+              onChange={(e) => setSelectedEventSlug(e.target.value)}
+              className={fieldClass}
+            >
+              {eventsList.map((ev) => (
+                <option key={ev.slug} value={ev.slug}>
+                  {ev.title} ({ev.eligibility} &bull; {ev.seasonOrYear})
+                </option>
+              ))}
+            </select>
+          </div>
+
           <div className="sm:col-span-2">
             <label htmlFor="reg-name" className={labelClass}>
               Contestant Full Name <span className="text-red-600">*</span>
@@ -320,12 +367,12 @@ export default function EventRegistrationForm({
               <input
                 id="reg-age"
                 type="number"
-                min={4}
-                max={25}
+                min={ageRange.min}
+                max={ageRange.max}
                 required
                 value={age}
                 onChange={(e) => setAge(e.target.value)}
-                placeholder="5 – 15"
+                placeholder={ageRange.placeholder}
                 className={fieldClass}
               />
             </div>
@@ -648,7 +695,7 @@ export default function EventRegistrationForm({
               information provided in this entry form. We agree to abide by all
               competition rules and understand that photographs and broadcast
               footage may be published or televised in connection with{' '}
-              {eventTitle}. The decision of Jay Media Management Pvt. Ltd. is
+              {activeEventTitle}. The decision of Jay Media Management Pvt. Ltd. is
               final and binding. <span className="text-red-600">*</span>
             </span>
           </label>

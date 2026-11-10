@@ -5,7 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { ArrowUpRight, ChevronDown } from 'lucide-react';
-import { navigation } from '@/config/navigation';
+import { navigation, type NavChild } from '@/config/navigation';
+import type { EventDetailData } from '@/config/events-data';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
 import { useScrollPosition, useEscapeKey } from '@/hooks';
@@ -16,7 +17,36 @@ export function Navbar() {
   const scrollY = useScrollPosition();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [eventsDropdownOpen, setEventsDropdownOpen] = useState(false);
+  const [dynamicEventLinks, setDynamicEventLinks] = useState<NavChild[] | null>(
+    null
+  );
   const dropdownRef = useRef<HTMLLIElement>(null);
+
+  useEffect(() => {
+    let active = true;
+    fetch('/api/events')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (active && Array.isArray(data?.events) && data.events.length > 0) {
+          setDynamicEventLinks([
+            ...data.events.map((ev: EventDetailData) => ({
+              label: ev.title,
+              href: `/events/${ev.slug}`,
+              note: `${ev.seasonOrYear} • ${ev.eligibility}`,
+            })),
+            {
+              label: 'All Productions',
+              href: '/events',
+              note: 'Full Event Archive',
+            },
+          ]);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const scrolled = scrollY > 24;
 
@@ -129,7 +159,7 @@ export function Navbar() {
                       {eventsDropdownOpen && (
                         <div className="absolute left-0 top-full pt-2">
                           <div className="w-72 border border-ink/15 bg-white p-1 text-ink shadow-[0_24px_48px_-16px_rgba(12,20,16,0.18)]">
-                            {link.children.map((child) => (
+                            {(dynamicEventLinks || link.children).map((child) => (
                               <Link
                                 key={child.href}
                                 href={child.href}

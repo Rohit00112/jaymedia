@@ -7,6 +7,7 @@ export interface PrizeTier {
 export interface EventDetailData {
   slug: string;
   title: string;
+  shortLabel?: string;
   category: string;
   seasonOrYear: string;
   location: string;
@@ -14,10 +15,21 @@ export interface EventDetailData {
   summary: string;
   overview: string;
   image: string;
+  heroStageImage?: string;
   coverBanner?: string;
   logoImage?: string;
   posterImage?: string;
-  registrationOpen?: boolean;
+  registrationOpen: boolean;
+  status: 'published' | 'draft';
+  eligibility: string;
+  coverageLabel: string;
+  prizePoolLabel: string;
+  codePrefix: string;
+  ageRange?: {
+    min: number;
+    max: number;
+    placeholder: string;
+  };
   prizes?: PrizeTier[];
   highlights: string[];
   scheduleOrPhases: {
@@ -35,16 +47,25 @@ export const EVENTS_DATA: EventDetailData[] = [
   {
     slug: 'nepal-kids-idol',
     title: 'Nepal Kids Idol',
+    shortLabel: 'Nepal Kids Idol',
     category: 'National Television Singing Reality Show',
     seasonOrYear: 'Season One • 2025',
     location: 'All 77 Districts of Nepal • India • USA • Canada • Australia',
     tagline:
       'The ultimate national television singing competition celebrating the voice, passion, and dreams of children aged 5 to 15.',
     image: '/images/official/nki-poster.png',
+    heroStageImage:
+      'https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=1200&q=85',
     coverBanner: '/images/official/nki-cover.png',
     logoImage: '/images/official/nki-logo.png',
     posterImage: '/images/official/nki-poster.png',
     registrationOpen: true,
+    status: 'published',
+    eligibility: 'Ages 5–15',
+    coverageLabel: '77 Districts + Intl',
+    prizePoolLabel: 'Rs. 2,000,000',
+    codePrefix: 'NKI',
+    ageRange: { min: 4, max: 18, placeholder: '5 – 15' },
     prizes: [
       { rank: '1st Prize', amount: 'Rs 1,000,000.00', tier: 'gold' },
       { rank: '2nd Prize', amount: 'Rs 500,000.00', tier: 'silver' },
@@ -99,11 +120,20 @@ export const EVENTS_DATA: EventDetailData[] = [
   {
     slug: 'miss-koshi',
     title: 'Miss Koshi Grand Pageant',
+    shortLabel: 'Miss Koshi',
     category: 'Beauty Pageant & Youth Empowerment',
     seasonOrYear: 'Seasons 1–8 • Annual Flagship',
     location: 'Biratnagar, Koshi Province',
     tagline: 'Eastern Nepal’s premier beauty, intelligence, and leadership platform.',
     image: '/images/official/koshi-2024-cover.png',
+    heroStageImage: '/images/official/koshi-2024-cover.png',
+    registrationOpen: true,
+    status: 'published',
+    eligibility: 'Young Women (17–26)',
+    coverageLabel: 'Koshi Province',
+    prizePoolLabel: 'Crowns, Cash & Titles',
+    codePrefix: 'MK',
+    ageRange: { min: 16, max: 30, placeholder: '17 – 26' },
     summary:
       'Owned and produced across eight landmark seasons by Jay Media Management, Miss Koshi celebrates the intelligence, grace, and advocacy of young women across Morang, Sunsari, Jhapa, and Koshi Province.',
     overview:
@@ -152,11 +182,21 @@ export const EVENTS_DATA: EventDetailData[] = [
   {
     slug: 'mr-and-miss-little-koshi',
     title: 'Mr. & Miss Little Koshi',
+    shortLabel: 'Little Koshi',
     category: "Children's Talent & Personality Showcase",
     seasonOrYear: '7+ Successful Seasons',
     location: 'Biratnagar • Itahari • Dharan',
     tagline: 'Eastern Nepal’s most celebrated children’s talent and confidence platform.',
     image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80',
+    heroStageImage:
+      'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=85',
+    registrationOpen: true,
+    status: 'published',
+    eligibility: 'Ages 5–13',
+    coverageLabel: 'Biratnagar • Itahari • Dharan',
+    prizePoolLabel: 'Crowns & Scholarships',
+    codePrefix: 'LKS',
+    ageRange: { min: 4, max: 15, placeholder: '5 – 13' },
     summary:
       'An annual youth platform dedicated to nurturing the budding talents, intelligence, and self-confidence of children across eastern Nepal.',
     overview:
@@ -205,11 +245,21 @@ export const EVENTS_DATA: EventDetailData[] = [
   {
     slug: 'nepal-kids-dancing-champion',
     title: 'Nepal Kids Dancing Champion',
+    shortLabel: 'Kids Dancing',
     category: 'Youth Dance Championship',
     seasonOrYear: 'Annual Competition',
     location: 'Biratnagar • Eastern Nepal',
     tagline: 'Eastern Nepal’s premier children’s dancing reality talent championship.',
     image: 'https://images.unsplash.com/photo-1547153760-18fc86324498?auto=format&fit=crop&w=1200&q=80',
+    heroStageImage:
+      'https://images.unsplash.com/photo-1547153760-18fc86324498?auto=format&fit=crop&w=1200&q=85',
+    registrationOpen: true,
+    status: 'published',
+    eligibility: 'Ages 4–14 (Solo & Duo)',
+    coverageLabel: 'Eastern Nepal',
+    prizePoolLabel: 'Trophies & Cash Awards',
+    codePrefix: 'NKDC',
+    ageRange: { min: 4, max: 16, placeholder: '4 – 14' },
     summary:
       'A televised performing arts tournament providing young dancers aged 4–14 a flagship stage to showcase folk, classical, and contemporary choreography.',
     overview:
@@ -242,7 +292,7 @@ export const EVENTS_DATA: EventDetailData[] = [
     ],
     productionScope: [
       'High-shock sprung stage flooring for safe choreography',
-      ' concert-grade line-array sound clarity & bass impact',
+      'Concert-grade line-array sound clarity & bass impact',
       'Synchronized moving beam light shows tailored per song cue',
       'Full backstage rehearsal scheduling & safety stewards',
     ],

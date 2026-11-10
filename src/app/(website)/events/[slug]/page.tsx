@@ -7,6 +7,7 @@ import SectionHeading from '@/components/shared/SectionHeading';
 import CtaBand from '@/components/shared/CtaBand';
 import Reveal from '@/components/motion/Reveal';
 import { EVENTS_DATA } from '@/config/events-data';
+import { getEventBySlug, listEvents } from '@/lib/events-store';
 import { generatePageMetadata } from '@/lib/seo';
 
 interface Props {
@@ -23,7 +24,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const event = EVENTS_DATA.find((e) => e.slug === slug);
+  const event = getEventBySlug(slug) || EVENTS_DATA.find((e) => e.slug === slug);
   if (!event) return {};
 
   return generatePageMetadata({
@@ -34,14 +35,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function EventDetailPage({ params }: Props) {
   const { slug } = await params;
-  const event = EVENTS_DATA.find((e) => e.slug === slug);
+  const allEvents = listEvents();
+  const event = getEventBySlug(slug) || EVENTS_DATA.find((e) => e.slug === slug);
 
   if (!event) {
     notFound();
   }
 
-  const currentIndex = EVENTS_DATA.findIndex((e) => e.slug === event.slug);
-  const nextEvent = EVENTS_DATA[(currentIndex + 1) % EVENTS_DATA.length];
+  const currentIndex = allEvents.findIndex((e) => e.slug === event.slug);
+  const nextEvent =
+    allEvents[(Math.max(0, currentIndex) + 1) % Math.max(1, allEvents.length)];
 
   return (
     <div className="min-h-screen bg-paper text-ink">

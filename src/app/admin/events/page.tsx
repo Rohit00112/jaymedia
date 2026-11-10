@@ -1,131 +1,170 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Plus, Search, CheckCircle2, ArrowUpRight, Edit } from 'lucide-react';
-import { EVENTS_DATA } from '@/config/events-data';
+import { EVENTS_DATA, type EventDetailData } from '@/config/events-data';
 
 export default function AdminEventsPage() {
+  const [events, setEvents] = useState<EventDetailData[]>(EVENTS_DATA);
   const [searchTerm, setSearchTerm] = useState('');
   const [filter, setFilter] = useState<'all' | 'published' | 'draft'>('all');
 
-  const filteredEvents = EVENTS_DATA.filter((e) =>
-    e.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    e.category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  useEffect(() => {
+    let active = true;
+    fetch('/api/events?all=1')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (active && Array.isArray(data?.events)) {
+          setEvents(data.events);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const filteredEvents = events.filter((e) => {
+    const matchesSearch =
+      e.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      e.category.toLowerCase().includes(searchTerm.toLowerCase());
+    if (!matchesSearch) return false;
+    if (filter === 'published') return e.status !== 'draft';
+    if (filter === 'draft') return e.status === 'draft';
+    return true;
+  });
+
+  const publishedCount = events.filter((e) => e.status !== 'draft').length;
+  const draftCount = events.filter((e) => e.status === 'draft').length;
 
   return (
     <div className="space-y-8 font-body text-ink">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-line">
+      <div className="flex flex-col justify-between gap-4 border-b border-line pb-6 sm:flex-row sm:items-center">
         <div>
-          <span className="text-xs uppercase font-body tracking-wider text-coral font-semibold block mb-1">
+          <span className="mb-1 block font-body text-xs font-semibold uppercase tracking-wider text-coral">
             PRODUCTION CATALOG
           </span>
-          <h1 className="editorial-headline text-ink text-3xl sm:text-4xl font-body">
+          <h1 className="editorial-headline font-body text-3xl text-ink sm:text-4xl">
             Events &amp; Pageants Management
           </h1>
-          <p className="text-xs sm:text-sm font-body text-muted mt-1">
-            Manage flagship franchises, auditions, dates, and stagecraft metadata.
+          <p className="mt-1 font-body text-xs text-muted sm:text-sm">
+            Manage all Jay Media Management productions, registrations, and
+            hero showcase slate.
           </p>
         </div>
 
         <Link
           href="/admin/events/new"
-          className="inline-flex items-center gap-2 px-5 py-3 bg-accent text-cream font-body text-xs uppercase tracking-widest font-semibold hover:bg-coral-hover hover:scale-105 transition-all shadow-md rounded-[0.3rem]"
+          className="inline-flex items-center gap-2 rounded-[0.3rem] bg-accent px-5 py-3 font-body text-xs font-semibold uppercase tracking-widest text-cream shadow-md transition-all hover:scale-105 hover:bg-coral-hover"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="h-4 w-4" />
           <span>New Event</span>
         </Link>
       </div>
 
       {/* Filter / Search Bar */}
-      <div className="bg-card border border-line p-4 rounded-[0.5rem] shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="flex flex-col items-center justify-between gap-4 rounded-[0.5rem] border border-line bg-card p-4 shadow-sm sm:flex-row">
         <div className="relative w-full sm:w-80">
-          <Search className="w-4 h-4 text-faint absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-faint" />
           <input
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search events by title or category..."
-            className="w-full pl-9 pr-4 py-2 bg-cream border border-line-strong text-xs font-body text-ink rounded-[0.3rem] focus:outline-none focus:border-coral focus:ring-1 focus:ring-coral placeholder:text-faint"
+            className="w-full rounded-[0.3rem] border border-line-strong bg-cream py-2 pl-9 pr-4 font-body text-xs text-ink placeholder:text-faint focus:border-coral focus:outline-none focus:ring-1 focus:ring-coral"
           />
         </div>
 
-        <div className="flex items-center gap-2 text-xs font-body">
+        <div className="flex items-center gap-2 font-body text-xs">
           <button
+            type="button"
             onClick={() => setFilter('all')}
-            className={`px-3.5 py-1.5 uppercase tracking-wider rounded-[0.3rem] transition-all ${
-              filter === 'all' ? 'bg-accent text-cream font-semibold' : 'bg-paper-deep text-muted hover:text-ink'
+            className={`rounded-[0.3rem] px-3.5 py-1.5 uppercase tracking-wider transition-all ${
+              filter === 'all'
+                ? 'bg-accent font-semibold text-cream'
+                : 'bg-paper-deep text-muted hover:text-ink'
             }`}
           >
-            All ({EVENTS_DATA.length})
+            All ({events.length})
           </button>
           <button
+            type="button"
             onClick={() => setFilter('published')}
-            className={`px-3.5 py-1.5 uppercase tracking-wider rounded-[0.3rem] transition-all ${
-              filter === 'published' ? 'bg-accent text-cream font-semibold' : 'bg-paper-deep text-muted hover:text-ink'
+            className={`rounded-[0.3rem] px-3.5 py-1.5 uppercase tracking-wider transition-all ${
+              filter === 'published'
+                ? 'bg-accent font-semibold text-cream'
+                : 'bg-paper-deep text-muted hover:text-ink'
             }`}
           >
-            Published ({EVENTS_DATA.length})
+            Published ({publishedCount})
           </button>
           <button
+            type="button"
             onClick={() => setFilter('draft')}
-            className={`px-3.5 py-1.5 uppercase tracking-wider rounded-[0.3rem] transition-all ${
-              filter === 'draft' ? 'bg-accent text-cream font-semibold' : 'bg-paper-deep text-muted hover:text-ink'
+            className={`rounded-[0.3rem] px-3.5 py-1.5 uppercase tracking-wider transition-all ${
+              filter === 'draft'
+                ? 'bg-accent font-semibold text-cream'
+                : 'bg-paper-deep text-muted hover:text-ink'
             }`}
           >
-            Drafts (0)
+            Drafts ({draftCount})
           </button>
         </div>
       </div>
 
-      {/* Events Table / Card list */}
-      <div className="bg-card border border-line rounded-[0.5rem] overflow-hidden shadow-sm">
-        <table className="w-full text-left text-xs font-body">
-          <thead className="bg-cream border-b border-line text-muted uppercase tracking-wider text-[10px]">
+      {/* Events Table */}
+      <div className="overflow-hidden rounded-[0.5rem] border border-line bg-card shadow-sm">
+        <table className="w-full text-left font-body text-xs">
+          <thead className="border-b border-line bg-cream text-[10px] uppercase tracking-wider text-muted">
             <tr>
-              <th className="py-4 px-6">Event Title &amp; Category</th>
-              <th className="py-4 px-6 hidden sm:table-cell">Season / Year</th>
-              <th className="py-4 px-6 hidden md:table-cell">Location</th>
-              <th className="py-4 px-6">Status</th>
-              <th className="py-4 px-6 text-right">Actions</th>
+              <th className="px-6 py-4">Event Title &amp; Category</th>
+              <th className="hidden px-6 py-4 sm:table-cell">Season / Year</th>
+              <th className="hidden px-6 py-4 md:table-cell">Location</th>
+              <th className="px-6 py-4">Status</th>
+              <th className="px-6 py-4 text-right">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-line">
             {filteredEvents.map((event) => (
-              <tr key={event.slug} className="hover:bg-paper-deep transition-colors">
-                <td className="py-4 px-6">
-                  <div className="font-body font-bold text-sm text-ink">{event.title}</div>
-                  <div className="text-[11px] text-coral font-body mt-0.5">{event.category}</div>
+              <tr key={event.slug} className="transition-colors hover:bg-paper-deep">
+                <td className="px-6 py-4">
+                  <div className="font-body text-sm font-bold text-ink">
+                    {event.title}
+                  </div>
+                  <div className="mt-0.5 font-body text-[11px] text-coral">
+                    {event.category}
+                  </div>
                 </td>
-                <td className="py-4 px-6 hidden sm:table-cell text-muted">
+                <td className="hidden px-6 py-4 text-muted sm:table-cell">
                   {event.seasonOrYear}
                 </td>
-                <td className="py-4 px-6 hidden md:table-cell text-muted">
+                <td className="hidden px-6 py-4 text-muted md:table-cell">
                   {event.location}
                 </td>
-                <td className="py-4 px-6">
-                  <span className="inline-flex items-center gap-1 text-[10px] uppercase font-body px-2.5 py-0.5 bg-forest-soft border border-forest/25 text-ink-soft rounded-[0.3rem] font-medium">
-                    <CheckCircle2 className="w-3 h-3 text-ink-soft" /> Published
+                <td className="px-6 py-4">
+                  <span className="inline-flex items-center gap-1 rounded-[0.3rem] border border-forest/25 bg-forest-soft px-2.5 py-0.5 font-body text-[10px] font-medium uppercase text-ink-soft">
+                    <CheckCircle2 className="h-3 w-3 text-ink-soft" />{' '}
+                    {event.status === 'draft' ? 'Draft' : 'Published'}
                   </span>
                 </td>
-                <td className="py-4 px-6 text-right">
+                <td className="px-6 py-4 text-right">
                   <div className="flex items-center justify-end gap-2">
                     <Link
                       href={`/events/${event.slug}`}
                       target="_blank"
                       title="View Public Page"
-                      className="p-1.5 text-muted hover:text-coral transition-colors"
+                      className="p-1.5 text-muted transition-colors hover:text-coral"
                     >
-                      <ArrowUpRight className="w-4 h-4" />
+                      <ArrowUpRight className="h-4 w-4" />
                     </Link>
                     <Link
                       href={`/admin/events/${event.slug}`}
                       title="Edit Event"
-                      className="p-1.5 text-muted hover:text-coral transition-colors"
+                      className="p-1.5 text-muted transition-colors hover:text-coral"
                     >
-                      <Edit className="w-4 h-4" />
+                      <Edit className="h-4 w-4" />
                     </Link>
                   </div>
                 </td>
@@ -137,4 +176,3 @@ export default function AdminEventsPage() {
     </div>
   );
 }
-

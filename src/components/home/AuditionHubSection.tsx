@@ -53,7 +53,7 @@ const AUDITION_HUBS: Record<
   },
 };
 
-const DEMO_CODES = ['NKI-2025-101', 'NKI-2025-102', 'NKI-2025-103'] as const;
+const DEMO_CODES = ['NKI-2025-101', 'MK-2025-102', 'LKS-2025-103'] as const;
 
 export default function AuditionHubSection() {
   const [activeHub, setActiveHub] = useState<HubKey>('nepal');
@@ -279,7 +279,7 @@ export default function AuditionHubSection() {
                 </span>
                 <div>
                   <span className="block font-mono text-[10px] font-semibold uppercase tracking-wider text-forest">
-                    {result.record.userCode}
+                    {result.record.userCode} &bull; {result.record.eventTitle}
                   </span>
                   <h4 className="display text-lg font-bold text-ink">
                     {result.record.name}

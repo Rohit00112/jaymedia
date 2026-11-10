@@ -1,10 +1,10 @@
 'use client';
 
-import { use, useState, Suspense } from 'react';
+import { use, useEffect, useState, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Save, CheckCircle2 } from 'lucide-react';
-import { EVENTS_DATA } from '@/config/events-data';
+import { EVENTS_DATA, type EventDetailData } from '@/config/events-data';
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -12,21 +12,61 @@ interface Props {
 
 function EditEventForm({ id }: { id: string }) {
   const router = useRouter();
-  const event = EVENTS_DATA.find((e) => e.slug === id) || EVENTS_DATA[0];
+  const initialEvent = EVENTS_DATA.find((e) => e.slug === id) || EVENTS_DATA[0];
+  const [activeSlug, setActiveSlug] = useState(id || initialEvent.slug);
 
+  const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [title, setTitle] = useState(event.title);
-  const [category, setCategory] = useState(event.category);
-  const [season, setSeason] = useState(event.seasonOrYear);
-  const [summary, setSummary] = useState(event.summary);
-  const [overview, setOverview] = useState(event.overview);
+  const [title, setTitle] = useState(initialEvent.title);
+  const [category, setCategory] = useState(initialEvent.category);
+  const [season, setSeason] = useState(initialEvent.seasonOrYear);
+  const [summary, setSummary] = useState(initialEvent.summary);
+  const [overview, setOverview] = useState(initialEvent.overview);
 
-  const handleUpdate = (e: React.FormEvent) => {
+  useEffect(() => {
+    let active = true;
+    fetch(`/api/events?slug=${encodeURIComponent(id)}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: { event?: EventDetailData } | null) => {
+        if (!active || !data?.event) return;
+        setActiveSlug(data.event.slug);
+        setTitle(data.event.title);
+        setCategory(data.event.category);
+        setSeason(data.event.seasonOrYear);
+        setSummary(data.event.summary);
+        setOverview(data.event.overview);
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, [id]);
+
+  const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSaved(true);
-    setTimeout(() => {
-      router.push('/admin/events');
-    }, 1500);
+    setSaving(true);
+    try {
+      const res = await fetch('/api/events', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          slug: activeSlug,
+          title,
+          category,
+          seasonOrYear: season,
+          summary,
+          overview,
+        }),
+      });
+      if (res.ok) {
+        setSaved(true);
+        setTimeout(() => {
+          router.push('/admin/events');
+        }, 900);
+      }
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
@@ -39,16 +79,17 @@ function EditEventForm({ id }: { id: string }) {
           >
             <ArrowLeft className="w-4 h-4" /> Back to Events Catalog
           </Link>
-          <h1 className="editorial-headline text-ink text-3xl font-body">Edit: {event.title}</h1>
+          <h1 className="editorial-headline text-ink text-3xl font-body">Edit: {title}</h1>
         </div>
 
         <button
           type="submit"
           form="edit-event-form"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-cream font-body text-xs uppercase tracking-widest font-semibold hover:bg-coral-hover hover:scale-105 transition-all shadow-md rounded-[0.3rem]"
+          disabled={saving}
+          className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-cream font-body text-xs uppercase tracking-widest font-semibold hover:bg-coral-hover hover:scale-105 transition-all shadow-md rounded-[0.3rem] disabled:opacity-60"
         >
           <Save className="w-4 h-4" />
-          <span>Save Changes</span>
+          <span>{saving ? 'Saving...' : 'Save Changes'}</span>
         </button>
       </div>
 

@@ -7,11 +7,12 @@ import {
   MapPin,
   Phone,
 } from 'lucide-react';
+import { EVENTS_DATA } from '@/config/events-data';
 import { siteConfig } from '@/config/site';
 
 const quickLinks = [
   { label: 'Home', href: '/' },
-  { label: 'Nepal Kids Idol', href: '/events/nepal-kids-idol' },
+  { label: 'All Productions', href: '/events' },
   { label: 'About Us', href: '/about' },
   { label: 'Services', href: '/services' },
   { label: 'Meet The Team', href: '/team' },
@@ -21,12 +22,12 @@ const quickLinks = [
 ] as const;
 
 const eventLinks = [
-  { label: 'Register — Nepal Kids Idol', href: '/register/nepal-kids-idol' },
-  { label: 'Event Judges Panel', href: '/#judges' },
+  { label: 'All Open Registrations', href: '/register' },
+  ...EVENTS_DATA.map((event) => ({
+    label: event.title,
+    href: `/events/${event.slug}`,
+  })),
   { label: 'Application Status Tracker', href: '/#application-status' },
-  { label: 'Miss Koshi Season #8', href: '/events/miss-koshi' },
-  { label: 'Mr. & Miss Little Koshi', href: '/events/mr-and-miss-little-koshi' },
-  { label: 'Official Video Reels', href: '/#showreel' },
 ] as const;
 
 const socialLinks = [
@@ -37,28 +38,30 @@ const socialLinks = [
 export function Footer() {
   const { location, contact } = siteConfig;
   const fullAddress = `${location.address}, ${location.city}, ${location.country}`;
+  const openEvents = EVENTS_DATA.filter((e) => e.registrationOpen);
 
   return (
     <footer className="font-sans">
-      {/* ─── Upper Bright Registration Pre-Footer Band ───────────── */}
+      {/* ─── Upper Bright Multi-Event Registration Pre-Footer Band ─ */}
       <div className="border-t-2 border-ink/85 bg-paper-deep py-10 text-ink">
         <div className="container-ed flex flex-col justify-between gap-6 lg:flex-row lg:items-center">
           <div className="max-w-2xl">
             <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-forest">
-              Nepal Kids Idol 2025 &bull; Nationwide &amp; Global Auditions
+              Jay Media Management &bull; Live Pageants &amp; Auditions
             </span>
             <h2 className="display mt-2 text-2xl font-bold text-ink sm:text-3xl">
-              Nepal Kids Idol 2025: A Stage for Young Stars
+              Auditions &amp; Registrations Open Across Nepal
             </h2>
             <p className="mt-2 text-sm text-ink-soft">
-              All 77 districts of Nepal, India (Sikkim, Darjeeling, Assam,
-              Dehradun, Siliguri), USA, Canada, Australia, and online entry.
+              Active franchises:{' '}
+              {openEvents.map((ev) => ev.title).join(' \u2022 ')}. Nationwide
+              and regional entries from Biratnagar HQ.
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <Link href="/register/nepal-kids-idol" className="btn btn-accent">
-              <span>Register Contestant</span>
+            <Link href="/register" className="btn btn-accent">
+              <span>Register for an Event</span>
               <ArrowUpRight className="h-4 w-4 text-gold" />
             </Link>
             <a
@@ -184,7 +187,7 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Column 4: Productions */}
+          {/* Column 4: Dynamic Productions */}
           <div className="lg:col-span-3">
             <h3 className="font-mono text-[11px] font-semibold uppercase tracking-[0.16em] text-gold">
               Productions &amp; Desk

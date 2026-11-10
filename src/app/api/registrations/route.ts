@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { getEventBySlug } from '@/lib/events-store';
 import {
   REGISTRATION_STATUSES,
   registrationSchema,
@@ -7,7 +8,7 @@ import {
 } from '@/lib/validations/registration';
 
 /**
- * In-memory registry seeded with sample Nepal Kids Idol contestant pass codes.
+ * In-memory registry seeded with multi-event Jay Media contestant pass codes.
  * Swap reads/writes cleanly to Firebase Firestore & Storage when ready.
  */
 const globalForRegistrations = globalThis as typeof globalThis & {
@@ -38,17 +39,17 @@ function getRegistry(): Map<string, RegistrationRecord> {
       auditionHub: 'Biratnagar Central Hub (Province 1)',
       submittedAt: '2025-11-02T09:15:00.000Z',
     });
-    seeded.set('NKI-2025-102', {
-      userCode: 'NKI-2025-102',
-      eventSlug: 'nepal-kids-idol',
-      eventTitle: 'Nepal Kids Idol',
+    seeded.set('MK-2025-102', {
+      userCode: 'MK-2025-102',
+      eventSlug: 'miss-koshi',
+      eventTitle: 'Miss Koshi Grand Pageant',
       name: 'Prisha Sharma',
       phone: '9812345678',
-      age: 9,
+      age: 20,
       gender: 'Female',
       address: 'Itahari-04, Sunsari, Koshi Province',
-      school: 'Sunsari Public English School',
-      hobbies: 'Modern Nepali singing, acoustic stage',
+      school: 'Koshi Campus Biratnagar',
+      hobbies: 'Public advocacy, contemporary stage',
       auditionMode: 'In-Person District Audition',
       photoFilename: 'prisha_portrait.jpg',
       parentName: 'Kalpana Sharma',
@@ -56,27 +57,26 @@ function getRegistry(): Map<string, RegistrationRecord> {
       paymentTransactionId: 'FONEPAY-449182',
       paymentReceiptFilename: 'fonepay_receipt_102.png',
       status: 'Shortlisted',
-      auditionHub: 'Itahari / Koshi Online Selection',
+      auditionHub: 'Itahari / Koshi Selection Desk',
       submittedAt: '2025-11-05T11:30:00.000Z',
     });
-    seeded.set('NKI-2025-103', {
-      userCode: 'NKI-2025-103',
-      eventSlug: 'nepal-kids-idol',
-      eventTitle: 'Nepal Kids Idol',
+    seeded.set('LKS-2025-103', {
+      userCode: 'LKS-2025-103',
+      eventSlug: 'mr-and-miss-little-koshi',
+      eventTitle: 'Mr. & Miss Little Koshi',
       name: 'Riyan Pradhan',
-      phone: '+91 9832012345',
-      age: 13,
+      phone: '9832012345',
+      age: 9,
       gender: 'Male',
-      address: 'Gangtok, Sikkim (International Division)',
+      address: 'Dharan-10, Sunsari, Koshi Province',
       school: 'Himalayan Public Academy',
-      hobbies: 'Acoustic guitar, folk vocals',
-      auditionMode: 'Online Video Audition',
-      auditionVideoUrl: 'https://youtu.be/example-audition',
+      hobbies: 'Acoustic guitar, speech & folk dance',
+      auditionMode: 'In-Person District Audition',
       photoFilename: 'riyan_photo.jpg',
       parentName: 'Bikram Pradhan',
       paymentTransactionId: 'INTL-QR-9012',
       status: 'Verified — Audition Scheduled',
-      auditionHub: 'India International Desk (Sikkim & Darjeeling)',
+      auditionHub: 'Dharan Regional Audition Desk',
       submittedAt: '2025-11-08T14:20:00.000Z',
     });
     globalForRegistrations.__jayMediaRegistrations = seeded;
@@ -90,7 +90,6 @@ export async function GET(request: Request) {
   const registry = getRegistry();
 
   if (!rawCode) {
-    // Return list of all registrations sorted newest first for /admin/registrations
     const records = Array.from(registry.values()).sort((a, b) =>
       b.submittedAt.localeCompare(a.submittedAt)
     );
@@ -121,17 +120,18 @@ export async function POST(request: Request) {
     const json = await request.json();
     const parsed = registrationSchema.parse(json);
 
+    const matchedEvent = getEventBySlug(parsed.eventSlug);
+    const prefix = matchedEvent?.codePrefix || 'JMM';
+    const eventTitle = matchedEvent?.title || 'Jay Media Production';
+
     const randomDigits = Math.floor(200 + Math.random() * 799);
     const suffix = Date.now().toString().slice(-3);
-    const userCode = `NKI-2025-${randomDigits}${suffix}`;
+    const userCode = `${prefix}-2025-${randomDigits}${suffix}`;
 
     const record: RegistrationRecord = {
       userCode,
       eventSlug: parsed.eventSlug,
-      eventTitle:
-        parsed.eventSlug === 'nepal-kids-idol'
-          ? 'Nepal Kids Idol'
-          : 'Jay Media Production',
+      eventTitle,
       name: parsed.name,
       phone: parsed.phone,
       age: parsed.age,
