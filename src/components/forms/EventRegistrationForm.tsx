@@ -230,14 +230,14 @@ export default function EventRegistrationForm({
         </dl>
 
         <div className="mt-6 rounded-lg bg-forest-soft p-4 text-xs leading-relaxed text-forest">
-          Save your User Code <strong>{issuedRecord.userCode}</strong> to track
-          your application status anytime on our homepage.
+          Save your User Code <strong>{issuedRecord.userCode}</strong> for your
+          audition verification with our production team.
         </div>
 
         <div className="mt-6 flex flex-wrap gap-3">
-          <Link href="/#application-status" className="btn btn-primary">
+          <Link href="/events" className="btn btn-primary">
             <UserCheck className="h-4 w-4" />
-            <span>Check Application Status</span>
+            <span>Explore Productions</span>
           </Link>
           <button
             type="button"

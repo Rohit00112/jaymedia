@@ -70,12 +70,6 @@ export default async function EventRegisterPage({ params }: Props) {
               <Link href="/register" className="btn btn-outline py-2 text-xs">
                 Switch Production
               </Link>
-              <Link
-                href="/#application-status"
-                className="btn btn-outline py-2 text-xs"
-              >
-                Check Application Status
-              </Link>
             </div>
           </div>
 

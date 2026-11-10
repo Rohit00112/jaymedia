@@ -34,19 +34,13 @@ export default function RegisterHubPage() {
       {/* Active Event Cards Selector */}
       <section className="border-b border-line bg-paper-deep/50 py-14">
         <div className="container-ed">
-          <Reveal className="mb-8 flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <span className="text-xs font-semibold uppercase tracking-wider text-forest">
-                Open Productions
-              </span>
-              <h2 className="mt-1 text-2xl font-semibold text-ink">
-                Choose a production
-              </h2>
-            </div>
-
-            <Link href="/#application-status" className="btn btn-outline">
-              Check Application Status
-            </Link>
+          <Reveal className="mb-8">
+            <span className="text-xs font-semibold uppercase tracking-wider text-forest">
+              Open Productions
+            </span>
+            <h2 className="mt-1 text-2xl font-semibold text-ink">
+              Choose a production
+            </h2>
           </Reveal>
 
           <AnimeStaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
