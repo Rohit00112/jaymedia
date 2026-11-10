@@ -64,8 +64,6 @@ export const secondaryCta = {
 export const socials = [
   { label: 'Facebook', href: 'https://www.facebook.com/nepalkidsidol' },
   { label: 'YouTube', href: 'https://www.youtube.com/@JayMediaManagementPvtLtd' },
-  { label: 'Instagram', href: 'https://www.facebook.com/nepalkidsidol' },
-  { label: 'LinkedIn', href: 'https://www.facebook.com/nepalkidsidol' },
 ] as const;
 
 const navigationObj = Object.assign([...navLinks], {

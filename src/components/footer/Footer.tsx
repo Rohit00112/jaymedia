@@ -33,9 +33,7 @@ const eventLinks = [
 const socialLinks = [
   { label: 'YouTube', href: siteConfig.social.youtube },
   { label: 'Facebook', href: siteConfig.social.facebook },
-  { label: 'Instagram', href: siteConfig.social.instagram },
-  { label: 'LinkedIn', href: siteConfig.social.linkedin },
-];
+].filter((social) => Boolean(social.href));
 
 export function Footer() {
   const { location, contact } = siteConfig;

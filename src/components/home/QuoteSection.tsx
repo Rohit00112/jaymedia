@@ -69,7 +69,7 @@ export default function QuoteSection() {
   return (
     <section id="quote" className="bg-paper py-16 md:py-24">
       <div className="container-ed">
-        <div className="relative overflow-hidden rounded-[20px] bg-forest px-6 py-12 text-white shadow-[0_32px_70px_-28px_rgba(1,64,43,0.45)] sm:px-10 md:px-14 md:py-16">
+        <div className="relative overflow-hidden rounded-[14px] bg-forest px-6 py-12 text-white shadow-[0_32px_70px_-28px_rgba(1,64,43,0.45)] sm:px-10 md:px-14 md:py-16">
           {/* Subtle top gold reflection hairline */}
           <div
             className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/55 to-transparent"
@@ -85,7 +85,7 @@ export default function QuoteSection() {
             <div className="lg:col-span-6">
               <span className="eyebrow inline-flex items-center gap-2.5 text-gold">
                 <span className="h-px w-6 bg-gold" aria-hidden="true" />
-                Request A Quote
+                05 / Request A Quote
               </span>
 
               <h2 className="display mt-4 text-[clamp(2.1rem,4.1vw,3.5rem)] leading-tight text-white">

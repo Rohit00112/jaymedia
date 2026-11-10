@@ -1,11 +1,10 @@
 import Marquee from '@/components/shared/Marquee';
 import {
   HeroSection,
-  ApplicationStatusSection,
+  AuditionHubSection,
   IntroSection,
   JudgesSection,
   FeaturedEventsSection,
-  ServicesSection,
   ShowreelSection,
   QuoteSection,
   TeamSection,
@@ -35,11 +34,10 @@ export default function HomePage() {
     <>
       <HeroSection />
       <Marquee items={FRANCHISES_MARQUEE} />
-      <ApplicationStatusSection />
+      <AuditionHubSection />
       <IntroSection />
       <JudgesSection />
       <FeaturedEventsSection />
-      <ServicesSection />
       <ShowreelSection />
       <QuoteSection />
       <TeamSection />

@@ -104,13 +104,7 @@ export function Navbar() {
                 aria-label={soc.label}
                 className="inline-flex h-5 items-center rounded-full border border-line-strong bg-white/60 px-2 font-mono text-[9px] font-semibold uppercase tracking-[0.1em] text-ink transition-colors hover:border-forest hover:bg-forest hover:text-white"
               >
-                {soc.label === 'Facebook'
-                  ? 'FB'
-                  : soc.label === 'YouTube'
-                    ? 'YT'
-                    : soc.label === 'Instagram'
-                      ? 'IG'
-                      : 'IN'}
+                {soc.label === 'Facebook' ? 'FB' : 'YT'}
               </a>
             ))}
           </div>

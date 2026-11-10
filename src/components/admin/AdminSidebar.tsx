@@ -10,6 +10,7 @@ import {
   Image as ImageIcon,
   Newspaper,
   Inbox,
+  UserCheck,
   Settings,
   ExternalLink,
   LogOut,
@@ -19,6 +20,7 @@ import { cn } from '@/lib/utils';
 
 const ADMIN_NAV = [
   { label: 'Dashboard', href: '/admin', icon: LayoutDashboard },
+  { label: 'Registrations', href: '/admin/registrations', icon: UserCheck },
   { label: 'Events', href: '/admin/events', icon: Calendar },
   { label: 'Services', href: '/admin/services', icon: Layers },
   { label: 'Team', href: '/admin/team', icon: Users },

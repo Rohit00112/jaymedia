@@ -1,13 +1,14 @@
 import { NextResponse } from 'next/server';
 import {
+  REGISTRATION_STATUSES,
   registrationSchema,
   type RegistrationRecord,
+  type RegistrationStatus,
 } from '@/lib/validations/registration';
 
 /**
- * In-memory registry seeded with sample Nepal Kids Idol contestant pass codes
- * so parents, guardians, and reviewers can test the Filter Application status lookup
- * immediately alongside newly submitted registrations.
+ * In-memory registry seeded with sample Nepal Kids Idol contestant pass codes.
+ * Swap reads/writes cleanly to Firebase Firestore & Storage when ready.
  */
 const globalForRegistrations = globalThis as typeof globalThis & {
   __jayMediaRegistrations?: Map<string, RegistrationRecord>;
@@ -21,11 +22,18 @@ function getRegistry(): Map<string, RegistrationRecord> {
       eventSlug: 'nepal-kids-idol',
       eventTitle: 'Nepal Kids Idol',
       name: 'Aarav Adhikari',
+      phone: '9842011223',
       age: 11,
       gender: 'Male',
       address: 'Biratnagar-09, Morang, Koshi Province',
       school: 'Budhanilkantha Heritage Academy',
+      hobbies: 'Classical vocal, harmonium',
+      auditionMode: 'In-Person District Audition',
+      photoFilename: 'aarav_headshot.jpg',
       parentName: 'Prakash Adhikari',
+      parentPhone: '9852011223',
+      paymentTransactionId: 'ESEWA-8829104',
+      paymentReceiptFilename: 'esewa_receipt_101.png',
       status: 'Verified — Audition Scheduled',
       auditionHub: 'Biratnagar Central Hub (Province 1)',
       submittedAt: '2025-11-02T09:15:00.000Z',
@@ -35,11 +43,18 @@ function getRegistry(): Map<string, RegistrationRecord> {
       eventSlug: 'nepal-kids-idol',
       eventTitle: 'Nepal Kids Idol',
       name: 'Prisha Sharma',
+      phone: '9812345678',
       age: 9,
       gender: 'Female',
       address: 'Itahari-04, Sunsari, Koshi Province',
       school: 'Sunsari Public English School',
+      hobbies: 'Modern Nepali singing, acoustic stage',
+      auditionMode: 'In-Person District Audition',
+      photoFilename: 'prisha_portrait.jpg',
       parentName: 'Kalpana Sharma',
+      parentPhone: '9842345678',
+      paymentTransactionId: 'FONEPAY-449182',
+      paymentReceiptFilename: 'fonepay_receipt_102.png',
       status: 'Shortlisted',
       auditionHub: 'Itahari / Koshi Online Selection',
       submittedAt: '2025-11-05T11:30:00.000Z',
@@ -49,11 +64,17 @@ function getRegistry(): Map<string, RegistrationRecord> {
       eventSlug: 'nepal-kids-idol',
       eventTitle: 'Nepal Kids Idol',
       name: 'Riyan Pradhan',
+      phone: '+91 9832012345',
       age: 13,
       gender: 'Male',
       address: 'Gangtok, Sikkim (International Division)',
       school: 'Himalayan Public Academy',
+      hobbies: 'Acoustic guitar, folk vocals',
+      auditionMode: 'Online Video Audition',
+      auditionVideoUrl: 'https://youtu.be/example-audition',
+      photoFilename: 'riyan_photo.jpg',
       parentName: 'Bikram Pradhan',
+      paymentTransactionId: 'INTL-QR-9012',
       status: 'Verified — Audition Scheduled',
       auditionHub: 'India International Desk (Sikkim & Darjeeling)',
       submittedAt: '2025-11-08T14:20:00.000Z',
@@ -66,15 +87,16 @@ function getRegistry(): Map<string, RegistrationRecord> {
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const rawCode = searchParams.get('code')?.trim().toUpperCase();
+  const registry = getRegistry();
 
   if (!rawCode) {
-    return NextResponse.json(
-      { error: 'Please provide a contestant user code.' },
-      { status: 400 }
+    // Return list of all registrations sorted newest first for /admin/registrations
+    const records = Array.from(registry.values()).sort((a, b) =>
+      b.submittedAt.localeCompare(a.submittedAt)
     );
+    return NextResponse.json({ records });
   }
 
-  const registry = getRegistry();
   const match = registry.get(rawCode);
 
   if (!match) {
@@ -111,24 +133,30 @@ export async function POST(request: Request) {
           ? 'Nepal Kids Idol'
           : 'Jay Media Production',
       name: parsed.name,
+      phone: parsed.phone,
       age: parsed.age,
       gender: parsed.gender,
       address: parsed.address,
       school: parsed.school,
+      hobbies: parsed.hobbies,
+      auditionMode: parsed.auditionMode,
+      auditionVideoUrl: parsed.auditionVideoUrl,
+      photoFilename: parsed.photoFilename,
       parentName: parsed.parentName,
+      parentEmail: parsed.parentEmail,
+      parentPhone: parsed.parentPhone,
+      paymentTransactionId: parsed.paymentTransactionId,
+      paymentReceiptFilename: parsed.paymentReceiptFilename,
       status: 'Pending QR Verification',
-      auditionHub: `Assigned Regional Desk (${parsed.address.split(',')[0]})`,
+      auditionHub:
+        parsed.auditionMode === 'Online Video Audition'
+          ? 'Digital / Online Evaluation Desk'
+          : `Assigned Regional Desk (${parsed.address.split(',')[0]})`,
       submittedAt: new Date().toISOString(),
     };
 
     const registry = getRegistry();
     registry.set(userCode, record);
-
-    console.info('[Contestant Registration Stored]', {
-      userCode: record.userCode,
-      name: record.name,
-      eventSlug: record.eventSlug,
-    });
 
     return NextResponse.json(
       {
@@ -152,3 +180,44 @@ export async function POST(request: Request) {
   }
 }
 
+export async function PATCH(request: Request) {
+  try {
+    const json = await request.json();
+    const userCode = String(json.userCode || '').trim().toUpperCase();
+    const status = String(json.status || '') as RegistrationStatus;
+
+    if (!userCode || !REGISTRATION_STATUSES.includes(status)) {
+      return NextResponse.json(
+        { error: 'Invalid userCode or registration status value.' },
+        { status: 400 }
+      );
+    }
+
+    const registry = getRegistry();
+    const existing = registry.get(userCode);
+
+    if (!existing) {
+      return NextResponse.json(
+        { error: `Registration "${userCode}" not found.` },
+        { status: 404 }
+      );
+    }
+
+    const updated: RegistrationRecord = {
+      ...existing,
+      status,
+    };
+
+    registry.set(userCode, updated);
+
+    return NextResponse.json({
+      success: true,
+      record: updated,
+    });
+  } catch {
+    return NextResponse.json(
+      { error: 'Unable to update registration status.' },
+      { status: 500 }
+    );
+  }
+}

@@ -6,30 +6,34 @@ import { siteConfig } from '@/config/site';
 
 const CAPABILITIES = [
   {
-    code: '01',
+    slug: 'event-management',
+    tag: 'Turnkey Stagecraft',
     title: 'Event Management',
     note: 'End-to-end stage architecture, lighting plots, & cue discipline.',
   },
   {
-    code: '02',
+    slug: 'product-launches',
+    tag: 'Retail & Openings',
     title: 'Store & Product Launch',
-    note: 'Turnkey retail openings and high-visibility reveals.',
+    note: 'High-visibility commercial reveals and VIP inaugural ceremonies.',
   },
   {
-    code: '03',
+    slug: 'brand-experiences',
+    tag: 'Activations',
     title: 'Brand Experiences',
-    note: 'Regional mall activations and audience engagement.',
+    note: 'Regional mall activations and audience engagement across Koshi.',
   },
   {
-    code: '04',
-    title: 'Press Events',
-    note: 'Red-carpet media scrums and broadcast press briefings.',
+    slug: 'press-events',
+    tag: 'Broadcast & PR',
+    title: 'Press Events & Media',
+    note: 'Red-carpet media scrums, 4K streaming, and broadcast coordination.',
   },
 ] as const;
 
 export default function IntroSection() {
   return (
-    <section className="relative overflow-hidden border-y border-line bg-sand py-20 md:py-28">
+    <section className="relative overflow-hidden border-b border-line bg-sand py-20 md:py-28">
       <div className="container-ed">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-12">
           {/* Left Sticky Index Column */}
@@ -66,7 +70,7 @@ export default function IntroSection() {
               {/* Call Strip */}
               <a
                 href={`tel:${siteConfig.contact.phone}`}
-                className="mt-7 flex items-center gap-3.5 rounded-[10px] border border-line-strong bg-white p-3.5 shadow-2xs transition-all hover:border-forest hover:shadow-md"
+                className="mt-7 flex items-center gap-3.5 rounded-[14px] border border-line-strong bg-white p-3.5 shadow-2xs transition-all hover:border-forest hover:shadow-md"
               >
                 <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[8px] bg-forest text-gold">
                   <Phone className="h-4 w-4" />
@@ -81,25 +85,31 @@ export default function IntroSection() {
                 </div>
               </a>
 
-              <Link href="/about" className="text-link mt-7 text-ink">
-                Read full chronicle
-                <ArrowUpRight className="h-3.5 w-3.5 text-forest" />
-              </Link>
+              <div className="mt-7 flex flex-wrap items-center gap-6">
+                <Link href="/about" className="text-link text-ink">
+                  Our story
+                  <ArrowUpRight className="h-3.5 w-3.5 text-forest" />
+                </Link>
+                <Link href="/services" className="text-link text-forest">
+                  All 5 capabilities
+                  <ArrowUpRight className="h-3.5 w-3.5 text-forest" />
+                </Link>
+              </div>
             </div>
           </div>
 
           {/* Right Narrative + Visual + Capability Tiles */}
-          <div className="space-y-10 lg:col-span-8">
+          <div className="space-y-8 lg:col-span-8">
             <Reveal>
-              <div className="rounded-[12px] border border-line bg-white p-7 shadow-2xs md:p-9">
+              <div className="rounded-[14px] border border-line bg-white p-7 shadow-2xs md:p-9">
                 <p className="text-pretty text-base leading-relaxed text-ink-soft md:text-lg">
                   From our headquarters at{' '}
                   <strong className="font-semibold text-ink">
                     Central Mall, Biratnagar
                   </strong>
-                  , Jay Media Management has continually expanded its artistic
-                  footprint across four production disciplines: Movie Production,
-                  Event Execution, Award Shows, and Commercial Event Management.
+                  , Jay Media Management operates across four primary
+                  disciplines: Movie Production, Event Execution, Award Shows,
+                  and Commercial Event Management.
                 </p>
                 <p className="mt-4 text-pretty text-sm leading-relaxed text-muted md:text-base">
                   Our house credits span feature cinema (<em>The Karma</em>,{' '}
@@ -120,24 +130,24 @@ export default function IntroSection() {
               alt="Concert stage lighting and production engineered by Jay Media Management"
               aspect="aspect-[16/9]"
               sizes="(max-width: 1024px) 100vw, 66vw"
-              className="rounded-[12px] border border-line shadow-md"
+              className="rounded-[14px] border border-line shadow-md"
               parallax
             />
 
             <div className="grid gap-4 sm:grid-cols-2">
               {CAPABILITIES.map((cap, idx) => (
-                <Reveal key={cap.code} delay={idx * 60}>
+                <Reveal key={cap.slug} delay={idx * 60}>
                   <Link
-                    href="/services"
-                    className="group flex h-full flex-col justify-between rounded-[10px] border border-line bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-forest hover:shadow-md"
+                    href={`/services/${cap.slug}`}
+                    className="group flex h-full flex-col justify-between rounded-[14px] border border-line bg-white p-6 transition-all hover:-translate-y-0.5 hover:border-forest hover:shadow-md"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-mono text-[10px] font-bold tracking-[0.16em] text-forest">
-                        {cap.code}
+                      <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-forest">
+                        {cap.tag}
                       </span>
                       <ArrowUpRight className="h-4 w-4 text-faint transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-forest" />
                     </div>
-                    <div className="mt-5">
+                    <div className="mt-4">
                       <h3 className="display text-xl font-bold text-ink group-hover:text-forest">
                         {cap.title}
                       </h3>

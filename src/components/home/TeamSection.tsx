@@ -30,10 +30,10 @@ export default function TeamSection() {
             <Reveal
               key={member.slug}
               delay={index * 70}
-              className={cn(index % 2 === 1 && 'lg:mt-10')}
+              className={cn(index % 2 === 1 && 'lg:mt-8')}
             >
               <Link href={`/team/${member.slug}`} className="group block">
-                <div className="relative aspect-[4/4.6] overflow-hidden rounded-[12px] border border-line bg-gradient-to-b from-white via-paper to-sand shadow-xs transition-all duration-500 group-hover:border-forest group-hover:shadow-lg">
+                <div className="relative aspect-[4/4.5] overflow-hidden rounded-[14px] border border-line bg-gradient-to-b from-paper via-paper-deep to-sand shadow-2xs ring-1 ring-inset ring-forest/10 transition-all duration-500 group-hover:border-forest group-hover:shadow-lg">
                   <Image
                     src={member.image}
                     alt={member.name}
@@ -41,9 +41,6 @@ export default function TeamSection() {
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
                   />
-                  <span className="absolute left-3 top-3 flex h-7 w-7 items-center justify-center rounded-full bg-white/92 font-mono text-[9.5px] font-bold text-forest shadow-xs backdrop-blur-xs">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
                 </div>
 
                 <div className="mt-4 flex items-center justify-between border-t border-line-strong pt-3.5">

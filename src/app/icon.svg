@@ -1,8 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <rect width="64" height="64" fill="#101014" />
-  <!-- J shape in coral and white -->
-  <path d="M22 18 H38 V36 C38 43 33 47 26 47 C21 47 16 44 14 40 L20 35 C21 38 23 40 26 40 C29 40 31 38 31 35 V25 H22 V18 Z" fill="#F5F2EC" />
-  <!-- Coral spotlight dot -->
-  <circle cx="44" cy="22" r="5" fill="#FF594F" />
+  <rect width="64" height="64" rx="14" fill="#01402B" />
+  <rect x="3" y="3" width="58" height="58" rx="11" fill="none" stroke="#D9B15B" stroke-opacity="0.45" stroke-width="1.5" />
+  <path d="M21 17 H36 V36 C36 43 31 48 24 48 C19 48 15 45 13 41 L19 36 C20 39 22 41 24 41 C27 41 29 39 29 36 V24 H21 V17 Z" fill="#FAF9F6" />
+  <circle cx="45" cy="21" r="5" fill="#D9B15B" />
 </svg>
-

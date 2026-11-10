@@ -22,51 +22,51 @@ export default function JudgesSection() {
         />
 
         <div className="grid gap-8 lg:grid-cols-12 lg:items-stretch">
-          {/* Two Celebrity Judge Portrait Cards */}
+          {/* Two Harmonized Circular Studio Medallion Judge Cards */}
           {EVENT_JUDGES.map((judge, idx) => (
             <Reveal key={judge.slug} delay={idx * 80} className="lg:col-span-4">
               <Link
                 href={`/team/${judge.slug}`}
-                className="group flex h-full flex-col overflow-hidden rounded-[12px] border border-line bg-white shadow-2xs transition-all duration-300 hover:-translate-y-1 hover:border-forest hover:shadow-lg"
+                className="group flex h-full flex-col justify-between overflow-hidden rounded-[14px] border border-line bg-white p-7 text-center shadow-2xs transition-all duration-300 hover:-translate-y-1 hover:border-forest hover:shadow-lg"
               >
-                <div className="relative aspect-[4/4.3] w-full overflow-hidden bg-gradient-to-b from-paper to-sand">
-                  <Image
-                    src={judge.image}
-                    alt={judge.name}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 33vw"
-                    className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <span className="absolute left-4 top-4 rounded-full bg-white/92 px-3 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-forest backdrop-blur-xs">
-                    {String(idx + 1).padStart(2, '0')} • Jury Panel
+                <div className="flex flex-col items-center">
+                  <span className="rounded-full bg-forest-soft px-3.5 py-1 font-mono text-[9.5px] font-bold uppercase tracking-[0.16em] text-forest">
+                    Official Jury
                   </span>
-                </div>
 
-                <div className="flex flex-1 flex-col justify-between p-6">
-                  <div>
-                    <h3 className="display text-2xl font-bold text-ink transition-colors group-hover:text-forest">
-                      {judge.name}
-                    </h3>
-                    <p className="mt-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-forest">
-                      {judge.title}
-                    </p>
-                    <p className="mt-3 line-clamp-3 text-xs leading-relaxed text-muted">
-                      {judge.bio}
-                    </p>
+                  {/* Circular Medallion Frame eliminates dark/white photo backdrop clashes */}
+                  <div className="relative mt-6 h-48 w-48 overflow-hidden rounded-full border-4 border-sand bg-paper shadow-md ring-1 ring-forest/15 transition-transform duration-500 group-hover:scale-105">
+                    <Image
+                      src={judge.image}
+                      alt={judge.name}
+                      fill
+                      sizes="192px"
+                      className="object-cover object-top"
+                    />
                   </div>
 
-                  <span className="mt-5 inline-flex items-center gap-1.5 border-t border-line pt-4 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-ink group-hover:text-forest">
-                    <span>Read Jury Profile</span>
-                    <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </span>
+                  <h3 className="display mt-6 text-2xl font-bold text-ink transition-colors group-hover:text-forest">
+                    {judge.name}
+                  </h3>
+                  <p className="mt-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-forest">
+                    {judge.title}
+                  </p>
+                  <p className="mt-3 line-clamp-3 text-xs leading-relaxed text-muted">
+                    {judge.bio}
+                  </p>
                 </div>
+
+                <span className="mt-6 inline-flex items-center justify-center gap-1.5 border-t border-line pt-4 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-ink group-hover:text-forest">
+                  <span>Read Jury Profile</span>
+                  <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </span>
               </Link>
             </Reveal>
           ))}
 
-          {/* Balanced Right Editorial Dossier Card */}
+          {/* Right Selection Dossier Card */}
           <Reveal delay={160} className="lg:col-span-4">
-            <div className="flex h-full flex-col justify-between rounded-[12px] border border-line bg-sand p-7 md:p-8">
+            <div className="flex h-full flex-col justify-between rounded-[14px] border border-line bg-sand p-7 md:p-8">
               <div>
                 <span className="inline-block rounded-full bg-forest px-3.5 py-1.5 font-mono text-[9.5px] font-bold uppercase tracking-[0.16em] text-gold">
                   Selection Governance

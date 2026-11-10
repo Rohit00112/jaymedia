@@ -206,7 +206,7 @@ export default function HeroSection() {
           {/* Right Atmospheric Stage Frame */}
           <div className="hero-media lg:col-span-5">
             <div className="relative mx-auto max-w-md lg:max-w-none">
-              <div className="relative aspect-[4/4.9] overflow-hidden rounded-[24px] rounded-t-[200px] border border-line bg-sand shadow-[0_32px_64px_-28px_rgba(1,64,43,0.24)]">
+              <div className="relative aspect-[4/4.8] overflow-hidden rounded-[14px] border border-line bg-sand shadow-[0_32px_64px_-28px_rgba(1,64,43,0.24)]">
                 <Image
                   src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=1200&q=85"
                   alt="Live singing performance on the Jay Media production stage"
@@ -221,12 +221,12 @@ export default function HeroSection() {
                 />
 
                 {/* Top Floating Badge */}
-                <span className="absolute right-5 top-8 rounded-full bg-white/95 px-3.5 py-1.5 font-mono text-[9.5px] font-bold uppercase tracking-[0.16em] text-forest shadow-sm backdrop-blur-md">
+                <span className="absolute right-4 top-4 rounded-full bg-white/95 px-3.5 py-1.5 font-mono text-[9.5px] font-bold uppercase tracking-[0.16em] text-forest shadow-sm backdrop-blur-md">
                   Biratnagar • Broadcast HQ
                 </span>
 
                 {/* Bottom Overlay Showcase Card */}
-                <div className="absolute inset-x-4 bottom-4 rounded-[12px] border border-white/25 bg-white/94 p-4 text-ink shadow-lg backdrop-blur-md">
+                <div className="absolute inset-x-4 bottom-4 rounded-[8px] border border-white/25 bg-white/94 p-4 text-ink shadow-lg backdrop-blur-md">
                   <div className="flex items-center justify-between gap-3">
                     <div>
                       <span className="block font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-forest">
@@ -268,14 +268,14 @@ export default function HeroSection() {
             </div>
 
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {nki.prizes.map((prize, idx) => {
+              {nki.prizes.map((prize) => {
                 const style = PRIZE_STYLES[prize.tier];
                 const Icon = style.icon;
                 return (
                   <div
                     key={prize.rank}
                     className={cn(
-                      'group relative flex flex-col justify-between overflow-hidden rounded-[10px] border p-6 shadow-2xs transition-all duration-300 hover:-translate-y-1 hover:shadow-md',
+                      'group relative flex flex-col justify-between overflow-hidden rounded-[14px] border p-6 shadow-2xs transition-all duration-300 hover:-translate-y-1 hover:shadow-md',
                       style.card
                     )}
                   >
@@ -288,8 +288,8 @@ export default function HeroSection() {
                       >
                         <Icon className="h-5 w-5" />
                       </span>
-                      <span className="mono text-[10px] font-semibold tracking-[0.16em] text-faint">
-                        0{idx + 1}
+                      <span className="font-mono text-[9.5px] font-medium uppercase tracking-[0.14em] text-faint">
+                        Official Award
                       </span>
                     </div>
 

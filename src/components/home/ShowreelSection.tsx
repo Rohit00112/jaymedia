@@ -28,7 +28,7 @@ export default function ShowreelSection() {
           <div>
             <span className="eyebrow flex items-center gap-2.5 text-forest">
               <span className="h-px w-6 bg-forest" aria-hidden="true" />
-              05 / Broadcast Theatre
+              04 / Broadcast Theatre
             </span>
             <h2 className="display mt-4 text-[clamp(2.1rem,4.2vw,4.2rem)] text-ink">
               Moments captured{' '}

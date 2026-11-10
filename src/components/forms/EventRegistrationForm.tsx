@@ -5,14 +5,19 @@ import Image from 'next/image';
 import Link from 'next/link';
 import {
   AlertCircle,
+  Camera,
   CheckCircle2,
+  FileImage,
   Loader2,
+  MapPin,
   QrCode,
   ShieldCheck,
   Sparkles,
   UserCheck,
+  Video,
 } from 'lucide-react';
 import type { RegistrationRecord } from '@/lib/validations/registration';
+import { cn } from '@/lib/utils';
 
 interface EventRegistrationFormProps {
   eventSlug: string;
@@ -20,7 +25,7 @@ interface EventRegistrationFormProps {
 }
 
 const fieldClass =
-  'w-full rounded-[6px] border border-line-strong bg-white px-4 py-3 text-sm text-ink placeholder:text-faint focus:border-forest focus:outline-none focus:ring-2 focus:ring-forest/15';
+  'w-full rounded-[8px] border border-line-strong bg-white px-4 py-3 text-sm text-ink placeholder:text-faint focus:border-forest focus:outline-none focus:ring-2 focus:ring-forest/15';
 
 const labelClass =
   'mb-1.5 block font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-ink-soft';
@@ -36,9 +41,20 @@ export default function EventRegistrationForm({
   const [address, setAddress] = useState('');
   const [school, setSchool] = useState('');
   const [hobbies, setHobbies] = useState('');
+  const [auditionMode, setAuditionMode] = useState<
+    'In-Person District Audition' | 'Online Video Audition'
+  >('In-Person District Audition');
+  const [auditionVideoUrl, setAuditionVideoUrl] = useState('');
+  const [photoFilename, setPhotoFilename] = useState('');
+  const [photoPreviewUrl, setPhotoPreviewUrl] = useState<string | null>(null);
+
   const [parentName, setParentName] = useState('');
   const [parentEmail, setParentEmail] = useState('');
   const [parentPhone, setParentPhone] = useState('');
+  const [paymentTransactionId, setPaymentTransactionId] = useState('');
+  const [paymentReceiptFilename, setPaymentReceiptFilename] = useState('');
+  const [receiptPreviewUrl, setReceiptPreviewUrl] = useState<string | null>(null);
+
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [guardianAgreementAccepted, setGuardianAgreementAccepted] = useState(false);
 
@@ -46,12 +62,28 @@ export default function EventRegistrationForm({
   const [errorMsg, setErrorMsg] = useState('');
   const [issuedRecord, setIssuedRecord] = useState<RegistrationRecord | null>(null);
 
+  function handlePhotoSelect(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setPhotoFilename(file.name);
+    setPhotoPreviewUrl(URL.createObjectURL(file));
+  }
+
+  function handleReceiptSelect(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setPaymentReceiptFilename(file.name);
+    setReceiptPreviewUrl(URL.createObjectURL(file));
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setSubmitting(true);
     setErrorMsg('');
 
     try {
+      // Note: Upload contestantPhoto & paymentReceipt files to Firebase Storage here
+      // before saving their downloadURL to Firestore alongside these metadata fields.
       const res = await fetch('/api/registrations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -64,9 +96,14 @@ export default function EventRegistrationForm({
           address,
           school,
           hobbies,
+          auditionMode,
+          auditionVideoUrl,
+          photoFilename,
           parentName,
           parentEmail,
           parentPhone,
+          paymentTransactionId,
+          paymentReceiptFilename,
           termsAccepted,
           guardianAgreementAccepted,
         }),
@@ -91,7 +128,7 @@ export default function EventRegistrationForm({
 
   if (issuedRecord) {
     return (
-      <div className="overflow-hidden rounded-[12px] border-2 border-forest bg-white p-8 shadow-xl sm:p-10">
+      <div className="overflow-hidden rounded-[14px] border-2 border-forest bg-white p-8 shadow-xl sm:p-10">
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-6">
           <div className="flex items-center gap-3">
             <span className="flex h-12 w-12 items-center justify-center rounded-full bg-forest text-gold">
@@ -128,10 +165,10 @@ export default function EventRegistrationForm({
           </div>
           <div>
             <dt className="font-mono text-[10px] uppercase tracking-wider text-faint">
-              Event
+              Audition Mode
             </dt>
-            <dd className="mt-1 text-base font-semibold text-forest">
-              {issuedRecord.eventTitle}
+            <dd className="mt-1 text-sm font-semibold text-forest">
+              {issuedRecord.auditionMode}
             </dd>
           </div>
           <div>
@@ -167,8 +204,8 @@ export default function EventRegistrationForm({
         </dl>
 
         <div className="mt-8 rounded-[8px] bg-forest-soft p-4 text-sm text-forest">
-          Save your User Code <strong>{issuedRecord.userCode}</strong>. You can
-          verify your audition center &amp; verification progress anytime in the{' '}
+          Save your User Code <strong>{issuedRecord.userCode}</strong>. Track
+          QR verification and audition hub scheduling anytime in the{' '}
           <Link
             href="/#application-status"
             className="font-bold underline underline-offset-4"
@@ -218,11 +255,11 @@ export default function EventRegistrationForm({
         </div>
       )}
 
-      {/* ─── Card 1: Personal Details ─────────────────────────────── */}
-      <div className="overflow-hidden rounded-[10px] border border-line bg-white shadow-xs">
+      {/* ─── Card 1: Personal Details & Photo ────────────────────── */}
+      <div className="overflow-hidden rounded-[14px] border border-line bg-white shadow-xs">
         <div className="bg-forest px-6 py-4 text-white">
           <h2 className="display text-lg font-bold tracking-wide">
-            1. Personal Details
+            1. Contestant Details &amp; Audition Mode
           </h2>
         </div>
 
@@ -325,6 +362,104 @@ export default function EventRegistrationForm({
             />
           </div>
 
+          {/* Audition Mode Selector */}
+          <div className="sm:col-span-2">
+            <span className={labelClass}>Preferred Audition Format</span>
+            <div className="mt-1 grid gap-3 sm:grid-cols-2">
+              {(
+                [
+                  {
+                    value: 'In-Person District Audition',
+                    icon: MapPin,
+                    note: '77 Districts of Nepal & Regional Centers',
+                  },
+                  {
+                    value: 'Online Video Audition',
+                    icon: Video,
+                    note: 'India, USA, Canada, Australia & Digital Entry',
+                  },
+                ] as const
+              ).map((mode) => {
+                const Icon = mode.icon;
+                const selected = auditionMode === mode.value;
+                return (
+                  <button
+                    key={mode.value}
+                    type="button"
+                    onClick={() => setAuditionMode(mode.value)}
+                    className={cn(
+                      'flex items-start gap-3 rounded-[8px] border p-4 text-left transition-all',
+                      selected
+                        ? 'border-forest bg-forest-soft text-forest shadow-2xs'
+                        : 'border-line-strong bg-white text-ink hover:border-forest/50'
+                    )}
+                  >
+                    <Icon className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
+                    <div>
+                      <span className="block text-sm font-bold">{mode.value}</span>
+                      <span className="mt-0.5 block text-xs text-muted">
+                        {mode.note}
+                      </span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {auditionMode === 'Online Video Audition' && (
+            <div className="sm:col-span-2">
+              <label htmlFor="reg-video-url" className={labelClass}>
+                Unlisted Audition Video URL (YouTube / Google Drive Link)
+              </label>
+              <input
+                id="reg-video-url"
+                type="url"
+                value={auditionVideoUrl}
+                onChange={(e) => setAuditionVideoUrl(e.target.value)}
+                placeholder="https://youtube.com/... (Optional now; can submit later)"
+                className={fieldClass}
+              />
+            </div>
+          )}
+
+          {/* Contestant Photo Upload Ready for Firebase Storage */}
+          <div className="sm:col-span-2">
+            <label htmlFor="reg-photo" className={labelClass}>
+              Contestant Headshot / Portrait (Firebase Storage Ready)
+            </label>
+            <div className="flex flex-wrap items-center gap-4 rounded-[8px] border border-dashed border-line-strong bg-paper p-4">
+              {photoPreviewUrl ? (
+                <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-[8px] border border-forest/30 bg-white">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={photoPreviewUrl}
+                    alt="Contestant portrait preview"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              ) : (
+                <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[8px] bg-sand text-forest">
+                  <Camera className="h-6 w-6" />
+                </span>
+              )}
+              <div className="min-w-0 flex-1">
+                <input
+                  id="reg-photo"
+                  type="file"
+                  accept="image/*"
+                  onChange={handlePhotoSelect}
+                  className="block w-full text-xs text-muted file:mr-4 file:rounded-full file:border-0 file:bg-forest file:px-4 file:py-2 file:text-xs file:font-bold file:text-white hover:file:bg-ink"
+                />
+                <p className="mt-1.5 text-[11px] text-muted">
+                  {photoFilename
+                    ? `Selected portrait: ${photoFilename}`
+                    : 'Clear front-facing portrait JPG/PNG (max 5MB).'}
+                </p>
+              </div>
+            </div>
+          </div>
+
           <div className="sm:col-span-2">
             <label htmlFor="reg-hobbies" className={labelClass}>
               Hobbies &amp; Musical Interests{' '}
@@ -345,7 +480,7 @@ export default function EventRegistrationForm({
       </div>
 
       {/* ─── Card 2: Parent / Guardian Information ────────────────── */}
-      <div className="overflow-hidden rounded-[10px] border border-line bg-white shadow-xs">
+      <div className="overflow-hidden rounded-[14px] border border-line bg-white shadow-xs">
         <div className="bg-forest px-6 py-4 text-white">
           <h2 className="display text-lg font-bold tracking-wide">
             2. Parent / Guardian Information
@@ -398,16 +533,16 @@ export default function EventRegistrationForm({
         </div>
       </div>
 
-      {/* ─── Card 3: Payment QR Information ───────────────────────── */}
-      <div className="overflow-hidden rounded-[10px] border border-line bg-white shadow-xs">
+      {/* ─── Card 3: Payment QR & Proof Upload ────────────────────── */}
+      <div className="overflow-hidden rounded-[14px] border border-line bg-white shadow-xs">
         <div className="flex items-center justify-between bg-forest px-6 py-4 text-white">
           <h2 className="display text-lg font-bold tracking-wide">
-            3. Payment Information (Scan Below to Pay)
+            3. Payment Information &amp; Receipt Proof
           </h2>
           <QrCode className="h-5 w-5 text-gold" />
         </div>
 
-        <div className="grid items-center gap-8 p-6 sm:grid-cols-12 sm:p-8">
+        <div className="grid items-start gap-8 p-6 sm:grid-cols-12 sm:p-8">
           <div className="sm:col-span-5">
             <div className="relative aspect-[1280/1164] w-full max-w-xs overflow-hidden rounded-[8px] border border-line bg-paper p-2 shadow-sm">
               <Image
@@ -418,27 +553,68 @@ export default function EventRegistrationForm({
                 className="object-contain"
               />
             </div>
+            <p className="mt-3 text-xs text-muted">
+              Scan via eSewa, Khalti, or Fonepay. Desk helpline:{' '}
+              <strong className="text-forest">9851143338 | 9802708000</strong>
+            </p>
           </div>
 
-          <div className="space-y-3 sm:col-span-7">
-            <h3 className="display text-xl font-bold text-ink">
-              Scan Official Jay Media Merchant QR
-            </h3>
-            <p className="text-sm leading-relaxed text-muted">
-              Complete the audition registration fee scan via eSewa, Khalti,
-              or Fonepay using the official merchant QR. Retain your transaction
-              receipt alongside your generated Contestant User Code.
-            </p>
-            <div className="rounded-[6px] bg-sand/70 p-3.5 text-xs font-medium text-ink-soft">
-              Need assistance? Call the Central Mall Desk:{' '}
-              <strong className="text-forest">9851143338 | 9802708000</strong>
+          <div className="space-y-4 sm:col-span-7">
+            <div>
+              <label htmlFor="reg-tx-id" className={labelClass}>
+                Payment Transaction Reference / Code
+              </label>
+              <input
+                id="reg-tx-id"
+                type="text"
+                value={paymentTransactionId}
+                onChange={(e) => setPaymentTransactionId(e.target.value)}
+                placeholder="e.g. ESEWA-991042 or Fonepay Ref"
+                className={fieldClass}
+              />
+            </div>
+
+            <div>
+              <label htmlFor="reg-receipt" className={labelClass}>
+                Upload Payment Receipt Screenshot
+              </label>
+              <div className="flex items-center gap-4 rounded-[8px] border border-dashed border-line-strong bg-paper p-4">
+                {receiptPreviewUrl ? (
+                  <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-[6px] border border-forest/30 bg-white">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={receiptPreviewUrl}
+                      alt="Payment receipt preview"
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                ) : (
+                  <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[6px] bg-sand text-forest">
+                    <FileImage className="h-5 w-5" />
+                  </span>
+                )}
+                <div className="min-w-0 flex-1">
+                  <input
+                    id="reg-receipt"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleReceiptSelect}
+                    className="block w-full text-xs text-muted file:mr-4 file:rounded-full file:border-0 file:bg-forest file:px-4 file:py-2 file:text-xs file:font-bold file:text-white hover:file:bg-ink"
+                  />
+                  <p className="mt-1.5 text-[11px] text-muted">
+                    {paymentReceiptFilename
+                      ? `Attached: ${paymentReceiptFilename}`
+                      : 'Attach your eSewa/Fonepay receipt for faster verification.'}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* ─── Card 4: Terms and Conditions ─────────────────────────── */}
-      <div className="overflow-hidden rounded-[10px] border border-line bg-white shadow-xs">
+      <div className="overflow-hidden rounded-[14px] border border-line bg-white shadow-xs">
         <div className="flex items-center gap-2 border-b border-line bg-sand px-6 py-4 text-ink">
           <ShieldCheck className="h-5 w-5 text-forest" />
           <h2 className="display text-lg font-bold">4. Terms and Conditions</h2>
@@ -477,7 +653,7 @@ export default function EventRegistrationForm({
             </span>
           </label>
 
-          <div className="rounded-[6px] border border-amber-500/30 bg-amber-50 px-4 py-3 text-xs text-amber-950">
+          <div className="rounded-[8px] border border-amber-500/30 bg-amber-50 px-4 py-3 text-xs text-amber-950">
             After registering, you will immediately receive your{' '}
             <strong>Contestant User Code</strong> for status tracking and
             audition scheduling.
@@ -507,4 +683,3 @@ export default function EventRegistrationForm({
     </form>
   );
 }
-

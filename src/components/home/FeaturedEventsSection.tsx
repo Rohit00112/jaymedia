@@ -26,10 +26,11 @@ export default function FeaturedEventsSection() {
         />
 
         <div className="grid gap-8 lg:grid-cols-12 lg:gap-10">
+          {/* Unobstructed Official Photo Showcase */}
           <Reveal className="lg:col-span-6">
             <Link
               href={`/events/${missKoshi.slug}`}
-              className="group relative block aspect-[4/4.3] overflow-hidden rounded-[10px] border border-line bg-sand shadow-sm"
+              className="group relative block aspect-[1313/1450] overflow-hidden rounded-[14px] border border-line bg-sand shadow-sm transition-all hover:border-forest hover:shadow-md"
             >
               <Image
                 src={missKoshi.image}
@@ -38,33 +39,24 @@ export default function FeaturedEventsSection() {
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="img-zoom object-cover"
               />
-              <div
-                className="absolute inset-0 bg-gradient-to-t from-ink/50 via-transparent to-transparent"
-                aria-hidden="true"
-              />
-              <span className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-full bg-forest px-3.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-white shadow-sm">
-                <span className="h-1.5 w-1.5 rounded-full bg-gold" />
-                Miss Koshi 2024 • Season #8
-              </span>
             </Link>
           </Reveal>
 
           <div className="lg:col-span-6">
             <Reveal
               delay={80}
-              className="flex h-full flex-col justify-center rounded-[10px] border border-line bg-paper p-7 md:p-10"
+              className="flex h-full flex-col justify-center rounded-[14px] border border-line bg-paper p-7 md:p-10"
             >
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[10px] uppercase tracking-[0.14em]">
-                <span className="font-semibold text-forest">
+              <div className="flex flex-wrap items-center gap-2.5">
+                <span className="rounded-full bg-forest px-3 py-1 font-mono text-[9.5px] font-bold uppercase tracking-[0.14em] text-gold">
+                  {missKoshi.seasonOrYear}
+                </span>
+                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-forest">
                   {missKoshi.category}
                 </span>
-                <span className="text-faint" aria-hidden="true">
-                  /
-                </span>
-                <span className="text-muted">{missKoshi.seasonOrYear}</span>
               </div>
 
-              <h3 className="display mt-4 text-[clamp(1.9rem,3vw,2.8rem)] font-bold text-ink">
+              <h3 className="display mt-5 text-[clamp(1.9rem,3vw,2.8rem)] font-bold text-ink">
                 {missKoshi.title}
               </h3>
 
@@ -91,12 +83,12 @@ export default function FeaturedEventsSection() {
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
                   href={`/events/${missKoshi.slug}`}
-                  className="btn btn-accent"
+                  className="btn btn-accent rounded-full"
                 >
                   Explore production
                   <ArrowUpRight className="h-4 w-4" />
                 </Link>
-                <Link href="/gallery" className="btn btn-outline">
+                <Link href="/gallery" className="btn btn-outline rounded-full bg-white">
                   Miss Koshi Gallery
                 </Link>
               </div>
@@ -112,18 +104,13 @@ export default function FeaturedEventsSection() {
                 href={`/events/${event.slug}`}
                 className="group flex flex-col justify-between gap-4 border-b border-line py-6 transition-colors hover:bg-paper/60 sm:flex-row sm:items-center sm:px-3"
               >
-                <div className="flex items-center gap-5">
-                  <span className="font-mono text-xs font-bold text-forest">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                  <div>
-                    <h4 className="display text-xl font-bold text-ink transition-colors group-hover:text-forest sm:text-2xl">
-                      {event.title}
-                    </h4>
-                    <p className="mt-1 text-xs text-muted">
-                      {event.category} • {event.location}
-                    </p>
-                  </div>
+                <div>
+                  <h4 className="display text-xl font-bold text-ink transition-colors group-hover:text-forest sm:text-2xl">
+                    {event.title}
+                  </h4>
+                  <p className="mt-1 text-xs text-muted">
+                    {event.category} • {event.location}
+                  </p>
                 </div>
 
                 <div className="flex items-center gap-4">

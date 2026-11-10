@@ -13,7 +13,7 @@ export const siteConfig = {
     'Premier event execution, movie production, award shows, and broadcast media house established in 2013 in Biratnagar, Nepal. Organizers of Nepal Kids Idol, Miss Koshi, and Mr. & Miss Little Koshi.',
   url: 'https://www.jaymediamanagement.com',
   logo: '/images/official/main-logo.png',
-  ogImage: '/images/official/nki-cover.png',
+  ogImage: '/images/official/hero-banner.png',
   location: {
     address: 'Central Mall, 1st Floor',
     landmark: 'Near Traffic Chowk, Main Road',
@@ -34,8 +34,8 @@ export const siteConfig = {
   social: {
     facebook: 'https://www.facebook.com/nepalkidsidol',
     youtube: 'https://www.youtube.com/@JayMediaManagementPvtLtd',
-    instagram: 'https://www.facebook.com/nepalkidsidol',
-    linkedin: 'https://www.facebook.com/nepalkidsidol',
+    instagram: '',
+    linkedin: '',
   },
   keywords: [
     'Jay Media Management',
