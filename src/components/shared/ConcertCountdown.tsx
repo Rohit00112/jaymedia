@@ -94,15 +94,9 @@ export default function ConcertCountdown({
         className
       )}
     >
-      <div className="mb-2.5 flex items-center justify-between gap-2">
-        <div className="flex items-center gap-1.5 text-xs font-medium text-forest">
-          <Clock className="h-3.5 w-3.5 shrink-0" />
-          <span>{label}</span>
-        </div>
-        <span className="inline-flex items-center gap-1.5 rounded-full bg-forest-soft px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-forest">
-          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-forest" />
-          {timeLeft?.isLive ? 'Gates Open' : 'Live Timer'}
-        </span>
+      <div className="mb-2.5 flex items-center gap-1.5 text-xs font-medium text-forest">
+        <Clock className="h-3.5 w-3.5 shrink-0" />
+        <span>{label}</span>
       </div>
 
       <div className="grid grid-cols-4 gap-2 sm:gap-2.5">
