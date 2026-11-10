@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ArrowUpRight, MapPin } from 'lucide-react';
 import PageHero from '@/components/shared/PageHero';
 import CtaBand from '@/components/shared/CtaBand';
+import ConcertCountdown from '@/components/shared/ConcertCountdown';
 import Reveal from '@/components/motion/Reveal';
 import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
 import { generatePageMetadata } from '@/lib/seo';
@@ -74,6 +75,9 @@ export default function EventsPage() {
                 <p className="mt-3 text-sm leading-relaxed text-muted">
                   {featured.summary}
                 </p>
+                {featured.ticketUrl && (
+                  <ConcertCountdown compact className="mt-4" />
+                )}
                 <p className="mt-5 flex items-center gap-2 border-t border-line pt-4 text-xs text-ink-soft">
                   <MapPin className="h-3.5 w-3.5 text-forest" />
                   {featured.location}

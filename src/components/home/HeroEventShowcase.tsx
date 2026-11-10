@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight, Calendar, MapPin } from 'lucide-react';
 import Reveal from '@/components/motion/Reveal';
+import ConcertCountdown from '@/components/shared/ConcertCountdown';
 import type { EventDetailData } from '@/config/events-data';
 
 interface HeroEventShowcaseProps {
@@ -41,8 +42,8 @@ export default function HeroEventShowcase({ event }: HeroEventShowcaseProps) {
           {/* Event Facts */}
           <Reveal
             y={14}
-            delay={0.08}
-            className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-2.5 text-sm text-ink-soft"
+            delay={0.06}
+            className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2.5 text-sm text-ink-soft"
           >
             <div className="flex items-center gap-2">
               <Calendar className="h-4 w-4 shrink-0 text-forest" />
@@ -54,11 +55,16 @@ export default function HeroEventShowcase({ event }: HeroEventShowcaseProps) {
             </div>
           </Reveal>
 
+          {/* Live Concert Countdown */}
+          <Reveal y={14} delay={0.11} className="mt-6 max-w-lg">
+            <ConcertCountdown />
+          </Reveal>
+
           {/* Primary Actions */}
           <Reveal
             y={14}
-            delay={0.14}
-            className="mt-7 flex flex-wrap items-center gap-3"
+            delay={0.16}
+            className="mt-6 flex flex-wrap items-center gap-3"
           >
             {event.ticketUrl && (
               <a

@@ -5,6 +5,7 @@ import { ArrowUpRight, CheckCircle2, Play } from 'lucide-react';
 import PageHero from '@/components/shared/PageHero';
 import SectionHeading from '@/components/shared/SectionHeading';
 import CtaBand from '@/components/shared/CtaBand';
+import ConcertCountdown from '@/components/shared/ConcertCountdown';
 import Reveal from '@/components/motion/Reveal';
 import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
 import { EVENTS_DATA } from '@/config/events-data';
@@ -108,6 +109,12 @@ export default async function EventDetailPage({ params }: Props) {
                     ? 'Active Competition • Registration Open'
                     : 'Titleholders & Recognition'}
               </span>
+
+              {event.ticketUrl && (
+                <div className="mt-4 border-b border-line pb-5">
+                  <ConcertCountdown className="bg-white" />
+                </div>
+              )}
 
               {!event.ticketUrl && event.prizes && (
                 <div className="mt-4 grid grid-cols-2 gap-2.5 border-b border-line pb-5">
