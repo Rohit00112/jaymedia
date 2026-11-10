@@ -2,6 +2,7 @@
 
 import { Suspense, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import { Loader2 } from 'lucide-react';
 import { AuthProvider, useAuth } from '@/lib/firebase/auth-context';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 
@@ -23,16 +24,17 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
 
   if (loading || !user) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-paper font-sans text-sm text-muted">
-        Verifying administrator session...
+      <div className="flex min-h-screen items-center justify-center gap-2.5 bg-paper font-sans text-sm text-muted">
+        <Loader2 className="h-4 w-4 animate-spin text-forest" />
+        <span>Verifying administrator session...</span>
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-paper text-ink lg:flex-row">
+    <div className="flex min-h-screen flex-col bg-paper font-sans text-ink lg:flex-row">
       <AdminSidebar />
-      <main className="flex-1 overflow-y-auto bg-paper px-5 py-8 sm:px-8 lg:px-10 lg:py-10">
+      <main className="flex-1 overflow-y-auto bg-paper px-4 py-6 sm:px-8 lg:px-10 lg:py-8">
         <div className="mx-auto max-w-6xl">{children}</div>
       </main>
     </div>
@@ -48,8 +50,9 @@ export default function AdminLayout({
     <AuthProvider>
       <Suspense
         fallback={
-          <div className="flex min-h-screen items-center justify-center bg-paper font-sans text-sm text-muted">
-            Initializing Studio CMS...
+          <div className="flex min-h-screen items-center justify-center gap-2.5 bg-paper font-sans text-sm text-muted">
+            <Loader2 className="h-4 w-4 animate-spin text-forest" />
+            <span>Initializing Jay Media Admin...</span>
           </div>
         }
       >

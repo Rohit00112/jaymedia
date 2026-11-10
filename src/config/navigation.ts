@@ -12,21 +12,23 @@ export interface NavItem {
   readonly children?: readonly NavChild[];
 }
 
+export const MAX_DROPDOWN_EVENTS = 3;
+
 export const navLinks: readonly NavItem[] = [
   { label: 'Home', href: '/' },
   {
     label: 'Events',
     href: '/events',
     children: [
-      ...EVENTS_DATA.map((event) => ({
+      ...EVENTS_DATA.slice(0, MAX_DROPDOWN_EVENTS).map((event) => ({
         label: event.title,
         href: `/events/${event.slug}`,
-        note: `${event.seasonOrYear} • ${event.eligibility}`,
+        note: event.seasonOrYear,
       })),
       {
         label: 'All Productions',
         href: '/events',
-        note: 'Full Event Archive',
+        note: 'View full portfolio',
       },
     ],
   },

@@ -1,76 +1,80 @@
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
-    
-    // Helper functions
-    function isAuthenticated() {
-      return request.auth != null;
-    }
-    
-    function isAdmin() {
-      return isAuthenticated() && 
-        (request.auth.token.admin == true || 
-         exists(/databases/$(database)/documents/admins/$(request.auth.uid)));
-    }
-    
-    function isPublished() {
-      return resource.data.status == 'published';
+
+    function isSignedIn() {
+      return request.auth != null && request.auth.uid != null;
     }
 
-    // Public settings: anyone can read, only admin can write
-    match /settings/{document=**} {
-      allow read: if true;
-      allow write: if isAdmin();
+    function isNonEmptyString(val, minLen, maxLen) {
+      return val is string && val.size() >= minLen && val.size() <= maxLen;
     }
 
-    // Public CMS collections: anyone can read published content, admin can read/write all
-    match /services/{serviceId} {
-      allow read: if isPublished() || isAdmin();
-      allow write: if isAdmin();
+    // 1. Events Catalog (`/events/{slug}`)
+    match /events/{slug} {
+      allow read: if resource.data.status != 'draft' || isSignedIn();
+      allow create, update: if isSignedIn()
+        && isNonEmptyString(request.resource.data.title, 2, 160)
+        && isNonEmptyString(request.resource.data.category, 2, 120);
+      allow delete: if isSignedIn();
     }
 
-    match /events/{eventId} {
-      allow read: if isPublished() || isAdmin();
-      allow write: if isAdmin();
+    // 2. Contestant Registrations (`/registrations/{userCode}`)
+    match /registrations/{userCode} {
+      allow read: if isSignedIn();
+      allow create: if isNonEmptyString(request.resource.data.userCode, 4, 24)
+        && isNonEmptyString(request.resource.data.eventSlug, 1, 100)
+        && isNonEmptyString(request.resource.data.name, 2, 100)
+        && isNonEmptyString(request.resource.data.phone, 7, 20)
+        && request.resource.data.age is int
+        && request.resource.data.age >= 4
+        && request.resource.data.age <= 40;
+      allow update, delete: if isSignedIn();
     }
 
-    match /eventCategories/{categoryId} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-
-    match /teamMembers/{memberId} {
-      allow read: if isPublished() || isAdmin();
-      allow write: if isAdmin();
-    }
-
-    match /gallery/{imageId} {
-      allow read: if isPublished() || isAdmin();
-      allow write: if isAdmin();
-    }
-
-    match /news/{articleId} {
-      allow read: if isPublished() || isAdmin();
-      allow write: if isAdmin();
-    }
-
-    match /videos/{videoId} {
-      allow read: if isPublished() || isAdmin();
-      allow write: if isAdmin();
-    }
-
-    // Inquiries: public can create with valid fields, only admin can read or mutate
+    // 3. Client Project Inquiries (`/inquiries/{inquiryId}`)
     match /inquiries/{inquiryId} {
-      allow create: if request.resource.data.fullName is string &&
-                       request.resource.data.email is string &&
-                       request.resource.data.message is string;
-      allow read, update, delete: if isAdmin();
+      allow read: if isSignedIn();
+      allow create: if isNonEmptyString(request.resource.data.fullName, 2, 100)
+        && isNonEmptyString(request.resource.data.email, 5, 160)
+        && isNonEmptyString(request.resource.data.phone, 7, 20)
+        && isNonEmptyString(request.resource.data.message, 5, 2000);
+      allow update, delete: if isSignedIn();
     }
 
-    // Admins registry: strictly admin only
-    match /admins/{adminId} {
-      allow read, write: if isAdmin();
+    // 4. News & Press Releases (`/news/{slug}`)
+    match /news/{slug} {
+      allow read: if resource.data.status != 'draft' || isSignedIn();
+      allow create, update, delete: if isSignedIn();
+    }
+
+    // 5. Production Services (`/services/{slug}`)
+    match /services/{slug} {
+      allow read: if resource.data.status != 'draft' || isSignedIn();
+      allow create, update, delete: if isSignedIn();
+    }
+
+    // 6. Leadership & Team (`/team/{slug}`)
+    match /team/{slug} {
+      allow read: if true;
+      allow create, update, delete: if isSignedIn();
+    }
+
+    // 7. Gallery Media Vault (`/gallery/{id}`)
+    match /gallery/{id} {
+      allow read: if true;
+      allow create, update, delete: if isSignedIn();
+    }
+
+    // 8. Site Configuration (`/settings/{docId}`)
+    match /settings/{docId} {
+      allow read: if true;
+      allow create, update, delete: if isSignedIn();
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }
-

@@ -1,202 +1,92 @@
 import { NextResponse } from 'next/server';
-import { getEventBySlug } from '@/lib/events-store';
-import { getAdminFirestore, isFirebaseAdminConfigured } from '@/lib/firebase/admin';
 import {
   REGISTRATION_STATUSES,
   registrationSchema,
-  type RegistrationRecord,
   type RegistrationStatus,
 } from '@/lib/validations/registration';
-
-/**
- * Contestant Registrations API.
- * Uses Firebase Firestore (`registrations` collection) when credentials are configured,
- * with automatic fallback to the seeded in-memory registry.
- */
-const globalForRegistrations = globalThis as typeof globalThis & {
-  __jayMediaRegistrations?: Map<string, RegistrationRecord>;
-};
-
-function getRegistry(): Map<string, RegistrationRecord> {
-  if (!globalForRegistrations.__jayMediaRegistrations) {
-    const seeded = new Map<string, RegistrationRecord>();
-    seeded.set('NKI-2025-101', {
-      userCode: 'NKI-2025-101',
-      eventSlug: 'nepal-kids-idol',
-      eventTitle: 'Nepal Kids Idol',
-      name: 'Aarav Adhikari',
-      phone: '9842011223',
-      age: 11,
-      gender: 'Male',
-      address: 'Biratnagar-09, Morang, Koshi Province',
-      school: 'Budhanilkantha Heritage Academy',
-      hobbies: 'Classical vocal, harmonium',
-      auditionMode: 'In-Person District Audition',
-      photoFilename: 'aarav_headshot.jpg',
-      parentName: 'Prakash Adhikari',
-      parentPhone: '9852011223',
-      paymentTransactionId: 'ESEWA-8829104',
-      paymentReceiptFilename: 'esewa_receipt_101.png',
-      status: 'Verified — Audition Scheduled',
-      auditionHub: 'Biratnagar Central Hub (Province 1)',
-      submittedAt: '2025-11-02T09:15:00.000Z',
-    });
-    seeded.set('MK-2025-102', {
-      userCode: 'MK-2025-102',
-      eventSlug: 'miss-koshi',
-      eventTitle: 'Miss Koshi Grand Pageant',
-      name: 'Prisha Sharma',
-      phone: '9812345678',
-      age: 20,
-      gender: 'Female',
-      address: 'Itahari-04, Sunsari, Koshi Province',
-      school: 'Koshi Campus Biratnagar',
-      hobbies: 'Public advocacy, contemporary stage',
-      auditionMode: 'In-Person District Audition',
-      photoFilename: 'prisha_portrait.jpg',
-      parentName: 'Kalpana Sharma',
-      parentPhone: '9842345678',
-      paymentTransactionId: 'FONEPAY-449182',
-      paymentReceiptFilename: 'fonepay_receipt_102.png',
-      status: 'Shortlisted',
-      auditionHub: 'Itahari / Koshi Selection Desk',
-      submittedAt: '2025-11-05T11:30:00.000Z',
-    });
-    seeded.set('LKS-2025-103', {
-      userCode: 'LKS-2025-103',
-      eventSlug: 'mr-and-miss-little-koshi',
-      eventTitle: 'Mr. & Miss Little Koshi',
-      name: 'Riyan Pradhan',
-      phone: '9832012345',
-      age: 9,
-      gender: 'Male',
-      address: 'Dharan-10, Sunsari, Koshi Province',
-      school: 'Himalayan Public Academy',
-      hobbies: 'Acoustic guitar, speech & folk dance',
-      auditionMode: 'In-Person District Audition',
-      photoFilename: 'riyan_photo.jpg',
-      parentName: 'Bikram Pradhan',
-      paymentTransactionId: 'INTL-QR-9012',
-      status: 'Verified — Audition Scheduled',
-      auditionHub: 'Dharan Regional Audition Desk',
-      submittedAt: '2025-11-08T14:20:00.000Z',
-    });
-    globalForRegistrations.__jayMediaRegistrations = seeded;
-  }
-  return globalForRegistrations.__jayMediaRegistrations;
-}
+import {
+  deleteRegistrationRepo,
+  getEventRepo,
+  getRegistrationRepo,
+  listRegistrationsRepo,
+  upsertRegistrationRepo,
+} from '@/lib/backend/repository';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  const rawCode = searchParams.get('code')?.trim().toUpperCase();
-  const registry = getRegistry();
+  const codeParam = searchParams.get('code')?.trim().toUpperCase();
+  const eventSlug = searchParams.get('eventSlug')?.trim();
+  const status = searchParams.get('status')?.trim();
 
-  if (isFirebaseAdminConfigured()) {
-    try {
-      const db = getAdminFirestore();
-      if (!rawCode) {
-        const snap = await db
-          .collection('registrations')
-          .orderBy('submittedAt', 'desc')
-          .limit(200)
-          .get();
-        const firestoreRecords = snap.docs.map(
-          (d) => d.data() as RegistrationRecord
-        );
-        if (firestoreRecords.length > 0) {
-          return NextResponse.json({ records: firestoreRecords });
-        }
-      } else {
-        const docSnap = await db.collection('registrations').doc(rawCode).get();
-        if (docSnap.exists) {
-          return NextResponse.json({
-            found: true,
-            record: docSnap.data() as RegistrationRecord,
-          });
-        }
-      }
-    } catch (err) {
-      console.error('[Firestore Registrations GET Fallback]:', err);
+  if (codeParam) {
+    const found = await getRegistrationRepo(codeParam);
+    if (!found) {
+      return NextResponse.json(
+        {
+          error: `No registration found for code "${codeParam}". Please verify your code or contact our Biratnagar desk.`,
+        },
+        { status: 404 }
+      );
     }
+    return NextResponse.json({ record: found });
   }
 
-  if (!rawCode) {
-    const records = Array.from(registry.values()).sort((a, b) =>
-      b.submittedAt.localeCompare(a.submittedAt)
-    );
-    return NextResponse.json({ records });
-  }
-
-  const match = registry.get(rawCode);
-
-  if (!match) {
-    return NextResponse.json(
-      {
-        found: false,
-        code: rawCode,
-        message: `No contestant registration found matching User Code "${rawCode}". Verify your code or register below.`,
-      },
-      { status: 404 }
-    );
-  }
-
-  return NextResponse.json({
-    found: true,
-    record: match,
-  });
+  const records = await listRegistrationsRepo({ eventSlug, status });
+  return NextResponse.json({ records });
 }
 
 export async function POST(request: Request) {
   try {
-    const json = await request.json();
-    const parsed = registrationSchema.parse(json);
+    const body = await request.json();
+    const parsed = registrationSchema.safeParse(body);
 
-    const matchedEvent = getEventBySlug(parsed.eventSlug);
-    const prefix = matchedEvent?.codePrefix || 'JMM';
-    const eventTitle = matchedEvent?.title || 'Jay Media Production';
-
-    const randomDigits = Math.floor(200 + Math.random() * 799);
-    const suffix = Date.now().toString().slice(-3);
-    const userCode = `${prefix}-2025-${randomDigits}${suffix}`;
-
-    const record: RegistrationRecord = {
-      userCode,
-      eventSlug: parsed.eventSlug,
-      eventTitle,
-      name: parsed.name,
-      phone: parsed.phone,
-      age: parsed.age,
-      gender: parsed.gender,
-      address: parsed.address,
-      school: parsed.school,
-      hobbies: parsed.hobbies,
-      auditionMode: parsed.auditionMode,
-      auditionVideoUrl: parsed.auditionVideoUrl,
-      photoFilename: parsed.photoFilename,
-      parentName: parsed.parentName,
-      parentEmail: parsed.parentEmail,
-      parentPhone: parsed.parentPhone,
-      paymentTransactionId: parsed.paymentTransactionId,
-      paymentReceiptFilename: parsed.paymentReceiptFilename,
-      status: 'Pending QR Verification',
-      auditionHub:
-        parsed.auditionMode === 'Online Video Audition'
-          ? 'Digital / Online Evaluation Desk'
-          : `Assigned Regional Desk (${parsed.address.split(',')[0]})`,
-      submittedAt: new Date().toISOString(),
-    };
-
-    if (isFirebaseAdminConfigured()) {
-      try {
-        const db = getAdminFirestore();
-        await db.collection('registrations').doc(userCode).set(record);
-      } catch (err) {
-        console.error('[Firestore Registrations POST Error]:', err);
-      }
+    if (!parsed.success) {
+      return NextResponse.json(
+        {
+          error: 'Validation failed. Please review all required fields.',
+          details: parsed.error.flatten().fieldErrors,
+        },
+        { status: 400 }
+      );
     }
 
-    const registry = getRegistry();
-    registry.set(userCode, record);
+    const d = parsed.data;
+    const eventMeta = await getEventRepo(d.eventSlug);
+    const prefix = eventMeta?.codePrefix || 'NKI';
+    const eventTitle = eventMeta?.title || 'Nepal Kids Idol';
+
+    let userCode = `${prefix}-${Math.floor(100000 + Math.random() * 900000)}`;
+    while (await getRegistrationRepo(userCode)) {
+      userCode = `${prefix}-${Math.floor(100000 + Math.random() * 900000)}`;
+    }
+
+    const record = await upsertRegistrationRepo({
+      userCode,
+      eventSlug: d.eventSlug,
+      eventTitle,
+      name: d.name.trim(),
+      phone: d.phone.trim(),
+      age: d.age,
+      gender: d.gender,
+      address: d.address.trim(),
+      school: d.school.trim(),
+      hobbies: d.hobbies?.trim() || '',
+      auditionMode: d.auditionMode,
+      auditionVideoUrl: d.auditionVideoUrl?.trim() || '',
+      photoFilename: d.photoFilename?.trim() || '',
+      parentName: d.parentName.trim(),
+      parentEmail: d.parentEmail?.trim() || '',
+      parentPhone: d.parentPhone?.trim() || d.phone.trim(),
+      paymentTransactionId: d.paymentTransactionId?.trim() || '',
+      paymentReceiptFilename: d.paymentReceiptFilename?.trim() || '',
+      status: 'Pending QR Verification',
+      auditionHub:
+        d.auditionMode === 'Online Video Audition'
+          ? 'Online Global Desk — Jay Media Digital Portal'
+          : 'Central Mall, Main Road, Biratnagar',
+      adminNotes: '',
+      submittedAt: new Date().toISOString(),
+    });
 
     return NextResponse.json(
       {
@@ -206,23 +96,9 @@ export async function POST(request: Request) {
       },
       { status: 201 }
     );
-  } catch (error: unknown) {
-    if (
-      error &&
-      typeof error === 'object' &&
-      'name' in error &&
-      error.name === 'ZodError'
-    ) {
-      return NextResponse.json(
-        {
-          error: 'Please complete all required contestant and guardian fields.',
-          details: error,
-        },
-        { status: 400 }
-      );
-    }
+  } catch {
     return NextResponse.json(
-      { error: 'Server error processing registration.' },
+      { error: 'Unable to process registration request.' },
       { status: 500 }
     );
   }
@@ -230,41 +106,11 @@ export async function POST(request: Request) {
 
 export async function PATCH(request: Request) {
   try {
-    const json = await request.json();
-    const userCode = String(json.userCode || '').trim().toUpperCase();
-    const status = String(json.status || '') as RegistrationStatus;
-
-    if (!userCode || !REGISTRATION_STATUSES.includes(status)) {
-      return NextResponse.json(
-        { error: 'Invalid userCode or registration status value.' },
-        { status: 400 }
-      );
-    }
-
-    if (isFirebaseAdminConfigured()) {
-      try {
-        const db = getAdminFirestore();
-        const docRef = db.collection('registrations').doc(userCode);
-        const docSnap = await docRef.get();
-        if (docSnap.exists) {
-          await docRef.update({ status });
-          const updated = {
-            ...(docSnap.data() as RegistrationRecord),
-            status,
-          };
-          getRegistry().set(userCode, updated);
-          return NextResponse.json({
-            success: true,
-            record: updated,
-          });
-        }
-      } catch (err) {
-        console.error('[Firestore Registrations PATCH Error]:', err);
-      }
-    }
-
-    const registry = getRegistry();
-    const existing = registry.get(userCode);
+    const body = await request.json();
+    const userCode = String(body.userCode || '')
+      .trim()
+      .toUpperCase();
+    const existing = userCode ? await getRegistrationRepo(userCode) : undefined;
 
     if (!existing) {
       return NextResponse.json(
@@ -273,12 +119,27 @@ export async function PATCH(request: Request) {
       );
     }
 
-    const updated: RegistrationRecord = {
-      ...existing,
-      status,
-    };
+    const nextStatus = body.status as RegistrationStatus | undefined;
+    if (
+      nextStatus !== undefined &&
+      !REGISTRATION_STATUSES.includes(nextStatus)
+    ) {
+      return NextResponse.json(
+        { error: 'Invalid registration status.' },
+        { status: 400 }
+      );
+    }
 
-    registry.set(userCode, updated);
+    const updated = await upsertRegistrationRepo({
+      ...existing,
+      ...(nextStatus !== undefined && { status: nextStatus }),
+      ...(body.adminNotes !== undefined && {
+        adminNotes: String(body.adminNotes).trim(),
+      }),
+      ...(body.auditionHub !== undefined && {
+        auditionHub: String(body.auditionHub).trim(),
+      }),
+    });
 
     return NextResponse.json({
       success: true,
@@ -286,8 +147,21 @@ export async function PATCH(request: Request) {
     });
   } catch {
     return NextResponse.json(
-      { error: 'Unable to update registration status.' },
+      { error: 'Unable to update registration.' },
       { status: 500 }
     );
   }
+}
+
+export async function DELETE(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const code = searchParams.get('code')?.trim().toUpperCase();
+  if (!code) {
+    return NextResponse.json(
+      { error: 'Registration userCode is required.' },
+      { status: 400 }
+    );
+  }
+  await deleteRegistrationRepo(code);
+  return NextResponse.json({ success: true, userCode: code });
 }

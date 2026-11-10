@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Save, Upload, CheckCircle2, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Save, CheckCircle2, AlertCircle } from 'lucide-react';
 
 export default function AdminNewEventPage() {
   const router = useRouter();
@@ -12,14 +12,25 @@ export default function AdminNewEventPage() {
   const [errorMsg, setErrorMsg] = useState('');
   const [formData, setFormData] = useState({
     title: '',
+    shortLabel: '',
     category: 'Beauty Pageant & Youth Empowerment',
-    season: '2025 Edition',
+    season: '2026 Edition',
     location: 'Biratnagar, Koshi Province',
     eligibility: 'Open Audition',
     prizePoolLabel: 'Crowns & Cash Awards',
+    codePrefix: 'JMM',
+    image:
+      'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=85',
+    ticketUrl: '',
+    ticketPartner: '',
     tagline: '',
     summary: '',
     description: '',
+    highlightsText:
+      'Regional & Live Auditions\nBroadcast Stage Production by Jay Media\nMentorship & Jury Evaluation Panels\nTitle Honours & Official Press Coverage',
+    scopeText:
+      'Complete stage design and DMX lighting choreography\nMulticam HD/4K recording and live broadcast coverage\nContestant coordination and backstage management',
+    registrationOpen: true,
     status: 'published',
   });
 
@@ -34,16 +45,30 @@ export default function AdminNewEventPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           title: formData.title,
+          shortLabel: formData.shortLabel || formData.title,
           category: formData.category,
           seasonOrYear: formData.season,
           location: formData.location,
           eligibility: formData.eligibility,
           prizePoolLabel: formData.prizePoolLabel,
+          codePrefix: formData.codePrefix,
+          image: formData.image,
+          heroStageImage: formData.image,
+          ticketUrl: formData.ticketUrl || undefined,
+          ticketPartner: formData.ticketPartner || undefined,
           tagline: formData.tagline,
           summary: formData.summary,
           overview: formData.description,
+          highlights: formData.highlightsText
+            .split('\n')
+            .map((s) => s.trim())
+            .filter(Boolean),
+          productionScope: formData.scopeText
+            .split('\n')
+            .map((s) => s.trim())
+            .filter(Boolean),
           status: formData.status,
-          registrationOpen: true,
+          registrationOpen: formData.registrationOpen,
         }),
       });
       const data = await res.json();
@@ -54,7 +79,7 @@ export default function AdminNewEventPage() {
       setSaved(true);
       setTimeout(() => {
         router.push('/admin/events');
-      }, 900);
+      }, 800);
     } catch (err: unknown) {
       setErrorMsg(
         err instanceof Error ? err.message : 'Unable to save new event.'
@@ -65,17 +90,17 @@ export default function AdminNewEventPage() {
   };
 
   return (
-    <div className="mx-auto max-w-4xl space-y-8 font-body text-ink">
-      {/* Top Bar */}
-      <div className="flex items-center justify-between border-b border-line pb-6">
+    <div className="mx-auto max-w-4xl space-y-6">
+      <div className="flex flex-col justify-between gap-4 border-b border-line pb-5 sm:flex-row sm:items-center">
         <div>
           <Link
             href="/admin/events"
-            className="mb-2 inline-flex items-center gap-2 font-body text-xs uppercase tracking-wider text-muted transition-colors hover:text-ink"
+            className="inline-flex items-center gap-1.5 text-xs font-medium text-muted transition-colors hover:text-ink"
           >
-            <ArrowLeft className="h-4 w-4" /> Back to Events Catalog
+            <ArrowLeft className="h-3.5 w-3.5" />
+            <span>Back to Events Catalog</span>
           </Link>
-          <h1 className="editorial-headline font-body text-3xl text-ink">
+          <h1 className="mt-1.5 text-2xl font-semibold text-ink sm:text-3xl">
             Create New Production
           </h1>
         </div>
@@ -84,25 +109,24 @@ export default function AdminNewEventPage() {
           type="submit"
           form="event-form"
           disabled={saving}
-          className="inline-flex items-center gap-2 rounded-[0.3rem] bg-accent px-6 py-3 font-body text-xs font-semibold uppercase tracking-widest text-cream shadow-md transition-all hover:scale-105 hover:bg-coral-hover disabled:opacity-60"
+          className="btn btn-primary py-2.5 text-xs disabled:opacity-60"
         >
           <Save className="h-4 w-4" />
-          <span>{saving ? 'Publishing...' : 'Publish Event'}</span>
+          <span>{saving ? 'Saving to Firestore...' : 'Publish Production'}</span>
         </button>
       </div>
 
       {saved && (
-        <div className="flex items-center gap-2 rounded-[0.5rem] border border-forest/25 bg-forest-soft p-4 font-body text-xs text-ink-soft shadow-sm">
-          <CheckCircle2 className="h-4 w-4 text-coral" />
+        <div className="flex items-center gap-2 rounded-xl border border-forest/25 bg-forest-soft p-4 text-xs font-medium text-forest">
+          <CheckCircle2 className="h-4 w-4" />
           <span>
-            Event successfully created and added to the live Jay Media slate!
-            Redirecting...
+            Production created in Cloud Firestore! Redirecting to catalog...
           </span>
         </div>
       )}
 
       {errorMsg && (
-        <div className="flex items-center gap-2 rounded-[0.5rem] border border-danger/30 bg-red-50 p-4 font-body text-xs text-danger">
+        <div className="flex items-center gap-2 rounded-xl border border-danger/30 bg-red-50 p-4 text-xs font-medium text-danger">
           <AlertCircle className="h-4 w-4" />
           <span>{errorMsg}</span>
         </div>
@@ -111,12 +135,12 @@ export default function AdminNewEventPage() {
       <form
         id="event-form"
         onSubmit={handleSave}
-        className="space-y-6 rounded-[0.5rem] border border-line bg-card p-8 font-body text-sm shadow-sm"
+        className="space-y-6 rounded-xl border border-line bg-white p-6 sm:p-8"
       >
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <div>
-            <label className="mb-2 block font-body text-xs font-medium uppercase tracking-wider text-muted">
-              Event Title *
+            <label className="mb-1.5 block text-xs font-medium text-ink">
+              Production Title *
             </label>
             <input
               type="text"
@@ -126,12 +150,12 @@ export default function AdminNewEventPage() {
                 setFormData({ ...formData, title: e.target.value })
               }
               placeholder="e.g. Mr. & Miss Purwanchal"
-              className="w-full rounded-[0.3rem] border border-line-strong bg-cream px-4 py-3 font-body text-ink placeholder:text-faint focus:border-coral focus:outline-none focus:ring-1 focus:ring-coral"
+              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink placeholder:text-faint focus:border-forest focus:outline-none"
             />
           </div>
 
           <div>
-            <label className="mb-2 block font-body text-xs font-medium uppercase tracking-wider text-muted">
+            <label className="mb-1.5 block text-xs font-medium text-ink">
               Category *
             </label>
             <select
@@ -139,34 +163,34 @@ export default function AdminNewEventPage() {
               onChange={(e) =>
                 setFormData({ ...formData, category: e.target.value })
               }
-              className="w-full rounded-[0.3rem] border border-line-strong bg-cream px-4 py-3 font-body text-ink focus:border-coral focus:outline-none focus:ring-1 focus:ring-coral"
+              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
             >
-              <option value="Beauty Pageant & Youth Empowerment" className="bg-card">
+              <option value="Beauty Pageant & Youth Empowerment">
                 Beauty Pageant &amp; Youth Empowerment
               </option>
-              <option value="National Television Singing Reality Show" className="bg-card">
+              <option value="National Television Singing Reality Show">
                 National Television Singing Reality Show
               </option>
-              <option value="Children's Talent & Personality Showcase" className="bg-card">
+              <option value="Children's Talent & Personality Showcase">
                 Children&apos;s Talent &amp; Personality Showcase
               </option>
-              <option value="Youth Dance Championship" className="bg-card">
+              <option value="Youth Dance Championship">
                 Youth Dance Championship
               </option>
-              <option value="Corporate & Experiential" className="bg-card">
-                Corporate &amp; Experiential
+              <option value="International Live Concert">
+                International Live Concert
               </option>
-              <option value="Musical Arena Concert" className="bg-card">
-                Musical Arena Concert
+              <option value="Corporate & Experiential">
+                Corporate &amp; Experiential
               </option>
             </select>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
           <div>
-            <label className="mb-2 block font-body text-xs font-medium uppercase tracking-wider text-muted">
-              Season / Year
+            <label className="mb-1.5 block text-xs font-medium text-ink">
+              Season / Date Label
             </label>
             <input
               type="text"
@@ -174,13 +198,13 @@ export default function AdminNewEventPage() {
               onChange={(e) =>
                 setFormData({ ...formData, season: e.target.value })
               }
-              className="w-full rounded-[0.3rem] border border-line-strong bg-cream px-4 py-3 font-body text-ink focus:border-coral focus:outline-none focus:ring-1 focus:ring-coral"
+              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
             />
           </div>
 
           <div>
-            <label className="mb-2 block font-body text-xs font-medium uppercase tracking-wider text-muted">
-              Location Hub
+            <label className="mb-1.5 block text-xs font-medium text-ink">
+              Venue / Location
             </label>
             <input
               type="text"
@@ -188,14 +212,33 @@ export default function AdminNewEventPage() {
               onChange={(e) =>
                 setFormData({ ...formData, location: e.target.value })
               }
-              className="w-full rounded-[0.3rem] border border-line-strong bg-cream px-4 py-3 font-body text-ink focus:border-coral focus:outline-none focus:ring-1 focus:ring-coral"
+              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="mb-1.5 block text-xs font-medium text-ink">
+              Registration Code Prefix
+            </label>
+            <input
+              type="text"
+              maxLength={5}
+              value={formData.codePrefix}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  codePrefix: e.target.value.toUpperCase(),
+                })
+              }
+              placeholder="JMM"
+              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 font-mono text-sm uppercase text-ink focus:border-forest focus:outline-none"
             />
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
           <div>
-            <label className="mb-2 block font-body text-xs font-medium uppercase tracking-wider text-muted">
+            <label className="mb-1.5 block text-xs font-medium text-ink">
               Eligibility
             </label>
             <input
@@ -205,13 +248,13 @@ export default function AdminNewEventPage() {
                 setFormData({ ...formData, eligibility: e.target.value })
               }
               placeholder="e.g. Ages 16–25"
-              className="w-full rounded-[0.3rem] border border-line-strong bg-cream px-4 py-3 font-body text-ink placeholder:text-faint focus:border-coral focus:outline-none focus:ring-1 focus:ring-coral"
+              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
             />
           </div>
 
           <div>
-            <label className="mb-2 block font-body text-xs font-medium uppercase tracking-wider text-muted">
-              Awards / Pool Label
+            <label className="mb-1.5 block text-xs font-medium text-ink">
+              Awards / Recognition Label
             </label>
             <input
               type="text"
@@ -219,15 +262,62 @@ export default function AdminNewEventPage() {
               onChange={(e) =>
                 setFormData({ ...formData, prizePoolLabel: e.target.value })
               }
-              placeholder="e.g. Crowns & Cash Awards"
-              className="w-full rounded-[0.3rem] border border-line-strong bg-cream px-4 py-3 font-body text-ink placeholder:text-faint focus:border-coral focus:outline-none focus:ring-1 focus:ring-coral"
+              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="mb-1.5 block text-xs font-medium text-ink">
+              Publication Status
+            </label>
+            <select
+              value={formData.status}
+              onChange={(e) =>
+                setFormData({ ...formData, status: e.target.value })
+              }
+              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
+            >
+              <option value="published">Published (Live)</option>
+              <option value="draft">Draft (Hidden)</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+          <div>
+            <label className="mb-1.5 block text-xs font-medium text-ink">
+              Cover / Poster Image URL
+            </label>
+            <input
+              type="text"
+              value={formData.image}
+              onChange={(e) =>
+                setFormData({ ...formData, image: e.target.value })
+              }
+              placeholder="/images/official/... or https://..."
+              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="mb-1.5 block text-xs font-medium text-ink">
+              External Ticket URL (Optional, for Concerts)
+            </label>
+            <input
+              type="text"
+              value={formData.ticketUrl}
+              onChange={(e) =>
+                setFormData({ ...formData, ticketUrl: e.target.value })
+              }
+              placeholder="https://events.khalti.com/..."
+              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
             />
           </div>
         </div>
 
         <div>
-          <label className="mb-2 block font-body text-xs font-medium uppercase tracking-wider text-muted">
-            Tagline / Punchline
+          <label className="mb-1.5 block text-xs font-medium text-ink">
+            Tagline
           </label>
           <input
             type="text"
@@ -235,49 +325,69 @@ export default function AdminNewEventPage() {
             onChange={(e) =>
               setFormData({ ...formData, tagline: e.target.value })
             }
-            placeholder="e.g. Empowering the next generation of provincial leaders."
-            className="w-full rounded-[0.3rem] border border-line-strong bg-cream px-4 py-3 font-body text-ink placeholder:text-faint focus:border-coral focus:outline-none focus:ring-1 focus:ring-coral"
+            placeholder="Short one-line subtitle for the event hero..."
+            className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
           />
         </div>
 
         <div>
-          <label className="mb-2 block font-body text-xs font-medium uppercase tracking-wider text-muted">
-            Short Summary
+          <label className="mb-1.5 block text-xs font-medium text-ink">
+            Card Summary
           </label>
           <textarea
-            rows={3}
+            rows={2}
             value={formData.summary}
             onChange={(e) =>
               setFormData({ ...formData, summary: e.target.value })
             }
-            placeholder="Brief editorial summary shown on cards..."
-            className="w-full rounded-[0.3rem] border border-line-strong bg-cream px-4 py-3 font-body text-ink placeholder:text-faint focus:border-coral focus:outline-none focus:ring-1 focus:ring-coral"
+            placeholder="2-sentence summary displayed on portfolio cards..."
+            className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
           />
         </div>
 
         <div>
-          <label className="mb-2 block font-body text-xs font-medium uppercase tracking-wider text-muted">
-            Detailed Overview &amp; Production Background
+          <label className="mb-1.5 block text-xs font-medium text-ink">
+            Full Production Overview
           </label>
           <textarea
-            rows={5}
+            rows={4}
             value={formData.description}
             onChange={(e) =>
               setFormData({ ...formData, description: e.target.value })
             }
-            placeholder="Comprehensive description of stagecraft, judges, contestants, and schedule..."
-            className="w-full rounded-[0.3rem] border border-line-strong bg-cream px-4 py-3 font-body text-ink placeholder:text-faint focus:border-coral focus:outline-none focus:ring-1 focus:ring-coral"
+            placeholder="Detailed description of the production, stagecraft, and format..."
+            className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
           />
         </div>
 
-        <div className="rounded-[0.5rem] border-2 border-dashed border-line-strong bg-paper-deep p-6 text-center">
-          <Upload className="mx-auto mb-2 h-8 w-8 text-coral" />
-          <span className="block font-body text-xs font-semibold uppercase tracking-wider text-ink-soft/80">
-            Upload Key Stage Visual or Poster
-          </span>
-          <span className="mt-1 block font-body text-[11px] text-faint">
-            Accepts WebP, JPG, PNG up to 10MB (wire Firebase Storage /events/)
-          </span>
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+          <div>
+            <label className="mb-1.5 block text-xs font-medium text-ink">
+              Key Highlights (One per line)
+            </label>
+            <textarea
+              rows={4}
+              value={formData.highlightsText}
+              onChange={(e) =>
+                setFormData({ ...formData, highlightsText: e.target.value })
+              }
+              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-xs text-ink focus:border-forest focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="mb-1.5 block text-xs font-medium text-ink">
+              Production Scope (One per line)
+            </label>
+            <textarea
+              rows={4}
+              value={formData.scopeText}
+              onChange={(e) =>
+                setFormData({ ...formData, scopeText: e.target.value })
+              }
+              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-xs text-ink focus:border-forest focus:outline-none"
+            />
+          </div>
         </div>
       </form>
     </div>

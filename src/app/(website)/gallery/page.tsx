@@ -251,13 +251,29 @@ const CATEGORIES = [
 ] as const;
 
 export default function GalleryPage() {
+  const [photos, setPhotos] = useState<GalleryPhoto[]>(GALLERY_PHOTOS);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [activePhotoIndex, setActivePhotoIndex] = useState<number | null>(null);
 
+  useEffect(() => {
+    let active = true;
+    fetch('/api/gallery')
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (active && Array.isArray(data?.photos) && data.photos.length > 0) {
+          setPhotos(data.photos);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
+
   const filteredPhotos =
     selectedCategory === 'All'
-      ? GALLERY_PHOTOS
-      : GALLERY_PHOTOS.filter((photo) => photo.category === selectedCategory);
+      ? photos
+      : photos.filter((photo) => photo.category === selectedCategory);
 
   const visibleSections =
     selectedCategory === 'All'
@@ -318,7 +334,7 @@ export default function GalleryPage() {
         title="Productions & event moments."
         description="Official concert posters, pageant titleholder portraits, and live stage photography across Itahari, Biratnagar, and Koshi Province."
         meta={[
-          { label: 'Photos', value: `${GALLERY_PHOTOS.length} official frames` },
+          { label: 'Photos', value: `${photos.length} official frames` },
           { label: 'Collections', value: `${GALLERY_SECTIONS.length} events` },
           { label: 'Region', value: 'Koshi Province' },
           { label: 'Studio', value: 'Central Mall, Biratnagar' },
@@ -357,7 +373,7 @@ export default function GalleryPage() {
       <section className="py-14 md:py-18">
         <div className="container-ed space-y-16">
           {visibleSections.map((section) => {
-            const sectionPhotos = GALLERY_PHOTOS.filter(
+            const sectionPhotos = photos.filter(
               (photo) => photo.category === section.category
             );
             if (sectionPhotos.length === 0) return null;

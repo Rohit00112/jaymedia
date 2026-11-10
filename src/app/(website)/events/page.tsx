@@ -9,7 +9,9 @@ import Reveal from '@/components/motion/Reveal';
 import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
 import { generatePageMetadata } from '@/lib/seo';
 import { EVENTS_DATA } from '@/config/events-data';
-import { listEvents } from '@/lib/events-store';
+import { listEventsRepo } from '@/lib/backend/repository';
+
+export const instant = false;
 
 export const metadata: Metadata = generatePageMetadata({
   title: 'Events & Productions Portfolio | Jay Media Management',
@@ -17,8 +19,8 @@ export const metadata: Metadata = generatePageMetadata({
     'Explore signature event productions by Jay Media Management in Biratnagar, Nepal: Eastern Echoes (Atif Aslam Live), Miss Koshi Grand Pageant, Nepal Kids Idol, Mr. & Miss Little Koshi, and bespoke corporate galas.',
 });
 
-export default function EventsPage() {
-  const events = listEvents();
+export default async function EventsPage() {
+  const events = await listEventsRepo();
   const [featured, ...rest] = events.length > 0 ? events : EVENTS_DATA;
 
   return (

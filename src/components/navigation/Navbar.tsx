@@ -5,7 +5,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { ChevronDown, Menu } from 'lucide-react';
-import { navigation, type NavChild } from '@/config/navigation';
+import {
+  navigation,
+  MAX_DROPDOWN_EVENTS,
+  type NavChild,
+} from '@/config/navigation';
 import type { EventDetailData } from '@/config/events-data';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
@@ -38,7 +42,7 @@ export function Navbar() {
       .then((data) => {
         if (active && Array.isArray(data?.events) && data.events.length > 0) {
           setDynamicEventLinks([
-            ...data.events.map((ev: EventDetailData) => ({
+            ...data.events.slice(0, MAX_DROPDOWN_EVENTS).map((ev: EventDetailData) => ({
               label: ev.title,
               href: `/events/${ev.slug}`,
               note: ev.seasonOrYear,
@@ -148,23 +152,37 @@ export function Navbar() {
                     {eventsDropdownOpen && (
                       <div className="animate-dropdown absolute left-0 top-full pt-1.5">
                         <div className="w-64 rounded-xl border border-line bg-white p-1.5 shadow-lg">
-                          {(dynamicEventLinks || link.children).map((child) => (
-                            <Link
-                              key={child.href}
-                              href={child.href}
-                              onClick={() => setEventsDropdownOpen(false)}
-                              className="group block rounded-lg px-3 py-2 transition-all duration-150 hover:bg-paper-deep hover:pl-3.5"
-                            >
-                              <span className="block text-sm font-medium text-ink transition-colors group-hover:text-forest">
-                                {child.label}
-                              </span>
-                              {child.note && (
-                                <span className="mt-0.5 block text-xs text-muted">
-                                  {child.note}
-                                </span>
-                              )}
-                            </Link>
-                          ))}
+                          {(dynamicEventLinks || link.children).map((child) => {
+                            const isAllLink = child.href === '/events';
+                            return (
+                              <div
+                                key={child.href}
+                                className={cn(
+                                  isAllLink && 'mt-1 border-t border-line pt-1'
+                                )}
+                              >
+                                <Link
+                                  href={child.href}
+                                  onClick={() => setEventsDropdownOpen(false)}
+                                  className="group block rounded-lg px-3 py-2 transition-all duration-150 hover:bg-paper-deep hover:pl-3.5"
+                                >
+                                  <span
+                                    className={cn(
+                                      'block text-sm font-medium transition-colors group-hover:text-forest',
+                                      isAllLink ? 'text-forest' : 'text-ink'
+                                    )}
+                                  >
+                                    {child.label}
+                                  </span>
+                                  {child.note && (
+                                    <span className="mt-0.5 block text-xs text-muted">
+                                      {child.note}
+                                    </span>
+                                  )}
+                                </Link>
+                              </div>
+                            );
+                          })}
                         </div>
                       </div>
                     )}

@@ -4,6 +4,7 @@ export const REGISTRATION_STATUSES = [
   'Pending QR Verification',
   'Verified — Audition Scheduled',
   'Shortlisted',
+  'Rejected',
 ] as const;
 
 export type RegistrationStatus = (typeof REGISTRATION_STATUSES)[number];
@@ -73,5 +74,7 @@ export interface RegistrationRecord {
   paymentReceiptFilename?: string;
   status: RegistrationStatus;
   auditionHub: string;
+  adminNotes?: string;
   submittedAt: string;
+  updatedAt?: string;
 }

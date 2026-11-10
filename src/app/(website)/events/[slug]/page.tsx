@@ -9,7 +9,7 @@ import ConcertCountdown from '@/components/shared/ConcertCountdown';
 import Reveal from '@/components/motion/Reveal';
 import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
 import { EVENTS_DATA } from '@/config/events-data';
-import { getEventBySlug, listEvents } from '@/lib/events-store';
+import { getEventRepo, listEventsRepo } from '@/lib/backend/repository';
 import { generatePageMetadata } from '@/lib/seo';
 
 interface Props {
@@ -27,7 +27,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const event =
-    getEventBySlug(slug) || EVENTS_DATA.find((e) => e.slug === slug);
+    (await getEventRepo(slug)) || EVENTS_DATA.find((e) => e.slug === slug);
   if (!event) return {};
 
   return generatePageMetadata({
@@ -38,9 +38,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function EventDetailPage({ params }: Props) {
   const { slug } = await params;
-  const allEvents = listEvents();
+  const allEvents = await listEventsRepo();
   const event =
-    getEventBySlug(slug) || EVENTS_DATA.find((e) => e.slug === slug);
+    (await getEventRepo(slug)) || EVENTS_DATA.find((e) => e.slug === slug);
 
   if (!event) {
     notFound();
