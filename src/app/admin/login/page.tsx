@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Lock, Mail, Loader2, ArrowRight, AlertCircle } from 'lucide-react';
+import { Lock, Mail, Loader2, ArrowRight, AlertCircle, ArrowLeft } from 'lucide-react';
 import { useAuth } from '@/lib/firebase/auth-context';
 
 export default function AdminLoginPage() {
@@ -23,7 +23,6 @@ export default function AdminLoginPage() {
       await login(email, password);
       router.push('/admin');
     } catch (err: unknown) {
-      // In development or when using test admin, provide helpful guidance
       setError(
         err instanceof Error
           ? err.message
@@ -35,71 +34,134 @@ export default function AdminLoginPage() {
   };
 
   const handleDemoAccess = () => {
-    // For QA testing and inspection without production credentials
     router.push('/admin');
   };
 
   return (
-    <div className="min-h-screen bg-black text-white font-body flex flex-col justify-center items-center px-6 py-12 relative overflow-hidden">
-      {/* Ambient background glow */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-coral/10 rounded-full blur-[140px] pointer-events-none" />
+    <div className="grid min-h-screen bg-paper lg:grid-cols-2">
+      {/* Editorial panel */}
+      <div className="relative hidden flex-col justify-between overflow-hidden bg-forest p-12 text-cream lg:flex">
+        <div
+          className="pointer-events-none absolute -right-24 -top-24 h-[26rem] w-[26rem] rounded-full bg-gold/10 blur-[100px]"
+          aria-hidden="true"
+        />
+        <span
+          className="pointer-events-none absolute -bottom-16 -left-6 display text-[15rem] leading-none text-cream/[0.045]"
+          aria-hidden="true"
+        >
+          JM
+        </span>
 
-      <div className="w-full max-w-md relative z-10">
-        {/* Brand header */}
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-block mb-3">
-            <span className="font-bold text-3xl tracking-wider text-white">
-              JAY MEDIA
-            </span>
-          </Link>
-          <span className="text-xs uppercase tracking-[0.2em] text-coral font-medium block">
-            Executive Studio CMS
+        <Link href="/" className="relative inline-flex items-center gap-3">
+          <span className="flex h-10 w-10 items-center justify-center rounded-[0.18rem] bg-cream text-ink">
+            <span className="display text-[1.3rem] leading-none">J</span>
           </span>
-          <p className="text-[#eef9ff]/60 text-xs mt-2">
-            Biratnagar, Nepal • Authorized Personnel Only
+          <span className="flex flex-col">
+            <span className="display text-[1.4rem] leading-none tracking-[-0.03em]">
+              Jay Media
+            </span>
+            <span className="mt-1 font-mono text-[7px] uppercase leading-none tracking-[0.24em] text-cream/50">
+              Management Pvt. Ltd.
+            </span>
+          </span>
+        </Link>
+
+        <div className="relative max-w-md">
+          <span className="eyebrow text-gold">Studio operations</span>
+          <p className="display mt-5 text-[clamp(2.2rem,3.5vw,3.2rem)] leading-[1.02] text-cream">
+            The work behind{' '}
+            <span className="serif italic text-gold">the moments.</span>
+          </p>
+          <p className="mt-5 text-sm leading-relaxed text-cream/65">
+            Publish productions, manage the archive, and keep every client
+            inquiry moving from one calm control room.
           </p>
         </div>
 
-        {/* Card */}
-        <div className="bg-[#0c0c11] border border-white/10 rounded-[10px] p-8 sm:p-10 shadow-2xl">
+        <div className="relative flex items-center justify-between border-t border-cream/15 pt-5 font-mono text-[9px] uppercase tracking-[0.16em] text-cream/45">
+          <span>Biratnagar, Nepal</span>
+          <span>26.45° N / 87.27° E</span>
+        </div>
+      </div>
+
+      {/* Form panel */}
+      <div className="flex flex-col justify-center px-6 py-12 sm:px-12">
+        <div className="mx-auto w-full max-w-sm">
+          <div className="mb-10 flex items-center justify-between lg:hidden">
+            <Link href="/" className="flex items-center gap-2.5">
+              <span className="flex h-8 w-8 items-center justify-center rounded-[0.18rem] bg-ink text-paper">
+                <span className="display text-[1.05rem] leading-none">J</span>
+              </span>
+              <span className="display text-[1.15rem] leading-none tracking-[-0.03em]">
+                Jay Media
+              </span>
+            </Link>
+            <span className="font-mono text-[8px] uppercase tracking-[0.16em] text-faint">
+              Studio CMS
+            </span>
+          </div>
+
+          <span className="eyebrow flex items-center gap-2.5 text-accent">
+            <span className="h-px w-6 bg-accent" aria-hidden="true" />
+            Authorized personnel
+          </span>
+          <h1 className="display mt-5 text-[clamp(2.2rem,4vw,3rem)] text-ink">
+            Sign in to the studio.
+          </h1>
+          <p className="mt-3 text-sm leading-relaxed text-muted">
+            Use your Jay Media administrator credentials to open the control
+            center.
+          </p>
+
           {error && (
-            <div className="mb-6 p-4 bg-red-950/60 border border-red-800 text-red-200 text-xs flex items-start gap-2 rounded-[10px]">
-              <AlertCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+            <div
+              role="alert"
+              className="mt-6 flex items-start gap-3 rounded-[0.3rem] border border-accent/35 bg-accent-soft p-4 text-xs text-ink-soft"
+            >
+              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
               <span>{error}</span>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="mt-8 space-y-5">
             <div>
-              <label className="block text-xs uppercase tracking-widest text-white/70 mb-2 font-medium">
-                Admin Email
+              <label
+                htmlFor="admin-email"
+                className="mb-2 block font-mono text-[9px] uppercase tracking-[0.16em] text-muted"
+              >
+                Admin email
               </label>
               <div className="relative">
-                <Mail className="w-4 h-4 text-white/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Mail className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-faint" />
                 <input
+                  id="admin-email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="admin@jaymediamanagement.com"
                   required
-                  className="w-full pl-10 pr-4 py-3 bg-black/60 border border-white/15 text-sm text-white rounded-[2px] placeholder:text-white/30 focus:outline-none focus:border-coral focus:ring-1 focus:ring-coral"
+                  className="w-full rounded-[0.3rem] border border-line bg-card py-3 pl-10 pr-4 text-sm text-ink transition-colors placeholder:text-faint focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/15"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs uppercase tracking-widest text-white/70 mb-2 font-medium">
+              <label
+                htmlFor="admin-password"
+                className="mb-2 block font-mono text-[9px] uppercase tracking-[0.16em] text-muted"
+              >
                 Password
               </label>
               <div className="relative">
-                <Lock className="w-4 h-4 text-white/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <Lock className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-faint" />
                 <input
+                  id="admin-password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••••••"
                   required
-                  className="w-full pl-10 pr-4 py-3 bg-black/60 border border-white/15 text-sm text-white rounded-[2px] placeholder:text-white/30 focus:outline-none focus:border-coral focus:ring-1 focus:ring-coral"
+                  className="w-full rounded-[0.3rem] border border-line bg-card py-3 pl-10 pr-4 text-sm text-ink transition-colors placeholder:text-faint focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/15"
                 />
               </div>
             </div>
@@ -107,46 +169,43 @@ export default function AdminLoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-4 bg-coral text-white text-xs uppercase tracking-widest font-semibold hover:bg-[#e04a41] transition-colors flex items-center justify-center gap-2 disabled:opacity-50 rounded-[50px]"
+              className="btn btn-primary w-full disabled:cursor-not-allowed disabled:opacity-60"
             >
               {loading ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Authenticating...</span>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Authenticating
                 </>
               ) : (
                 <>
-                  <span>Sign In to Studio</span>
-                  <ArrowRight className="w-4 h-4" />
+                  Sign in to studio
+                  <ArrowRight className="h-4 w-4" />
                 </>
               )}
             </button>
           </form>
 
-          {/* Development / QA Quick Entrance */}
-          <div className="mt-8 pt-6 border-t border-white/10 text-center">
-            <span className="text-[11px] text-[#eef9ff]/50 block mb-3">
-              QA Preview Access Mode
+          <div className="mt-8 border-t border-line pt-6 text-center">
+            <span className="font-mono text-[8px] uppercase tracking-[0.14em] text-faint">
+              QA preview access
             </span>
             <button
               onClick={handleDemoAccess}
-              className="w-full py-2.5 px-4 bg-white/5 border border-white/10 text-[#eef9ff] hover:text-white hover:bg-white/10 text-xs uppercase tracking-wider transition-colors rounded-[50px]"
+              className="mt-3 w-full rounded-[0.3rem] border border-line-strong px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-ink transition-colors hover:border-ink hover:bg-paper-deep"
             >
-              Enter Dashboard as Authorized Reviewer &rarr;
+              Enter as authorized reviewer
             </button>
           </div>
-        </div>
 
-        <div className="mt-6 text-center">
           <Link
             href="/"
-            className="text-xs text-white/50 hover:text-white transition-colors"
+            className="mt-7 inline-flex items-center gap-2 text-xs text-muted transition-colors hover:text-ink"
           >
-            &larr; Return to Public Website
+            <ArrowLeft className="h-3.5 w-3.5" />
+            Return to public website
           </Link>
         </div>
       </div>
     </div>
   );
 }
-

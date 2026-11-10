@@ -3,16 +3,17 @@ import { siteConfig } from '@/config/site';
 import { SERVICES_DATA } from '@/config/services-data';
 import { EVENTS_DATA } from '@/config/events-data';
 import { NEWS_DATA } from '@/config/news-data';
+import { TEAM_PROFILES, EVENT_JUDGES } from '@/config/team-data';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = siteConfig.url;
 
-  // Static routes
   const staticRoutes = [
     '',
     '/about',
     '/services',
     '/events',
+    '/register/nepal-kids-idol',
     '/team',
     '/gallery',
     '/news',
@@ -21,10 +22,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${baseUrl}${route}`,
     lastModified: new Date().toISOString(),
     changeFrequency: 'weekly' as const,
-    priority: route === '' ? 1.0 : 0.8,
+    priority: route === '' ? 1.0 : 0.85,
   }));
 
-  // Services dynamic routes
   const serviceRoutes = SERVICES_DATA.map((service) => ({
     url: `${baseUrl}/services/${service.slug}`,
     lastModified: new Date().toISOString(),
@@ -32,22 +32,32 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  // Events dynamic routes
   const eventRoutes = EVENTS_DATA.map((event) => ({
     url: `${baseUrl}/events/${event.slug}`,
     lastModified: new Date().toISOString(),
     changeFrequency: 'weekly' as const,
-    priority: 0.8,
+    priority: 0.85,
   }));
 
-  // News dynamic routes
   const newsRoutes = NEWS_DATA.map((article) => ({
     url: `${baseUrl}/news/${article.slug}`,
     lastModified: article.date,
     changeFrequency: 'monthly' as const,
+    priority: 0.65,
+  }));
+
+  const teamRoutes = [...TEAM_PROFILES, ...EVENT_JUDGES].map((person) => ({
+    url: `${baseUrl}/team/${person.slug}`,
+    lastModified: new Date().toISOString(),
+    changeFrequency: 'monthly' as const,
     priority: 0.6,
   }));
 
-  return [...staticRoutes, ...serviceRoutes, ...eventRoutes, ...newsRoutes];
+  return [
+    ...staticRoutes,
+    ...serviceRoutes,
+    ...eventRoutes,
+    ...newsRoutes,
+    ...teamRoutes,
+  ];
 }
-

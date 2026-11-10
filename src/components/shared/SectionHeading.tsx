@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
+import Reveal from '@/components/motion/Reveal';
 import { cn } from '@/lib/utils';
 
 interface SectionHeadingProps {
@@ -23,58 +24,67 @@ export default function SectionHeading({
   const light = tone === 'light';
 
   return (
-    <div
-      className={cn(
-        'mb-14 flex flex-col gap-8 border-b pb-8 md:mb-20 md:flex-row md:items-end md:justify-between',
-        light ? 'border-line-dark' : 'border-line',
-        className
-      )}
-    >
-      <div className="max-w-4xl">
-        <div className="flex items-center gap-4">
-          <span className="h-px w-10 bg-coral" aria-hidden="true" />
-          <span
-            className={cn('eyebrow', light ? 'text-coral-deep' : 'text-coral')}
-          >
-            {eyebrow}
-          </span>
-        </div>
-        <h2
+    <div className={cn('mb-10 md:mb-14', className)}>
+      <div
+        className={cn(
+          'flex items-center justify-between gap-6 border-b pb-3',
+          light ? 'border-cream/20' : 'border-line'
+        )}
+      >
+        <span
           className={cn(
-            'display mt-5 text-[clamp(2.4rem,5.6vw,5.6rem)]',
-            light ? 'text-ink' : 'text-paper'
+            'eyebrow flex items-center gap-2.5',
+            light ? 'text-gold' : 'text-accent'
           )}
         >
-          {title}
-        </h2>
+          <span
+            className={cn('h-px w-6', light ? 'bg-gold' : 'bg-accent')}
+            aria-hidden="true"
+          />
+          {eyebrow}
+        </span>
+
+        {link && (
+          <Link
+            href={link.href}
+            className={cn(
+              'group inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] transition-colors duration-300',
+              light
+                ? 'text-cream/60 hover:text-cream'
+                : 'text-muted hover:text-ink'
+            )}
+          >
+            {link.label}
+            <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </Link>
+        )}
       </div>
 
-      {(description || link) && (
-        <div className="flex max-w-sm flex-col items-start gap-6 md:items-end md:text-right">
-          {description && (
+      <div className="mt-6 grid gap-5 md:mt-8 md:grid-cols-12 md:items-end md:gap-10">
+        <Reveal className="md:col-span-7">
+          <h2
+            className={cn(
+              'display text-balance text-[clamp(2.1rem,4.4vw,4.4rem)]',
+              light ? 'text-cream' : 'text-ink'
+            )}
+          >
+            {title}
+          </h2>
+        </Reveal>
+
+        {description && (
+          <Reveal delay={80} className="md:col-span-4 md:col-start-9">
             <p
               className={cn(
-                'text-sm leading-relaxed md:text-base',
-                light ? 'text-ink/65' : 'text-muted'
+                'max-w-md text-pretty text-sm leading-relaxed md:text-[0.95rem]',
+                light ? 'text-cream/65' : 'text-muted'
               )}
             >
               {description}
             </p>
-          )}
-          {link && (
-            <Link
-              href={link.href}
-              className={cn(
-                'text-link',
-                light ? 'text-ink hover:text-ink/70' : 'text-paper hover:text-coral'
-              )}
-            >
-              {link.label}
-              <ArrowUpRight className="h-3.5 w-3.5" />
-            </Link>
-          )}
-        </div>
-      )}
+          </Reveal>
+        )}
+      </div>
     </div>
   );
 }

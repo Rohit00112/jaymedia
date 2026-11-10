@@ -1,236 +1,254 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
+import Link from 'next/link';
+import {
+  Compass,
+  Eye,
+  HeartHandshake,
+  ShieldCheck,
+  Sparkles,
+} from 'lucide-react';
 import PageHero from '@/components/shared/PageHero';
 import SectionHeading from '@/components/shared/SectionHeading';
 import CtaBand from '@/components/shared/CtaBand';
+import { TEAM_PROFILES } from '@/config/team-data';
 import { generatePageMetadata } from '@/lib/seo';
 
 export const metadata: Metadata = generatePageMetadata({
   title: 'About Us | Jay Media Management Pvt. Ltd.',
   description:
-    'Discover the journey, leadership, and creative mission of Jay Media Management Pvt. Ltd. — Eastern Nepal’s premier event production agency based in Biratnagar.',
+    'Established in 2013 and registered in 2014 in Biratnagar, Nepal — learn about Jay Media Management Pvt. Ltd., leadership team, films, and flagship pageants.',
 });
 
 const VALUES = [
   {
-    number: '01',
-    title: 'Production excellence',
+    icon: Sparkles,
+    title: 'Production Excellence',
     description:
-      'Every lighting cue, acoustic balance, and visual sequence is calibrated to international broadcast quality. We never settle for ordinary.',
+      'Every lighting cue, acoustic line array, and televised broadcast sequence is engineered for uncompromised international caliber.',
   },
   {
-    number: '02',
-    title: 'Youth & cultural elevation',
+    icon: HeartHandshake,
+    title: 'Youth & Cultural Elevation',
     description:
-      'Our pageants and youth platforms empower Eastern Nepal’s next generation with confidence, public speaking eloquence, and career visibility.',
+      'From Nepal Kids Idol to Miss Koshi, our platforms empower young dreamers across Nepal and the global diaspora with poise and purpose.',
   },
   {
-    number: '03',
-    title: 'Ethical integrity',
+    icon: ShieldCheck,
+    title: 'Ethical Integrity',
     description:
-      'Transparent judging, professional contestant grooming, and unwavering commitments to our partners and brand sponsors.',
+      'Transparent judging protocols, supportive family orientation, and long-standing commitments to regional and corporate partners.',
   },
   {
-    number: '04',
-    title: 'Continuous innovation',
+    icon: Compass,
+    title: 'Multidiscipline Innovation',
     description:
-      'Pioneering multicam live streaming, experiential brand architecture, and interactive entertainment across Biratnagar and beyond.',
+      'Expanding seamlessly across theatrical feature films, sports leagues, live award shows, and experiential corporate brand activations.',
   },
 ];
 
 const MILESTONES = [
   {
-    year: 'Foundation',
-    title: 'A vision born in Biratnagar',
+    year: '2013–2014',
+    title: 'Foundation & Registration',
     description:
-      'Founded by Jay Raj Rai to bridge regional Nepali talent and world-class live entertainment production.',
+      'Established in 2013 and registered in 2014 at Biratnagar, Nepal to elevate live entertainment, cinema production, and regional event craft.',
   },
   {
-    year: 'Milestone',
-    title: 'Little Koshi takes the stage',
+    year: 'Seasons 1–8',
+    title: 'Miss Koshi, Mrs. Koshi & Little Koshi',
     description:
-      'Pioneered Eastern Nepal’s largest youth grooming and talent pageant across Biratnagar, Itahari, and Dharan.',
+      'Built Koshi Province’s longest-running pageant and youth confidence franchises across Biratnagar, Itahari, and Dharan.',
   },
   {
-    year: 'Growth',
-    title: 'Miss Koshi is inaugurated',
+    year: 'Cinema & Sports',
+    title: 'Feature Films & Cricket League',
     description:
-      'Elevated regional pageantry into an annual leadership platform for aspiring young women in Koshi Province.',
+      'Produced feature movies The Karma and Tantra, Women’s T20 Cricket League, JMM Runway Fashion Show, and upcoming bilingual film MEOW.',
   },
   {
-    year: 'Present',
-    title: 'Full-spectrum production',
+    year: '2025 Onward',
+    title: 'Nepal Kids Idol',
     description:
-      'Expanded into turnkey corporate galas, product unveilings, and complete digital media production.',
+      'Launched a 30-episode national television singing championship reaching all 77 districts of Nepal alongside India, USA, Canada, and Australia.',
   },
 ];
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-surface text-paper">
+    <div className="min-h-screen bg-paper text-ink">
       <PageHero
-        eyebrow="About the studio"
+        eyebrow="About Jay Media Management"
         title={
           <>
-            Orchestrating{' '}
-            <span className="serif text-coral">extraordinary</span> moments.
+            Orchestrating moments since{' '}
+            <span className="serif italic text-accent">2013.</span>
           </>
         }
-        description="From the heart of Biratnagar across Eastern Nepal, we blend stagecraft, storytelling, and rigorous production logistics to create cultural milestones."
-        image="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1800&q=85"
-        imageAlt="Live stage lighting at a Jay Media production"
+        description="Registered in Biratnagar, Nepal — uniting cinema production, award shows, national television talent competitions, and corporate brand experiences."
+        image="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1800&q=85"
+        imageAlt="Live arena audience and event stage production by Jay Media Management"
         meta={[
-          { label: 'Based in', value: 'Biratnagar, Nepal' },
-          { label: 'Founded by', value: 'Jay Raj Rai' },
-          { label: 'Productions', value: '500+ live events' },
-          { label: 'Reach', value: 'Koshi Province & beyond' },
+          { label: 'Established', value: '2013 (Reg. 2014)' },
+          { label: 'Headquarters', value: 'Central Mall, Biratnagar' },
+          { label: 'Leadership', value: 'Jay Raj Roy & Neesha Khatiwada' },
+          { label: 'Phone', value: '9851143338 | 9802708000' },
         ]}
       />
 
-      {/* Story */}
-      <section className="border-b border-line bg-surface py-20 md:py-28 lg:py-32">
-        <div className="container-ed grid gap-12 lg:grid-cols-12 lg:gap-16">
-          <div className="lg:col-span-4">
-            <div className="flex items-center gap-4">
-              <span className="h-px w-10 bg-coral" aria-hidden="true" />
-              <span className="eyebrow text-coral">01 / Our story</span>
-            </div>
+      {/* Story & Heritage */}
+      <section className="py-20 md:py-28">
+        <div className="container-ed grid items-start gap-12 lg:grid-cols-12">
+          <div className="lg:col-span-5">
+            <span className="eyebrow flex items-center gap-2.5 text-accent">
+              <span className="h-px w-6 bg-accent" aria-hidden="true" />
+              01 / Company Chronicle
+            </span>
+            <h2 className="display mt-4 text-3xl font-bold text-ink sm:text-4xl">
+              Rooted in Biratnagar. Respected nationwide.
+            </h2>
 
-            <div className="group relative mt-8 aspect-[4/5] overflow-hidden bg-surface-alt">
-              <Image
-                src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=1200&q=85"
-                alt="Jay Media grand event production in Biratnagar"
-                fill
-                sizes="(max-width: 1024px) 100vw, 33vw"
-                className="img-zoom object-cover opacity-85"
-              />
-              <div
-                className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"
-                aria-hidden="true"
-              />
-              <span className="eyebrow absolute bottom-4 left-4 text-paper/70">
-                Biratnagar / Grand gala
+            <div className="mt-7 rounded-[10px] border border-line border-l-4 border-l-forest bg-sand/70 p-6">
+              <p className="text-sm italic leading-relaxed text-ink-soft">
+                &ldquo;From day one, our purpose has been straightforward:
+                deliver stagecraft, television broadcasting, and artistic talent
+                platforms in Biratnagar that inspire an entire generation.&rdquo;
+              </p>
+              <span className="mt-3 block font-mono text-[10px] font-bold uppercase tracking-widest text-forest">
+                — Jay Raj Roy, Chairman
               </span>
             </div>
           </div>
 
-          <div className="lg:col-span-7 lg:col-start-6">
-            <h2 className="display text-[clamp(2.4rem,5.4vw,5.4rem)]">
-              Rooted in Biratnagar.
-              <br />
-              Respected{' '}
-              <span className="serif text-coral">nationwide.</span>
-            </h2>
-
-            <div className="mt-8 space-y-5 text-base leading-relaxed text-muted md:text-lg">
-              <p>
-                <strong className="font-medium text-paper">
-                  Jay Media Management Pvt. Ltd.
-                </strong>{' '}
-                is a registered entertainment and event production enterprise
-                situated near Traffic Chowk, Main Road, Biratnagar, Koshi
-                Province.
-              </p>
-              <p>
-                Under the stewardship of Chairperson Jay Raj Rai and Chief
-                Executive Officer Nisha Khatiwada Rai, the organization has
-                evolved from a boutique event organizer into Eastern Nepal&apos;s
-                most trusted production house for monumental youth pageants,
-                commercial launches, and creative media broadcasting.
-              </p>
-              <p>
-                Our signature franchises — the acclaimed{' '}
-                <em className="text-paper">Miss Koshi</em> pageant, the
-                multi-city <em className="text-paper">Mr. and Miss Little Koshi</em>{' '}
-                talent search, and the{' '}
-                <em className="text-paper">Nepal Kids Dancing Champion</em> —
-                have discovered and mentored hundreds of young talents.
-              </p>
-            </div>
-
-            <blockquote className="serif mt-10 border-l-2 border-coral pl-6 text-2xl leading-tight text-paper md:text-3xl">
-              &ldquo;Our vision was clear from day one: deliver entertainment
-              and stage experiences in Eastern Nepal that match the
-              sophistication of major national arenas.&rdquo;
-            </blockquote>
-            <p className="eyebrow mt-4 text-coral">
-              Jay Raj Rai / Chairperson
+          <div className="space-y-6 text-base leading-relaxed text-ink-soft lg:col-span-7">
+            <p>
+              <strong className="font-bold text-ink">
+                Jay Media Management Pvt. Ltd.
+              </strong>{' '}
+              was established in <strong className="text-ink">2013</strong> and
+              formally registered in <strong className="text-ink">2014</strong>,
+              operating from its head office on the{' '}
+              <strong className="text-ink">
+                1st Floor of Central Mall, Biratnagar, Koshi Province, Nepal
+              </strong>
+              .
+            </p>
+            <p>
+              Under the guidance of Chairman <strong className="text-ink">Jay Raj Roy</strong>{' '}
+              and CEO <strong className="text-ink">Neesha Khatiwada</strong>,
+              the organization has continuously upgraded its capabilities across
+              four pillars: Movie Production, Event Execution, Award Shows, and
+              Turnkey Event Management.
+            </p>
+            <p>
+              Our portfolio includes feature cinema (<em>The Karma</em>,{' '}
+              <em>Tantra</em>, and the upcoming bilingual movie <em>MEOW</em>),
+              sports franchise execution (<em>Women&apos;s T20 Cricket League</em>
+              ), iconic regional pageants (<em>Miss Koshi Seasons 1–8</em>,{' '}
+              <em>Mrs. Koshi</em>, <em>Mr. &amp; Miss Purwanchal</em>,{' '}
+              <em>Mr. &amp; Miss Little Koshi</em>, <em>Mr. &amp; Miss SEE</em>,
+              and <em>JMM Runway Fashion Show</em>), and our flagship televised
+              competition <em>Nepal Kids Idol</em>.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Mission & vision */}
-      <section className="border-b border-line bg-surface-alt py-20 md:py-28 lg:py-32">
-        <div className="container-ed">
-          <SectionHeading
-            eyebrow="02 / Direction"
-            title={
-              <>
-                Why we do{' '}
-                <span className="serif text-coral">what we do.</span>
-              </>
-            }
-            description="Two commitments anchor every production we take on."
-          />
+      {/* Mission & Vision */}
+      <section className="border-y border-line bg-sand py-16 md:py-24">
+        <div className="container-ed grid gap-8 md:grid-cols-2">
+          <div className="rounded-[12px] border border-line bg-white p-8 shadow-xs sm:p-10">
+            <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-forest-soft text-forest">
+              <Compass className="h-6 w-6" />
+            </span>
+            <h3 className="display mt-5 text-2xl font-bold text-ink">
+              Our Mission
+            </h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted sm:text-base">
+              To engineer unforgettable live events, films, and televised
+              talent competitions that uplift emerging Nepali talent, elevate
+              brands, and uphold ethical production excellence.
+            </p>
+          </div>
 
-          <div className="grid gap-12 md:grid-cols-2 md:gap-16">
-            <div className="border-t border-line pt-8">
-              <span className="display text-6xl text-outline md:text-8xl">01</span>
-              <h3 className="display mt-6 text-3xl text-paper md:text-4xl">
-                Our mission
-              </h3>
-              <p className="mt-5 max-w-md text-base leading-relaxed text-muted">
-                To engineer immersive live experiences and media productions
-                that elevate regional talent, empower brands, and set
-                uncompromised standards for creative execution and transparency
-                in Nepal&apos;s entertainment industry.
-              </p>
-            </div>
-
-            <div className="border-t border-line pt-8">
-              <span className="display text-6xl text-outline md:text-8xl">02</span>
-              <h3 className="display mt-6 text-3xl text-paper md:text-4xl">
-                Our vision
-              </h3>
-              <p className="mt-5 max-w-md text-base leading-relaxed text-muted">
-                To be the internationally recognized benchmark for cinematic
-                stagecraft, creative talent development, and brand storytelling
-                originating from Nepal.
-              </p>
-            </div>
+          <div className="rounded-[12px] border border-line bg-white p-8 shadow-xs sm:p-10">
+            <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-forest-soft text-forest">
+              <Eye className="h-6 w-6" />
+            </span>
+            <h3 className="display mt-5 text-2xl font-bold text-ink">
+              Our Vision
+            </h3>
+            <p className="mt-3 text-sm leading-relaxed text-muted sm:text-base">
+              To remain Eastern Nepal&apos;s trusted creative powerhouse and set
+              national benchmarks in youth talent discovery, cinema storytelling,
+              and corporate brand activation.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* Values */}
-      <section className="border-b border-line bg-surface py-20 md:py-28 lg:py-32">
+      {/* Guiding Values */}
+      <section className="py-20 md:py-28">
         <div className="container-ed">
           <SectionHeading
-            eyebrow="03 / Principles"
+            eyebrow="02 / Guiding Principles"
             title={
               <>
-                Built on values{' '}
-                <span className="serif text-coral">that last.</span>
+                Built on values that{' '}
+                <span className="serif italic text-accent">endure.</span>
               </>
             }
-            description="The standards our clients, contestants, and crews can expect every time."
           />
 
-          <div className="border-t border-line">
-            {VALUES.map((value) => (
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {VALUES.map((val) => {
+              const Icon = val.icon;
+              return (
+                <div
+                  key={val.title}
+                  className="rounded-[10px] border border-line bg-white p-7 shadow-xs transition-all hover:border-forest"
+                >
+                  <Icon className="h-7 w-7 text-forest" />
+                  <h4 className="display mt-5 text-xl font-bold text-ink">
+                    {val.title}
+                  </h4>
+                  <p className="mt-2.5 text-sm leading-relaxed text-muted">
+                    {val.description}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Milestones */}
+      <section className="border-y border-line bg-white py-20 md:py-28">
+        <div className="container-ed">
+          <SectionHeading
+            eyebrow="03 / Chronicle"
+            title={
+              <>
+                Our decade of{' '}
+                <span className="serif italic text-accent">milestones.</span>
+              </>
+            }
+          />
+
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {MILESTONES.map((item) => (
               <div
-                key={value.number}
-                className="group grid gap-4 border-b border-line py-8 md:grid-cols-12 md:items-baseline md:gap-8"
+                key={item.year}
+                className="rounded-[10px] border border-line border-t-4 border-t-forest bg-paper p-6"
               >
-                <span className="eyebrow text-faint md:col-span-1">
-                  {value.number}
+                <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-forest">
+                  {item.year}
                 </span>
-                <h3 className="display text-2xl text-paper transition-colors group-hover:text-coral md:col-span-4 md:text-3xl">
-                  {value.title}
-                </h3>
-                <p className="max-w-xl text-sm leading-relaxed text-muted md:col-span-6 md:col-start-7 md:text-base">
-                  {value.description}
+                <h4 className="display mt-2 text-xl font-bold text-ink">
+                  {item.title}
+                </h4>
+                <p className="mt-2.5 text-sm leading-relaxed text-muted">
+                  {item.description}
                 </p>
               </div>
             ))}
@@ -238,40 +256,45 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Timeline */}
-      <section className="border-b border-line-dark bg-bone py-20 text-ink md:py-28 lg:py-32">
+      {/* Leadership Teaser */}
+      <section className="bg-sand py-20 md:py-24">
         <div className="container-ed">
           <SectionHeading
-            tone="light"
-            eyebrow="04 / Chronicle"
+            eyebrow="04 / Leadership"
             title={
               <>
-                The journey{' '}
-                <span className="serif text-coral-deep">so far.</span>
+                Meet the{' '}
+                <span className="serif italic text-accent">team.</span>
               </>
             }
-            description="A decade of building stages, platforms, and careers in Eastern Nepal."
+            link={{ href: '/team', label: 'View full profiles' }}
           />
 
-          <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
-            {MILESTONES.map((item, index) => (
-              <div
-                key={item.year}
-                className="border-t-2 border-ink/80 pt-5"
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {TEAM_PROFILES.map((member) => (
+              <Link
+                key={member.slug}
+                href={`/team/${member.slug}`}
+                className="group overflow-hidden rounded-[10px] border border-line bg-white shadow-xs transition-all hover:border-forest"
               >
-                <span className="eyebrow flex items-center justify-between text-ink/65">
-                  {item.year}
-                  <span className="text-coral-deep">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                </span>
-                <h3 className="display mt-6 text-2xl leading-none">
-                  {item.title}
-                </h3>
-                <p className="mt-4 text-sm leading-relaxed text-ink/60">
-                  {item.description}
-                </p>
-              </div>
+                <div className="relative aspect-[4/4.2] w-full overflow-hidden bg-paper">
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    fill
+                    sizes="(max-width: 640px) 100vw, 25vw"
+                    className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-5 text-center">
+                  <h3 className="display text-lg font-bold text-forest">
+                    {member.name}
+                  </h3>
+                  <p className="mt-1 font-mono text-[10px] uppercase tracking-wider text-muted">
+                    {member.role}
+                  </p>
+                </div>
+              </Link>
             ))}
           </div>
         </div>

@@ -1,179 +1,261 @@
 import Link from 'next/link';
-import { ArrowUpRight, Mail, MapPin, Phone } from 'lucide-react';
-import { navigation } from '@/config/navigation';
+import Image from 'next/image';
+import {
+  ArrowRight,
+  ArrowUpRight,
+  CheckCircle2,
+  Mail,
+  MapPin,
+  Phone,
+} from 'lucide-react';
 import { siteConfig } from '@/config/site';
 
-const services = [
-  { label: 'Event Management', href: '/services/event-management' },
-  { label: 'Brand Experiences', href: '/services/brand-experiences' },
-  { label: 'Media Production', href: '/services/media-production' },
-  { label: 'Product Launches', href: '/services/product-launches' },
-  { label: 'Press Events', href: '/services/press-events' },
+const quickLinks = [
+  { label: 'Home', href: '/' },
+  { label: 'Nepal Kids Idol', href: '/events/nepal-kids-idol' },
+  { label: 'About Us', href: '/about' },
+  { label: 'Services', href: '/services' },
+  { label: 'Meet The Team', href: '/team' },
+  { label: 'News & Updates', href: '/news' },
+  { label: 'Gallery', href: '/gallery' },
+  { label: 'Contact Us', href: '/contact' },
 ] as const;
 
-function FacebookIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-    </svg>
-  );
-}
-
-function InstagramIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-    </svg>
-  );
-}
-
-function YouTubeIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-    </svg>
-  );
-}
+const eventLinks = [
+  { label: 'Register — Nepal Kids Idol', href: '/register/nepal-kids-idol' },
+  { label: 'Event Judges Panel', href: '/#judges' },
+  { label: 'Application Status Tracker', href: '/#application-status' },
+  { label: 'Miss Koshi Season #8', href: '/events/miss-koshi' },
+  { label: 'Mr. & Miss Little Koshi', href: '/events/mr-and-miss-little-koshi' },
+  { label: 'Official Video Reels', href: '/#showreel' },
+] as const;
 
 const socialLinks = [
-  { label: 'Facebook', href: siteConfig.social.facebook, icon: FacebookIcon },
-  { label: 'Instagram', href: siteConfig.social.instagram, icon: InstagramIcon },
-  { label: 'YouTube', href: siteConfig.social.youtube, icon: YouTubeIcon },
-] as const;
+  { label: 'YouTube', href: siteConfig.social.youtube },
+  { label: 'Facebook', href: siteConfig.social.facebook },
+  { label: 'Instagram', href: siteConfig.social.instagram },
+  { label: 'LinkedIn', href: siteConfig.social.linkedin },
+];
 
 export function Footer() {
   const { location, contact } = siteConfig;
-  const fullAddress = `${location.address}, ${location.city}, ${location.province}, ${location.country}`;
+  const fullAddress = `${location.address}, ${location.city}, ${location.country}`;
 
   return (
-    <footer className="border-t border-line bg-surface font-body text-paper">
-      <div className="container-ed pt-16 md:pt-24">
-        <div className="grid gap-14 lg:grid-cols-12">
-          {/* Brand */}
-          <div className="lg:col-span-5">
-            <Link href="/" className="inline-flex items-center gap-3">
-              <span className="display flex h-9 w-9 items-center justify-center bg-coral text-sm leading-none text-ink">
-                JM
-              </span>
-              <span className="display text-xl tracking-[0.04em]">JAY MEDIA</span>
-            </Link>
+    <footer className="bg-forest font-sans text-white">
+      <div className="container-ed">
+        <div className="grid gap-10 lg:grid-cols-12">
+          {/* ─── Left Warm Stone Spotlight Card (#E3E3E1) ───────────── */}
+          <div className="lg:col-span-4">
+            <div className="flex h-full flex-col justify-between bg-sand px-7 py-9 text-ink sm:px-8 sm:py-10">
+              <div>
+                <Link
+                  href="/"
+                  aria-label="Jay Media Management Pvt. Ltd."
+                  className="inline-block"
+                >
+                  <Image
+                    src={siteConfig.logo}
+                    alt="Jay Media Management Pvt. Ltd."
+                    width={145}
+                    height={58}
+                    className="h-10 w-auto object-contain"
+                  />
+                </Link>
 
-            <p className="mt-7 max-w-sm text-sm leading-relaxed text-muted">
-              A Biratnagar-born production house creating pageants, brand
-              experiences, and live moments that define Eastern Nepal.
-            </p>
+                <h2 className="display mt-6 text-xl font-bold leading-snug text-forest">
+                  Nepal Kids Idol 2025: A Stage for Young Stars!
+                </h2>
+                <p className="mt-1.5 text-sm font-medium text-ink-soft">
+                  Showcase your talent and shine across the nation.
+                </p>
 
-            <div className="mt-8 flex items-start gap-3 text-sm text-muted">
-              <MapPin className="mt-1 h-4 w-4 shrink-0 text-coral" />
-              <a
-                href={`https://maps.google.com/?q=${encodeURIComponent(fullAddress)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="max-w-xs transition-colors hover:text-paper"
-              >
-                {fullAddress}
-              </a>
-            </div>
+                <ul className="mt-5 space-y-2.5 text-sm text-ink-soft">
+                  <li className="flex items-start gap-2.5">
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
+                    <span>
+                      <strong className="text-forest">Auditions:</strong> All 77
+                      districts of Nepal
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
+                    <span>
+                      <strong className="text-forest">International:</strong>{' '}
+                      Sikkim, Darjeeling, Assam, Dehradun, Siliguri, USA, Canada,
+                      Australia
+                    </span>
+                  </li>
+                  <li className="flex items-start gap-2.5">
+                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
+                    <span>
+                      <strong className="text-forest">Online:</strong> Audition
+                      from anywhere
+                    </span>
+                  </li>
+                </ul>
+              </div>
 
-            <div className="mt-7 flex items-center gap-3">
-              {socialLinks
-                .filter((social) => social.href)
-                .map((social) => {
-                  const Icon = social.icon;
-                  return (
-                    <a
-                      key={social.label}
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={social.label}
-                      className="flex h-10 w-10 items-center justify-center border border-line text-paper/70 transition-colors hover:border-coral hover:text-coral"
-                    >
-                      <Icon className="h-4 w-4" />
-                    </a>
-                  );
-                })}
+              <div className="mt-8 border-t border-line-strong pt-6">
+                <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-forest">
+                  We make your dreams come true
+                </p>
+                <Link
+                  href="/register/nepal-kids-idol"
+                  className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-forest px-6 py-3 text-xs font-bold uppercase tracking-[0.14em] text-white transition-all hover:bg-ink"
+                >
+                  <span>Register Now</span>
+                  <ArrowUpRight className="h-4 w-4 text-gold" />
+                </Link>
+              </div>
             </div>
           </div>
 
-          {/* Link columns */}
-          <div className="grid grid-cols-2 gap-10 sm:grid-cols-[0.9fr_1.1fr_1.4fr] lg:col-span-7">
+          {/* ─── Right Deep Forest Emerald Directory Columns ──────────── */}
+          <div className="grid gap-10 py-12 sm:grid-cols-2 lg:col-span-8 lg:grid-cols-3 lg:py-14">
+            {/* Column 1: Get In Touch */}
             <div>
-              <h3 className="eyebrow text-coral">Explore</h3>
-              <ul className="mt-6 space-y-3">
-                {navigation.links.map((item) => (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      className="text-sm text-muted transition-colors hover:text-paper"
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+              <h3 className="font-sans text-lg font-bold tracking-tight text-white">
+                Get In Touch
+              </h3>
+              <div className="mt-2 h-[2px] w-10 bg-gold" aria-hidden="true" />
 
-            <div>
-              <h3 className="eyebrow text-coral">Services</h3>
-              <ul className="mt-6 space-y-3">
-                {services.map((item) => (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      className="text-sm text-muted transition-colors hover:text-paper"
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+              <ul className="mt-6 space-y-4 text-sm text-white/85">
+                <li className="flex items-start gap-3">
+                  <MapPin className="mt-1 h-4 w-4 shrink-0 text-gold" />
+                  <a
+                    href={`https://maps.google.com/?q=${encodeURIComponent(
+                      fullAddress
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="leading-relaxed transition-colors hover:text-gold"
+                  >
+                    {location.address},
+                    <br />
+                    {location.city}, {location.country}
+                  </a>
+                </li>
 
-            <div className="col-span-2 sm:col-span-1">
-              <h3 className="eyebrow text-coral">Studio</h3>
-              <ul className="mt-6 space-y-4 text-sm text-muted">
-                <li>
+                <li className="flex items-start gap-3">
+                  <Mail className="mt-1 h-4 w-4 shrink-0 text-gold" />
                   <a
                     href={`mailto:${contact.email}`}
-                    className="inline-flex items-start gap-3 transition-colors hover:text-paper"
+                    className="break-all transition-colors hover:text-gold"
                   >
-                    <Mail className="mt-0.5 h-4 w-4 shrink-0 text-coral" />
-                    <span className="break-words">{contact.email}</span>
+                    {contact.email}
                   </a>
                 </li>
-                <li>
-                  <a
-                    href={`tel:${contact.phone}`}
-                    className="inline-flex items-start gap-3 transition-colors hover:text-paper"
-                  >
-                    <Phone className="mt-0.5 h-4 w-4 shrink-0 text-coral" />
-                    {contact.phone}
-                  </a>
+
+                <li className="flex items-start gap-3">
+                  <Phone className="mt-1 h-4 w-4 shrink-0 text-gold" />
+                  <div className="flex flex-wrap items-center gap-x-2">
+                    <a
+                      href={`tel:${contact.phone}`}
+                      className="transition-colors hover:text-gold"
+                    >
+                      {contact.phone}
+                    </a>
+                    <span className="text-white/40">|</span>
+                    <a
+                      href={`tel:${contact.secondaryPhone}`}
+                      className="transition-colors hover:text-gold"
+                    >
+                      {contact.secondaryPhone}
+                    </a>
+                  </div>
                 </li>
               </ul>
 
-              <Link href="/contact" className="text-link mt-8 text-paper">
-                Start a project
-                <ArrowUpRight className="h-3.5 w-3.5 text-coral" />
-              </Link>
+              <div className="mt-7 flex flex-wrap gap-2">
+                {socialLinks.map((social) => (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center rounded-full bg-white/10 px-3 py-1.5 text-[10.5px] font-bold uppercase tracking-[0.1em] text-white transition-colors hover:bg-gold hover:text-ink"
+                  >
+                    {social.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Column 2: Quick Links */}
+            <div>
+              <h3 className="font-sans text-lg font-bold tracking-tight text-white">
+                Quick Links
+              </h3>
+              <div className="mt-2 h-[2px] w-10 bg-gold" aria-hidden="true" />
+
+              <ul className="mt-6 space-y-2.5">
+                {quickLinks.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className="group inline-flex items-center gap-2 text-sm text-white/85 transition-colors hover:text-gold"
+                    >
+                      <ArrowRight className="h-3.5 w-3.5 text-gold transition-transform group-hover:translate-x-1" />
+                      <span>{item.label}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Column 3: Event Links */}
+            <div>
+              <h3 className="font-sans text-lg font-bold tracking-tight text-white">
+                Event Links
+              </h3>
+              <div className="mt-2 h-[2px] w-10 bg-gold" aria-hidden="true" />
+
+              <ul className="mt-6 space-y-2.5">
+                {eventLinks.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className="group inline-flex items-center gap-2 text-sm text-white/85 transition-colors hover:text-gold"
+                    >
+                      <ArrowRight className="h-3.5 w-3.5 text-gold transition-transform group-hover:translate-x-1" />
+                      <span>{item.label}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-7 rounded-[8px] border border-white/15 bg-white/5 p-4">
+                <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-gold">
+                  Studio Desk
+                </span>
+                <p className="mt-1 text-xs leading-relaxed text-white/75">
+                  Sunday – Friday: 10:00 AM – 6:00 PM NST
+                </p>
+              </div>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Giant wordmark */}
-        <div className="mt-20 overflow-hidden border-t border-line pt-10 md:mt-24">
-          <Link href="/" aria-label="Jay Media Management — Home" className="block">
-            <span className="display flex items-baseline text-[clamp(3.4rem,13.6vw,13.6rem)] leading-[0.78] text-paper">
-              JAY MEDIA
-              <span className="ml-2 text-coral md:ml-4">.</span>
-            </span>
-          </Link>
-        </div>
-
-        <div className="mt-8 flex flex-col justify-between gap-3 border-t border-line py-8 text-[10px] uppercase tracking-[0.18em] text-faint sm:flex-row">
-          <p>&copy; 2026 Jay Media Management Pvt. Ltd.</p>
-          <p>Biratnagar · Koshi Province · Nepal</p>
+      {/* Bottom Legal Bar */}
+      <div className="border-t border-white/10 bg-[#012E1F] py-5">
+        <div className="container-ed flex flex-col justify-between gap-3 text-xs text-white/75 sm:flex-row sm:items-center">
+          <p>
+            &copy; 2026 Jay Media Management Pvt. Ltd. All Rights Reserved.
+          </p>
+          <div className="flex items-center gap-5">
+            <Link href="/admin" className="transition-colors hover:text-gold">
+              Studio CMS
+            </Link>
+            <a
+              href="#top"
+              className="inline-flex items-center gap-1.5 font-semibold text-white transition-colors hover:text-gold"
+            >
+              <span>Back to Top</span>
+              <ArrowUpRight className="h-3.5 w-3.5 text-gold" />
+            </a>
+          </div>
         </div>
       </div>
     </footer>

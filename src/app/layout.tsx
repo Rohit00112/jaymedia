@@ -1,29 +1,49 @@
 import type { Metadata, Viewport } from 'next';
-import { Anton, DM_Sans, Instrument_Serif } from 'next/font/google';
+import {
+  Fraunces,
+  Instrument_Sans,
+  Instrument_Serif,
+  JetBrains_Mono,
+  Rubik,
+} from 'next/font/google';
 import './globals.css';
 import { siteConfig } from '@/config/site';
 import { generateOrganizationSchema } from '@/lib/seo';
 
-const anton = Anton({
+const rubik = Rubik({
   subsets: ['latin'],
-  variable: '--font-anton',
+  variable: '--font-rubik',
   display: 'swap',
-  weight: '400',
+  weight: ['400', '500', '600', '700', '800'],
 });
 
-const dmSans = DM_Sans({
+const instrumentSans = Instrument_Sans({
   subsets: ['latin'],
-  variable: '--font-dm-sans',
+  variable: '--font-instrument-sans',
   display: 'swap',
-  weight: ['300', '400', '500', '600', '700'],
+  weight: ['400', '500', '600', '700'],
+});
+
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  variable: '--font-fraunces',
+  display: 'swap',
+  axes: ['SOFT', 'WONK', 'opsz'],
 });
 
 const instrumentSerif = Instrument_Serif({
   subsets: ['latin'],
   variable: '--font-instrument-serif',
   display: 'swap',
-  weight: '400',
+  weight: ['400'],
   style: ['normal', 'italic'],
+});
+
+const jetBrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-jetbrains-mono',
+  display: 'swap',
+  weight: ['400', '500'],
 });
 
 export const metadata: Metadata = {
@@ -72,8 +92,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#070707',
-  colorScheme: 'dark',
+  themeColor: '#FAF9F6',
+  colorScheme: 'light',
 };
 
 export default function RootLayout({
@@ -84,9 +104,15 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${anton.variable} ${dmSans.variable} ${instrumentSerif.variable}`}
+      suppressHydrationWarning
+      className={`${rubik.variable} ${fraunces.variable} ${instrumentSans.variable} ${instrumentSerif.variable} ${jetBrainsMono.variable}`}
     >
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `document.documentElement.classList.add('js');`,
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -94,7 +120,9 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="font-body antialiased">{children}</body>
+      <body id="top" className="font-sans antialiased">
+        {children}
+      </body>
     </html>
   );
 }

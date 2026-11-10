@@ -5,226 +5,149 @@ import { ArrowUpRight } from 'lucide-react';
 import PageHero from '@/components/shared/PageHero';
 import SectionHeading from '@/components/shared/SectionHeading';
 import CtaBand from '@/components/shared/CtaBand';
+import Reveal from '@/components/motion/Reveal';
 import { generatePageMetadata } from '@/lib/seo';
-import { cn } from '@/lib/utils';
+import { TEAM_PROFILES, EVENT_JUDGES } from '@/config/team-data';
 
 export const metadata: Metadata = generatePageMetadata({
-  title: 'Our Team & Leadership | Jay Media Management',
+  title: 'Our Team, Leadership & Judges | Jay Media Management',
   description:
-    'Meet the leadership, mentors, and production visionaries behind Jay Media Management Pvt. Ltd. in Biratnagar, Nepal.',
+    'Meet the Chairman, CEO, Mentors, and Celebrity Judges behind Jay Media Management Pvt. Ltd. in Biratnagar, Nepal.',
 });
-
-interface Member {
-  name: string;
-  role: string;
-  status: 'Executive Leadership' | 'Advisory & Mentorship';
-  location: string;
-  image: string;
-  bio: string;
-  highlights: string[];
-}
-
-const MEMBERS: Member[] = [
-  {
-    name: 'Jay Raj Rai',
-    role: 'Chairperson & Founder',
-    status: 'Executive Leadership',
-    location: 'Biratnagar, Nepal',
-    image:
-      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80',
-    bio: 'The founding creative force behind Jay Media Management. With years of experience steering eastern Nepal’s largest stage productions and pageants, Jay Raj Rai brings unparalleled vision to creative direction, stagecraft, and youth development.',
-    highlights: [
-      'Founder of Miss Koshi',
-      'Pioneer of Mr. and Miss Little Koshi',
-      'Senior Creative Director',
-    ],
-  },
-  {
-    name: 'Nisha Khatiwada Rai',
-    role: 'Chief Executive Officer',
-    status: 'Executive Leadership',
-    location: 'Biratnagar, Nepal',
-    image:
-      'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80',
-    bio: 'Guiding executive operations, corporate partnerships, and production logistics. Nisha Khatiwada Rai ensures that every Jay Media production runs with seamless precision, high ethical governance, and premier hospitality.',
-    highlights: [
-      'Corporate Operations',
-      'Talent Grooming Supervision',
-      'Sponsorship Relations',
-    ],
-  },
-  {
-    name: 'Rishav Dev Ghimire',
-    role: 'Production Mentor & Artistic Advisor',
-    status: 'Advisory & Mentorship',
-    location: 'Biratnagar, Nepal',
-    image:
-      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80',
-    bio: 'Provides vital mentorship in theatrical performance, stage vocalization, and artistic presence for pageant contestants and production staff during intensive grooming camps.',
-    highlights: [
-      'Performance Arts Mentor',
-      'Pageant Bootcamp Director',
-      'Vocal Poise Coaching',
-    ],
-  },
-  {
-    name: 'Rajendra KC',
-    role: 'Senior Advisor & Pageant Mentor',
-    status: 'Advisory & Mentorship',
-    location: 'Biratnagar, Nepal',
-    image:
-      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=800&q=80',
-    bio: 'Brings veteran acumen to pageant evaluation criteria, jury coordination, and youth confidence development across Eastern Nepal’s multi-city audition rounds.',
-    highlights: [
-      'Jury Coordination',
-      'Youth Development',
-      'Ethics & Compliance',
-    ],
-  },
-];
 
 export default function TeamPage() {
   return (
-    <div className="min-h-screen bg-surface text-paper">
+    <div className="min-h-screen bg-paper text-ink">
       <PageHero
-        eyebrow="Our people"
+        eyebrow="Leadership & Jury"
         title={
           <>
             The minds behind
             <br />
-            <span className="serif text-coral">the moments.</span>
+            <span className="serif italic text-accent">the moments.</span>
           </>
         }
-        description="Our leadership, mentors, and technical directors collaborate to deliver production excellence and transform regional talent across Eastern Nepal."
+        description="Meet the executives, mentors, and celebrated judges steering Jay Media Management and Nepal Kids Idol across Nepal."
         image="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1800&q=85"
-        imageAlt="Production audience at a live Jay Media event"
+        imageAlt="Jay Media Management Leadership and Live Stage Production"
         meta={[
-          { label: 'Leadership', value: '4 verified profiles' },
-          { label: 'Crew network', value: '50+ technicians' },
-          { label: 'Base', value: 'Biratnagar, Nepal' },
-          { label: 'Focus', value: 'Production & mentorship' },
+          { label: 'Leadership', value: '4 Core Members' },
+          { label: 'Celebrity Jury', value: 'Lochan Bhattarai & Ananda Karki' },
+          { label: 'Headquarters', value: 'Central Mall, Biratnagar' },
+          { label: 'Founded', value: '2013 (Reg. 2014)' },
         ]}
       />
 
-      <section className="border-b border-line bg-surface py-20 md:py-28 lg:py-32">
+      {/* Executive Leadership & Mentors */}
+      <section className="py-20 md:py-28">
         <div className="container-ed">
           <SectionHeading
-            eyebrow="Leadership roster"
+            eyebrow="01 / Executive Roster"
             title={
               <>
                 Verified{' '}
-                <span className="serif text-coral">leadership.</span>
+                <span className="serif italic text-accent">leadership.</span>
               </>
             }
-            description="The people accountable for the creative, operational, and ethical standards of every production."
+            description="The producers, mentors, and directors responsible for every stage production, film project, and youth competition."
           />
 
-          <div>
-            {MEMBERS.map((member, index) => {
-              const reversed = index % 2 === 1;
-
-              return (
-                <article
-                  key={member.name}
-                  className="grid items-center gap-8 border-t border-line py-12 last:border-b md:py-16 lg:grid-cols-12 lg:gap-14"
+          <div className="grid gap-8 md:grid-cols-2 lg:gap-10">
+            {TEAM_PROFILES.map((member, index) => (
+              <Reveal key={member.slug} delay={(index % 2) * 70}>
+                <Link
+                  href={`/team/${member.slug}`}
+                  className="group flex flex-col overflow-hidden rounded-[12px] border border-line bg-white shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-forest hover:shadow-lg sm:flex-row"
                 >
-                  <div
-                    className={cn(
-                      'group relative aspect-[4/5] overflow-hidden bg-surface-alt lg:col-span-4',
-                      reversed && 'lg:order-2 lg:col-start-9'
-                    )}
-                  >
+                  <div className="relative aspect-square w-full shrink-0 overflow-hidden bg-sand sm:w-56">
                     <Image
                       src={member.image}
                       alt={member.name}
                       fill
-                      sizes="(max-width: 1024px) 100vw, 32vw"
-                      className="img-zoom object-cover opacity-80 grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:opacity-100"
+                      sizes="(max-width: 640px) 100vw, 224px"
+                      className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                     />
-                    <div
-                      className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"
-                      aria-hidden="true"
-                    />
-                    <span className="eyebrow absolute left-4 top-4 text-paper/60">
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                    <span className="eyebrow absolute bottom-4 left-4 text-[8px] text-coral">
-                      {member.status}
+                    <span className="absolute left-3 top-3 rounded-full bg-white/95 px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-wider text-forest shadow-xs">
+                      {member.category}
                     </span>
                   </div>
 
-                  <div
-                    className={cn(
-                      'lg:col-span-7',
-                      reversed ? 'lg:order-1 lg:col-start-1' : 'lg:col-start-6'
-                    )}
-                  >
-                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[9px] uppercase tracking-[0.18em] text-faint">
-                      <span className="text-coral">{member.role}</span>
-                      <span aria-hidden="true">/</span>
-                      <span>{member.location}</span>
+                  <div className="flex flex-1 flex-col justify-between p-6">
+                    <div>
+                      <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-forest">
+                        {member.role}
+                      </span>
+                      <h2 className="display mt-1 text-2xl font-bold text-ink transition-colors group-hover:text-forest">
+                        {member.name}
+                      </h2>
+                      <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-muted">
+                        {member.shortBio}
+                      </p>
                     </div>
 
-                    <h2 className="display mt-4 text-[clamp(2.2rem,4.6vw,4.6rem)]">
-                      {member.name}
-                    </h2>
-
-                    <p className="mt-5 max-w-2xl text-sm leading-relaxed text-muted md:text-base">
-                      {member.bio}
-                    </p>
-
-                    <div className="mt-7 border-t border-line pt-4">
-                      <span className="eyebrow text-faint">Core focus</span>
-                      <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2">
-                        {member.highlights.map((highlight) => (
-                          <span
-                            key={highlight}
-                            className="flex items-center gap-2 text-[9px] uppercase tracking-[0.14em] text-muted"
-                          >
-                            <span
-                              className="h-1 w-1 bg-coral"
-                              aria-hidden="true"
-                            />
-                            {highlight}
-                          </span>
-                        ))}
-                      </div>
+                    <div className="mt-5 flex items-center justify-between border-t border-line pt-4">
+                      <span className="font-mono text-[10px] text-faint">
+                        {member.location}
+                      </span>
+                      <span className="inline-flex items-center gap-1 text-xs font-bold uppercase tracking-wider text-forest">
+                        <span>Full Profile</span>
+                        <ArrowUpRight className="h-3.5 w-3.5" />
+                      </span>
                     </div>
                   </div>
-                </article>
-              );
-            })}
+                </Link>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Crew note */}
-      <section className="relative overflow-hidden border-b border-line bg-surface-alt py-20 md:py-24">
-        <div className="container-ed grid items-center gap-10 lg:grid-cols-12">
-          <div className="lg:col-span-5">
-            <span className="display block text-[clamp(5rem,12vw,12rem)] leading-none text-outline-strong">
-              50+
-            </span>
-          </div>
-          <div className="lg:col-span-6 lg:col-start-7">
-            <span className="eyebrow text-coral">The crew</span>
-            <h2 className="display mt-4 text-[clamp(2rem,3.8vw,3.8rem)]">
-              A dedicated network behind every cue.
-            </h2>
-            <p className="mt-5 max-w-xl text-sm leading-relaxed text-muted md:text-base">
-              Behind every spotlight and broadcast cue is our trusted network of
-              local stage riggers, audio engineers, video switchers,
-              choreographers, and security personnel based in Koshi Province.
-            </p>
-            <div className="mt-7 flex flex-wrap gap-4">
-              <Link href="/contact" className="btn btn-primary">
-                Join the crew
-                <ArrowUpRight className="h-3.5 w-3.5" />
+      {/* Event Judges */}
+      <section className="border-y border-line bg-sand py-20 md:py-24">
+        <div className="container-ed">
+          <SectionHeading
+            eyebrow="02 / Nepal Kids Idol Jury"
+            title={
+              <>
+                Esteemed event{' '}
+                <span className="serif italic text-accent">judges.</span>
+              </>
+            }
+            description="Celebrity music maestros guiding contestants across our televised national competition."
+          />
+
+          <div className="grid gap-8 md:grid-cols-2">
+            {EVENT_JUDGES.map((judge) => (
+              <Link
+                key={judge.slug}
+                href={`/team/${judge.slug}`}
+                className="group flex flex-col items-center gap-6 rounded-[12px] border border-line bg-white p-6 shadow-xs transition-all hover:border-forest hover:shadow-md sm:flex-row"
+              >
+                <div className="relative h-36 w-36 shrink-0 overflow-hidden rounded-[10px] bg-paper">
+                  <Image
+                    src={judge.image}
+                    alt={judge.name}
+                    fill
+                    sizes="144px"
+                    className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div>
+                  <span className="inline-block rounded-full bg-forest-soft px-3 py-1 font-mono text-[9px] font-bold uppercase tracking-wider text-forest">
+                    Official Judge • {judge.eventTitle}
+                  </span>
+                  <h3 className="display mt-2 text-2xl font-bold text-forest group-hover:text-ink">
+                    {judge.name}
+                  </h3>
+                  <p className="mt-1 text-xs font-semibold text-muted">
+                    {judge.title}
+                  </p>
+                  <p className="mt-2.5 line-clamp-2 text-sm text-ink-soft">
+                    {judge.bio}
+                  </p>
+                </div>
               </Link>
-              <Link href="/contact" className="btn btn-outline">
-                Partner with us
-              </Link>
-            </div>
+            ))}
           </div>
         </div>
       </section>

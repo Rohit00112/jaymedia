@@ -2,109 +2,64 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import SectionHeading from '@/components/shared/SectionHeading';
-
-interface TeamMemberData {
-  name: string;
-  role: string;
-  status: 'Leadership' | 'Advisory';
-  bio: string;
-  image: string;
-}
-
-const TEAM_MEMBERS: TeamMemberData[] = [
-  {
-    name: 'Jay Raj Rai',
-    role: 'Chairperson & Founder',
-    status: 'Leadership',
-    bio: 'The founding creative force behind Jay Media Management, steering Eastern Nepal’s largest pageants and stage productions.',
-    image:
-      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    name: 'Nisha Khatiwada Rai',
-    role: 'Chief Executive Officer',
-    status: 'Leadership',
-    bio: 'Leads executive operations, partnerships, talent management, and production standards across the agency.',
-    image:
-      'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    name: 'Rishav Dev Ghimire',
-    role: 'Production Mentor & Advisor',
-    status: 'Advisory',
-    bio: 'Guides performance craft, stage presence, and voice projection for contestants and production crews.',
-    image:
-      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    name: 'Rajendra KC',
-    role: 'Senior Advisor & Pageant Mentor',
-    status: 'Advisory',
-    bio: 'Brings veteran perspective to jury coordination, youth development, and pageant governance across the region.',
-    image:
-      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=800&q=80',
-  },
-];
+import Reveal from '@/components/motion/Reveal';
+import { TEAM_PROFILES } from '@/config/team-data';
+import { cn } from '@/lib/utils';
 
 export default function TeamSection() {
   return (
-    <section className="border-b border-line bg-surface-alt py-20 md:py-28 lg:py-32">
+    <section
+      id="team"
+      className="border-y border-line bg-sand py-20 md:py-28"
+    >
       <div className="container-ed">
         <SectionHeading
-          eyebrow="06 / The people"
+          eyebrow="06 / Leadership & Mentorship"
           title={
             <>
-              Minds behind{' '}
-              <span className="serif text-coral">the moments.</span>
+              The minds behind{' '}
+              <span className="serif italic text-accent">the moments.</span>
             </>
           }
-          description="A compact leadership team backed by a trusted crew of technicians, choreographers, and stage managers."
-          link={{ href: '/team', label: 'Full leadership' }}
+          description="Executive producers and veteran mentors steering Jay Media Management across Biratnagar and Koshi Province."
+          link={{ href: '/team', label: 'Meet full team' }}
         />
 
-        <div className="grid grid-cols-2 gap-x-5 gap-y-12 lg:grid-cols-4 lg:gap-8">
-          {TEAM_MEMBERS.map((member, index) => (
-            <article key={member.name} className="group">
-              <div className="relative aspect-[3/4] overflow-hidden bg-surface">
-                <Image
-                  src={member.image}
-                  alt={member.name}
-                  fill
-                  sizes="(max-width: 640px) 50vw, 25vw"
-                  className="object-cover opacity-75 grayscale transition-all duration-700 group-hover:scale-[1.03] group-hover:opacity-100 group-hover:grayscale-0"
-                />
-                <div
-                  className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"
-                  aria-hidden="true"
-                />
-                <span className="eyebrow absolute left-3 top-3 text-paper/60">
-                  {String(index + 1).padStart(2, '0')}
-                </span>
-                <span className="eyebrow absolute bottom-3 left-3 text-[8px] text-coral">
-                  {member.status}
-                </span>
-              </div>
+        <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+          {TEAM_PROFILES.map((member, index) => (
+            <Reveal
+              key={member.slug}
+              delay={index * 70}
+              className={cn(index % 2 === 1 && 'lg:mt-10')}
+            >
+              <Link href={`/team/${member.slug}`} className="group block">
+                <div className="relative aspect-[4/4.6] overflow-hidden rounded-[12px] border border-line bg-gradient-to-b from-white via-paper to-sand shadow-xs transition-all duration-500 group-hover:border-forest group-hover:shadow-lg">
+                  <Image
+                    src={member.image}
+                    alt={member.name}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                    className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <span className="absolute left-3 top-3 flex h-7 w-7 items-center justify-center rounded-full bg-white/92 font-mono text-[9.5px] font-bold text-forest shadow-xs backdrop-blur-xs">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                </div>
 
-              <div className="mt-4 border-t border-line pt-4">
-                <h3 className="display text-xl text-paper transition-colors group-hover:text-coral md:text-2xl">
-                  {member.name}
-                </h3>
-                <p className="eyebrow mt-2 text-[8px] text-coral">
-                  {member.role}
-                </p>
-                <p className="mt-3 line-clamp-3 text-xs leading-relaxed text-muted">
-                  {member.bio}
-                </p>
-              </div>
-            </article>
+                <div className="mt-4 flex items-center justify-between border-t border-line-strong pt-3.5">
+                  <div>
+                    <h3 className="display text-xl font-bold text-ink transition-colors group-hover:text-forest">
+                      {member.name}
+                    </h3>
+                    <p className="mt-1 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-forest">
+                      {member.role}
+                    </p>
+                  </div>
+                  <ArrowUpRight className="h-4 w-4 text-faint transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-forest" />
+                </div>
+              </Link>
+            </Reveal>
           ))}
-        </div>
-
-        <div className="mt-12 flex justify-end">
-          <Link href="/team" className="text-link text-paper">
-            Meet the entire team
-            <ArrowUpRight className="h-3.5 w-3.5 text-coral" />
-          </Link>
         </div>
       </div>
     </section>

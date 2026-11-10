@@ -1,9 +1,12 @@
 export { default as HeroSection } from './HeroSection';
+export { default as ApplicationStatusSection } from './ApplicationStatusSection';
 export { default as IntroSection } from './IntroSection';
+export { default as JudgesSection } from './JudgesSection';
 export { default as ServicesSection } from './ServicesSection';
 export { default as FeaturedEventsSection } from './FeaturedEventsSection';
 export { default as LittleKoshiFeature } from './LittleKoshiFeature';
 export { default as ShowreelSection } from './ShowreelSection';
+export { default as QuoteSection } from './QuoteSection';
 export { default as TeamSection } from './TeamSection';
+export { default as JournalSection } from './JournalSection';
 export { default as ContactCTA } from './ContactCTA';
-

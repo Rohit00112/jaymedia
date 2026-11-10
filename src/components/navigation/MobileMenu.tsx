@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import anime from 'animejs';
-import { X, ArrowUpRight } from 'lucide-react';
+import { X, ArrowUpRight, Mail, Phone, Sparkles } from 'lucide-react';
 import { navigation } from '@/config/navigation';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
@@ -18,93 +18,25 @@ interface MobileMenuProps {
 export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const pathname = usePathname();
   const overlayRef = useRef<HTMLDivElement>(null);
-  const linksRef = useRef<HTMLUListElement>(null);
-  const footerRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
 
-  useEscapeKey(onClose);
+  useEscapeKey(onClose, isOpen);
   useBodyLock(isOpen);
 
   useEffect(() => {
-    onClose();
-  }, [pathname, onClose]);
+    if (!isOpen) return;
 
-  useEffect(() => {
-    const prefersReduced = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
+    previousFocusRef.current = document.activeElement as HTMLElement;
+    closeButtonRef.current?.focus();
 
-    if (!overlayRef.current) return;
-
-    if (isOpen) {
-      previousFocusRef.current = document.activeElement as HTMLElement;
-      overlayRef.current.style.display = 'flex';
-
-      if (prefersReduced) {
-        overlayRef.current.style.opacity = '1';
-        linksRef.current?.querySelectorAll('li').forEach((li) => {
-          (li as HTMLElement).style.opacity = '1';
-          (li as HTMLElement).style.transform = 'none';
-        });
-        if (footerRef.current) footerRef.current.style.opacity = '1';
-        closeButtonRef.current?.focus();
-        return;
-      }
-
-      anime({
-        targets: overlayRef.current,
-        opacity: [0, 1],
-        duration: 350,
-        easing: 'easeOutCubic',
-      });
-
-      if (linksRef.current) {
-        anime({
-          targets: linksRef.current.querySelectorAll('li'),
-          translateY: [36, 0],
-          opacity: [0, 1],
-          delay: anime.stagger(55, { start: 120 }),
-          duration: 650,
-          easing: 'easeOutCubic',
-        });
-      }
-
-      if (footerRef.current) {
-        anime({
-          targets: footerRef.current,
-          opacity: [0, 1],
-          translateY: [20, 0],
-          delay: 420,
-          duration: 500,
-          easing: 'easeOutCubic',
-        });
-      }
-
-      setTimeout(() => closeButtonRef.current?.focus(), 80);
-    } else {
-      if (prefersReduced) {
-        overlayRef.current.style.display = 'none';
-        overlayRef.current.style.opacity = '0';
-        previousFocusRef.current?.focus();
-        return;
-      }
-
-      anime({
-        targets: overlayRef.current,
-        opacity: [1, 0],
-        duration: 250,
-        easing: 'easeInCubic',
-        complete: () => {
-          if (overlayRef.current) overlayRef.current.style.display = 'none';
-          previousFocusRef.current?.focus();
-        },
-      });
-    }
+    return () => {
+      previousFocusRef.current?.focus();
+    };
   }, [isOpen]);
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if (e.key !== 'Tab' || !overlayRef.current) return;
+  const handleKeyDown = useCallback((event: React.KeyboardEvent) => {
+    if (event.key !== 'Tab' || !overlayRef.current) return;
 
     const focusable = overlayRef.current.querySelectorAll<HTMLElement>(
       'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
@@ -115,36 +47,40 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     const first = focusable[0];
     const last = focusable[focusable.length - 1];
 
-    if (e.shiftKey && document.activeElement === first) {
-      e.preventDefault();
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
       last.focus();
-    } else if (!e.shiftKey && document.activeElement === last) {
-      e.preventDefault();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
       first.focus();
     }
   }, []);
 
+  if (!isOpen) return null;
+
   return (
     <div
+      id="mobile-menu"
       ref={overlayRef}
       role="dialog"
       aria-modal="true"
       aria-label="Mobile navigation"
       onKeyDown={handleKeyDown}
-      className="fixed inset-0 z-[60] hidden flex-col bg-surface font-body text-paper"
-      style={{ display: 'none', opacity: 0 }}
+      className="fixed inset-0 z-[70] flex min-h-[100svh] flex-col overflow-y-auto bg-paper text-ink"
     >
-      <div className="container-ed flex h-20 shrink-0 items-center justify-between border-b border-line">
-        <Link href="/" onClick={onClose} className="flex items-center gap-3">
-          <span className="display flex h-9 w-9 items-center justify-center bg-coral text-sm leading-none text-ink">
-            JM
-          </span>
-          <span className="flex flex-col leading-none">
-            <span className="display text-lg tracking-[0.04em]">JAY MEDIA</span>
-            <span className="eyebrow mt-1.5 text-[8px] tracking-[0.28em] text-muted">
-              Management Pvt. Ltd.
-            </span>
-          </span>
+      <div className="container-ed flex h-[var(--nav-height)] shrink-0 items-center justify-between border-b border-line bg-white">
+        <Link
+          href="/"
+          onClick={onClose}
+          className="flex items-center gap-3"
+        >
+          <Image
+            src={siteConfig.logo}
+            alt="Jay Media Management"
+            width={118}
+            height={48}
+            className="h-8 w-auto object-contain"
+          />
         </Link>
 
         <button
@@ -152,43 +88,62 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           type="button"
           onClick={onClose}
           aria-label="Close menu"
-          className="flex h-11 w-11 items-center justify-center border border-line text-paper transition-colors hover:border-coral hover:text-coral"
+          className="group flex items-center gap-2 rounded-full border border-line bg-sand/60 px-3.5 py-2 text-ink transition-colors hover:bg-forest hover:text-white"
         >
-          <X className="h-5 w-5" />
+          <span className="font-mono text-[10px] uppercase tracking-[0.16em]">
+            Close
+          </span>
+          <X className="h-4 w-4 transition-transform duration-300 group-hover:rotate-90" />
         </button>
       </div>
 
-      <div className="container-ed flex flex-1 flex-col overflow-y-auto py-8">
-        <ul ref={linksRef} className="my-auto divide-y divide-line border-y border-line">
+      <div className="container-ed flex flex-1 flex-col py-6">
+        <div className="mb-4 flex items-center justify-between border-b border-line pb-3">
+          <span className="eyebrow text-accent">Navigation</span>
+          <Link
+            href={navigation.cta.href}
+            onClick={onClose}
+            className="inline-flex items-center gap-1.5 rounded-full bg-forest px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-white"
+          >
+            <Sparkles className="h-3 w-3 text-gold" />
+            <span>{navigation.cta.label}</span>
+          </Link>
+        </div>
+
+        <ul className="my-auto divide-y divide-line">
           {navigation.links.map((link, index) => {
             const isActive =
               pathname === link.href ||
               (link.href !== '/' && pathname.startsWith(`${link.href}/`));
 
             return (
-              <li key={link.href} className="opacity-0">
+              <li
+                key={link.href}
+                className="menu-item"
+                style={{ animationDelay: `${60 + index * 35}ms` }}
+              >
                 <Link
                   href={link.href}
                   onClick={onClose}
                   aria-current={isActive ? 'page' : undefined}
-                  className="group flex items-center justify-between py-4"
+                  className="group flex items-center justify-between gap-5 py-3.5"
                 >
                   <span className="flex items-baseline gap-4">
-                    <span className="eyebrow text-faint">
+                    <span className="font-mono text-[10px] tracking-[0.16em] text-faint">
                       {String(index + 1).padStart(2, '0')}
                     </span>
                     <span
                       className={cn(
-                        'display text-[clamp(2rem,8vw,3.5rem)] transition-colors',
+                        'display text-[clamp(1.75rem,7vw,3rem)] leading-[1.05] transition-colors duration-300',
                         isActive
-                          ? 'text-coral'
-                          : 'text-paper group-hover:text-coral'
+                          ? 'text-accent'
+                          : 'text-ink group-hover:text-accent'
                       )}
                     >
                       {link.label}
                     </span>
                   </span>
-                  <ArrowUpRight className="h-5 w-5 text-faint transition-colors group-hover:text-coral" />
+                  <ArrowUpRight className="h-5 w-5 shrink-0 text-faint transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent" />
                 </Link>
               </li>
             );
@@ -196,23 +151,36 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
         </ul>
       </div>
 
-      <div
-        ref={footerRef}
-        className="container-ed shrink-0 border-t border-line py-6 opacity-0"
-      >
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="text-xs leading-relaxed text-muted">
-            <p>{siteConfig.location.address}</p>
-            <p>
-              {siteConfig.location.city}, {siteConfig.location.province}
+      <div className="container-ed shrink-0 border-t border-line bg-sand/70 py-5">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <span className="eyebrow text-accent">Biratnagar Office</span>
+            <p className="mt-1.5 max-w-xs text-sm leading-relaxed text-ink-soft">
+              {siteConfig.location.address}, {siteConfig.location.city},{' '}
+              {siteConfig.location.province}
             </p>
           </div>
-          <div className="flex items-center gap-5 text-[10px] uppercase tracking-[0.2em] text-muted">
+
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-[10px] uppercase tracking-[0.14em] text-ink-soft">
+            <a
+              href={`tel:${siteConfig.contact.phone}`}
+              className="inline-flex items-center gap-1.5 transition-colors hover:text-accent"
+            >
+              <Phone className="h-3.5 w-3.5 text-accent" />
+              {siteConfig.contact.phone}
+            </a>
+            <a
+              href={`mailto:${siteConfig.contact.email}`}
+              className="inline-flex items-center gap-1.5 transition-colors hover:text-accent"
+            >
+              <Mail className="h-3.5 w-3.5 text-accent" />
+              Email
+            </a>
             <a
               href={siteConfig.social.facebook}
               target="_blank"
               rel="noopener noreferrer"
-              className="transition-colors hover:text-paper"
+              className="transition-colors hover:text-accent"
             >
               Facebook
             </a>
@@ -220,17 +188,10 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               href={siteConfig.social.youtube}
               target="_blank"
               rel="noopener noreferrer"
-              className="transition-colors hover:text-paper"
+              className="transition-colors hover:text-accent"
             >
               YouTube
             </a>
-            <Link
-              href={navigation.cta.href}
-              onClick={onClose}
-              className="text-coral"
-            >
-              {navigation.cta.label}
-            </Link>
           </div>
         </div>
       </div>

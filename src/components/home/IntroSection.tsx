@@ -1,101 +1,153 @@
-import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Phone } from 'lucide-react';
+import Reveal from '@/components/motion/Reveal';
+import RevealImage from '@/components/motion/RevealImage';
+import { siteConfig } from '@/config/site';
 
-const STATS = [
-  { value: '10+', label: 'Years producing' },
-  { value: '500+', label: 'Live productions' },
-  { value: '3', label: 'Hub cities' },
-  { value: '50+', label: 'Crew & crew partners' },
-];
+const CAPABILITIES = [
+  {
+    code: '01',
+    title: 'Event Management',
+    note: 'End-to-end stage architecture, lighting plots, & cue discipline.',
+  },
+  {
+    code: '02',
+    title: 'Store & Product Launch',
+    note: 'Turnkey retail openings and high-visibility reveals.',
+  },
+  {
+    code: '03',
+    title: 'Brand Experiences',
+    note: 'Regional mall activations and audience engagement.',
+  },
+  {
+    code: '04',
+    title: 'Press Events',
+    note: 'Red-carpet media scrums and broadcast press briefings.',
+  },
+] as const;
 
 export default function IntroSection() {
   return (
-    <section className="border-b border-line bg-surface py-20 md:py-28 lg:py-32">
+    <section className="relative overflow-hidden border-y border-line bg-sand py-20 md:py-28">
       <div className="container-ed">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-          {/* Rail */}
-          <div className="lg:col-span-3">
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-12">
+          {/* Left Sticky Index Column */}
+          <div className="lg:col-span-4">
             <div className="lg:sticky lg:top-28">
-              <div className="flex items-center gap-4">
-                <span className="h-px w-10 bg-coral" aria-hidden="true" />
-                <span className="eyebrow text-coral">01 / The studio</span>
-              </div>
-              <p className="mt-6 max-w-xs text-sm leading-relaxed text-muted">
-                A production house built on stagecraft, storytelling, and the
-                discipline of live execution.
+              <span className="eyebrow flex items-center gap-2.5 text-forest">
+                <span className="h-px w-6 bg-forest" aria-hidden="true" />
+                01 / The House
+              </span>
+
+              <span
+                className="display mt-6 block text-[4.5rem] leading-none text-outline md:text-[6rem]"
+                aria-hidden="true"
+              >
+                2013
+              </span>
+
+              <h2 className="display mt-4 text-3xl font-bold leading-tight text-ink sm:text-4xl">
+                About Jay Media Management{' '}
+                <span className="serif italic font-normal text-forest">
+                  Pvt. Ltd.
+                </span>
+              </h2>
+
+              <p className="mt-4 text-pretty text-sm leading-relaxed text-ink-soft md:text-base">
+                Established in 2013 and registered in 2014 in{' '}
+                <strong className="font-semibold text-ink">
+                  Biratnagar, Nepal
+                </strong>
+                . Over a decade of crafting feature movies, live pageants,
+                award shows, and national television formats.
               </p>
-              <Link href="/about" className="text-link mt-8 text-paper">
-                Our story
-                <ArrowUpRight className="h-3.5 w-3.5 text-coral" />
+
+              {/* Call Strip */}
+              <a
+                href={`tel:${siteConfig.contact.phone}`}
+                className="mt-7 flex items-center gap-3.5 rounded-[10px] border border-line-strong bg-white p-3.5 shadow-2xs transition-all hover:border-forest hover:shadow-md"
+              >
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[8px] bg-forest text-gold">
+                  <Phone className="h-4 w-4" />
+                </span>
+                <div>
+                  <span className="block font-mono text-[9.5px] uppercase tracking-[0.14em] text-muted">
+                    Direct Studio Line
+                  </span>
+                  <span className="mono text-base font-bold text-forest">
+                    {siteConfig.contact.phone} | {siteConfig.contact.secondaryPhone}
+                  </span>
+                </div>
+              </a>
+
+              <Link href="/about" className="text-link mt-7 text-ink">
+                Read full chronicle
+                <ArrowUpRight className="h-3.5 w-3.5 text-forest" />
               </Link>
             </div>
           </div>
 
-          {/* Statement */}
-          <div className="lg:col-span-9">
-            <h2 className="display text-[clamp(2.5rem,6.2vw,6.2rem)] text-paper">
-              We don&apos;t just plan events.
-              <br />
-              We engineer{' '}
-              <span className="serif text-coral">the moments</span>
-              <br />
-              people remember.
-            </h2>
-
-            <div className="mt-14 grid grid-cols-2 gap-x-6 gap-y-10 border-t border-line pt-8 md:grid-cols-4">
-              {STATS.map((stat) => (
-                <div key={stat.label}>
-                  <span className="display block text-[clamp(2.4rem,4vw,4rem)] text-paper">
-                    {stat.value}
-                  </span>
-                  <span className="eyebrow mt-3 block text-[9px] text-faint">
-                    {stat.label}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Image + note */}
-        <div className="mt-16 grid gap-6 lg:mt-24 lg:grid-cols-12">
-          <div className="group relative aspect-[16/10] overflow-hidden bg-surface-alt lg:col-span-8">
-            <Image
-              src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=1600&q=85"
-              alt="Concert stage lighting and production at a live Jay Media event"
-              fill
-              sizes="(max-width: 1024px) 100vw, 66vw"
-              className="img-zoom object-cover opacity-85"
-            />
-            <div
-              className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent"
-              aria-hidden="true"
-            />
-            <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-6 md:p-8">
-              <div>
-                <span className="eyebrow text-paper/60">Live production</span>
-                <p className="display mt-2 text-xl text-paper md:text-3xl">
-                  The stage is our canvas.
+          {/* Right Narrative + Visual + Capability Tiles */}
+          <div className="space-y-10 lg:col-span-8">
+            <Reveal>
+              <div className="rounded-[12px] border border-line bg-white p-7 shadow-2xs md:p-9">
+                <p className="text-pretty text-base leading-relaxed text-ink-soft md:text-lg">
+                  From our headquarters at{' '}
+                  <strong className="font-semibold text-ink">
+                    Central Mall, Biratnagar
+                  </strong>
+                  , Jay Media Management has continually expanded its artistic
+                  footprint across four production disciplines: Movie Production,
+                  Event Execution, Award Shows, and Commercial Event Management.
+                </p>
+                <p className="mt-4 text-pretty text-sm leading-relaxed text-muted md:text-base">
+                  Our house credits span feature cinema (<em>The Karma</em>,{' '}
+                  <em>Tantra</em>, and upcoming bilingual movie <em>MEOW</em>),
+                  sports franchises (<em>Women&apos;s T20 Cricket League</em>),
+                  and Nepal&apos;s iconic regional and national youth platforms
+                  including <em>Miss Koshi (Seasons 1–8)</em>,{' '}
+                  <em>Mrs. Koshi</em>, <em>Mr. &amp; Miss Purwanchal</em>,{' '}
+                  <em>Mr. &amp; Miss Little Koshi</em>,{' '}
+                  <em>Mr. &amp; Miss SEE</em>, and{' '}
+                  <em>JMM Runway Fashion Show</em>.
                 </p>
               </div>
-              <span className="eyebrow hidden text-paper/60 sm:block">
-                Biratnagar / Koshi
-              </span>
-            </div>
-          </div>
+            </Reveal>
 
-          <div className="flex flex-col justify-between border border-line p-6 md:p-8 lg:col-span-4">
-            <span className="eyebrow text-coral">Note from the studio</span>
-            <blockquote className="serif mt-8 text-2xl leading-tight text-paper md:text-3xl">
-              &ldquo;Our vision was clear from day one: bring national-standard
-              production home to Eastern Nepal.&rdquo;
-            </blockquote>
-            <div className="mt-8 border-t border-line pt-4">
-              <p className="text-sm text-paper">Jay Raj Rai</p>
-              <p className="eyebrow mt-1 text-[9px] text-faint">
-                Chairperson &amp; Founder
-              </p>
+            <RevealImage
+              src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&w=1800&q=85"
+              alt="Concert stage lighting and production engineered by Jay Media Management"
+              aspect="aspect-[16/9]"
+              sizes="(max-width: 1024px) 100vw, 66vw"
+              className="rounded-[12px] border border-line shadow-md"
+              parallax
+            />
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              {CAPABILITIES.map((cap, idx) => (
+                <Reveal key={cap.code} delay={idx * 60}>
+                  <Link
+                    href="/services"
+                    className="group flex h-full flex-col justify-between rounded-[10px] border border-line bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-forest hover:shadow-md"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-mono text-[10px] font-bold tracking-[0.16em] text-forest">
+                        {cap.code}
+                      </span>
+                      <ArrowUpRight className="h-4 w-4 text-faint transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-forest" />
+                    </div>
+                    <div className="mt-5">
+                      <h3 className="display text-xl font-bold text-ink group-hover:text-forest">
+                        {cap.title}
+                      </h3>
+                      <p className="mt-1.5 text-xs leading-relaxed text-muted">
+                        {cap.note}
+                      </p>
+                    </div>
+                  </Link>
+                </Reveal>
+              ))}
             </div>
           </div>
         </div>

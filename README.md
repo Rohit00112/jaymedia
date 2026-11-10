@@ -22,17 +22,20 @@ This platform delivers an immersive, cinematic, editorial digital experience bui
 
 ## 🎨 Visual Identity & Design Tokens
 
-- **Design Style**: Premium Cinematic + Editorial + Immersive Creative Studio
+- **Design Style**: Editorial Light Table — warm paper, forest ink, terracotta signal
 - **Palette**:
-  - **Ink**: `#101014` (Deep background & typography)
-  - **Dark Surface**: `#1B1B21` (Card canvas & control centers)
-  - **Warm Ivory**: `#F5F2EC` (Editorial contrast sections)
-  - **Coral Accent**: `#FF594F` (Reserved for key interactive elements & CTAs)
-  - **Muted Grey**: `#99979A` (Secondary metadata & labels)
-  - **White**: `#FFFFFF`
+  - **Paper**: `#FBF8F3` (Primary canvas)
+  - **Paper Deep**: `#F3EDE3` (Alternating editorial sections)
+  - **Ink**: `#16211B` (Primary typography)
+  - **Terracotta**: `#B4472A` (Key interactive elements & accents)
+  - **Forest**: `#1F4D3D` (Contrast bands & partnership panels)
+  - **Muted**: `#5B675F` (Secondary copy & metadata)
 - **Typography**:
-  - **Display Headline**: Space Grotesk
-  - **Body Typography**: DM Sans
+  - **Display Headline**: Fraunces
+  - **Accent Serif**: Instrument Serif (italic)
+  - **Body & UI**: Instrument Sans
+  - **Labels**: JetBrains Mono
+- **Design System**: See [DESIGN.md](./DESIGN.md) for tokens, components, and accessibility rules.
 
 ---
 

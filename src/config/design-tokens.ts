@@ -1,83 +1,80 @@
 /**
  * Design tokens for Jay Media Management Pvt. Ltd.
- * Centralized theme values — colors, typography, spacing, motion, radius.
- * Official token specification from DESIGN.md.
+ * Product identity: The Light Table — warm paper, forest ink, terracotta signal.
+ * These values mirror the CSS custom properties declared in globals.css.
  */
 
 export const colors = {
-  // Brand cinematic palette
-  ink: '#101014',
-  darkSurface: '#1B1B21',
-  warmIvory: '#F5F2EC',
-  coral: '#FF594F',
-  mutedGrey: '#99979A',
-  white: '#FFFFFF',
+  // Paper & Stone surfaces
+  paper: '#FAF9F6',
+  paperDeep: '#ECEBE7',
+  cream: '#FFFFFF',
+  card: '#FFFFFF',
+  sand: '#E3E3E1',
 
-  // Official Dashboard Surface & Text Tokens
-  surfaceBase: '#000000',
-  surfaceMuted: '#e3e3e1',
-  textPrimary: '#ffffff',
-  textSecondary: '#eef9ff',
-  textTertiary: '#01402b',
+  // Ink
+  ink: '#0F1A15',
+  inkSoft: '#263830',
+  muted: '#4C5B53',
+  faint: '#5F6E66',
 
-  // Interactive Accents
-  coralHover: '#E84D43',
-  coralLight: 'rgba(255, 89, 79, 0.12)',
-  overlay: 'rgba(16, 16, 20, 0.65)',
-  overlayHeavy: 'rgba(16, 16, 20, 0.85)',
-  divider: 'rgba(153, 151, 154, 0.2)',
+  // Brand Emerald & Gold Signal
+  accent: '#01402B',
+  accentHover: '#02593C',
+  accentSoft: '#E4EFE9',
+  forest: '#01402B',
+  forestSoft: '#E3EBE5',
+  gold: '#D9B15B',
+
+  // Lines & states
+  line: 'rgba(1, 64, 43, 0.13)',
+  lineStrong: 'rgba(1, 64, 43, 0.28)',
+  lineSoft: 'rgba(1, 64, 43, 0.065)',
+  danger: '#A8341D',
+  success: '#01402B',
 } as const;
 
 export const fonts = {
-  primary: '"Rubik", sans-serif',
-  display: '"Space Grotesk", sans-serif',
-  body: '"DM Sans", sans-serif',
-  sizes: {
-    xs: '14px',
-    sm: '16px',
-    md: '18px',
-    lg: '20px',
-    xl: '28px',
-    '2xl': '32px',
-  },
-  lineHeights: {
-    base: '24px',
-  },
-  weights: {
-    base: 400,
-  },
+  display: '"Fraunces", "Rubik", Georgia, serif',
+  sans: '"Rubik", "Instrument Sans", "Helvetica Neue", Arial, sans-serif',
+  serif: '"Instrument Serif", Georgia, serif',
+  mono: '"JetBrains Mono", "SFMono-Regular", Consolas, monospace',
 } as const;
 
 export const spacing = {
   1: '4px',
-  2: '5px',
-  3: '6px',
-  4: '8px',
-  5: '10px',
-  6: '16px',
-  7: '24px',
-  8: '25px',
+  2: '8px',
+  3: '12px',
+  4: '16px',
+  5: '24px',
+  6: '32px',
+  7: '48px',
+  8: '64px',
+  9: '96px',
 } as const;
 
 export const radius = {
-  xs: '2px',
-  sm: '10px',
-  md: '50px',
+  sm: '4px',
+  md: '6px',
+  lg: '8px',
+  pill: '999px',
 } as const;
 
 export const motion = {
   duration: {
-    instant: '300ms',
-    fast: '500ms',
-    buttonHover: 200,
-    navigation: 250,
+    instant: '200ms',
+    fast: '380ms',
+    reveal: '900ms',
+    media: '1500ms',
+    page: '650ms',
+    // Numeric durations consumed by the anime.js presets.
+    sectionEntrance: 650,
     textReveal: 650,
     imageReveal: 850,
-    sectionEntrance: 650,
-    projectTransition: 550,
-    pageTransition: 350,
   },
   easing: {
+    out: 'cubic-bezier(0.16, 1, 0.3, 1)',
+    inOut: 'cubic-bezier(0.65, 0, 0.35, 1)',
     smooth: 'cubicBezier(0.33, 0, 0.2, 1)',
     entrance: 'cubicBezier(0.0, 0.0, 0.2, 1)',
     exit: 'cubicBezier(0.4, 0.0, 1, 1)',

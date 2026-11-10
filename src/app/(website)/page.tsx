@@ -1,59 +1,49 @@
+import Marquee from '@/components/shared/Marquee';
 import {
   HeroSection,
+  ApplicationStatusSection,
   IntroSection,
-  ServicesSection,
+  JudgesSection,
   FeaturedEventsSection,
-  LittleKoshiFeature,
+  ServicesSection,
   ShowreelSection,
+  QuoteSection,
   TeamSection,
-  ContactCTA,
+  JournalSection,
 } from '@/components/home';
-import Marquee from '@/components/shared/Marquee';
 import { generatePageMetadata } from '@/lib/seo';
 
 export const metadata = generatePageMetadata({
-  title: 'Jay Media Management | Premier Event & Media Production in Biratnagar, Nepal',
+  title: 'Jay Media Management Pvt. Ltd. | Nepal Kids Idol & Event Production in Biratnagar',
   description:
-    'Jay Media Management Pvt. Ltd. is Eastern Nepal’s premier creative event management and media production company. Organizers of Miss Koshi, Mr. & Miss Little Koshi, and bespoke brand experiences.',
+    'Jay Media Management Pvt. Ltd. (Est. 2013, Biratnagar) — Organizers of Nepal Kids Idol, Miss Koshi Seasons 1–8, Mr. & Miss Little Koshi, feature films, and broadcast media productions.',
 });
 
-const MARQUEE_ITEMS = [
-  'Miss Koshi',
+const FRANCHISES_MARQUEE = [
+  'Nepal Kids Idol',
+  'Miss Koshi (Seasons 1–8)',
   'Mr. & Miss Little Koshi',
-  'Nepal Kids Dancing Champion',
-  'Corporate Galas',
-  'Brand Experiences',
+  'The Karma (Feature Film)',
+  'Tantra',
+  'MEOW (Bilingual Cinema)',
+  "Women's T20 Cricket League",
+  'JMM Runway Fashion Show',
 ];
 
 export default function HomePage() {
   return (
     <>
-      {/* 1. Cinematic hero */}
       <HeroSection />
-
-      {/* 2. Studio introduction */}
+      <Marquee items={FRANCHISES_MARQUEE} />
+      <ApplicationStatusSection />
       <IntroSection />
-
-      {/* 3. Production marquee */}
-      <Marquee items={MARQUEE_ITEMS} />
-
-      {/* 4. Capabilities index */}
-      <ServicesSection />
-
-      {/* 5. Flagship productions */}
+      <JudgesSection />
       <FeaturedEventsSection />
-
-      {/* 6. Little Koshi spotlight */}
-      <LittleKoshiFeature />
-
-      {/* 7. Showreel */}
+      <ServicesSection />
       <ShowreelSection />
-
-      {/* 8. Leadership */}
+      <QuoteSection />
       <TeamSection />
-
-      {/* 9. Contact call-to-action */}
-      <ContactCTA />
+      <JournalSection />
     </>
   );
 }

@@ -1,104 +1,83 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
+import Reveal from '@/components/motion/Reveal';
+import RevealImage from '@/components/motion/RevealImage';
 
 const METRICS = [
-  { value: '7+', label: 'Seasons staged' },
-  { value: '3', label: 'Hub cities' },
+  { value: '07', label: 'Seasons staged' },
+  { value: '03', label: 'Hub cities' },
   { value: '100s', label: 'Young alumni' },
 ];
 
 export default function LittleKoshiFeature() {
   return (
-    <section className="border-b border-line-dark bg-bone py-20 text-ink md:py-28 lg:py-32">
-      <div className="container-ed">
-        <div className="grid items-center gap-14 lg:grid-cols-12 lg:gap-16">
-          {/* Image */}
-          <div className="lg:col-span-5">
-            <div className="relative">
-              <div
-                className="absolute -bottom-4 -right-4 h-full w-full border border-ink/20"
-                aria-hidden="true"
-              />
+    <section className="relative overflow-hidden border-b border-line bg-paper-deep py-20 md:py-24">
+      <span
+        className="pointer-events-none absolute -right-10 top-10 display text-[clamp(10rem,28vw,28rem)] leading-none text-ink/[0.035]"
+        aria-hidden="true"
+      >
+        07
+      </span>
 
-              <div className="group relative aspect-[4/5] overflow-hidden bg-ink">
-                <Image
-                  src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=1200&q=85"
-                  alt="Young performers on stage at Mr. and Miss Little Koshi"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 40vw"
-                  className="img-zoom object-cover opacity-90"
-                />
-                <div
-                  className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent"
-                  aria-hidden="true"
-                />
-                <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-6">
-                  <span className="eyebrow max-w-[12ch] text-paper/80">
-                    Mr. &amp; Miss Little Koshi
-                  </span>
-                  <span className="display text-[clamp(2.4rem,4.5vw,4rem)] leading-none text-paper">
-                    7+
-                    <span className="ml-1 text-xs uppercase tracking-widest text-paper/60">
-                      seasons
-                    </span>
-                  </span>
-                </div>
-              </div>
+      <div className="container-ed relative">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line pb-4">
+          <span className="eyebrow flex items-center gap-2.5 text-accent">
+            <span className="h-px w-6 bg-accent" aria-hidden="true" />
+            04 / Youth platform
+          </span>
+          <span className="eyebrow text-faint">
+            Mr. &amp; Miss Little Koshi — 7 seasons
+          </span>
+        </div>
 
-              <span className="eyebrow absolute -top-3 left-4 bg-coral px-3 py-1.5 text-ink">
-                Youth stage
-              </span>
-            </div>
-          </div>
+        <div className="relative mt-8">
+          <RevealImage
+            src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=2400&q=85"
+            alt="Young performers on stage at Mr. and Miss Little Koshi"
+            aspect="aspect-[4/3] sm:aspect-[16/9] md:aspect-[21/9]"
+            sizes="100vw"
+            className="rounded-[0.5rem]"
+            parallax
+          />
+          <div
+            className="pointer-events-none absolute inset-0 rounded-[0.5rem] bg-gradient-to-t from-ink/35 via-transparent to-transparent"
+            aria-hidden="true"
+          />
 
-          {/* Copy */}
-          <div className="lg:col-span-6 lg:col-start-7">
-            <div className="flex items-center gap-4">
-              <span className="h-px w-10 bg-ink/30" aria-hidden="true" />
-              <span className="eyebrow text-ink/65">
-                04 / Children&apos;s showcase
-              </span>
-            </div>
-
-            <h2 className="display mt-5 text-[clamp(2.4rem,5.6vw,5.5rem)]">
+          <Reveal
+            delay={80}
+            className="relative z-10 mx-4 -mt-16 border border-line bg-cream p-6 shadow-[0_24px_60px_-40px_rgba(22,33,27,0.5)] sm:mx-8 md:absolute md:-bottom-4 md:left-8 md:mx-0 md:mt-0 md:max-w-md md:p-8"
+          >
+            <span className="eyebrow text-accent">A stage for the very first time</span>
+            <h2 className="display mt-4 text-[clamp(1.9rem,3.2vw,2.8rem)] leading-[1.02] text-ink">
               Every star begins with{' '}
-              <span className="serif text-coral-deep">a stage.</span>
+              <span className="serif italic text-accent">a stage.</span>
             </h2>
-
-            <p className="mt-7 max-w-lg text-base leading-relaxed text-ink/65">
-              Mr. and Miss Little Koshi is Eastern Nepal&apos;s celebrated
-              youth pageant — a platform built to nurture confidence, stage
-              presence, and self-expression in children across Biratnagar,
-              Itahari, and Dharan.
+            <p className="mt-4 text-sm leading-relaxed text-muted">
+              Eastern Nepal&apos;s celebrated youth pageant — built to nurture
+              confidence, stage presence, and self-expression in children across
+              Biratnagar, Itahari, and Dharan.
             </p>
-
-            <blockquote className="serif mt-8 border-l-2 border-coral pl-5 text-2xl leading-tight text-ink/80">
-              &ldquo;A platform where young talent discovers courage, poise,
-              and unshakeable confidence.&rdquo;
-            </blockquote>
-
-            <div className="mt-10 grid grid-cols-3 divide-x divide-line-dark border-t border-line-dark">
-              {METRICS.map((metric) => (
-                <div key={metric.label} className="pt-6 pr-4 first:pl-0 [&:not(:first-child)]:pl-5">
-                  <span className="display block text-[clamp(2rem,3.4vw,3.4rem)] leading-none">
-                    {metric.value}
-                  </span>
-                  <span className="eyebrow mt-2 block text-[9px] text-ink/60">
-                    {metric.label}
-                  </span>
-                </div>
-              ))}
-            </div>
 
             <Link
               href="/events/mr-and-miss-little-koshi"
-              className="text-link mt-8 text-ink"
+              className="text-link mt-6 text-ink"
             >
-              Explore seasons &amp; winners
-              <ArrowUpRight className="h-3.5 w-3.5 text-coral" />
+              Explore the platform
+              <ArrowUpRight className="h-3.5 w-3.5 text-accent" />
             </Link>
-          </div>
+          </Reveal>
+        </div>
+
+        <div className="mt-20 grid gap-6 border-t border-line pt-6 md:mt-24 md:grid-cols-3">
+          {METRICS.map((metric) => (
+            <div key={metric.label} className="flex items-baseline gap-4">
+              <span className="display text-4xl text-ink md:text-5xl">
+                {metric.value}
+              </span>
+              <span className="eyebrow text-[8px] text-faint">{metric.label}</span>
+            </div>
+          ))}
         </div>
       </div>
     </section>

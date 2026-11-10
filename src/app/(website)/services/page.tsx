@@ -1,153 +1,113 @@
 import { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowUpRight, Plus } from 'lucide-react';
+import Image from 'next/image';
+import { ArrowUpRight, CheckCircle2 } from 'lucide-react';
 import PageHero from '@/components/shared/PageHero';
-import SectionHeading from '@/components/shared/SectionHeading';
 import CtaBand from '@/components/shared/CtaBand';
+import Reveal from '@/components/motion/Reveal';
 import { generatePageMetadata } from '@/lib/seo';
 import { SERVICES_DATA } from '@/config/services-data';
-import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = generatePageMetadata({
   title: 'Our Services & Capabilities | Jay Media Management',
   description:
-    'Comprehensive event production and media services by Jay Media Management in Biratnagar, Nepal: Event Management, Brand Experiences, Media Production, Product Launches, and Press Conferences.',
+    'Turnkey Event Management, Brand Experiences, Store and Product Launches, Media Production, and Press Events in Biratnagar, Nepal.',
 });
 
 export default function ServicesPage() {
   return (
-    <div className="min-h-screen bg-surface text-paper">
+    <div className="min-h-screen bg-paper text-ink">
       <PageHero
-        eyebrow="What we do"
+        eyebrow="Production Capabilities"
         title={
           <>
             Ideas into{' '}
-            <span className="serif text-coral">extraordinary</span>{' '}
-            experiences.
+            <span className="serif italic text-accent">experiences.</span>
           </>
         }
-        description="From technical stagecraft and pageant choreography to commercial brand activations, explore our complete suite of production capabilities."
-        image="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1800&q=85"
-        imageAlt="Concert production lights and stage atmosphere"
+        description="From full-scale concert stagecraft and televised pageantry to corporate brand launches and feature media production."
         meta={[
-          { label: 'Disciplines', value: '05 core services' },
-          { label: 'Model', value: 'End-to-end production' },
-          { label: 'Based in', value: 'Biratnagar, Nepal' },
-          { label: 'Coverage', value: 'Koshi Province & beyond' },
+          { label: 'Core Divisions', value: '05 Capabilities' },
+          { label: 'Studio Base', value: 'Biratnagar, Nepal' },
+          { label: 'Since', value: '2013' },
+          { label: 'Support', value: 'Turnkey Execution' },
         ]}
       />
 
-      <section className="border-b border-line bg-surface py-20 md:py-28 lg:py-32">
-        <div className="container-ed">
-          <SectionHeading
-            eyebrow="Capability index"
-            title={
-              <>
-                Built for the{' '}
-                <span className="serif text-coral">live moment.</span>
-              </>
-            }
-            description="Five disciplines, one production standard. Every service is led by a dedicated producer and technical director."
-          />
-
-          <div>
-            {SERVICES_DATA.map((service, index) => {
-              const reversed = index % 2 === 1;
-
-              return (
-                <article
-                  key={service.slug}
-                  id={service.slug}
-                  className="grid scroll-mt-28 gap-10 border-t border-line py-12 last:border-b md:py-16 lg:grid-cols-12 lg:gap-14"
-                >
-                  {/* Image */}
-                  <div
-                    className={cn(
-                      'group relative aspect-[4/3] overflow-hidden bg-surface-alt lg:col-span-6',
-                      reversed && 'lg:order-2 lg:col-start-7'
-                    )}
-                  >
-                    <Image
-                      src={service.image}
-                      alt={service.title}
-                      fill
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                      className="img-zoom object-cover opacity-80"
-                    />
-                    <div
-                      className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"
-                      aria-hidden="true"
-                    />
-                    <span className="display absolute bottom-4 right-5 text-[clamp(3rem,6vw,6rem)] leading-none text-outline-strong">
-                      {service.number}
-                    </span>
-                    <span className="eyebrow absolute left-5 top-5 text-paper/70">
-                      {service.category}
-                    </span>
-                  </div>
-
-                  {/* Copy */}
-                  <div
-                    className={cn(
-                      'flex flex-col justify-center lg:col-span-5',
-                      reversed ? 'lg:order-1 lg:col-start-1' : 'lg:col-start-8'
-                    )}
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className="eyebrow text-coral">{service.number}</span>
-                      <span className="h-px w-8 bg-line-strong" aria-hidden="true" />
-                      <span className="eyebrow text-faint">
-                        {service.category}
+      <section className="py-20 md:py-28">
+        <div className="container-ed space-y-12">
+          {SERVICES_DATA.map((service) => (
+            <Reveal key={service.slug}>
+              <article
+                id={service.slug}
+                className="overflow-hidden rounded-[12px] border border-line bg-white p-7 shadow-xs transition-all hover:border-forest sm:p-10 lg:p-12"
+              >
+                <div className="grid items-start gap-8 lg:grid-cols-12 lg:gap-12">
+                  <div className="border-b border-line pb-8 lg:col-span-5 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-10">
+                    <div className="relative mb-6 aspect-[16/10] w-full overflow-hidden rounded-[8px] border border-line bg-sand">
+                      <Image
+                        src={service.image}
+                        alt={service.title}
+                        fill
+                        sizes="(max-width: 1024px) 100vw, 35vw"
+                        className="object-cover"
+                      />
+                      <span className="absolute bottom-3 left-3 rounded-full bg-forest px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-wider text-white">
+                        {service.number} • {service.category}
                       </span>
                     </div>
 
-                    <h2 className="display mt-4 text-[clamp(2rem,3.8vw,3.6rem)]">
+                    <h2 className="display text-2xl font-bold text-ink sm:text-3xl">
                       {service.title}
                     </h2>
-
-                    <p className="mt-5 text-sm leading-relaxed text-muted md:text-base">
+                    <p className="mt-3 text-sm leading-relaxed text-muted sm:text-base">
                       {service.shortDescription}
                     </p>
 
-                    <ul className="mt-7 grid gap-x-6 gap-y-3 sm:grid-cols-2">
-                      {service.capabilities.slice(0, 4).map((capability) => (
-                        <li
-                          key={capability}
-                          className="flex items-start gap-2 text-xs leading-relaxed text-muted"
-                        >
-                          <Plus className="mt-0.5 h-3 w-3 shrink-0 text-coral" />
-                          {capability}
-                        </li>
-                      ))}
-                    </ul>
-
-                    <div className="mt-7 flex flex-wrap gap-x-3 gap-y-2 border-t border-line pt-4">
-                      {service.deliverables.map((deliverable) => (
-                        <span
-                          key={deliverable}
-                          className="text-[9px] uppercase tracking-[0.14em] text-faint"
-                        >
-                          {deliverable}
-                          <span className="ml-3 text-coral" aria-hidden="true">
-                            /
-                          </span>
-                        </span>
-                      ))}
-                    </div>
-
                     <Link
                       href={`/services/${service.slug}`}
-                      className="text-link mt-8 self-start text-paper"
+                      className="btn btn-accent mt-6"
                     >
-                      Deep dive &amp; approach
-                      <ArrowUpRight className="h-3.5 w-3.5 text-coral" />
+                      <span>Explore Scope &amp; Approach</span>
+                      <ArrowUpRight className="h-4 w-4" />
                     </Link>
                   </div>
-                </article>
-              );
-            })}
-          </div>
+
+                  <div className="flex h-full flex-col justify-between lg:col-span-7">
+                    <div>
+                      <span className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-forest">
+                        Core Technical Capabilities
+                      </span>
+                      <div className="mt-5 grid gap-3.5 sm:grid-cols-2">
+                        {service.capabilities.map((cap) => (
+                          <div key={cap} className="flex items-start gap-2.5">
+                            <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
+                            <span className="text-sm text-ink-soft">{cap}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="mt-8 rounded-[8px] border border-line bg-sand/60 p-5">
+                      <span className="block font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-forest">
+                        Standard Client Deliverables
+                      </span>
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {service.deliverables.map((deliv) => (
+                          <span
+                            key={deliv}
+                            className="rounded-[4px] border border-line bg-white px-3 py-1 text-xs font-medium text-ink"
+                          >
+                            {deliv}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            </Reveal>
+          ))}
         </div>
       </section>
 

@@ -1,3 +1,9 @@
+export interface PrizeTier {
+  rank: string;
+  amount: string;
+  tier: 'gold' | 'silver' | 'bronze' | 'ruby';
+}
+
 export interface EventDetailData {
   slug: string;
   title: string;
@@ -8,6 +14,11 @@ export interface EventDetailData {
   summary: string;
   overview: string;
   image: string;
+  coverBanner?: string;
+  logoImage?: string;
+  posterImage?: string;
+  registrationOpen?: boolean;
+  prizes?: PrizeTier[];
   highlights: string[];
   scheduleOrPhases: {
     title: string;
@@ -22,55 +33,119 @@ export interface EventDetailData {
 
 export const EVENTS_DATA: EventDetailData[] = [
   {
-    slug: 'miss-koshi',
-    title: 'Miss Koshi Grand Pageant',
-    category: 'Beauty Pageant & Youth Empowerment',
-    seasonOrYear: 'Annual Flagship',
-    location: 'Biratnagar, Koshi Province',
-    tagline: 'Eastern Nepal’s premier beauty, intelligence, and leadership platform.',
-    image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1200&q=80',
+    slug: 'nepal-kids-idol',
+    title: 'Nepal Kids Idol',
+    category: 'National Television Singing Reality Show',
+    seasonOrYear: 'Season One • 2025',
+    location: 'All 77 Districts of Nepal • India • USA • Canada • Australia',
+    tagline:
+      'The ultimate national television singing competition celebrating the voice, passion, and dreams of children aged 5 to 15.',
+    image: '/images/official/nki-poster.png',
+    coverBanner: '/images/official/nki-cover.png',
+    logoImage: '/images/official/nki-logo.png',
+    posterImage: '/images/official/nki-poster.png',
+    registrationOpen: true,
+    prizes: [
+      { rank: '1st Prize', amount: 'Rs 1,000,000.00', tier: 'gold' },
+      { rank: '2nd Prize', amount: 'Rs 500,000.00', tier: 'silver' },
+      { rank: '3rd Prize', amount: 'Rs 300,000.00', tier: 'bronze' },
+      { rank: '4th Prize', amount: 'Rs 200,000.00', tier: 'ruby' },
+    ],
     summary:
-      'Miss Koshi is the definitive regional pageant celebrating the intelligence, grace, and advocacy of young women from Morang, Sunsari, Jhapa, and across Koshi Province.',
+      'Jay Media Management proudly presents Nepal Kids Idol 2025 — a 30-episode national television singing competition spanning all 77 districts of Nepal and international hubs across India, the USA, Canada, and Australia.',
     overview:
-      'Organized annually by Jay Media Management Pvt. Ltd. under the leadership of Jay Raj Rai and Nisha Khatiwada Rai, Miss Koshi stands as a beacon of youth empowerment. Contestants from across eastern Nepal participate in rigorous audition rounds, followed by an intensive residential grooming camp covering public speaking, social advocacy, traditional attire presentation, and professional catwalk choreography before competing in front of a live audience and eminent jury panel.',
+      'Searching for young superstars aged 5 to 15 across every district of Nepal and extending to Sikkim, Darjeeling, Assam, Dehradun, Siliguri, USA, Canada, and Australia. Over 30 electrifying episodes airing on national television, contestants perform in front of celebrity jury legends Lochan Bhattarai and Ananda Karki with a total cash prize pool of Rs. 2,000,000.00.',
     highlights: [
-      'Multi-District Auditions in Eastern Nepal',
-      'Personality & Communication Masterclasses',
-      'Social Cause & Cultural Heritage Presentations',
-      'Televised & Live Streamed Grand Finale',
-      'Substantial Cash Prizes, Crowns & Modeling Contracts',
+      'Rs. 2,000,000 Total Cash Prize Pool (Rs. 10 Lakhs First Prize)',
+      'Auditions Across All 77 Districts of Nepal',
+      'International Hubs: Sikkim, Darjeeling, Assam, Dehradun, Siliguri, USA, Canada & Australia',
+      '30 Electrifying National Television Episodes',
+      'Live Online Audition Access From Anywhere',
     ],
     scheduleOrPhases: [
       {
-        title: 'Auditions & Talent Screening',
+        title: 'Online & District Auditions',
         description:
-          'Open call auditions across regional centers where candidates showcase personality, communication poise, and creative talents.',
+          'Auditions spanning all 77 districts of Nepal plus regional diaspora centers in India and Western hubs — plus direct online entry.',
       },
       {
-        title: 'Intensive Grooming Bootcamp',
+        title: 'Mega Jury Selection & Grooming',
         description:
-          '15+ days of holistic mentorship with industry veterans covering styling, stage presence, speech delivery, and fitness.',
+          'Shortlisted singers train with celebrity vocalists and Jay Media directors prior to televised studio rounds.',
       },
       {
-        title: 'Grand Finale Showcase',
+        title: '30-Episode National Television Finale',
         description:
-          'A multi-round stage spectacle featuring traditional costume rounds, intellectual Q&A, talent showcases, and official coronation.',
+          'Grand studio arena elimination rounds leading to the crowning of the very first Nepal Kids Idol.',
       },
     ],
     hallOfFameOrWinners: [
       {
-        title: 'Shuva Laxmi Rai',
-        note: 'Miss Koshi 2024 Titleholder — Recognized for community advocacy and exceptional poise.',
+        title: 'Rs. 1,000,000 Grand Champion',
+        note: 'Top titleholder earns Rs. 1,000,000 cash award, trophy, and recording contract opportunities.',
       },
       {
-        title: 'Distinguished Alumni',
-        note: 'Past finalists and runners-up from Sunsari, Dharan, and Biratnagar active in national media and public service.',
+        title: '2nd, 3rd & 4th Place Laureates',
+        note: 'Cash prizes of Rs. 500,000, Rs. 300,000, and Rs. 200,000 alongside national television recognition.',
+      },
+    ],
+    productionScope: [
+      '30-episode multicam broadcast production pipeline',
+      'Live orchestra and studio acoustic stage engineering',
+      'Nationwide & international audition software & User Code tracking',
+      'Celebrity judge hospitality & televised red carpet coverage',
+    ],
+  },
+  {
+    slug: 'miss-koshi',
+    title: 'Miss Koshi Grand Pageant',
+    category: 'Beauty Pageant & Youth Empowerment',
+    seasonOrYear: 'Seasons 1–8 • Annual Flagship',
+    location: 'Biratnagar, Koshi Province',
+    tagline: 'Eastern Nepal’s premier beauty, intelligence, and leadership platform.',
+    image: '/images/official/koshi-2024-cover.png',
+    summary:
+      'Owned and produced across eight landmark seasons by Jay Media Management, Miss Koshi celebrates the intelligence, grace, and advocacy of young women across Morang, Sunsari, Jhapa, and Koshi Province.',
+    overview:
+      'Organized annually by Jay Media Management Pvt. Ltd. under the leadership of Chairperson Jay Raj Roy and CEO Neesha Khatiwada, Miss Koshi stands as a beacon of youth empowerment. Contestants participate in rigorous audition rounds, followed by a residential grooming camp covering public speaking, social advocacy, cultural heritage, and runway choreography.',
+    highlights: [
+      '8 Landmark Seasons Produced in Koshi Province',
+      'Personality & Communication Masterclasses',
+      'Social Cause & Cultural Heritage Presentations',
+      'Televised & Live Streamed Grand Finale',
+      'Substantial Cash Prizes, Crowns & Brand Ambassadorships',
+    ],
+    scheduleOrPhases: [
+      {
+        title: 'Multi-City Auditions',
+        description:
+          'Open call auditions across Biratnagar, Itahari, and Dharan evaluating poise, communication, and creative talents.',
+      },
+      {
+        title: 'Intensive Grooming Bootcamp',
+        description:
+          '15+ days of holistic mentorship covering runway choreography, styling, public speaking, and social advocacy.',
+      },
+      {
+        title: 'Grand Coronation Finale',
+        description:
+          'Evening gown, cultural attire, intellectual Q&A rounds, and live crowning before an arena audience.',
+      },
+    ],
+    hallOfFameOrWinners: [
+      {
+        title: 'Subha Laxmi Rai (Contestant #16, Itahari)',
+        note: 'Miss Koshi 2024 Season #8 Winner — Crowned on the grand Biratnagar stage.',
+      },
+      {
+        title: 'Prashika Shrestha',
+        note: 'Miss Koshi Season #6 Winner — Honored for stage poise and leadership.',
       },
     ],
     productionScope: [
       'Full stage design with high-definition LED backdrops',
-      'Dynamic spotlight and intelligent wash lighting rigs',
-      'Multicam broadcast production with live YouTube telecast',
+      'Dynamic spotlight and intelligent DMX wash lighting rigs',
+      'Multicam broadcast production with YouTube telecast',
       'Official red-carpet VIP reception and media scrum',
     ],
   },
@@ -83,9 +158,9 @@ export const EVENTS_DATA: EventDetailData[] = [
     tagline: 'Eastern Nepal’s most celebrated children’s talent and confidence platform.',
     image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1200&q=80',
     summary:
-      'Mr. and Miss Little Koshi is an annual youth platform dedicated to identifying, nurturing, and celebrating the budding talents, intelligence, and self-confidence of children across eastern Nepal.',
+      'An annual youth platform dedicated to nurturing the budding talents, intelligence, and self-confidence of children across eastern Nepal.',
     overview:
-      'Conceived and organized by Jay Media Management, Mr. and Miss Little Koshi has successfully completed over 7 seasons. The pageant provides children with an encouraging, constructive environment where stage fright is transformed into joyful self-expression. Auditions are conducted across Biratnagar, Itahari, and Dharan, bringing together young dreamers who undergo specialized personality grooming, moral education, and creative performance workshops.',
+      'Conceived and organized by Jay Media Management across 7+ seasons, Mr. and Miss Little Koshi transforms stage fright into joyful self-expression through personality grooming, moral education, and creative showcases across Biratnagar, Itahari, and Dharan.',
     highlights: [
       'Audition Hubs in Biratnagar, Itahari & Dharan',
       'Confidence-Building & Public Speaking Clinics',
@@ -97,17 +172,17 @@ export const EVENTS_DATA: EventDetailData[] = [
       {
         title: 'Regional Audition Caravan',
         description:
-          'Talent discovery sessions across key cities of eastern Nepal evaluating singing, dancing, recitation, and natural charm.',
+          'Talent discovery sessions across eastern Nepal celebrating singing, dancing, recitation, and charm.',
       },
       {
         title: 'Development Workshop',
         description:
-          'Fun, supportive workshops focusing on posture, stage movement, teamwork, and communication guided by experienced mentors.',
+          'Supportive workshops focusing on posture, stage movement, teamwork, and articulation.',
       },
       {
         title: 'Grand Coronation Gala',
         description:
-          'An electric finale celebrating every young participant with title crowns, awards for best talent, best smile, and personality.',
+          'An electric finale honoring young dreamers with title crowns and specialty awards.',
       },
     ],
     hallOfFameOrWinners: [
@@ -119,30 +194,26 @@ export const EVENTS_DATA: EventDetailData[] = [
         title: 'Upasana Ramdam',
         note: 'Miss Little Koshi Titleholder (7th Season)',
       },
-      {
-        title: 'Generations of Confident Youth',
-        note: 'Hundreds of young graduates across eastern Nepal flourishing in academia and public speaking.',
-      },
     ],
     productionScope: [
-      'Child-safe, state-of-the-art stage setup with vibrant visual themes',
-      'Family-friendly audience management and seating arrangements',
-      'Live photo and video archives provided to every participating family',
-      'Comprehensive media coverage across national and regional press',
+      'Child-safe arena stage design with vibrant visual themes',
+      'Family-friendly audience management and VIP hospitality',
+      'Complete digital photo & video archives for every family',
+      'Regional and national broadcast press coverage',
     ],
   },
   {
     slug: 'nepal-kids-dancing-champion',
     title: 'Nepal Kids Dancing Champion',
-    category: "Youth Dance Championship",
+    category: 'Youth Dance Championship',
     seasonOrYear: 'Annual Competition',
     location: 'Biratnagar • Eastern Nepal',
     tagline: 'Eastern Nepal’s premier children’s dancing reality talent championship.',
     image: 'https://images.unsplash.com/photo-1547153760-18fc86324498?auto=format&fit=crop&w=1200&q=80',
     summary:
-      'Nepal Kids Dancing Champion is a dedicated performing arts tournament providing young dancers a televised stage to express cultural and contemporary choreography.',
+      'A televised performing arts tournament providing young dancers aged 4–14 a flagship stage to showcase folk, classical, and contemporary choreography.',
     overview:
-      'Organized by Jay Media Management in Biratnagar, Nepal Kids Dancing Champion invites young performers aged 4–14 to compete across classical, folk, modern, and hip-hop dance categories. The competition fosters artistic discipline, physical fitness, rhythm, and immense stage bravery under the evaluation of renowned choreographers and industry judges.',
+      'Alongside flagship franchises like Mr. & Miss SEE and Mr. & Miss Purwanchal, Nepal Kids Dancing Champion celebrates movement, discipline, and rhythm under expert choreographer evaluation in Biratnagar.',
     highlights: [
       'Provincial Audition Tours in Biratnagar and Environs',
       'Choreography Mentorship and Professional Stage Rehearsals',
@@ -151,77 +222,29 @@ export const EVENTS_DATA: EventDetailData[] = [
     ],
     scheduleOrPhases: [
       {
-        title: 'Talent Auditions',
-        description: 'First-round solo and group dance screenings across eastern Nepal audition hubs.',
+        title: 'Regional Auditions',
+        description: 'Audition showcases evaluating rhythm, musicality, and expressive choreography.',
       },
       {
-        title: 'Masterclass Rounds',
-        description: 'Selected candidates work with senior choreographers on routine perfection and camera angles.',
+        title: 'Choreography Intensive',
+        description: 'Rehearsal academies mentoring soloists and duos on spatial lighting and costume storytelling.',
       },
       {
-        title: 'Grand Finale Showcase',
-        description: 'A dazzling performance night judged by celebrated Nepali artists with live audience voting.',
+        title: 'Grand Dance Finale',
+        description: 'High-voltage grand finale featuring solo championship rounds and synchronized group acts.',
       },
     ],
     hallOfFameOrWinners: [
       {
-        title: 'Championship Finalists',
-        note: 'Outstanding child dance champions celebrated across Koshi Province media.',
+        title: 'Regional Champions',
+        note: 'Recognizing standout classical, Nepali folk, and urban hip-hop prodigies across Koshi Province.',
       },
     ],
     productionScope: [
-      'High-impact dance floor staging with specialized anti-slip surfaces',
-      'Dynamic moving-head lighting and synchronized stage effects',
-      'Multicam recording and live digital broadcasting',
-    ],
-  },
-  {
-    slug: 'corporate-cultural-galas',
-    title: 'Corporate Launches & Cultural Galas',
-    category: 'Corporate & Experiential',
-    seasonOrYear: 'Continuous Productions',
-    location: 'Biratnagar & Regional Venues',
-    tagline: 'High-impact corporate milestone events and grand celebrations.',
-    image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80',
-    summary:
-      'Custom-engineered event productions for leading industrial houses, brands, and public institutions seeking international execution standards.',
-    overview:
-      'Beyond flagship pageants, Jay Media Management is the first-choice production partner for corporate enterprises in Biratnagar and Koshi Province. From industrial product rollouts and automotive showroom inaugurations to annual awards celebrations and cultural festivals, our technical crew delivers precise scheduling, acoustic excellence, and prestigious hospitality.',
-    highlights: [
-      'Bespoke Stage Architecture & 3D Spatial Layouts',
-      'State-of-the-Art Line Array Audio Systems',
-      'VIP Protocol, Red Carpet & Guest Ushering',
-      'Executive Teleprompter & Keynote Staging',
-      'Comprehensive Post-Event Photo & Video Packages',
-    ],
-    scheduleOrPhases: [
-      {
-        title: 'Strategy & Spatial Planning',
-        description:
-          'Site surveys, acoustic testing, 3D renderings, and safety compliance checks for venues across eastern Nepal.',
-      },
-      {
-        title: 'Technical Installation',
-        description:
-          'Overnight rigging, lighting focus, microphone sound checks, and fail-safe power generator testing.',
-      },
-      {
-        title: 'Event Operations',
-        description:
-          'Flawless cue management, presenter stage management, press coordination, and live video broadcast recording.',
-      },
-    ],
-    hallOfFameOrWinners: [
-      {
-        title: 'Regional Commercial Leaders',
-        note: 'Trusted by eastern Nepal’s leading manufacturing, automotive, and banking brands.',
-      },
-    ],
-    productionScope: [
-      'Turnkey electrical, acoustic, and lighting infrastructure',
-      'Media scrum backdrops and press registration systems',
-      'Executive hospitality protocols and security liaison',
+      'High-shock sprung stage flooring for safe choreography',
+      ' concert-grade line-array sound clarity & bass impact',
+      'Synchronized moving beam light shows tailored per song cue',
+      'Full backstage rehearsal scheduling & safety stewards',
     ],
   },
 ];
-
