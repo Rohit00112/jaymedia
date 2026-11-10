@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { ArrowUpRight, CheckCircle2, Loader2 } from 'lucide-react';
-import { PavilionScene } from '@/components/three';
+import SectionHeading from '@/components/shared/SectionHeading';
 import Reveal from '@/components/motion/Reveal';
 import { siteConfig } from '@/config/site';
 
@@ -15,11 +15,10 @@ const PRODUCTION_DISCIPLINES = [
   'Press & Broadcast Coverage',
 ] as const;
 
-const fieldLabelClass =
-  'mb-2 block font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-muted';
+const fieldLabelClass = 'mb-1.5 block text-xs font-semibold text-ink';
 
 const fieldInputClass =
-  'w-full rounded-[2px] border border-line-strong bg-white px-3.5 py-3 text-sm text-ink transition-colors placeholder:text-faint/80 focus:border-forest focus:outline-none focus:ring-2 focus:ring-forest/15';
+  'w-full rounded-md border border-line-strong bg-white px-3.5 py-3 text-sm text-ink transition-colors placeholder:text-faint/80 focus:border-forest focus:outline-none focus:ring-2 focus:ring-forest/15';
 
 export default function QuoteSection() {
   const [name, setName] = useState('');
@@ -107,130 +106,48 @@ export default function QuoteSection() {
   return (
     <section
       id="quote"
-      className="relative overflow-hidden border-b border-line bg-paper-deep py-20 md:py-24"
+      className="border-b border-line bg-white py-20 md:py-24"
     >
-      {/* Calm Daylight Wireframe Horizon Grid */}
-      <PavilionScene />
+      <div className="container-ed">
+        <SectionHeading
+          eyebrow="Contact Us"
+          title="Work with Jay Media Management."
+          description="Reach out for concert sponsorships, stage production, or corporate event management."
+          link={{ href: '/contact', label: 'Full contact details' }}
+        />
 
-      <div className="container-ed relative z-10">
-        {/* Top Wide Studio Headline + 4-Cell Directory Ribbon */}
-        <Reveal>
-          <div className="grid items-end gap-6 border-b border-ink/15 pb-8 lg:grid-cols-12">
-            <div className="lg:col-span-7">
-              <span className="eyebrow inline-flex items-center gap-2.5 text-forest">
-                <span className="h-2.5 w-1 bg-forest" aria-hidden="true" />
-                05 / Studio Desk
-              </span>
-              <h2 className="display mt-4 text-[clamp(2.1rem,4vw,3.6rem)] font-bold text-ink">
-                Commission a show,{' '}
-                <span className="text-forest">launch, or sponsorship.</span>
-              </h2>
-            </div>
-
-            <div className="lg:col-span-5">
-              <p className="text-sm leading-relaxed text-ink-soft md:text-base">
-                Share venue timelines, expected capacity, or sponsorship
-                objectives with our Biratnagar producers for stage schematics
-                and itemized execution schedules.
-              </p>
-            </div>
-          </div>
-
-          <dl className="grid gap-6 border-b border-line py-6 sm:grid-cols-2 lg:grid-cols-4">
-            <div>
-              <dt className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
-                Headquarters
-              </dt>
-              <dd className="mt-1.5 text-sm font-medium text-ink">
-                {siteConfig.location.address}, {siteConfig.location.city}
-              </dd>
-            </div>
-            <div>
-              <dt className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
-                Direct Telephone
-              </dt>
-              <dd className="mono mt-1.5 text-sm font-bold text-forest">
-                <a href={`tel:${siteConfig.contact.phone}`}>
-                  {siteConfig.contact.formattedPhone}
-                </a>
-                <span className="mx-1.5 text-line-strong">/</span>
-                <a href={`tel:${siteConfig.contact.secondaryPhone}`}>
-                  {siteConfig.contact.secondaryPhone}
-                </a>
-              </dd>
-            </div>
-            <div>
-              <dt className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
-                Desk Email
-              </dt>
-              <dd className="mt-1.5 text-sm font-medium text-ink">
-                <a
-                  href={`mailto:${siteConfig.contact.email}`}
-                  className="link-sweep text-ink"
-                >
-                  {siteConfig.contact.email}
-                </a>
-              </dd>
-            </div>
-            <div>
-              <dt className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
-                Proposal Turnaround
-              </dt>
-              <dd className="mt-1.5 text-sm font-medium text-ink">
-                Within 1 business day
-              </dd>
-            </div>
-          </dl>
-        </Reveal>
-
-        {/* Full-Width Clean Architectural Brief Sheet */}
-        <Reveal delay={70}>
-          <div className="mt-8 border border-line bg-white p-6 shadow-xs sm:p-9">
+        <Reveal delay={50}>
+          <div className="rounded-lg border border-line bg-paper-deep/50 p-6 sm:p-9">
             {status === 'success' ? (
               <div
                 role="status"
                 className="flex flex-col items-start py-6 text-left"
               >
-                <span className="flex h-11 w-11 items-center justify-center rounded-[2px] bg-forest text-gold">
+                <span className="flex h-11 w-11 items-center justify-center rounded-md bg-forest text-gold">
                   <CheckCircle2 className="h-5 w-5" />
                 </span>
                 <h3 className="display mt-5 text-2xl font-bold text-ink">
-                  Project brief logged with our producers.
+                  Message received.
                 </h3>
                 <p className="mt-2 max-w-md text-sm leading-relaxed text-muted">
-                  Thank you for writing to Jay Media Management. Our team at
-                  Central Mall, Biratnagar will review your schedule and reply
-                  within 1 business day.
+                  Thank you for contacting Jay Media Management. Our team in
+                  Biratnagar will respond within 1 business day.
                 </p>
                 <button
                   type="button"
                   onClick={() => setStatus('idle')}
                   className="btn btn-accent mt-6"
                 >
-                  <span>Submit another inquiry</span>
+                  <span>Send another message</span>
                   <ArrowUpRight className="h-4 w-4 text-gold" />
                 </button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} noValidate className="space-y-6">
-                <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-line pb-4">
-                  <div>
-                    <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-forest">
-                      Project Brief Sheet
-                    </span>
-                    <h3 className="display mt-1 text-xl font-bold text-ink sm:text-2xl">
-                      Direct Dispatch to Producers
-                    </h3>
-                  </div>
-                  <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-faint">
-                    Biratnagar Studio Desk
-                  </span>
-                </div>
-
                 {status === 'error' && (
                   <div
                     role="alert"
-                    className="border border-danger/30 bg-red-50 px-4 py-3 text-xs font-medium text-danger"
+                    className="rounded-md border border-danger/30 bg-red-50 px-4 py-3 text-xs font-medium text-danger"
                   >
                     {errorMsg}
                   </div>
@@ -248,7 +165,7 @@ export default function QuoteSection() {
                       minLength={2}
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      placeholder="e.g. Rajesh Limbu"
+                      placeholder="Your name"
                       className={fieldInputClass}
                     />
                   </div>
@@ -263,7 +180,7 @@ export default function QuoteSection() {
                       required
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="name@company.com"
+                      placeholder="name@example.com"
                       className={fieldInputClass}
                     />
                   </div>
@@ -289,7 +206,7 @@ export default function QuoteSection() {
                       htmlFor="quote-discipline"
                       className={fieldLabelClass}
                     >
-                      Production Discipline
+                      Service
                     </label>
                     <select
                       id="quote-discipline"
@@ -308,7 +225,7 @@ export default function QuoteSection() {
 
                 <div>
                   <label htmlFor="quote-message" className={fieldLabelClass}>
-                    Project Brief, City &amp; Tentative Dates
+                    Event Details
                   </label>
                   <textarea
                     id="quote-message"
@@ -317,16 +234,17 @@ export default function QuoteSection() {
                     rows={3}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Outline venue location, expected audience capacity, target month, or sponsorship goals..."
+                    placeholder="Tell us about your event, dates, or sponsorship inquiry..."
                     className={fieldInputClass}
                   />
                 </div>
 
                 <div className="flex flex-wrap items-center justify-between gap-4 border-t border-line pt-5">
-                  <span className="text-xs text-muted">
-                    Prefer a direct briefing call? Reach{' '}
-                    <strong className="mono font-semibold text-ink">
-                      {siteConfig.contact.phone}
+                  <span className="text-sm text-muted">
+                    Direct line:{' '}
+                    <strong className="font-semibold text-ink">
+                      {siteConfig.contact.phone} /{' '}
+                      {siteConfig.contact.secondaryPhone}
                     </strong>
                   </span>
 
@@ -338,11 +256,11 @@ export default function QuoteSection() {
                     {submitting ? (
                       <>
                         <Loader2 className="h-4 w-4 animate-spin" />
-                        <span>Dispatching...</span>
+                        <span>Sending...</span>
                       </>
                     ) : (
                       <>
-                        <span>Submit Project Brief</span>
+                        <span>Send Inquiry</span>
                         <ArrowUpRight className="h-4 w-4 text-gold" />
                       </>
                     )}
