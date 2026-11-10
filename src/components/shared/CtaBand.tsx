@@ -1,12 +1,15 @@
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import Reveal from '@/components/motion/Reveal';
+import { PavilionScene } from '@/components/three';
 import { siteConfig } from '@/config/site';
 
 export default function CtaBand() {
   return (
-    <section className="border-t border-line bg-paper-deep py-16 md:py-20">
-      <div className="container-ed">
+    <section className="relative overflow-hidden border-t border-line bg-paper-deep py-16 md:py-20">
+      <PavilionScene />
+
+      <div className="container-ed relative z-10">
         <div className="border-2 border-ink bg-white p-8 md:p-12">
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-4">
             <span className="eyebrow inline-flex items-center gap-2.5 text-forest">

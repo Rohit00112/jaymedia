@@ -7,25 +7,21 @@ import anime from 'animejs';
 import {
   ArrowUpRight,
   Award,
-  Calendar,
   CheckCircle2,
   ChevronLeft,
   ChevronRight,
-  Clock,
-  MapPin,
   Medal,
-  Sparkles,
   Star,
-  Ticket,
   Trophy,
 } from 'lucide-react';
 import type { EventDetailData } from '@/config/events-data';
+import Tilt3D from '@/components/motion/Tilt3D';
 import { cn, prefersReducedMotion } from '@/lib/utils';
 
 const PRIZE_STYLES = {
   gold: {
-    bar: 'border-t-[3px] border-t-forest bg-gradient-to-b from-forest/[0.04] to-white',
-    badge: 'bg-forest text-gold shadow-sm',
+    bar: 'border-t-[3px] border-t-forest bg-white',
+    badge: 'bg-forest text-gold',
     rank: 'text-forest',
     icon: Trophy,
   },
@@ -49,45 +45,8 @@ const PRIZE_STYLES = {
   },
 } as const;
 
-const CONCERT_TIER_NOTES: Record<string, string> = {
-  'Early Bird VVIP':
-    'Premier front-stage enclosure, VVIP hospitality lounge & priority stadium gate lane.',
-  'Early Bird VIP':
-    'Dedicated VIP viewing deck with fast-track QR entry and refreshment access.',
-  'Early Bird Fanpit':
-    'High-energy standing pit directly in front of the main Itahari Rangasala stage.',
-  'Early Bird General':
-    'Full stadium arena access with tour-grade line-array sound and LED sightlines.',
-};
-
 interface HeroEventShowcaseProps {
   initialEvents: EventDetailData[];
-}
-
-function useConcertCountdown(targetIso: string) {
-  const [timeLeft, setTimeLeft] = useState<{
-    days: number;
-    hours: number;
-    minutes: number;
-    seconds: number;
-  } | null>(null);
-
-  useEffect(() => {
-    const target = new Date(targetIso).getTime();
-    function update() {
-      const diff = Math.max(0, target - Date.now());
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((diff / (1000 * 60)) % 60);
-      const seconds = Math.floor((diff / 1000) % 60);
-      setTimeLeft({ days, hours, minutes, seconds });
-    }
-    update();
-    const timer = setInterval(update, 1000);
-    return () => clearInterval(timer);
-  }, [targetIso]);
-
-  return timeLeft;
 }
 
 export default function HeroEventShowcase({
@@ -99,7 +58,6 @@ export default function HeroEventShowcase({
   );
   const panelRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
-  const countdown = useConcertCountdown('2026-12-19T18:00:00+05:45');
 
   useEffect(() => {
     setEvents(initialEvents);
@@ -134,23 +92,27 @@ export default function HeroEventShowcase({
   );
   const activeEvent = events[activeIndex] || events[0] || initialEvents[0];
 
+  // 3D Spatial Transition when switching active production
   useEffect(() => {
     if (prefersReducedMotion()) return;
     if (panelRef.current) {
       anime({
         targets: panelRef.current,
-        opacity: [0.35, 1],
-        translateY: [8, 0],
-        duration: 420,
+        opacity: [0, 1],
+        translateY: [14, 0],
+        rotateX: [6, 0],
+        duration: 560,
         easing: 'cubicBezier(0.16, 1, 0.3, 1)',
       });
     }
     if (frameRef.current) {
       anime({
         targets: frameRef.current,
-        opacity: [0.45, 1],
-        scale: [0.985, 1],
-        duration: 460,
+        opacity: [0.3, 1],
+        rotateY: [-9, 0],
+        rotateX: [4, 0],
+        scale: [0.96, 1],
+        duration: 680,
         easing: 'cubicBezier(0.16, 1, 0.3, 1)',
       });
     }
@@ -158,7 +120,6 @@ export default function HeroEventShowcase({
 
   if (!activeEvent) return null;
 
-  const isConcert = Boolean(activeEvent.ticketUrl);
   const hasPrizes = Boolean(activeEvent.prizes && activeEvent.prizes.length > 0);
   const stageImage = activeEvent.heroStageImage || activeEvent.image;
 
@@ -170,14 +131,11 @@ export default function HeroEventShowcase({
 
   return (
     <>
-      <div className="container-ed relative z-10 pb-12 pt-6 md:pb-16 md:pt-10">
-        {/* Dynamic Production Switcher Bar */}
+      <div className="container-ed relative z-10 pb-12 pt-8 md:pb-16 md:pt-12">
+        {/* Minimal Production Switcher Bar */}
         <div className="mb-8 flex flex-col justify-between gap-4 border-b border-ink/15 pb-4 lg:flex-row lg:items-center">
-          <div className="inline-flex flex-wrap items-center gap-3 border-l-2 border-forest pl-3 font-mono text-[10.5px] font-semibold uppercase tracking-[0.16em] text-forest">
-            <span className="inline-flex items-center gap-1.5">
-              <span className="h-2 w-2 rounded-full bg-gold animate-pulse" />
-              Jay Media Production Slate
-            </span>
+          <div className="inline-flex items-center gap-3 border-l-2 border-forest pl-3 font-mono text-[10.5px] font-semibold uppercase tracking-[0.16em] text-forest">
+            <span>Jay Media Production Slate</span>
             <span className="text-line-strong">/</span>
             <span className="text-muted">
               {String(events.length).padStart(2, '0')} Live Franchises
@@ -191,7 +149,6 @@ export default function HeroEventShowcase({
           >
             {events.map((ev, idx) => {
               const active = ev.slug === activeEvent.slug;
-              const isHeadlineConcert = Boolean(ev.ticketUrl);
               return (
                 <button
                   key={ev.slug}
@@ -200,9 +157,9 @@ export default function HeroEventShowcase({
                   type="button"
                   onClick={() => setSelectedSlug(ev.slug)}
                   className={cn(
-                    'inline-flex items-center gap-2 rounded-[3px] border px-3.5 py-2 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] transition-all duration-200',
+                    'inline-flex items-center gap-2 rounded-[2px] border px-3 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] transition-colors',
                     active
-                      ? 'border-forest bg-forest text-white shadow-[0_6px_16px_-6px_rgba(1,64,43,0.45)]'
+                      ? 'border-forest bg-forest text-white'
                       : 'border-line-strong bg-white text-ink-soft hover:border-forest hover:text-forest'
                   )}
                 >
@@ -210,282 +167,190 @@ export default function HeroEventShowcase({
                     0{idx + 1}
                   </span>
                   <span>{ev.shortLabel || ev.title}</span>
-                  {isHeadlineConcert && (
-                    <span
-                      className={cn(
-                        'rounded-[2px] px-1.5 py-0.5 text-[8px] font-bold tracking-[0.1em]',
-                        active
-                          ? 'bg-gold text-ink'
-                          : 'bg-forest/10 text-forest'
-                      )}
-                    >
-                      LIVE
-                    </span>
-                  )}
                 </button>
               );
             })}
           </div>
         </div>
 
-        <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
+        <div
+          className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12"
+          style={{ perspective: '1200px' }}
+        >
           {/* Left Architectural Multi-Event Narrative Column */}
           <div className="lg:col-span-6">
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-forest/20 bg-forest/[0.06] px-3.5 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-forest">
-              <Sparkles className="h-3 w-3 text-gold-deep" />
-              <span>
-                {isConcert
-                  ? 'Headline Stadium Tour • December 19, 2026'
-                  : `Featured Production • ${activeEvent.seasonOrYear}`}
-              </span>
-            </div>
-
-            <h1 className="display text-[clamp(2.45rem,4.7vw,4.35rem)] font-extrabold leading-[0.95] tracking-[-0.036em] text-ink">
-              {isConcert ? (
-                <>
-                  Atif Aslam{' '}
-                  <span className="text-forest">Live in Nepal.</span>
-                </>
-              ) : (
-                <>
-                  Stages built for{' '}
-                  <span className="text-forest">star talent &amp; cinema.</span>
-                </>
-              )}
+            <h1 className="display text-[clamp(2.55rem,5vw,4.6rem)] font-extrabold leading-[0.94] tracking-[-0.038em] text-ink">
+              Stages built for{' '}
+              <span className="text-forest">star talent &amp; cinema.</span>
             </h1>
 
-            {/* Dynamic Active Production Dossier Card */}
+            {/* Minimal Active Production Dossier Strip */}
             <div
               ref={panelRef}
-              className="mt-6 overflow-hidden rounded-[4px] border border-ink/15 border-l-4 border-l-forest bg-white shadow-[0_18px_40px_-24px_rgba(12,20,16,0.16)]"
+              style={{ transformOrigin: 'top center' }}
+              className="mt-7 border border-ink/15 border-l-4 border-l-forest bg-white p-5 sm:p-6"
             >
-              {/* Top Dossier Header Strip */}
-              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-line bg-paper-deep/70 px-5 py-2.5 font-mono text-[9.5px] font-semibold uppercase tracking-[0.14em]">
-                <span className="text-forest">{activeEvent.category}</span>
-                <span className="inline-flex items-center gap-1.5 text-ink-soft">
-                  <Calendar className="h-3 w-3 text-forest" />
-                  {activeEvent.seasonOrYear}
-                </span>
-              </div>
-
-              <div className="p-5 sm:p-6">
-                <div className="flex items-start gap-4">
-                  {activeEvent.logoImage && (
-                    <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-[3px] border border-line bg-white p-1">
-                      <Image
-                        src={activeEvent.logoImage}
-                        alt={activeEvent.title}
-                        fill
-                        sizes="56px"
-                        className="object-contain p-1"
-                      />
-                    </div>
-                  )}
-                  <div className="min-w-0 flex-1">
-                    <h2 className="display text-2xl font-bold text-ink sm:text-[1.65rem]">
-                      {activeEvent.title}
-                    </h2>
-                    <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">
-                      {activeEvent.tagline}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Live Countdown Strip for Atif Aslam Concert */}
-                {isConcert && countdown && (
-                  <div className="mt-5 rounded-[3px] border border-forest/20 bg-gradient-to-r from-[#031527] via-[#042338] to-forest p-4 text-white">
-                    <div className="flex flex-wrap items-center justify-between gap-3">
-                      <div>
-                        <span className="inline-flex items-center gap-1.5 font-mono text-[9px] font-semibold uppercase tracking-[0.16em] text-gold">
-                          <Clock className="h-3 w-3" />
-                          Countdown to Itahari Rangasala Gates
-                        </span>
-                        <p className="mt-0.5 text-xs text-white/80">
-                          Subah Aye Na Tour (Eastern Echoes) &bull; Poush 4, 2083
-                        </p>
-                      </div>
-
-                      <div className="grid grid-cols-4 gap-2 text-center">
-                        {[
-                          { label: 'Days', value: countdown.days },
-                          { label: 'Hrs', value: countdown.hours },
-                          { label: 'Min', value: countdown.minutes },
-                          { label: 'Sec', value: countdown.seconds },
-                        ].map((unit) => (
-                          <div
-                            key={unit.label}
-                            className="min-w-[3.1rem] rounded-[2px] border border-white/15 bg-white/10 px-2 py-1.5 backdrop-blur-xs"
-                          >
-                            <span className="mono block text-base font-extrabold leading-none text-white sm:text-lg">
-                              {String(unit.value).padStart(2, '0')}
-                            </span>
-                            <span className="mt-1 block font-mono text-[8px] uppercase tracking-[0.14em] text-gold">
-                              {unit.label}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+              <div className="flex items-start gap-4">
+                {activeEvent.logoImage && (
+                  <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-[2px] border border-line bg-white">
+                    <Image
+                      src={activeEvent.logoImage}
+                      alt={activeEvent.title}
+                      fill
+                      sizes="56px"
+                      className="object-contain p-1"
+                    />
                   </div>
                 )}
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-2 font-mono text-[9.5px] font-semibold uppercase tracking-[0.14em] text-forest">
+                    <span>{activeEvent.category}</span>
+                    <span className="text-line-strong">/</span>
+                    <span className="text-muted">
+                      {activeEvent.seasonOrYear}
+                    </span>
+                  </div>
+                  <h2 className="display mt-1.5 text-2xl font-bold text-ink">
+                    {activeEvent.title}
+                  </h2>
+                  <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">
+                    {activeEvent.tagline}
+                  </p>
+                </div>
+              </div>
 
-                <div className="mt-5 flex flex-wrap items-center gap-3 border-t border-line pt-4">
-                  {activeEvent.ticketUrl && (
-                    <a
-                      href={activeEvent.ticketUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn btn-accent"
-                    >
-                      <Ticket className="h-4 w-4 text-gold" />
-                      <span>
-                        Buy Tickets on {activeEvent.ticketPartner || 'Khalti'}
-                      </span>
-                      <ArrowUpRight className="h-4 w-4 text-gold" />
-                    </a>
-                  )}
-
-                  {activeEvent.registrationOpen && (
-                    <Link
-                      href={`/register/${activeEvent.slug}`}
-                      className="btn btn-accent"
-                    >
-                      <span>
-                        Register: {activeEvent.shortLabel || activeEvent.title}
-                      </span>
-                      <ArrowUpRight className="h-4 w-4 text-gold" />
-                    </Link>
-                  )}
-
-                  <Link
-                    href={`/events/${activeEvent.slug}`}
-                    className="btn btn-outline bg-white"
+              <div className="mt-5 flex flex-wrap items-center gap-3 border-t border-line pt-4">
+                {activeEvent.ticketUrl && (
+                  <a
+                    href={activeEvent.ticketUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-accent"
                   >
                     <span>
-                      {activeEvent.ticketUrl
-                        ? 'Concert Dossier'
-                        : 'Event Prospectus'}
+                      Buy Tickets: {activeEvent.ticketPartner || 'Khalti'}
                     </span>
-                  </Link>
+                    <ArrowUpRight className="h-4 w-4 text-gold" />
+                  </a>
+                )}
 
+                {activeEvent.registrationOpen && (
                   <Link
-                    href="/events"
-                    className="text-link ml-auto text-ink-soft hover:text-forest"
+                    href={`/register/${activeEvent.slug}`}
+                    className="btn btn-accent"
                   >
-                    <span>All Productions</span>
-                    <ArrowUpRight className="h-3.5 w-3.5 text-forest" />
+                    <span>
+                      Register: {activeEvent.shortLabel || activeEvent.title}
+                    </span>
+                    <ArrowUpRight className="h-4 w-4 text-gold" />
                   </Link>
-                </div>
+                )}
+
+                <Link
+                  href={`/events/${activeEvent.slug}`}
+                  className="btn btn-outline bg-white"
+                >
+                  <span>
+                    {activeEvent.ticketUrl
+                      ? 'Concert Details'
+                      : 'Event Prospectus'}
+                  </span>
+                </Link>
+
+                <Link
+                  href="/register"
+                  className="text-link ml-1 text-ink-soft hover:text-forest"
+                >
+                  <span>All Open Registrations</span>
+                  <ArrowUpRight className="h-3.5 w-3.5 text-forest" />
+                </Link>
               </div>
             </div>
 
-            {/* Dynamic 3-Metric Baseline for Active Production */}
-            <dl className="mt-6 grid grid-cols-3 gap-3 sm:gap-4">
-              <div className="rounded-[3px] border border-line bg-white p-3.5">
-                <dt className="font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-muted">
+            {/* Minimal 3-Metric Baseline */}
+            <dl className="mt-7 grid grid-cols-3 gap-5 border-t border-ink/15 pt-5">
+              <div>
+                <dt className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.14em] text-muted">
                   {activeEvent.ticketUrl ? 'Date & Time' : 'Eligibility'}
                 </dt>
-                <dd className="display mt-1 text-base font-extrabold text-ink sm:text-lg">
+                <dd className="display mt-1 text-lg font-extrabold text-ink sm:text-xl">
                   {activeEvent.eligibility}
                 </dd>
               </div>
-              <div className="rounded-[3px] border border-line bg-white p-3.5">
-                <dt className="font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-muted">
-                  {activeEvent.ticketUrl ? 'Stadium Venue' : 'Coverage'}
+              <div>
+                <dt className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.14em] text-muted">
+                  {activeEvent.ticketUrl ? 'Venue' : 'Coverage'}
                 </dt>
-                <dd className="display mt-1 text-base font-extrabold text-ink sm:text-lg">
+                <dd className="display mt-1 text-lg font-extrabold text-ink sm:text-xl">
                   {activeEvent.coverageLabel}
                 </dd>
               </div>
-              <div className="rounded-[3px] border border-forest/25 bg-forest/[0.04] p-3.5">
-                <dt className="font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-forest">
+              <div>
+                <dt className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.14em] text-muted">
                   {activeEvent.ticketUrl
                     ? 'Tickets (Khalti)'
                     : 'Awards / Format'}
                 </dt>
-                <dd className="display mt-1 text-base font-extrabold text-forest sm:text-lg">
+                <dd className="display mt-1 text-lg font-extrabold text-forest sm:text-xl">
                   {activeEvent.prizePoolLabel}
                 </dd>
               </div>
             </dl>
           </div>
 
-          {/* Right Framed Production Showcase */}
+          {/* Right 3D Interactive Framed Production Showcase */}
           <div ref={frameRef} className="lg:col-span-6">
-            <div className="group relative rounded-[4px] border-2 border-ink bg-white p-2.5 shadow-[14px_14px_0px_0px_rgba(1,64,43,0.14)]">
-              <div className="relative aspect-[16/11] w-full overflow-hidden rounded-[2px] bg-[#020816] lg:aspect-[5/4.1]">
-                <Image
-                  src={stageImage}
-                  alt={activeEvent.title}
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="img-zoom object-cover"
-                />
-
-                {/* Top Floating Status Badge */}
-                <div className="pointer-events-none absolute inset-x-3 top-3 flex items-center justify-between gap-2">
-                  <span className="inline-flex items-center gap-2 rounded-[2px] border border-white/15 bg-ink/80 px-3 py-1.5 font-mono text-[9.5px] font-semibold uppercase tracking-[0.14em] text-white backdrop-blur-md">
-                    <span className="h-1.5 w-1.5 rounded-full bg-gold" />
-                    {isConcert
-                      ? 'Subah Aye Na Tour • Eastern Echoes'
-                      : `0${activeIndex + 1} / Official Production`}
-                  </span>
-
-                  {isConcert && (
-                    <span className="rounded-[2px] bg-gold px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-ink shadow-sm">
-                      Early Bird Live
-                    </span>
-                  )}
+            <Tilt3D maxTilt={5.5} scale={1.01}>
+              <div className="border-2 border-ink bg-white p-2.5 shadow-[12px_12px_0px_0px_rgba(1,64,43,0.12)]">
+                <div className="relative aspect-[16/11] w-full overflow-hidden bg-[#020816] lg:aspect-[5/4.1]">
+                  <Image
+                    src={stageImage}
+                    alt={activeEvent.title}
+                    fill
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover"
+                  />
                 </div>
-              </div>
-
-              {/* Bottom Caption & Quick Switch Controls */}
-              <div className="mt-2.5 flex flex-wrap items-center justify-between gap-2 border-t border-line px-1.5 pt-2.5">
-                <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.13em]">
-                  <MapPin className="h-3.5 w-3.5 shrink-0 text-forest" />
+                <div className="mt-2.5 flex flex-wrap items-center justify-between gap-2 border-t border-line px-1 pt-2.5 font-mono text-[10px] uppercase tracking-[0.14em]">
                   <span className="font-semibold text-forest">
                     {activeEvent.location}
                   </span>
-                </div>
-
-                <div className="flex items-center gap-1.5">
-                  <span className="mr-1 font-mono text-[9.5px] text-muted">
-                    0{activeIndex + 1} / 0{events.length}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => stepEvent(-1)}
-                    aria-label="Previous production"
-                    className="flex h-7 w-7 items-center justify-center rounded-[2px] border border-line-strong bg-paper-deep text-ink transition-colors hover:border-forest hover:bg-forest hover:text-white"
-                  >
-                    <ChevronLeft className="h-3.5 w-3.5" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => stepEvent(1)}
-                    aria-label="Next production"
-                    className="flex h-7 w-7 items-center justify-center rounded-[2px] border border-line-strong bg-paper-deep text-ink transition-colors hover:border-forest hover:bg-forest hover:text-white"
-                  >
-                    <ChevronRight className="h-3.5 w-3.5" />
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <span className="text-muted">
+                      {activeEvent.seasonOrYear}
+                    </span>
+                    <div className="flex items-center gap-1">
+                      <button
+                        type="button"
+                        onClick={() => stepEvent(-1)}
+                        aria-label="Previous production"
+                        className="flex h-6 w-6 items-center justify-center border border-line text-ink-soft transition-colors hover:border-forest hover:text-forest"
+                      >
+                        <ChevronLeft className="h-3 w-3" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => stepEvent(1)}
+                        aria-label="Next production"
+                        className="flex h-6 w-6 items-center justify-center border border-line text-ink-soft transition-colors hover:border-forest hover:text-forest"
+                      >
+                        <ChevronRight className="h-3 w-3" />
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+            </Tilt3D>
           </div>
         </div>
       </div>
 
-      {/* Bottom Flush Architectural Ticket Tiers / Awards OR Production Highlights Ledger */}
+      {/* Bottom Flush Architectural Ledger */}
       <div className="relative z-10 border-t border-ink/15 bg-white">
         <div className="container-ed">
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line py-3.5">
-            <span className="inline-flex items-center gap-2 font-mono text-[10.5px] font-semibold uppercase tracking-[0.16em] text-forest">
-              {isConcert ? (
-                <Ticket className="h-3.5 w-3.5 text-gold-deep" />
-              ) : (
-                <Trophy className="h-3.5 w-3.5 text-gold-deep" />
-              )}
+            <span className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.16em] text-forest">
               {activeEvent.ledgerTitle
                 ? activeEvent.ledgerTitle
                 : hasPrizes
@@ -497,12 +362,10 @@ export default function HeroEventShowcase({
                 href={activeEvent.ticketUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-forest hover:underline"
+                className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-forest hover:underline"
               >
-                <span>
-                  Book Digital Passes on {activeEvent.ticketPartner || 'Khalti'}
-                </span>
-                <ArrowUpRight className="h-3.5 w-3.5" />
+                Book Official Tickets on {activeEvent.ticketPartner || 'Khalti'}{' '}
+                &rarr;
               </a>
             ) : (
               <Link
@@ -518,29 +381,18 @@ export default function HeroEventShowcase({
             <div className="grid grid-cols-1 divide-y divide-line sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-4 lg:divide-x">
               {activeEvent.prizes.map((prize, idx) => {
                 const style = PRIZE_STYLES[prize.tier];
-                const Icon = isConcert ? Ticket : style.icon;
-                const tierNote = CONCERT_TIER_NOTES[prize.rank];
-                const CardTag = activeEvent.ticketUrl ? 'a' : 'div';
-                const cardProps = activeEvent.ticketUrl
-                  ? {
-                      href: activeEvent.ticketUrl,
-                      target: '_blank',
-                      rel: 'noopener noreferrer',
-                    }
-                  : {};
-
+                const Icon = style.icon;
                 return (
-                  <CardTag
+                  <div
                     key={prize.rank}
-                    {...cardProps}
                     className={cn(
-                      'group flex flex-col justify-between p-5 transition-colors hover:bg-paper-deep/70',
+                      'flex flex-col justify-between p-5 transition-colors hover:bg-paper-deep/60',
                       style.bar
                     )}
                   >
                     <div className="flex items-center justify-between">
                       <span className="font-mono text-xs font-semibold text-faint">
-                        0{idx + 1} / {isConcert ? 'TIER' : 'AWARD'}
+                        0{idx + 1}
                       </span>
                       <span
                         className={cn(
@@ -552,7 +404,7 @@ export default function HeroEventShowcase({
                       </span>
                     </div>
 
-                    <div className="mt-4">
+                    <div className="mt-5">
                       <h3
                         className={cn(
                           'font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em]',
@@ -561,24 +413,11 @@ export default function HeroEventShowcase({
                       >
                         {prize.rank}
                       </h3>
-                      <div className="mt-1 flex items-baseline justify-between gap-2">
-                        <p className="display text-2xl font-extrabold text-ink">
-                          {prize.amount}
-                        </p>
-                        {activeEvent.ticketUrl && (
-                          <span className="inline-flex items-center gap-0.5 font-mono text-[9.5px] font-semibold uppercase tracking-[0.12em] text-forest opacity-75 transition-opacity group-hover:opacity-100">
-                            Book
-                            <ArrowUpRight className="h-3 w-3" />
-                          </span>
-                        )}
-                      </div>
-                      {tierNote && (
-                        <p className="mt-2 text-xs leading-relaxed text-muted">
-                          {tierNote}
-                        </p>
-                      )}
+                      <p className="display mt-1 text-2xl font-extrabold text-ink">
+                        {prize.amount}
+                      </p>
                     </div>
-                  </CardTag>
+                  </div>
                 );
               })}
             </div>

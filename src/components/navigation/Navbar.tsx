@@ -76,46 +76,6 @@ export function Navbar() {
   return (
     <>
       <header className="sticky top-0 z-50 w-full">
-        {/* Top Concert Highlight Announcement Bar */}
-        <div className="border-b border-white/10 bg-gradient-to-r from-[#021224] via-[#05233a] to-forest text-white">
-          <div className="container-ed flex min-h-[2.25rem] flex-wrap items-center justify-between gap-2 py-1.5 font-mono text-[10px] uppercase tracking-[0.13em]">
-            <div className="flex items-center gap-2.5">
-              <span className="inline-flex items-center gap-1.5 rounded-[2px] bg-gold px-2 py-0.5 text-[8.5px] font-bold tracking-[0.14em] text-ink">
-                <span className="h-1.5 w-1.5 rounded-full bg-ink animate-ping" />
-                Highlight Concert
-              </span>
-              <Link
-                href="/events/atif-aslam-live-in-nepal"
-                className="font-semibold text-white transition-colors hover:text-gold"
-              >
-                Atif Aslam Live in Nepal &bull; Subah Aye Na Tour
-              </Link>
-              <span className="hidden text-white/40 md:inline">|</span>
-              <span className="hidden text-white/80 md:inline">
-                19 Dec 2026 &bull; Itahari Stadium
-              </span>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <Link
-                href="/events/atif-aslam-live-in-nepal"
-                className="hidden text-white/80 transition-colors hover:text-gold sm:inline-block"
-              >
-                Concert Dossier
-              </Link>
-              <a
-                href="https://events.khalti.com/events/ET26BJD3F93W"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1 font-bold text-gold hover:underline"
-              >
-                <span>Tickets on Khalti</span>
-                <ArrowUpRight className="h-3 w-3" />
-              </a>
-            </div>
-          </div>
-        </div>
-
         <nav
           aria-label="Primary Navigation"
           className={cn(

@@ -7,3 +7,4 @@ export { default as AnimeStaggerContainer } from './AnimeStaggerContainer';
 export { default as ScrollReveal } from './ScrollReveal';
 export { default as TextReveal } from './TextReveal';
 export { default as ImageReveal } from './ImageReveal';
+export { default as Tilt3D } from './Tilt3D';

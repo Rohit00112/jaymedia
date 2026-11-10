@@ -3,18 +3,10 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import {
-  X,
-  ChevronLeft,
-  ChevronRight,
-  ArrowUpRight,
-  Maximize2,
-  Sparkles,
-  Ticket,
-  Images,
-} from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, ArrowUpRight } from 'lucide-react';
 import PageHero from '@/components/shared/PageHero';
 import CtaBand from '@/components/shared/CtaBand';
+import { Tilt3D } from '@/components/motion';
 import { useEscapeKey, useBodyLock } from '@/hooks';
 import { cn } from '@/lib/utils';
 
@@ -45,7 +37,6 @@ interface GallerySectionMeta {
   href?: string;
   linkLabel?: string;
   ticketUrl?: string;
-  accentTone?: 'concert' | 'default';
 }
 
 const GALLERY_SECTIONS: GallerySectionMeta[] = [
@@ -58,7 +49,6 @@ const GALLERY_SECTIONS: GallerySectionMeta[] = [
     href: '/events/atif-aslam-live-in-nepal',
     linkLabel: 'Concert Dossier',
     ticketUrl: 'https://events.khalti.com/events/ET26BJD3F93W',
-    accentTone: 'concert',
   },
   {
     category: 'Miss Koshi 2024',
@@ -343,7 +333,7 @@ export default function GalleryPage() {
   }, [activePhotoIndex, filteredPhotos.length]);
 
   return (
-    <div className="min-h-screen bg-paper-deep text-ink">
+    <div className="min-h-screen bg-paper text-ink">
       <PageHero
         eyebrow="Production archive"
         title={
@@ -370,23 +360,13 @@ export default function GalleryPage() {
         ]}
       />
 
-      {/* Sticky Architectural Filter Bar */}
-      <div className="sticky top-[4.5rem] z-30 border-b border-ink/15 bg-white/95 shadow-[0_10px_24px_-18px_rgba(12,20,16,0.18)] backdrop-blur-xl">
-        <div className="container-ed flex items-center justify-between gap-4 overflow-x-auto py-3.5 no-scrollbar">
-          <div className="flex shrink-0 items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 pr-2 font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-forest">
-              <Images className="h-3.5 w-3.5" />
-              Collections
-            </span>
-
-            {CATEGORIES.map((category) => {
+      {/* Minimal Architectural Filter Bar */}
+      <div className="sticky top-[4.5rem] z-30 border-b border-line bg-paper/95 backdrop-blur-xl">
+        <div className="container-ed flex items-center justify-between gap-4 overflow-x-auto py-4 no-scrollbar">
+          <div className="flex shrink-0 items-center gap-6">
+            <span className="eyebrow shrink-0 text-faint">Filter</span>
+            {CATEGORIES.map((category, idx) => {
               const active = selectedCategory === category;
-              const count =
-                category === 'All'
-                  ? GALLERY_PHOTOS.length
-                  : GALLERY_PHOTOS.filter((p) => p.category === category)
-                      .length;
-
               return (
                 <button
                   key={category}
@@ -397,23 +377,20 @@ export default function GalleryPage() {
                   }}
                   aria-pressed={active}
                   className={cn(
-                    'inline-flex items-center gap-2 whitespace-nowrap rounded-[3px] border px-3.5 py-2 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] transition-all duration-200',
-                    active
-                      ? 'border-forest bg-forest text-white shadow-xs'
-                      : 'border-line bg-paper-deep/70 text-ink-soft hover:border-forest hover:bg-white hover:text-forest'
+                    'relative whitespace-nowrap pb-1.5 font-sans text-xs font-medium transition-colors duration-200',
+                    active ? 'text-ink' : 'text-muted hover:text-ink'
                   )}
                 >
-                  <span>{category}</span>
-                  <span
-                    className={cn(
-                      'rounded-[2px] px-1.5 py-0.5 text-[9px] tabular-nums',
-                      active
-                        ? 'bg-white/20 text-gold'
-                        : 'bg-white text-muted'
-                    )}
-                  >
-                    {String(count).padStart(2, '0')}
+                  <span className="mono mr-1.5 text-[9.5px] text-faint">
+                    0{idx + 1}
                   </span>
+                  {category}
+                  {active && (
+                    <span
+                      className="absolute inset-x-0 bottom-0 h-[1.5px] bg-ink"
+                      aria-hidden="true"
+                    />
+                  )}
                 </button>
               );
             })}
@@ -421,17 +398,18 @@ export default function GalleryPage() {
         </div>
       </div>
 
-      {/* Grouped Event Exhibition Sections */}
-      <section className="py-12 md:py-16">
-        <div className="container-ed space-y-14 md:space-y-20">
+      {/* Grouped Event Sections */}
+      <section className="py-14 md:py-20">
+        <div className="container-ed space-y-16 md:space-y-24">
           {visibleSections.map((section, sectionIdx) => {
             const sectionPhotos = GALLERY_PHOTOS.filter(
               (photo) => photo.category === section.category
             );
             if (sectionPhotos.length === 0) return null;
 
-            const isConcertSection = section.accentTone === 'concert';
-            const featuredPhoto = sectionPhotos.find((p) => p.featuredInSection);
+            const featuredPhoto = sectionPhotos.find(
+              (p) => p.featuredInSection
+            );
             const gridPhotos = featuredPhoto
               ? sectionPhotos.filter((p) => p.id !== featuredPhoto.id)
               : sectionPhotos;
@@ -439,69 +417,28 @@ export default function GalleryPage() {
             return (
               <div
                 key={section.category}
-                className={cn(
-                  'overflow-hidden rounded-[6px] border p-6 sm:p-8 lg:p-10',
-                  isConcertSection
-                    ? 'border-forest/30 bg-gradient-to-br from-[#031426] via-[#062138] to-[#022c1e] text-white shadow-[0_24px_56px_-24px_rgba(2,18,36,0.55)]'
-                    : 'border-ink/15 bg-white shadow-[0_16px_40px_-28px_rgba(12,20,16,0.12)]'
-                )}
+                className="border-t border-ink/15 pt-10 first:border-t-0 first:pt-0"
               >
                 {/* Section Header */}
-                <div
-                  className={cn(
-                    'mb-8 flex flex-col justify-between gap-5 border-b pb-6 lg:flex-row lg:items-end',
-                    isConcertSection ? 'border-white/15' : 'border-line'
-                  )}
-                >
+                <div className="mb-8 flex flex-col justify-between gap-4 border-b border-line pb-6 md:flex-row md:items-end">
                   <div>
-                    <div className="flex flex-wrap items-center gap-2.5 font-mono text-[10px] font-semibold uppercase tracking-[0.16em]">
+                    <span className="eyebrow inline-flex items-center gap-2 text-forest">
                       <span
-                        className={cn(
-                          'inline-flex items-center gap-1.5 rounded-[2px] px-2.5 py-1',
-                          isConcertSection
-                            ? 'bg-gold text-ink'
-                            : 'bg-forest text-white'
-                        )}
-                      >
-                        {isConcertSection && <Sparkles className="h-3 w-3" />}
-                        0{sectionIdx + 1} / {section.category}
-                      </span>
-                      <span
-                        className={
-                          isConcertSection ? 'text-gold' : 'text-forest'
-                        }
-                      >
-                        {section.eyebrow}
-                      </span>
-                    </div>
-
-                    <h2
-                      className={cn(
-                        'display mt-3 text-2xl font-bold sm:text-3xl lg:text-4xl',
-                        isConcertSection ? 'text-white' : 'text-ink'
-                      )}
-                    >
+                        className="h-2.5 w-1 bg-forest"
+                        aria-hidden="true"
+                      />
+                      0{sectionIdx + 1} / {section.eyebrow}
+                    </span>
+                    <h2 className="display mt-2 text-2xl font-bold text-ink sm:text-3xl md:text-4xl">
                       {section.title}
                     </h2>
-                    <p
-                      className={cn(
-                        'mt-2 max-w-2xl text-xs leading-relaxed sm:text-sm',
-                        isConcertSection ? 'text-white/75' : 'text-muted'
-                      )}
-                    >
+                    <p className="mt-2 max-w-2xl text-xs leading-relaxed text-muted sm:text-sm">
                       {section.description}
                     </p>
                   </div>
 
                   <div className="flex flex-wrap items-center gap-3">
-                    <span
-                      className={cn(
-                        'rounded-[3px] border px-3 py-2 font-mono text-[10px] font-semibold uppercase tracking-[0.14em]',
-                        isConcertSection
-                          ? 'border-white/20 bg-white/10 text-white'
-                          : 'border-line bg-paper-deep text-ink-soft'
-                      )}
-                    >
+                    <span className="rounded-[2px] border border-line bg-paper-deep px-3 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
                       {String(sectionPhotos.length).padStart(2, '0')}{' '}
                       {sectionPhotos.length === 1 ? 'Frame' : 'Frames'}
                     </span>
@@ -511,98 +448,88 @@ export default function GalleryPage() {
                         href={section.ticketUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 rounded-[3px] bg-gold px-4 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-ink transition-transform hover:-translate-y-0.5"
+                        className="inline-flex items-center gap-1.5 rounded-[2px] bg-forest px-3.5 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-white transition-colors hover:bg-ink"
                       >
-                        <Ticket className="h-3.5 w-3.5" />
                         <span>Buy Tickets (Khalti)</span>
-                        <ArrowUpRight className="h-3.5 w-3.5" />
+                        <ArrowUpRight className="h-3 w-3 text-gold" />
                       </a>
                     )}
 
                     {section.href && (
                       <Link
                         href={section.href}
-                        className={cn(
-                          'inline-flex items-center gap-1.5 rounded-[3px] border px-4 py-2 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] transition-colors',
-                          isConcertSection
-                            ? 'border-white/25 bg-white/10 text-white hover:bg-white hover:text-ink'
-                            : 'border-forest bg-forest text-white hover:bg-ink'
-                        )}
+                        className="inline-flex items-center gap-1.5 rounded-[2px] border border-ink/20 bg-white px-3.5 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.12em] text-ink transition-colors hover:border-forest hover:text-forest"
                       >
                         <span>{section.linkLabel || 'View Event'}</span>
-                        <ArrowUpRight className="h-3.5 w-3.5 text-gold" />
+                        <ArrowUpRight className="h-3 w-3 text-forest" />
                       </Link>
                     )}
                   </div>
                 </div>
 
-                {/* Optional Lead Featured Showcase Card (e.g., Miss Koshi 2024 Grand Titleholders Cover) */}
+                {/* Optional Lead Plate (e.g., Miss Koshi 2024 Titleholders Cover) */}
                 {featuredPhoto && (
-                  <div className="mb-8 grid items-center gap-6 rounded-[5px] border border-line bg-paper-deep/65 p-4 sm:p-6 lg:grid-cols-12">
+                  <div className="mb-8 grid items-center gap-6 rounded-[2px] border border-line bg-paper-deep/50 p-5 sm:p-7 lg:grid-cols-12">
                     <div className="lg:col-span-5">
-                      <button
-                        type="button"
-                        onClick={() => openPhotoById(featuredPhoto.id)}
-                        aria-label={`Open ${featuredPhoto.title}`}
-                        className="group relative block aspect-[4/4.4] w-full overflow-hidden rounded-[4px] border border-ink/15 bg-white text-left shadow-sm"
-                      >
-                        <Image
-                          src={featuredPhoto.image}
-                          alt={featuredPhoto.title}
-                          fill
-                          sizes="(max-width: 1024px) 100vw, 42vw"
-                          className="img-zoom object-cover"
-                        />
-                        {featuredPhoto.badge && (
-                          <span className="absolute left-3 top-3 rounded-[2px] bg-forest px-2.5 py-1 font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-gold shadow-xs">
-                            {featuredPhoto.badge}
+                      <Tilt3D maxTilt={5} scale={1.01}>
+                        <button
+                          type="button"
+                          onClick={() => openPhotoById(featuredPhoto.id)}
+                          aria-label={`Open ${featuredPhoto.title}`}
+                          className="group relative block aspect-[4/4.4] w-full overflow-hidden rounded-[2px] border border-ink/15 bg-white text-left"
+                        >
+                          <Image
+                            src={featuredPhoto.image}
+                            alt={featuredPhoto.title}
+                            fill
+                            sizes="(max-width: 1024px) 100vw, 42vw"
+                            className="img-zoom object-cover"
+                          />
+                          <span className="absolute bottom-3 right-3 inline-flex h-9 w-9 items-center justify-center rounded-[2px] bg-white/95 text-ink opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                            <ArrowUpRight className="h-4 w-4" />
                           </span>
-                        )}
-                        <span className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-[2px] bg-ink/85 px-3 py-1.5 font-mono text-[9.5px] font-semibold uppercase tracking-[0.12em] text-white backdrop-blur-xs transition-colors group-hover:bg-forest">
-                          <Maximize2 className="h-3 w-3 text-gold" />
-                          <span>Expand Cover</span>
-                        </span>
-                      </button>
+                        </button>
+                      </Tilt3D>
                     </div>
 
                     <div className="flex flex-col justify-between lg:col-span-7 lg:pl-4">
                       <div>
-                        <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-forest">
+                        <span className="eyebrow text-forest">
                           Lead Exhibition Plate &bull; {featuredPhoto.category}
                         </span>
                         <h3 className="display mt-2 text-2xl font-bold text-ink sm:text-3xl">
                           {featuredPhoto.title}
                         </h3>
-                        <p className="mt-3 text-sm leading-relaxed text-ink-soft">
+                        <p className="mt-3 text-sm leading-relaxed text-muted">
                           {featuredPhoto.caption}
                         </p>
 
-                        <div className="mt-6 grid grid-cols-2 gap-4 border-y border-line py-4 sm:grid-cols-3">
+                        <dl className="mt-6 grid grid-cols-2 gap-4 border-y border-line py-4 sm:grid-cols-3">
                           <div>
-                            <span className="block font-mono text-[9px] uppercase tracking-[0.14em] text-muted">
+                            <dt className="eyebrow text-[9px] text-faint">
                               Season #8 Winner
-                            </span>
-                            <span className="mt-1 block text-xs font-bold text-forest">
+                            </dt>
+                            <dd className="mt-1 text-xs font-semibold text-ink">
                               Subha Laxmi Rai (#16)
-                            </span>
+                            </dd>
                           </div>
                           <div>
-                            <span className="block font-mono text-[9px] uppercase tracking-[0.14em] text-muted">
+                            <dt className="eyebrow text-[9px] text-faint">
                               1st Runner Up
-                            </span>
-                            <span className="mt-1 block text-xs font-bold text-ink">
+                            </dt>
+                            <dd className="mt-1 text-xs font-semibold text-ink">
                               Nishahangma Limbu (#09)
-                            </span>
+                            </dd>
                           </div>
                           <div>
-                            <span className="block font-mono text-[9px] uppercase tracking-[0.14em] text-muted">
+                            <dt className="eyebrow text-[9px] text-faint">
                               Coronation Stage
-                            </span>
-                            <span className="mt-1 block text-xs font-bold text-ink">
+                            </dt>
+                            <dd className="mt-1 text-xs font-semibold text-ink">
                               Biratnagar, Koshi
-                            </span>
+                            </dd>
                           </div>
-                        </div>
+                        </dl>
                       </div>
 
                       <div className="mt-5 flex flex-wrap items-center gap-3">
@@ -611,21 +538,15 @@ export default function GalleryPage() {
                           onClick={() => openPhotoById(featuredPhoto.id)}
                           className="btn btn-accent"
                         >
-                          <Maximize2 className="h-3.5 w-3.5 text-gold" />
-                          <span>Inspect Full Resolution</span>
+                          <span>Inspect Full Frame</span>
+                          <ArrowUpRight className="h-4 w-4 text-gold" />
                         </button>
-                        <Link
-                          href="/events/miss-koshi"
-                          className="btn btn-outline bg-white"
-                        >
-                          <span>Miss Koshi Dossier</span>
-                        </Link>
                       </div>
                     </div>
                   </div>
                 )}
 
-                {/* Unified Grid for this Event's Photos */}
+                {/* Unified 3D-Tilted Photo Grid for this Event */}
                 <div
                   className={cn(
                     'grid gap-6',
@@ -635,108 +556,72 @@ export default function GalleryPage() {
                   )}
                 >
                   {gridPhotos.map((photo, index) => (
-                    <figure
+                    <Tilt3D
                       key={photo.id}
-                      className={cn(
-                        'group flex flex-col justify-between overflow-hidden rounded-[5px] border p-3 transition-all duration-300 hover:-translate-y-1',
-                        isConcertSection
-                          ? 'border-white/15 bg-white/[0.06] hover:border-gold/60 hover:bg-white/[0.1]'
-                          : 'border-line bg-paper-deep/40 hover:border-forest hover:bg-white hover:shadow-[0_18px_36px_-22px_rgba(1,64,43,0.22)]'
-                      )}
+                      maxTilt={4.5}
+                      scale={1.01}
+                      className="h-full"
                     >
-                      <button
-                        type="button"
-                        onClick={() => openPhotoById(photo.id)}
-                        aria-label={`Open ${photo.title}`}
-                        className={cn(
-                          'relative block w-full overflow-hidden rounded-[3px] bg-[#040d1a] text-left',
-                          photo.aspect
-                        )}
-                      >
-                        <Image
-                          src={photo.image}
-                          alt={photo.title}
-                          fill
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                          className="img-zoom object-cover"
-                          loading={
-                            sectionIdx === 0 && index < 3 ? 'eager' : 'lazy'
-                          }
-                        />
-
-                        <span
-                          className="absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                          aria-hidden="true"
-                        />
-
-                        {/* Top Floating Badge */}
-                        <div className="pointer-events-none absolute inset-x-2.5 top-2.5 flex items-center justify-between gap-2">
-                          {photo.badge && (
-                            <span
-                              className={cn(
-                                'rounded-[2px] px-2.5 py-1 font-mono text-[8.5px] font-bold uppercase tracking-[0.14em] shadow-xs backdrop-blur-md',
-                                isConcertSection
-                                  ? 'bg-gold text-ink'
-                                  : 'bg-ink/80 text-white'
-                              )}
-                            >
-                              {photo.badge}
-                            </span>
-                          )}
-                          <span className="ml-auto rounded-[2px] bg-ink/70 px-2 py-0.5 font-mono text-[8.5px] font-semibold text-white/90 backdrop-blur-xs">
-                            0{index + 1}
-                          </span>
-                        </div>
-
-                        {/* Bottom Hover Expand Pill */}
-                        <span className="absolute bottom-3 right-3 inline-flex translate-y-1 items-center gap-1.5 rounded-[2px] bg-white px-3 py-1.5 font-mono text-[9px] font-bold uppercase tracking-[0.12em] text-ink opacity-0 shadow-md transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-                          <Maximize2 className="h-3 w-3 text-forest" />
-                          <span>View Frame</span>
-                        </span>
-                      </button>
-
-                      <figcaption className="mt-3.5 flex flex-1 flex-col justify-between px-1 pb-1">
-                        <div>
-                          <h3
-                            className={cn(
-                              'display text-base font-bold leading-snug md:text-lg',
-                              isConcertSection
-                                ? 'text-white group-hover:text-gold'
-                                : 'text-ink group-hover:text-forest'
-                            )}
-                          >
-                            {photo.title}
-                          </h3>
-                          <p
-                            className={cn(
-                              'mt-1.5 line-clamp-2 text-xs leading-relaxed',
-                              isConcertSection ? 'text-white/70' : 'text-muted'
-                            )}
-                          >
-                            {photo.caption}
-                          </p>
-                        </div>
-
-                        <div
+                      <figure className="group flex h-full flex-col justify-between rounded-[2px] border border-line bg-white p-3 transition-colors duration-300 hover:border-forest">
+                        <button
+                          type="button"
+                          onClick={() => openPhotoById(photo.id)}
+                          aria-label={`Open ${photo.title}`}
                           className={cn(
-                            'mt-3 flex items-center justify-between border-t pt-2.5 font-mono text-[9px] uppercase tracking-[0.14em]',
-                            isConcertSection
-                              ? 'border-white/15 text-gold'
-                              : 'border-line text-forest'
+                            'relative block w-full overflow-hidden rounded-[2px] bg-[#040d1a] text-left',
+                            photo.aspect
                           )}
                         >
-                          <span>{photo.category}</span>
-                          <button
-                            type="button"
-                            onClick={() => openPhotoById(photo.id)}
-                            className="inline-flex items-center gap-1 font-semibold hover:underline"
-                          >
-                            <span>Lightbox</span>
-                            <ArrowUpRight className="h-3 w-3" />
-                          </button>
-                        </div>
-                      </figcaption>
-                    </figure>
+                          <Image
+                            src={photo.image}
+                            alt={photo.title}
+                            fill
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                            className="img-zoom object-cover"
+                            loading={
+                              sectionIdx === 0 && index < 3 ? 'eager' : 'lazy'
+                            }
+                          />
+
+                          <span
+                            className="absolute inset-0 bg-ink/15 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                            aria-hidden="true"
+                          />
+
+                          <span className="absolute bottom-3 right-3 inline-flex h-9 w-9 translate-y-1 items-center justify-center rounded-[2px] bg-white/95 text-ink opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                            <ArrowUpRight className="h-4 w-4" />
+                          </span>
+                        </button>
+
+                        <figcaption className="mt-3.5 flex flex-1 flex-col justify-between px-1 pb-1">
+                          <div>
+                            <div className="flex items-baseline justify-between gap-3">
+                              <h3 className="display text-base font-bold text-ink transition-colors group-hover:text-forest md:text-lg">
+                                {photo.title}
+                              </h3>
+                              <span className="eyebrow shrink-0 text-[9px] text-faint">
+                                0{index + 1}
+                              </span>
+                            </div>
+                            <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-muted">
+                              {photo.caption}
+                            </p>
+                          </div>
+
+                          <div className="mt-3 flex items-center justify-between border-t border-line pt-2.5 font-mono text-[9px] uppercase tracking-[0.14em] text-muted">
+                            <span>{photo.badge || photo.category}</span>
+                            <button
+                              type="button"
+                              onClick={() => openPhotoById(photo.id)}
+                              className="inline-flex items-center gap-1 text-forest hover:underline"
+                            >
+                              <span>Expand</span>
+                              <ArrowUpRight className="h-3 w-3" />
+                            </button>
+                          </div>
+                        </figcaption>
+                      </figure>
+                    </Tilt3D>
                   ))}
                 </div>
               </div>
@@ -751,37 +636,29 @@ export default function GalleryPage() {
         </div>
       </section>
 
-      {/* Full-Screen Interactive Lightbox Modal with Thumbnail Filmstrip */}
+      {/* Clean Minimal Full-Screen Lightbox */}
       {activePhoto && (
         <div
           role="dialog"
           aria-modal="true"
           aria-label={activePhoto.title}
           onClick={() => setActivePhotoIndex(null)}
-          className="backdrop-in fixed inset-0 z-[100] flex flex-col justify-between bg-[#060d14]/96 p-4 text-white backdrop-blur-lg sm:p-6 lg:p-8"
+          className="backdrop-in fixed inset-0 z-[100] flex flex-col justify-between bg-ink/95 p-4 text-white backdrop-blur-md sm:p-6 md:p-10"
         >
-          {/* Top Lightbox Header */}
+          {/* Top Bar */}
           <div
             onClick={(e) => e.stopPropagation()}
-            className="mx-auto flex w-full max-w-6xl items-start justify-between gap-4 border-b border-white/15 pb-3.5"
+            className="mx-auto flex w-full max-w-6xl items-center justify-between gap-4 border-b border-white/15 pb-4"
           >
             <div>
-              <div className="flex flex-wrap items-center gap-2 font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-gold">
-                <span>{activePhoto.category}</span>
-                {activePhoto.badge && (
-                  <>
-                    <span className="text-white/30">&bull;</span>
-                    <span className="text-white/80">{activePhoto.badge}</span>
-                  </>
-                )}
-              </div>
+              <span className="eyebrow text-gold">{activePhoto.category}</span>
               <h2 className="display mt-1 text-lg font-bold text-white sm:text-2xl">
                 {activePhoto.title}
               </h2>
             </div>
 
-            <div className="flex items-center gap-3">
-              <span className="hidden rounded-[2px] border border-white/20 bg-white/10 px-3 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-white/85 sm:inline-block">
+            <div className="flex items-center gap-4">
+              <span className="mono hidden text-xs text-white/60 sm:inline">
                 {String(activePhotoIndex! + 1).padStart(2, '0')} /{' '}
                 {String(filteredPhotos.length).padStart(2, '0')}
               </span>
@@ -790,9 +667,9 @@ export default function GalleryPage() {
                 onClick={() => setActivePhotoIndex(null)}
                 autoFocus
                 aria-label="Close gallery lightbox"
-                className="group flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/25 bg-white/10 text-white transition-colors hover:border-gold hover:bg-gold hover:text-ink"
+                className="flex h-10 w-10 items-center justify-center rounded-[2px] border border-white/20 bg-white/10 text-white transition-colors hover:bg-white hover:text-ink"
               >
-                <X className="h-5 w-5 transition-transform duration-300 group-hover:rotate-90" />
+                <X className="h-4 w-4" />
               </button>
             </div>
           </div>
@@ -800,73 +677,75 @@ export default function GalleryPage() {
           {/* Center Image Stage */}
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative mx-auto my-3 flex w-full max-w-6xl flex-1 items-center justify-center"
+            className="relative mx-auto my-4 flex w-full max-w-6xl flex-1 items-center justify-center"
           >
-            <div className="relative h-[56vh] w-full overflow-hidden rounded-[4px] border border-white/10 bg-black/70 sm:h-[64vh]">
+            <button
+              type="button"
+              onClick={handlePrev}
+              aria-label="Previous image"
+              className="absolute left-0 z-20 flex h-11 w-11 items-center justify-center rounded-[2px] border border-white/20 bg-ink/80 text-white transition-colors hover:bg-white hover:text-ink sm:left-2"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+
+            <div className="relative h-[58vh] w-full max-w-4xl sm:h-[68vh]">
               <Image
                 src={activePhoto.image}
                 alt={activePhoto.title}
                 fill
+                sizes="90vw"
+                className="object-contain"
                 priority
-                sizes="(max-width: 1280px) 100vw, 1200px"
-                className="object-contain p-2 sm:p-4"
               />
             </div>
 
             <button
               type="button"
-              onClick={handlePrev}
-              aria-label="Previous photo"
-              className="absolute left-2 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-ink/85 text-white shadow-lg transition-colors hover:border-gold hover:bg-gold hover:text-ink sm:left-4"
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </button>
-
-            <button
-              type="button"
               onClick={handleNext}
-              aria-label="Next photo"
-              className="absolute right-2 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-ink/85 text-white shadow-lg transition-colors hover:border-gold hover:bg-gold hover:text-ink sm:right-4"
+              aria-label="Next image"
+              className="absolute right-0 z-20 flex h-11 w-11 items-center justify-center rounded-[2px] border border-white/20 bg-ink/80 text-white transition-colors hover:bg-white hover:text-ink sm:right-2"
             >
               <ChevronRight className="h-5 w-5" />
             </button>
           </div>
 
-          {/* Bottom Caption + Interactive Thumbnail Filmstrip */}
+          {/* Bottom Caption & Filmstrip */}
           <div
             onClick={(e) => e.stopPropagation()}
-            className="mx-auto w-full max-w-6xl border-t border-white/15 pt-3.5"
+            className="mx-auto w-full max-w-6xl border-t border-white/15 pt-4"
           >
-            <p className="mb-3 text-xs leading-relaxed text-white/80 sm:text-sm">
-              {activePhoto.caption}
-            </p>
+            <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
+              <p className="max-w-2xl text-xs leading-relaxed text-white/75 sm:text-sm">
+                {activePhoto.caption}
+              </p>
 
-            <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
-              {filteredPhotos.map((thumb, idx) => {
-                const isCurrent = idx === activePhotoIndex;
-                return (
-                  <button
-                    key={thumb.id}
-                    type="button"
-                    onClick={() => setActivePhotoIndex(idx)}
-                    aria-label={`Jump to ${thumb.title}`}
-                    className={cn(
-                      'relative h-12 w-16 shrink-0 overflow-hidden rounded-[2px] border transition-all',
-                      isCurrent
-                        ? 'border-2 border-gold ring-2 ring-gold/40'
-                        : 'border-white/20 opacity-55 hover:opacity-90'
-                    )}
-                  >
-                    <Image
-                      src={thumb.image}
-                      alt={thumb.title}
-                      fill
-                      sizes="64px"
-                      className="object-cover"
-                    />
-                  </button>
-                );
-              })}
+              <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+                {filteredPhotos.map((thumb, idx) => {
+                  const isCurrent = idx === activePhotoIndex;
+                  return (
+                    <button
+                      key={thumb.id}
+                      type="button"
+                      onClick={() => setActivePhotoIndex(idx)}
+                      aria-label={`View ${thumb.title}`}
+                      className={cn(
+                        'relative h-11 w-11 shrink-0 overflow-hidden rounded-[2px] border transition-opacity',
+                        isCurrent
+                          ? 'border-gold opacity-100'
+                          : 'border-white/20 opacity-45 hover:opacity-85'
+                      )}
+                    >
+                      <Image
+                        src={thumb.image}
+                        alt={thumb.title}
+                        fill
+                        sizes="44px"
+                        className="object-cover"
+                      />
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>

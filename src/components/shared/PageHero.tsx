@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import Reveal from '@/components/motion/Reveal';
 import RevealImage from '@/components/motion/RevealImage';
+import { Tilt3D } from '@/components/motion';
+import { PavilionScene } from '@/components/three';
 import { cn } from '@/lib/utils';
 
 interface PageHeroProps {
@@ -25,7 +27,6 @@ export default function PageHero({
   imageAlt = '',
   breadcrumb,
   meta,
-  compact = false,
   className,
 }: PageHeroProps) {
   return (
@@ -35,7 +36,9 @@ export default function PageHero({
         className
       )}
     >
-      <div className="container-ed relative">
+      <PavilionScene />
+
+      <div className="container-ed relative z-10">
         <div className="flex items-center justify-between gap-6 border-b border-line pb-4">
           <div className="flex items-center gap-4">
             {breadcrumb ? (
@@ -96,22 +99,24 @@ export default function PageHero({
       </div>
 
       {image && (
-        <div className="container-ed">
-          <RevealImage
-            src={image}
-            alt={imageAlt}
-            aspect="aspect-[2/1]"
-            sizes="(max-width: 1408px) 100vw, 1344px"
-            priority
-            parallax={false}
-            className="rounded-[4px] border border-line bg-[#020816]"
-          />
+        <div className="container-ed relative z-10">
+          <Tilt3D maxTilt={3} scale={1.005}>
+            <RevealImage
+              src={image}
+              alt={imageAlt}
+              aspect="aspect-[2/1]"
+              sizes="(max-width: 1408px) 100vw, 1344px"
+              priority
+              parallax={false}
+              className="rounded-[2px] border border-line bg-[#020816]"
+            />
+          </Tilt3D>
         </div>
       )}
 
       <div
         className={cn(
-          'container-ed relative flex items-center justify-between gap-4',
+          'container-ed relative z-10 flex items-center justify-between gap-4',
           image ? 'pb-6 pt-4 md:pb-8' : 'pb-10 pt-4 md:pb-12'
         )}
       >

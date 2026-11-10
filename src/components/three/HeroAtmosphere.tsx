@@ -11,79 +11,93 @@ function pseudoRandom(seed: number) {
 }
 
 /**
- * Flowing harmonic point-wave representing live vocals and acoustic resonance
- * calibrated cleanly for our bright #FAF9F6 editorial paper surface.
+ * 3D undulating wireframe stage terrain + harmonic point field
  */
-function AcousticWave({ isVisible }: { isVisible: boolean }) {
-  const meshRef = useRef<THREE.Points>(null);
-  const cols = 44;
-  const rows = 18;
-  const total = cols * rows;
-
-  const basePositions = useMemo(() => {
-    const arr = new Float32Array(total * 3);
-    let idx = 0;
-    for (let x = 0; x < cols; x++) {
-      for (let z = 0; z < rows; z++) {
-        arr[idx++] = (x - cols / 2) * 0.24;
-        arr[idx++] = 0;
-        arr[idx++] = (z - rows / 2) * 0.24;
-      }
-    }
-    return arr;
-  }, [cols, rows, total]);
-
-  const positions = useMemo(() => new Float32Array(basePositions), [basePositions]);
+function AcousticTopology({ isVisible }: { isVisible: boolean }) {
+  const meshRef = useRef<THREE.Mesh>(null);
 
   useFrame((state) => {
     if (!meshRef.current || !isVisible) return;
-    const t = state.clock.elapsedTime * 0.75;
-    const posAttr = meshRef.current.geometry.attributes
+    const t = state.clock.elapsedTime * 0.65;
+    const pos = meshRef.current.geometry.attributes
       .position as THREE.BufferAttribute;
-    const array = posAttr.array as Float32Array;
 
-    let idx = 0;
-    for (let x = 0; x < cols; x++) {
-      for (let z = 0; z < rows; z++) {
-        const y =
-          Math.sin(x * 0.28 + t) * 0.28 +
-          Math.cos(z * 0.4 + t * 0.85) * 0.16;
-        array[idx * 3 + 1] = y;
-        idx++;
-      }
+    for (let i = 0; i < pos.count; i++) {
+      const x = pos.getX(i);
+      const y = pos.getY(i);
+      const z =
+        Math.sin(x * 0.42 + t) * 0.32 +
+        Math.cos(y * 0.48 - t * 0.8) * 0.22;
+      pos.setZ(i, z);
     }
-    posAttr.needsUpdate = true;
+    pos.needsUpdate = true;
   });
 
   return (
-    <points
+    <mesh
       ref={meshRef}
-      position={[0.6, -1.25, -1.2]}
-      rotation={[0.42, -0.22, 0.08]}
+      position={[0.4, -1.5, -1.8]}
+      rotation={[-Math.PI / 2.4, 0, -0.14]}
     >
-      <bufferGeometry>
-        <bufferAttribute
-          attach="attributes-position"
-          args={[positions, 3]}
-          count={total}
-          itemSize={3}
-        />
-      </bufferGeometry>
-      <pointsMaterial
+      <planeGeometry args={[18, 9, 44, 22]} />
+      <meshBasicMaterial
         color="#01402B"
-        size={0.028}
+        wireframe
         transparent
-        opacity={0.22}
-        sizeAttenuation
-        depthWrite={false}
+        opacity={0.085}
       />
-    </points>
+    </mesh>
   );
 }
 
 /**
- * Dual-tone ambient gold & forest particles reacting to pointer parallax.
+ * Sculptural 3D orbital acoustic rings rotating in 3D space
  */
+function OrbitalStageRings({ isVisible }: { isVisible: boolean }) {
+  const groupRef = useRef<THREE.Group>(null);
+  const innerRef = useRef<THREE.Mesh>(null);
+  const outerRef = useRef<THREE.Mesh>(null);
+
+  useFrame((state, delta) => {
+    if (!isVisible) return;
+    if (groupRef.current) {
+      groupRef.current.rotation.y += delta * 0.12;
+      groupRef.current.position.y =
+        0.2 + Math.sin(state.clock.elapsedTime * 0.5) * 0.12;
+    }
+    if (innerRef.current) {
+      innerRef.current.rotation.x += delta * 0.22;
+      innerRef.current.rotation.z -= delta * 0.15;
+    }
+    if (outerRef.current) {
+      outerRef.current.rotation.x -= delta * 0.14;
+      outerRef.current.rotation.y += delta * 0.18;
+    }
+  });
+
+  return (
+    <group ref={groupRef} position={[2.2, 0.25, -1.6]}>
+      <mesh ref={outerRef}>
+        <torusGeometry args={[2.15, 0.008, 12, 96]} />
+        <meshBasicMaterial color="#01402B" transparent opacity={0.18} />
+      </mesh>
+      <mesh ref={innerRef} rotation={[0.6, 0.4, 0]}>
+        <torusGeometry args={[1.55, 0.007, 12, 80]} />
+        <meshBasicMaterial color="#C89B3C" transparent opacity={0.28} />
+      </mesh>
+      <mesh rotation={[1.1, -0.5, 0.3]}>
+        <icosahedronGeometry args={[0.95, 1]} />
+        <meshBasicMaterial
+          color="#01402B"
+          wireframe
+          transparent
+          opacity={0.07}
+        />
+      </mesh>
+    </group>
+  );
+}
+
 function AmbientParticles({
   count,
   color,
@@ -105,7 +119,7 @@ function AmbientParticles({
     const pos = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
       const i3 = i * 3;
-      pos[i3] = (pseudoRandom(i * 3 + 1) - 0.5) * 11;
+      pos[i3] = (pseudoRandom(i * 3 + 1) - 0.5) * 12;
       pos[i3 + 1] = (pseudoRandom(i * 3 + 2) - 0.5) * 6.5;
       pos[i3 + 2] = (pseudoRandom(i * 3 + 3) - 0.5) * 4;
     }
@@ -120,7 +134,12 @@ function AmbientParticles({
   });
 
   return (
-    <Points ref={pointsRef} positions={positions} stride={3} frustumCulled={false}>
+    <Points
+      ref={pointsRef}
+      positions={positions}
+      stride={3}
+      frustumCulled={false}
+    >
       <PointMaterial
         transparent
         color={color}
@@ -133,11 +152,15 @@ function AmbientParticles({
   );
 }
 
-function StageRig({ mousePos }: { mousePos: React.MutableRefObject<{ x: number; y: number }> }) {
+function StageRig({
+  mousePos,
+}: {
+  mousePos: React.MutableRefObject<{ x: number; y: number }>;
+}) {
   useFrame((state) => {
     const { camera } = state;
-    camera.position.x += (mousePos.current.x * 0.35 - camera.position.x) * 0.03;
-    camera.position.y += (-mousePos.current.y * 0.22 - camera.position.y) * 0.03;
+    camera.position.x += (mousePos.current.x * 0.55 - camera.position.x) * 0.04;
+    camera.position.y += (-mousePos.current.y * 0.35 - camera.position.y) * 0.04;
     camera.lookAt(0, 0, 0);
   });
   return null;
@@ -154,8 +177,8 @@ const HeroAtmosphere = React.memo(function HeroAtmosphere() {
     syncMotion();
 
     function handleMouseMove(e: MouseEvent) {
-      mousePos.current.x = (e.clientX / window.innerWidth - 0.5) * 2;
-      mousePos.current.y = (e.clientY / window.innerHeight - 0.5) * 2;
+      mousePos.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mousePos.current.y = -(e.clientY / window.innerHeight) * 2 + 1;
     }
 
     function handleVisibility() {
@@ -177,33 +200,34 @@ const HeroAtmosphere = React.memo(function HeroAtmosphere() {
 
   return (
     <div
-      className="pointer-events-none absolute inset-0 z-0 overflow-hidden opacity-90"
+      className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
       aria-hidden="true"
     >
       <Canvas
-        camera={{ position: [0, 0, 5.2], fov: 45 }}
+        camera={{ position: [0, 0, 4.6], fov: 50 }}
         gl={{
           alpha: true,
           antialias: true,
-          powerPreference: 'low-power',
+          powerPreference: 'high-performance',
         }}
         dpr={[1, 1.5]}
       >
         <StageRig mousePos={mousePos} />
-        <AcousticWave isVisible={isVisible} />
+        <AcousticTopology isVisible={isVisible} />
+        <OrbitalStageRings isVisible={isVisible} />
         <AmbientParticles
-          count={90}
+          count={85}
           color="#B88F36"
-          size={0.042}
-          opacity={0.38}
+          size={0.04}
+          opacity={0.35}
           speed={0.025}
           isVisible={isVisible}
         />
         <AmbientParticles
-          count={75}
+          count={70}
           color="#01402B"
-          size={0.034}
-          opacity={0.28}
+          size={0.032}
+          opacity={0.25}
           speed={-0.018}
           isVisible={isVisible}
         />
