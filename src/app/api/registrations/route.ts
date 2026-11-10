@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getEventBySlug } from '@/lib/events-store';
+import { getAdminFirestore, isFirebaseAdminConfigured } from '@/lib/firebase/admin';
 import {
   REGISTRATION_STATUSES,
   registrationSchema,
@@ -8,8 +9,9 @@ import {
 } from '@/lib/validations/registration';
 
 /**
- * In-memory registry seeded with multi-event Jay Media contestant pass codes.
- * Swap reads/writes cleanly to Firebase Firestore & Storage when ready.
+ * Contestant Registrations API.
+ * Uses Firebase Firestore (`registrations` collection) when credentials are configured,
+ * with automatic fallback to the seeded in-memory registry.
  */
 const globalForRegistrations = globalThis as typeof globalThis & {
   __jayMediaRegistrations?: Map<string, RegistrationRecord>;
@@ -89,6 +91,35 @@ export async function GET(request: Request) {
   const rawCode = searchParams.get('code')?.trim().toUpperCase();
   const registry = getRegistry();
 
+  if (isFirebaseAdminConfigured()) {
+    try {
+      const db = getAdminFirestore();
+      if (!rawCode) {
+        const snap = await db
+          .collection('registrations')
+          .orderBy('submittedAt', 'desc')
+          .limit(200)
+          .get();
+        const firestoreRecords = snap.docs.map(
+          (d) => d.data() as RegistrationRecord
+        );
+        if (firestoreRecords.length > 0) {
+          return NextResponse.json({ records: firestoreRecords });
+        }
+      } else {
+        const docSnap = await db.collection('registrations').doc(rawCode).get();
+        if (docSnap.exists) {
+          return NextResponse.json({
+            found: true,
+            record: docSnap.data() as RegistrationRecord,
+          });
+        }
+      }
+    } catch (err) {
+      console.error('[Firestore Registrations GET Fallback]:', err);
+    }
+  }
+
   if (!rawCode) {
     const records = Array.from(registry.values()).sort((a, b) =>
       b.submittedAt.localeCompare(a.submittedAt)
@@ -155,6 +186,15 @@ export async function POST(request: Request) {
       submittedAt: new Date().toISOString(),
     };
 
+    if (isFirebaseAdminConfigured()) {
+      try {
+        const db = getAdminFirestore();
+        await db.collection('registrations').doc(userCode).set(record);
+      } catch (err) {
+        console.error('[Firestore Registrations POST Error]:', err);
+      }
+    }
+
     const registry = getRegistry();
     registry.set(userCode, record);
 
@@ -167,9 +207,17 @@ export async function POST(request: Request) {
       { status: 201 }
     );
   } catch (error: unknown) {
-    if (error && typeof error === 'object' && 'name' in error && error.name === 'ZodError') {
+    if (
+      error &&
+      typeof error === 'object' &&
+      'name' in error &&
+      error.name === 'ZodError'
+    ) {
       return NextResponse.json(
-        { error: 'Please complete all required contestant and guardian fields.', details: error },
+        {
+          error: 'Please complete all required contestant and guardian fields.',
+          details: error,
+        },
         { status: 400 }
       );
     }
@@ -191,6 +239,28 @@ export async function PATCH(request: Request) {
         { error: 'Invalid userCode or registration status value.' },
         { status: 400 }
       );
+    }
+
+    if (isFirebaseAdminConfigured()) {
+      try {
+        const db = getAdminFirestore();
+        const docRef = db.collection('registrations').doc(userCode);
+        const docSnap = await docRef.get();
+        if (docSnap.exists) {
+          await docRef.update({ status });
+          const updated = {
+            ...(docSnap.data() as RegistrationRecord),
+            status,
+          };
+          getRegistry().set(userCode, updated);
+          return NextResponse.json({
+            success: true,
+            record: updated,
+          });
+        }
+      } catch (err) {
+        console.error('[Firestore Registrations PATCH Error]:', err);
+      }
     }
 
     const registry = getRegistry();

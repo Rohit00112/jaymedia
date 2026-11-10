@@ -33,10 +33,6 @@ export default function AdminLoginPage() {
     }
   };
 
-  const handleDemoAccess = () => {
-    router.push('/admin');
-  };
-
   return (
     <div className="grid min-h-screen bg-paper lg:grid-cols-2">
       {/* Editorial panel */}
@@ -184,18 +180,6 @@ export default function AdminLoginPage() {
               )}
             </button>
           </form>
-
-          <div className="mt-8 border-t border-line pt-6 text-center">
-            <span className="font-mono text-[8px] uppercase tracking-[0.14em] text-faint">
-              QA preview access
-            </span>
-            <button
-              onClick={handleDemoAccess}
-              className="mt-3 w-full rounded-[0.3rem] border border-line-strong px-4 py-2.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-ink transition-colors hover:border-ink hover:bg-paper-deep"
-            >
-              Enter as authorized reviewer
-            </button>
-          </div>
 
           <Link
             href="/"

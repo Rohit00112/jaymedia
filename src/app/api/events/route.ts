@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { EventDetailData } from '@/config/events-data';
+import { getAdminFirestore, isFirebaseAdminConfigured } from '@/lib/firebase/admin';
 import {
   getEventBySlug,
   getEventsRegistry,
@@ -129,6 +130,14 @@ export async function POST(request: Request) {
           ],
     };
 
+    if (isFirebaseAdminConfigured()) {
+      try {
+        await getAdminFirestore().collection('events').doc(slug).set(newEvent);
+      } catch (err) {
+        console.error('[Firestore Events POST Error]:', err);
+      }
+    }
+
     registry.set(slug, newEvent);
     return NextResponse.json({ success: true, event: newEvent }, { status: 201 });
   } catch {
@@ -162,6 +171,17 @@ export async function PATCH(request: Request) {
       }),
     };
 
+    if (isFirebaseAdminConfigured()) {
+      try {
+        await getAdminFirestore()
+          .collection('events')
+          .doc(slug)
+          .set(updated, { merge: true });
+      } catch (err) {
+        console.error('[Firestore Events PATCH Error]:', err);
+      }
+    }
+
     getEventsRegistry().set(slug, updated);
     return NextResponse.json({ success: true, event: updated });
   } catch {
@@ -176,6 +196,14 @@ export async function DELETE(request: Request) {
   if (!slug || !registry.has(slug)) {
     return NextResponse.json({ error: `Event "${slug || ''}" not found.` }, { status: 404 });
   }
+  if (isFirebaseAdminConfigured()) {
+    try {
+      await getAdminFirestore().collection('events').doc(slug).delete();
+    } catch (err) {
+      console.error('[Firestore Events DELETE Error]:', err);
+    }
+  }
+
   registry.delete(slug);
   return NextResponse.json({ success: true, slug });
 }

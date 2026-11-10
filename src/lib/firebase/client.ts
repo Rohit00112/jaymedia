@@ -2,7 +2,7 @@ import { initializeApp, getApps, getApp, type FirebaseApp } from 'firebase/app';
 import { getAuth, type Auth } from 'firebase/auth';
 import { getFirestore, type Firestore } from 'firebase/firestore';
 import { getStorage, type FirebaseStorage } from 'firebase/storage';
-import { firebaseConfig } from './config';
+import { firebaseConfig, isFirebaseClientConfigured } from './config';
 
 let app: FirebaseApp | undefined;
 let auth: Auth | undefined;
@@ -11,6 +11,11 @@ let storage: FirebaseStorage | undefined;
 
 export function getFirebaseApp(): FirebaseApp {
   if (!app) {
+    if (!isFirebaseClientConfigured) {
+      throw new Error(
+        'Firebase Client SDK is not configured. Please set NEXT_PUBLIC_FIREBASE_* environment variables in .env.local.'
+      );
+    }
     app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
   }
   return app;
@@ -36,4 +41,3 @@ export function getFirebaseStorage(): FirebaseStorage {
   }
   return storage;
 }
-
