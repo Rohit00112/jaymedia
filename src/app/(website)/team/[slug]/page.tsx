@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, ArrowUpRight } from 'lucide-react';
@@ -37,6 +37,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function TeamProfileDetailPage({ params }: Props) {
   const { slug } = await params;
+  if (slug === 'jay-raj-roy') {
+    redirect('/team/jayrajroy');
+  }
+
   const person =
     (await getTeamMemberRepo(slug)) ||
     TEAM_PROFILES.find((p) => p.slug === slug);

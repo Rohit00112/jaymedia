@@ -595,15 +595,44 @@ export async function listTeamRepo(): Promise<TeamDocument[]> {
   await ensureFirestoreSeeded();
   const mem = getMemoryTeam();
 
+  // Normalize legacy in-memory entry if present
+  if (mem.has('jay-raj-roy')) {
+    const legacy = mem.get('jay-raj-roy')!;
+    mem.delete('jay-raj-roy');
+    mem.set('jayrajroy', { ...legacy, slug: 'jayrajroy' });
+  }
+
   if (isFirebaseAdminConfigured()) {
     try {
       const snap = await getAdminFirestore().collection(COLLECTIONS.TEAM).get();
       mem.clear();
       for (const doc of snap.docs) {
         const item = doc.data() as TeamDocument;
-        mem.set(item.slug || doc.id, {
+        let slug = item.slug || doc.id;
+        if (slug === 'jay-raj-roy' || doc.id === 'jay-raj-roy') {
+          slug = 'jayrajroy';
+          const migrated: TeamDocument = {
+            ...item,
+            slug: 'jayrajroy',
+            updatedAt: new Date().toISOString(),
+          };
+          const db = getAdminFirestore();
+          db.collection(COLLECTIONS.TEAM)
+            .doc('jayrajroy')
+            .set(stripUndefined(migrated), { merge: true })
+            .catch(() => {});
+          if (doc.id === 'jay-raj-roy') {
+            db.collection(COLLECTIONS.TEAM)
+              .doc('jay-raj-roy')
+              .delete()
+              .catch(() => {});
+          }
+          mem.set('jayrajroy', migrated);
+          continue;
+        }
+        mem.set(slug, {
           ...item,
-          slug: item.slug || doc.id,
+          slug,
         });
       }
     } catch (err) {
@@ -623,37 +652,51 @@ export async function getTeamMemberRepo(
   cacheLife('minutes');
   cacheTag('team');
 
+  const normalized = slug === 'jay-raj-roy' ? 'jayrajroy' : slug;
   const all = await listTeamRepo();
-  return all.find((m) => m.slug === slug);
+  return all.find((m) => m.slug === normalized);
 }
 
 export async function upsertTeamMemberRepo(
   doc: TeamDocument
 ): Promise<TeamDocument> {
   await ensureFirestoreSeeded();
+  const normalizedSlug = doc.slug === 'jay-raj-roy' ? 'jayrajroy' : doc.slug;
   const payload = stripUndefined({
     ...doc,
+    slug: normalizedSlug,
     updatedAt: new Date().toISOString(),
   });
 
   if (isFirebaseAdminConfigured()) {
-    await getAdminFirestore()
+    const db = getAdminFirestore();
+    await db
       .collection(COLLECTIONS.TEAM)
-      .doc(doc.slug)
+      .doc(normalizedSlug)
       .set(payload, { merge: true });
+    if (doc.slug === 'jay-raj-roy') {
+      await db.collection(COLLECTIONS.TEAM).doc('jay-raj-roy').delete().catch(() => {});
+    }
   }
 
-  getMemoryTeam().set(doc.slug, payload);
+  getMemoryTeam().delete('jay-raj-roy');
+  getMemoryTeam().set(normalizedSlug, payload);
   invalidateCache('team');
   return payload;
 }
 
 export async function deleteTeamMemberRepo(slug: string): Promise<boolean> {
   await ensureFirestoreSeeded();
+  const normalized = slug === 'jay-raj-roy' ? 'jayrajroy' : slug;
   if (isFirebaseAdminConfigured()) {
-    await getAdminFirestore().collection(COLLECTIONS.TEAM).doc(slug).delete();
+    const db = getAdminFirestore();
+    await db.collection(COLLECTIONS.TEAM).doc(normalized).delete();
+    if (slug === 'jay-raj-roy') {
+      await db.collection(COLLECTIONS.TEAM).doc('jay-raj-roy').delete().catch(() => {});
+    }
   }
-  const deleted = getMemoryTeam().delete(slug);
+  getMemoryTeam().delete('jay-raj-roy');
+  const deleted = getMemoryTeam().delete(normalized);
   invalidateCache('team');
   return deleted;
 }

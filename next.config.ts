@@ -36,6 +36,11 @@ const nextConfig: NextConfig = {
         destination: '/admin',
         permanent: false,
       },
+      {
+        source: '/team/jay-raj-roy',
+        destination: '/team/jayrajroy',
+        permanent: true,
+      },
     ];
   },
   images: {
