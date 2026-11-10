@@ -1,10 +1,19 @@
 import { connection, NextResponse } from 'next/server';
-import { getSettingsRepo, updateSettingsRepo } from '@/lib/backend/repository';
+import {
+  DEFAULT_SETTINGS,
+  getSettingsRepo,
+  updateSettingsRepo,
+} from '@/lib/backend/repository';
 
 export async function GET() {
   await connection();
-  const settings = await getSettingsRepo();
-  return NextResponse.json({ settings });
+  try {
+    const settings = await getSettingsRepo();
+    return NextResponse.json({ settings });
+  } catch (err) {
+    console.error('[API Settings GET Error]:', err);
+    return NextResponse.json({ settings: DEFAULT_SETTINGS });
+  }
 }
 
 export async function PUT(request: Request) {

@@ -25,7 +25,7 @@ export const siteConfig = {
       'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3571.795282154006!2d87.27903197617337!3d26.46232707691856!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39ef75db2bf28e51%3A0x84fff00de6262dfe!2sJay%20Media%20Management%20Pvt%20Ltd!5e0!3m2!1sen!2snp!4v1737797341641!5m2!1sen!2snp',
   },
   contact: {
-    email: 'nepalkidsidol@gmail.com',
+    email: 'jaymediamanagement@gmail.com',
     secondaryEmail: 'jaymediamanagement@gmail.com',
     phone: '9851143338',
     secondaryPhone: '9802708000',

@@ -1,5 +1,6 @@
-import { NextResponse } from 'next/server';
+import { connection, NextResponse } from 'next/server';
 import { slugifyEventTitle } from '@/lib/events-store';
+import { NEWS_DATA } from '@/config/news-data';
 import {
   deleteNewsRepo,
   getNewsRepo,
@@ -8,23 +9,33 @@ import {
 } from '@/lib/backend/repository';
 
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const slug = searchParams.get('slug')?.trim();
-  const includeDrafts = searchParams.get('all') === '1';
+  await connection();
+  try {
+    const { searchParams } = new URL(request.url);
+    const slug = searchParams.get('slug')?.trim();
+    const includeDrafts = searchParams.get('all') === '1';
 
-  if (slug) {
-    const article = await getNewsRepo(slug);
-    if (!article) {
-      return NextResponse.json(
-        { error: `Article "${slug}" not found.` },
-        { status: 404 }
-      );
+    if (slug) {
+      const article = await getNewsRepo(slug);
+      if (!article) {
+        const fallback = NEWS_DATA.find((n) => n.slug === slug);
+        if (!fallback) {
+          return NextResponse.json(
+            { error: `Article "${slug}" not found.` },
+            { status: 404 }
+          );
+        }
+        return NextResponse.json({ article: fallback });
+      }
+      return NextResponse.json({ article });
     }
-    return NextResponse.json({ article });
-  }
 
-  const articles = await listNewsRepo({ includeDrafts });
-  return NextResponse.json({ articles });
+    const articles = await listNewsRepo({ includeDrafts });
+    return NextResponse.json({ articles });
+  } catch (err) {
+    console.error('[API News GET Error]:', err);
+    return NextResponse.json({ articles: NEWS_DATA });
+  }
 }
 
 export async function POST(request: Request) {

@@ -26,7 +26,7 @@ function invalidateCache(tag: string) {
   }
 }
 
-const DEFAULT_SETTINGS: SettingsDocument = {
+export const DEFAULT_SETTINGS: SettingsDocument = {
   companyName: siteConfig.name,
   shortName: siteConfig.shortName,
   tagline: siteConfig.tagline,

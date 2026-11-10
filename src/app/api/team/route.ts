@@ -1,5 +1,6 @@
 import { connection, NextResponse } from 'next/server';
 import { slugifyEventTitle } from '@/lib/events-store';
+import { TEAM_PROFILES } from '@/config/team-data';
 import {
   deleteTeamMemberRepo,
   listTeamRepo,
@@ -8,8 +9,13 @@ import {
 
 export async function GET() {
   await connection();
-  const members = await listTeamRepo();
-  return NextResponse.json({ members });
+  try {
+    const members = await listTeamRepo();
+    return NextResponse.json({ members });
+  } catch (err) {
+    console.error('[API Team GET Error]:', err);
+    return NextResponse.json({ members: TEAM_PROFILES });
+  }
 }
 
 export async function POST(request: Request) {

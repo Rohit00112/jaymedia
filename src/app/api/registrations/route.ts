@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { connection, NextResponse } from 'next/server';
 import {
   REGISTRATION_STATUSES,
   registrationSchema,
@@ -13,26 +13,32 @@ import {
 } from '@/lib/backend/repository';
 
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const codeParam = searchParams.get('code')?.trim().toUpperCase();
-  const eventSlug = searchParams.get('eventSlug')?.trim();
-  const status = searchParams.get('status')?.trim();
+  await connection();
+  try {
+    const { searchParams } = new URL(request.url);
+    const codeParam = searchParams.get('code')?.trim().toUpperCase();
+    const eventSlug = searchParams.get('eventSlug')?.trim();
+    const status = searchParams.get('status')?.trim();
 
-  if (codeParam) {
-    const found = await getRegistrationRepo(codeParam);
-    if (!found) {
-      return NextResponse.json(
-        {
-          error: `No registration found for code "${codeParam}". Please verify your code or contact our Biratnagar desk.`,
-        },
-        { status: 404 }
-      );
+    if (codeParam) {
+      const found = await getRegistrationRepo(codeParam);
+      if (!found) {
+        return NextResponse.json(
+          {
+            error: `No registration found for code "${codeParam}". Please verify your code or contact our Biratnagar desk.`,
+          },
+          { status: 404 }
+        );
+      }
+      return NextResponse.json({ record: found });
     }
-    return NextResponse.json({ record: found });
-  }
 
-  const records = await listRegistrationsRepo({ eventSlug, status });
-  return NextResponse.json({ records });
+    const records = await listRegistrationsRepo({ eventSlug, status });
+    return NextResponse.json({ records });
+  } catch (err) {
+    console.error('[API Registrations GET Error]:', err);
+    return NextResponse.json({ records: [] });
+  }
 }
 
 export async function POST(request: Request) {

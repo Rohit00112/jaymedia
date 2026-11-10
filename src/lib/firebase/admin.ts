@@ -4,15 +4,20 @@ import { getAuth } from 'firebase-admin/auth';
 
 let adminApp: App | undefined;
 
-export function isFirebaseAdminConfigured(): boolean {
-  return Boolean(
-    process.env.FIREBASE_PROJECT_ID &&
-      process.env.FIREBASE_CLIENT_EMAIL &&
-      process.env.FIREBASE_PRIVATE_KEY
-  );
+function cleanPrivateKey(key?: string): string | undefined {
+  if (!key) return undefined;
+  let cleaned = key.trim();
+  // Strip outer quotes if pasted with quotes into Vercel/Netlify dashboard
+  if (
+    (cleaned.startsWith('"') && cleaned.endsWith('"')) ||
+    (cleaned.startsWith("'") && cleaned.endsWith("'"))
+  ) {
+    cleaned = cleaned.slice(1, -1);
+  }
+  return cleaned.replace(/\\n/g, '\n').trim();
 }
 
-export function getAdminApp(): App {
+export function getAdminApp(): App | undefined {
   if (!adminApp) {
     const apps = getApps();
     if (apps.length > 0) {
@@ -20,33 +25,57 @@ export function getAdminApp(): App {
     } else {
       const projectId = process.env.FIREBASE_PROJECT_ID;
       const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
-      const privateKey = process.env.FIREBASE_PRIVATE_KEY
-        ? process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n')
-        : undefined;
+      const privateKey = cleanPrivateKey(process.env.FIREBASE_PRIVATE_KEY);
 
       if (!projectId || !clientEmail || !privateKey) {
-        throw new Error(
-          'Missing Firebase Admin SDK environment variables (FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY).'
-        );
+        return undefined;
       }
 
-      adminApp = initializeApp({
-        credential: cert({
-          projectId,
-          clientEmail,
-          privateKey,
-        }),
-        storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-      });
+      try {
+        adminApp = initializeApp({
+          credential: cert({
+            projectId,
+            clientEmail,
+            privateKey,
+          }),
+          storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+        });
+      } catch (err) {
+        console.error('[Firebase Admin Init Error]:', err);
+        return undefined;
+      }
     }
   }
   return adminApp;
 }
 
+export function isFirebaseAdminConfigured(): boolean {
+  if (
+    !process.env.FIREBASE_PROJECT_ID ||
+    !process.env.FIREBASE_CLIENT_EMAIL ||
+    !process.env.FIREBASE_PRIVATE_KEY
+  ) {
+    return false;
+  }
+  try {
+    return Boolean(getAdminApp());
+  } catch {
+    return false;
+  }
+}
+
 export function getAdminFirestore() {
-  return getFirestore(getAdminApp());
+  const app = getAdminApp();
+  if (!app) {
+    throw new Error('Firebase Admin App not available');
+  }
+  return getFirestore(app);
 }
 
 export function getAdminAuth() {
-  return getAuth(getAdminApp());
+  const app = getAdminApp();
+  if (!app) {
+    throw new Error('Firebase Admin App not available');
+  }
+  return getAuth(app);
 }

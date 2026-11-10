@@ -1,5 +1,6 @@
-import { NextResponse } from 'next/server';
+import { connection, NextResponse } from 'next/server';
 import { slugifyEventTitle } from '@/lib/events-store';
+import { GALLERY_PHOTOS } from '@/config/gallery-data';
 import type { GalleryDocument } from '@/lib/backend/schemas';
 import {
   deleteGalleryPhotoRepo,
@@ -8,10 +9,16 @@ import {
 } from '@/lib/backend/repository';
 
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const category = searchParams.get('category')?.trim();
-  const photos = await listGalleryRepo({ category });
-  return NextResponse.json({ photos });
+  await connection();
+  try {
+    const { searchParams } = new URL(request.url);
+    const category = searchParams.get('category')?.trim();
+    const photos = await listGalleryRepo({ category });
+    return NextResponse.json({ photos });
+  } catch (err) {
+    console.error('[API Gallery GET Error]:', err);
+    return NextResponse.json({ photos: GALLERY_PHOTOS });
+  }
 }
 
 export async function POST(request: Request) {

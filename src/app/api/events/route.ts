@@ -1,6 +1,6 @@
-import { NextResponse } from 'next/server';
+import { connection, NextResponse } from 'next/server';
 import type { EventDetailData } from '@/config/events-data';
-import { slugifyEventTitle } from '@/lib/events-store';
+import { slugifyEventTitle, listEvents, getEventBySlug } from '@/lib/events-store';
 import {
   deleteEventRepo,
   getEventRepo,
@@ -9,23 +9,34 @@ import {
 } from '@/lib/backend/repository';
 
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const slug = searchParams.get('slug')?.trim();
-  const includeDrafts = searchParams.get('all') === '1';
+  await connection();
+  try {
+    const { searchParams } = new URL(request.url);
+    const slug = searchParams.get('slug')?.trim();
+    const includeDrafts = searchParams.get('all') === '1';
 
-  if (slug) {
-    const event = await getEventRepo(slug);
-    if (!event) {
-      return NextResponse.json(
-        { error: `Event "${slug}" not found.` },
-        { status: 404 }
-      );
+    if (slug) {
+      const event = await getEventRepo(slug);
+      if (!event) {
+        const fallback = getEventBySlug(slug);
+        if (!fallback) {
+          return NextResponse.json(
+            { error: `Event "${slug}" not found.` },
+            { status: 404 }
+          );
+        }
+        return NextResponse.json({ event: fallback });
+      }
+      return NextResponse.json({ event });
     }
-    return NextResponse.json({ event });
-  }
 
-  const events = await listEventsRepo({ includeDrafts });
-  return NextResponse.json({ events });
+    const events = await listEventsRepo({ includeDrafts });
+    return NextResponse.json({ events });
+  } catch (err) {
+    console.error('[API Events GET Error]:', err);
+    const fallbackEvents = listEvents({ includeDrafts: false });
+    return NextResponse.json({ events: fallbackEvents });
+  }
 }
 
 export async function POST(request: Request) {

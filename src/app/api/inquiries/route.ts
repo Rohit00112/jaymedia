@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { connection, NextResponse } from 'next/server';
 import { inquirySchema } from '@/lib/validations/inquiry';
 import {
   INQUIRY_STATUS_OPTIONS,
@@ -11,10 +11,16 @@ import {
 } from '@/lib/backend/repository';
 
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const status = searchParams.get('status')?.trim();
-  const inquiries = await listInquiriesRepo({ status });
-  return NextResponse.json({ inquiries });
+  await connection();
+  try {
+    const { searchParams } = new URL(request.url);
+    const status = searchParams.get('status')?.trim();
+    const inquiries = await listInquiriesRepo({ status });
+    return NextResponse.json({ inquiries });
+  } catch (err) {
+    console.error('[API Inquiries GET Error]:', err);
+    return NextResponse.json({ inquiries: [] });
+  }
 }
 
 export async function POST(request: Request) {
