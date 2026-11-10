@@ -1,22 +1,33 @@
 'use client';
 
 import { useState } from 'react';
-import {
-  CheckCircle2,
-  Clock,
-  Loader2,
-  Phone,
-  Reply,
-  Send,
-} from 'lucide-react';
+import { ArrowUpRight, CheckCircle2, Loader2 } from 'lucide-react';
 import { PavilionScene } from '@/components/three';
+import Reveal from '@/components/motion/Reveal';
 import { siteConfig } from '@/config/site';
+
+const PRODUCTION_DISCIPLINES = [
+  'Event Management & Stagecraft',
+  'Store & Product Launch',
+  'Brand Activation & Sponsorship',
+  'Film & Media Production',
+  'Award Show & Pageantry',
+  'Press & Broadcast Coverage',
+] as const;
+
+const fieldLabelClass =
+  'mb-2 block font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-muted';
+
+const fieldInputClass =
+  'w-full rounded-[4px] border border-line-strong bg-white px-3.5 py-3 text-sm text-ink transition-colors placeholder:text-faint/80 focus:border-forest focus:outline-none focus:ring-2 focus:ring-forest/15';
 
 export default function QuoteSection() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [subject, setSubject] = useState('');
+  const [discipline, setDiscipline] = useState<string>(
+    PRODUCTION_DISCIPLINES[0]
+  );
   const [message, setMessage] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -24,43 +35,69 @@ export default function QuoteSection() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setErrorMsg('');
+
+    const cleanName = name.trim();
+    const cleanEmail = email.trim();
+    const cleanPhone = phone.trim();
+    const cleanMessage = message.trim();
+
+    if (cleanName.length < 2) {
+      setStatus('error');
+      setErrorMsg('Please enter your full name (at least 2 characters).');
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
+      setStatus('error');
+      setErrorMsg('Please provide a valid email address.');
+      return;
+    }
+    if (cleanPhone.length < 7) {
+      setStatus('error');
+      setErrorMsg('Please provide a reachable phone number.');
+      return;
+    }
+    if (cleanMessage.length < 10) {
+      setStatus('error');
+      setErrorMsg(
+        'Please share at least a brief sentence about your event dates, venue, or scope.'
+      );
+      return;
+    }
+
     setSubmitting(true);
     setStatus('idle');
-    setErrorMsg('');
 
     try {
       const res = await fetch('/api/inquiries', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          fullName: name,
-          email,
-          phone: phone || '9851143338',
-          serviceOfInterest: subject || 'Event Management & Production',
-          message:
-            message.length >= 10
-              ? `${subject ? `[${subject}] ` : ''}${message}`
-              : `${subject ? `[${subject}] ` : ''}${message} — Free quote inquiry submitted via homepage.`,
+          fullName: cleanName,
+          email: cleanEmail,
+          phone: cleanPhone,
+          serviceOfInterest: discipline,
+          message: `[${discipline}] ${cleanMessage}`,
         }),
       });
 
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.error || 'Could not submit quote request.');
+        throw new Error(data.error || 'Could not submit inquiry.');
       }
 
       setStatus('success');
       setName('');
       setEmail('');
       setPhone('');
-      setSubject('');
+      setDiscipline(PRODUCTION_DISCIPLINES[0]);
       setMessage('');
     } catch (err: unknown) {
       setStatus('error');
       setErrorMsg(
         err instanceof Error
           ? err.message
-          : 'Something went wrong. Please call us directly.'
+          : 'Unable to send brief right now. Please call our Biratnagar desk directly.'
       );
     } finally {
       setSubmitting(false);
@@ -68,200 +105,263 @@ export default function QuoteSection() {
   }
 
   return (
-    <section id="quote" className="bg-paper py-16 md:py-24">
-      <div className="container-ed">
-        <div className="relative overflow-hidden rounded-[6px] bg-forest px-6 py-12 text-white shadow-[0_32px_70px_-28px_rgba(1,64,43,0.45)] sm:px-10 md:px-14 md:py-16">
-          {/* Three.js Ambient Gold Stage Embers & Subtle Torus Depth */}
-          <PavilionScene />
+    <section
+      id="quote"
+      className="relative overflow-hidden border-b border-line bg-white py-20 md:py-28"
+    >
+      {/* Subtle Architectural Floor Grid in Deep Emerald Tint */}
+      <PavilionScene />
 
-          {/* Subtle top gold reflection hairline */}
-          <div
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/55 to-transparent"
-            aria-hidden="true"
-          />
-          <div
-            className="pointer-events-none absolute -right-24 -top-24 h-[28rem] w-[28rem] rounded-full bg-gold/10 blur-[110px]"
-            aria-hidden="true"
-          />
+      <div className="container-ed relative z-10">
+        <div className="grid items-start gap-12 lg:grid-cols-12 lg:gap-14">
+          {/* Left: Open Editorial Studio Brief Desk */}
+          <Reveal className="lg:col-span-5">
+            <span className="eyebrow flex items-center gap-2.5 text-forest">
+              <span className="h-px w-6 bg-forest" aria-hidden="true" />
+              05 / Production Desk
+            </span>
 
-          <div className="relative z-10 grid items-center gap-12 lg:grid-cols-12">
-            {/* Left Copy */}
-            <div className="lg:col-span-6">
-              <span className="eyebrow inline-flex items-center gap-2.5 text-gold">
-                <span className="h-px w-6 bg-gold" aria-hidden="true" />
-                05 / Request A Quote
+            <h2 className="display mt-5 text-[clamp(2.2rem,4.2vw,3.8rem)] leading-[0.98] text-ink">
+              Commission a show,{' '}
+              <span className="serif italic font-normal text-forest">
+                launch, or sponsorship.
               </span>
+            </h2>
 
-              <h2 className="display mt-4 text-[clamp(2.1rem,4.1vw,3.5rem)] leading-tight text-white">
-                Need a tailored proposal for your{' '}
-                <span className="serif italic font-normal text-gold">
-                  next production?
-                </span>
-              </h2>
+            <p className="mt-5 max-w-md text-sm leading-relaxed text-ink-soft md:text-base">
+              From live stage architecture and brand activations to flagship
+              talent broadcasts, share your venue timeline and objectives with
+              our producers in Biratnagar.
+            </p>
 
-              <div className="mt-7 grid gap-3.5 sm:grid-cols-2">
-                <div className="flex items-center gap-3 rounded-[10px] border border-white/15 bg-white/8 px-4 py-3.5">
-                  <Reply className="h-4 w-4 shrink-0 text-gold" />
-                  <span className="text-xs font-semibold tracking-wide text-sand sm:text-sm">
-                    Reply within 24 hours
-                  </span>
-                </div>
-                <div className="flex items-center gap-3 rounded-[10px] border border-white/15 bg-white/8 px-4 py-3.5">
-                  <Clock className="h-4 w-4 shrink-0 text-gold" />
-                  <span className="text-xs font-semibold tracking-wide text-sand sm:text-sm">
-                    Direct phone consultation
-                  </span>
-                </div>
+            {/* Studio Directory Ledger (Clean Hairline Rows, Zero Pill Boxes) */}
+            <dl className="mt-9 divide-y divide-line border-y border-line">
+              <div className="flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:justify-between">
+                <dt className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
+                  Headquarters
+                </dt>
+                <dd className="text-sm font-medium text-ink">
+                  {siteConfig.location.address}, {siteConfig.location.city}
+                </dd>
               </div>
 
-              <p className="mt-6 max-w-lg text-sm leading-relaxed text-white/80 md:text-base">
-                Share the scope of your corporate launch, brand sponsorship,
-                award show, or stage event. Our Biratnagar desk responds with a
-                structured budget and execution schedule.
-              </p>
-
-              <a
-                href={`tel:${siteConfig.contact.phone}`}
-                className="mt-8 inline-flex items-center gap-4 rounded-[12px] border border-white/20 bg-white/10 pr-6 transition-colors hover:bg-white/15"
-              >
-                <span className="flex h-14 w-14 items-center justify-center rounded-l-[11px] bg-sand text-forest">
-                  <Phone className="h-5 w-5" />
-                </span>
-                <div>
-                  <span className="block text-[11px] uppercase tracking-wider text-white/75">
-                    Call to ask any question
-                  </span>
-                  <span className="mono text-lg font-bold tracking-tight text-gold">
-                    {siteConfig.contact.formattedPhone}
-                  </span>
-                </div>
-              </a>
-            </div>
-
-            {/* Right Porcelain White Form Card */}
-            <div className="lg:col-span-6">
-              <div className="rounded-[14px] bg-white p-7 text-ink shadow-2xl sm:p-9">
-                {status === 'success' ? (
-                  <div
-                    role="status"
-                    className="flex flex-col items-center py-8 text-center"
+              <div className="flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:justify-between">
+                <dt className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
+                  Direct Telephone
+                </dt>
+                <dd className="mono text-sm font-bold text-forest">
+                  <a
+                    href={`tel:${siteConfig.contact.phone}`}
+                    className="transition-colors hover:text-ink"
                   >
-                    <span className="flex h-14 w-14 items-center justify-center rounded-[4px] bg-forest text-gold">
-                      <CheckCircle2 className="h-7 w-7" />
-                    </span>
-                    <h3 className="display mt-4 text-2xl font-bold text-forest">
-                      Quote Request Received
-                    </h3>
-                    <p className="mt-2 max-w-sm text-sm text-muted">
-                      Thank you for contacting Jay Media Management. Our
-                      production team in Biratnagar will follow up within 24
-                      hours.
-                    </p>
-                    <button
-                      type="button"
-                      onClick={() => setStatus('idle')}
-                      className="btn btn-accent mt-6 rounded-[3px] px-6 py-2.5 text-xs font-bold uppercase tracking-wider"
-                    >
-                      Send Another Request
-                    </button>
-                  </div>
-                ) : (
-                  <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="mb-2 border-b border-line pb-4">
-                      <h3 className="display text-2xl font-bold text-ink">
-                        Request a Free Quote
+                    {siteConfig.contact.formattedPhone}
+                  </a>
+                  <span className="mx-2 text-line-strong">/</span>
+                  <a
+                    href={`tel:${siteConfig.contact.secondaryPhone}`}
+                    className="transition-colors hover:text-ink"
+                  >
+                    {siteConfig.contact.secondaryPhone}
+                  </a>
+                </dd>
+              </div>
+
+              <div className="flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:justify-between">
+                <dt className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
+                  Desk Email
+                </dt>
+                <dd className="text-sm font-medium text-ink">
+                  <a
+                    href={`mailto:${siteConfig.contact.email}`}
+                    className="link-sweep text-ink"
+                  >
+                    {siteConfig.contact.email}
+                  </a>
+                </dd>
+              </div>
+
+              <div className="flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:justify-between">
+                <dt className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
+                  Proposal Turnaround
+                </dt>
+                <dd className="text-sm text-ink-soft">
+                  Within 1 business day
+                </dd>
+              </div>
+            </dl>
+          </Reveal>
+
+          {/* Right: Warm Paper Architectural Brief Sheet */}
+          <Reveal delay={80} className="lg:col-span-7">
+            <div className="rounded-[6px] border border-line bg-paper p-6 shadow-xs sm:p-9">
+              {status === 'success' ? (
+                <div
+                  role="status"
+                  className="flex flex-col items-start py-6 text-left"
+                >
+                  <span className="flex h-11 w-11 items-center justify-center rounded-[4px] bg-forest text-gold">
+                    <CheckCircle2 className="h-5 w-5" />
+                  </span>
+                  <h3 className="display mt-5 text-2xl font-bold text-ink">
+                    Project brief logged with our producers.
+                  </h3>
+                  <p className="mt-2 max-w-md text-sm leading-relaxed text-muted">
+                    Thank you for writing to Jay Media Management. Our team at
+                    Central Mall, Biratnagar will review your schedule and reply
+                    within 1 business day.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => setStatus('idle')}
+                    className="btn btn-accent mt-6 rounded-[4px] px-6 py-3"
+                  >
+                    <span>Submit another inquiry</span>
+                    <ArrowUpRight className="h-4 w-4 text-gold" />
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} noValidate className="space-y-5">
+                  <div className="flex flex-wrap items-baseline justify-between gap-2 border-b border-line pb-4">
+                    <div>
+                      <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-forest">
+                        Project Brief Sheet
+                      </span>
+                      <h3 className="display mt-1 text-2xl font-bold text-ink">
+                        Share event scope &amp; dates
                       </h3>
-                      <p className="mt-1 text-xs text-muted">
-                        Tell us about your event date, venue, and creative vision.
-                      </p>
                     </div>
+                    <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-faint">
+                      Biratnagar Studio Desk
+                    </span>
+                  </div>
 
-                    {status === 'error' && (
-                      <div
-                        role="alert"
-                        className="rounded-[6px] border border-danger/30 bg-red-50 px-4 py-3 text-xs font-medium text-danger"
-                      >
-                        {errorMsg}
-                      </div>
-                    )}
+                  {status === 'error' && (
+                    <div
+                      role="alert"
+                      className="rounded-[4px] border border-danger/30 bg-red-50 px-4 py-3 text-xs font-medium text-danger"
+                    >
+                      {errorMsg}
+                    </div>
+                  )}
 
-                    <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <div>
+                      <label htmlFor="quote-name" className={fieldLabelClass}>
+                        Full Name
+                      </label>
                       <input
+                        id="quote-name"
                         type="text"
                         required
                         minLength={2}
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        placeholder="Your Name *"
-                        aria-label="Your Name"
-                        className="w-full rounded-[8px] border border-line-strong bg-paper px-4 py-3 text-sm text-ink placeholder:text-faint focus:border-forest focus:bg-white focus:outline-none"
+                        placeholder="e.g. Rajesh Limbu"
+                        className={fieldInputClass}
                       />
+                    </div>
+
+                    <div>
+                      <label htmlFor="quote-email" className={fieldLabelClass}>
+                        Email Address
+                      </label>
                       <input
+                        id="quote-email"
                         type="email"
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Your Email *"
-                        aria-label="Your Email"
-                        className="w-full rounded-[8px] border border-line-strong bg-paper px-4 py-3 text-sm text-ink placeholder:text-faint focus:border-forest focus:bg-white focus:outline-none"
+                        placeholder="name@company.com"
+                        className={fieldInputClass}
                       />
                     </div>
+                  </div>
 
-                    <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <div>
+                      <label htmlFor="quote-phone" className={fieldLabelClass}>
+                        Phone Number
+                      </label>
                       <input
+                        id="quote-phone"
                         type="tel"
                         required
                         minLength={7}
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
-                        placeholder="Phone Number *"
-                        aria-label="Phone Number"
-                        className="w-full rounded-[8px] border border-line-strong bg-paper px-4 py-3 text-sm text-ink placeholder:text-faint focus:border-forest focus:bg-white focus:outline-none"
-                      />
-                      <input
-                        type="text"
-                        required
-                        value={subject}
-                        onChange={(e) => setSubject(e.target.value)}
-                        placeholder="Subject / Service *"
-                        aria-label="Subject"
-                        className="w-full rounded-[8px] border border-line-strong bg-paper px-4 py-3 text-sm text-ink placeholder:text-faint focus:border-forest focus:bg-white focus:outline-none"
+                        placeholder="+977 98XXXXXXXX"
+                        className={fieldInputClass}
                       />
                     </div>
 
+                    <div>
+                      <label
+                        htmlFor="quote-discipline"
+                        className={fieldLabelClass}
+                      >
+                        Production Discipline
+                      </label>
+                      <select
+                        id="quote-discipline"
+                        value={discipline}
+                        onChange={(e) => setDiscipline(e.target.value)}
+                        className={fieldInputClass}
+                      >
+                        {PRODUCTION_DISCIPLINES.map((item) => (
+                          <option key={item} value={item}>
+                            {item}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="quote-message" className={fieldLabelClass}>
+                      Project Brief, City &amp; Tentative Dates
+                    </label>
                     <textarea
+                      id="quote-message"
                       required
                       minLength={10}
                       rows={4}
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
-                      placeholder="Project brief, event details, or sponsorship inquiry *"
-                      aria-label="Message"
-                      className="w-full rounded-[8px] border border-line-strong bg-paper px-4 py-3 text-sm text-ink placeholder:text-faint focus:border-forest focus:bg-white focus:outline-none"
+                      placeholder="Outline venue location, expected audience capacity, target month, or sponsorship goals..."
+                      className={fieldInputClass}
                     />
+                  </div>
+
+                  <div className="flex flex-wrap items-center justify-between gap-4 border-t border-line pt-5">
+                    <span className="text-xs text-muted">
+                      Or call directly at{' '}
+                      <strong className="mono font-semibold text-ink">
+                        {siteConfig.contact.phone}
+                      </strong>
+                    </span>
 
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="btn btn-accent w-full rounded-[3px] py-3.5 text-sm font-bold uppercase tracking-[0.12em] shadow-sm disabled:opacity-60"
+                      className="btn btn-accent rounded-[4px] px-7 py-3.5 disabled:opacity-60"
                     >
                       {submitting ? (
                         <>
                           <Loader2 className="h-4 w-4 animate-spin" />
-                          <span>Sending Proposal Request...</span>
+                          <span>Dispatching...</span>
                         </>
                       ) : (
                         <>
-                          <Send className="h-4 w-4 text-gold" />
-                          <span>Request A Quote</span>
+                          <span>Submit Project Brief</span>
+                          <ArrowUpRight className="h-4 w-4 text-gold" />
                         </>
                       )}
                     </button>
-                  </form>
-                )}
-              </div>
+                  </div>
+                </form>
+              )}
             </div>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

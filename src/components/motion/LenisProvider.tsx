@@ -22,6 +22,7 @@ export default function LenisProvider({ children }: { children: React.ReactNode 
       gestureOrientation: 'vertical',
       smoothWheel: true,
       touchMultiplier: 2,
+      allowNestedScroll: true,
     });
 
     lenisRef.current = lenis;

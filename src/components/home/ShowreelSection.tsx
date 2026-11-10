@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import anime from 'animejs';
-import { Play, Tv } from 'lucide-react';
+import { ChevronDown, ChevronUp, Play, Tv } from 'lucide-react';
 import { OFFICIAL_VIDEOS } from '@/config/videos-data';
 import { cn, prefersReducedMotion } from '@/lib/utils';
 
@@ -11,8 +11,16 @@ export default function ShowreelSection() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const metaRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
 
   const activeVideo = OFFICIAL_VIDEOS[selectedIndex];
+
+  const scrollPlaylist = (direction: 'up' | 'down') => {
+    listRef.current?.scrollBy({
+      top: direction === 'down' ? 180 : -180,
+      behavior: 'smooth',
+    });
+  };
 
   useEffect(() => {
     if (!metaRef.current || prefersReducedMotion()) return;
@@ -127,18 +135,47 @@ export default function ShowreelSection() {
           </div>
 
           {/* Right Curated Playlist */}
-          <div className="lg:col-span-4">
-            <div className="flex h-full flex-col rounded-[6px] border border-line bg-white p-4 shadow-2xs">
-              <div className="mb-3 flex items-center justify-between border-b border-line pb-3">
-                <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-forest">
-                  Production Playlist
-                </span>
-                <span className="text-xs font-medium text-muted">
-                  {OFFICIAL_VIDEOS.length} Videos
-                </span>
+          <div className="lg:col-span-4 lg:relative">
+            <div className="flex flex-col rounded-[6px] border border-line bg-white p-4 shadow-2xs lg:absolute lg:inset-0">
+              <div className="mb-3 flex shrink-0 items-center justify-between gap-2 border-b border-line pb-3">
+                <div>
+                  <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-forest">
+                    Production Playlist
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-medium text-muted">
+                    {OFFICIAL_VIDEOS.length} Videos
+                  </span>
+                  <div className="flex items-center gap-1">
+                    <button
+                      type="button"
+                      onClick={() => scrollPlaylist('up')}
+                      aria-label="Scroll playlist up"
+                      className="inline-flex h-6 w-6 items-center justify-center rounded-[3px] border border-line bg-paper text-ink transition-colors hover:border-forest hover:text-forest"
+                    >
+                      <ChevronUp className="h-3.5 w-3.5" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => scrollPlaylist('down')}
+                      aria-label="Scroll playlist down"
+                      className="inline-flex h-6 w-6 items-center justify-center rounded-[3px] border border-line bg-paper text-ink transition-colors hover:border-forest hover:text-forest"
+                    >
+                      <ChevronDown className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                </div>
               </div>
 
-              <div className="space-y-2.5 overflow-y-auto pr-1 lg:max-h-[430px]">
+              <div
+                ref={listRef}
+                data-lenis-prevent
+                tabIndex={0}
+                aria-label="Production video playlist"
+                className="playlist-scroll min-h-0 max-h-[360px] flex-1 space-y-2.5 overflow-y-auto overscroll-contain pr-2 focus:outline-none lg:max-h-none"
+              >
                 {OFFICIAL_VIDEOS.map((video, idx) => {
                   const isActive = idx === selectedIndex;
                   return (

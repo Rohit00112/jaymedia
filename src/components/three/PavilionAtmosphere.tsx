@@ -1,62 +1,45 @@
 'use client';
 
-import React, { useMemo, useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Points, PointMaterial } from '@react-three/drei';
 import * as THREE from 'three';
 
-function pseudoRandom(seed: number) {
-  const x = Math.sin(seed * 19.31 + 41.17) * 43758.5453;
-  return x - Math.floor(x);
-}
+/**
+ * Calm daylight architectural floor wireframe rendered at subtle opacity
+ * along the lower studio inquiry band without distracting from typography.
+ */
+function StageBlueprintPlane({ isVisible }: { isVisible: boolean }) {
+  const meshRef = useRef<THREE.Mesh>(null);
 
-function GoldStageDust({ isVisible }: { isVisible: boolean }) {
-  const ref = useRef<THREE.Points>(null);
-  const count = 110;
-
-  const positions = useMemo(() => {
-    const pos = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      const i3 = i * 3;
-      pos[i3] = (pseudoRandom(i * 3 + 11) - 0.5) * 10;
-      pos[i3 + 1] = (pseudoRandom(i * 3 + 12) - 0.5) * 6;
-      pos[i3 + 2] = (pseudoRandom(i * 3 + 13) - 0.5) * 3;
-    }
-    return pos;
-  }, []);
-
-  useFrame((state, delta) => {
-    if (!ref.current || !isVisible) return;
-    ref.current.rotation.y += delta * 0.03;
-    ref.current.position.y = Math.sin(state.clock.elapsedTime * 0.4) * 0.12;
-  });
-
-  return (
-    <Points ref={ref} positions={positions} stride={3} frustumCulled={false}>
-      <PointMaterial
-        transparent
-        color="#D9B15B"
-        size={0.04}
-        sizeAttenuation
-        depthWrite={false}
-        opacity={0.35}
-      />
-    </Points>
-  );
-}
-
-function PavilionRing({ isVisible }: { isVisible: boolean }) {
-  const ringRef = useRef<THREE.Mesh>(null);
   useFrame((state) => {
-    if (!ringRef.current || !isVisible) return;
-    ringRef.current.rotation.z = state.clock.elapsedTime * 0.08;
-    ringRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.25) * 0.18 + 1.05;
+    if (!meshRef.current || !isVisible) return;
+    const t = state.clock.elapsedTime;
+    const pos = meshRef.current.geometry.attributes
+      .position as THREE.BufferAttribute;
+    for (let i = 0; i < pos.count; i++) {
+      const x = pos.getX(i);
+      const y = pos.getY(i);
+      const z =
+        Math.sin(x * 0.45 + t * 0.35) * 0.14 +
+        Math.cos(y * 0.55 - t * 0.28) * 0.1;
+      pos.setZ(i, z);
+    }
+    pos.needsUpdate = true;
   });
 
   return (
-    <mesh ref={ringRef} position={[-2.2, 0.2, -1.5]}>
-      <torusGeometry args={[2.1, 0.012, 16, 80]} />
-      <meshBasicMaterial color="#D9B15B" transparent opacity={0.18} />
+    <mesh
+      ref={meshRef}
+      position={[0, -1.55, -2.1]}
+      rotation={[-Math.PI / 2.25, 0, 0]}
+    >
+      <planeGeometry args={[18, 8, 36, 16]} />
+      <meshBasicMaterial
+        color="#01402B"
+        wireframe
+        transparent
+        opacity={0.055}
+      />
     </mesh>
   );
 }
@@ -91,8 +74,7 @@ const PavilionAtmosphere = React.memo(function PavilionAtmosphere() {
         gl={{ alpha: true, antialias: false, powerPreference: 'low-power' }}
         dpr={[1, 1.4]}
       >
-        <PavilionRing isVisible={isVisible} />
-        <GoldStageDust isVisible={isVisible} />
+        <StageBlueprintPlane isVisible={isVisible} />
       </Canvas>
     </div>
   );
