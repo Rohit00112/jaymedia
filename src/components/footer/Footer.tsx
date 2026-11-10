@@ -243,9 +243,6 @@ export function Footer() {
               Managed by <Link href="https://astratech.com.np" target="_blank" rel="noopener noreferrer" className="text-ink-soft">Astra Technology Horizon Pvt. Ltd.</Link>
             </p>
           </div>
-          <a href="#top" className="font-medium text-ink hover:text-forest">
-            Back to top &uarr;
-          </a>
         </div>
       </div>
     </footer>
