@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { CalendarPlus, MessageCircle, Copy, Check, Download } from 'lucide-react';
+import { Copy, Check } from 'lucide-react';
+import { GoogleIcon, AppleIcon, WhatsAppIcon } from '@/components/shared/BrandIcons';
 
 interface EventShareAndCalendarProps {
   title: string;
@@ -99,7 +100,7 @@ export default function EventShareAndCalendar({
           rel="noopener noreferrer"
           className="inline-flex items-center justify-center gap-2 rounded-lg border border-line bg-white px-3 py-2 text-xs font-medium text-ink transition-colors hover:border-line-strong hover:bg-paper-deep"
         >
-          <CalendarPlus className="h-3.5 w-3.5 text-forest" />
+          <GoogleIcon className="h-3.5 w-3.5 shrink-0" />
           <span>Add to Google Calendar</span>
         </a>
 
@@ -108,7 +109,7 @@ export default function EventShareAndCalendar({
           onClick={handleDownloadIcs}
           className="inline-flex items-center justify-center gap-2 rounded-lg border border-line bg-white px-3 py-2 text-xs font-medium text-ink transition-colors hover:border-line-strong hover:bg-paper-deep"
         >
-          <Download className="h-3.5 w-3.5 text-forest" />
+          <AppleIcon className="h-3.5 w-3.5 shrink-0 text-ink" />
           <span>Apple / iCal (.ics)</span>
         </button>
 
@@ -116,9 +117,9 @@ export default function EventShareAndCalendar({
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center justify-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50/70 px-3 py-2 text-xs font-medium text-emerald-900 transition-colors hover:bg-emerald-100"
+          className="inline-flex items-center justify-center gap-2 rounded-lg border border-emerald-200 bg-emerald-50/70 px-3 py-2 text-xs font-medium text-emerald-950 transition-colors hover:bg-emerald-100"
         >
-          <MessageCircle className="h-3.5 w-3.5 text-emerald-600" />
+          <WhatsAppIcon className="h-3.5 w-3.5 shrink-0" />
           <span>Share via WhatsApp</span>
         </a>
 
