@@ -16,10 +16,20 @@ export function Navbar() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [eventsDropdownOpen, setEventsDropdownOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [dynamicEventLinks, setDynamicEventLinks] = useState<NavChild[] | null>(
     null
   );
   const dropdownRef = useRef<HTMLLIElement>(null);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setScrolled(window.scrollY > 12);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -72,7 +82,12 @@ export function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full border-b border-line bg-white/95 backdrop-blur-md">
+      <header
+        className={cn(
+          'sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur-md transition-all duration-300',
+          scrolled ? 'border-line shadow-xs' : 'border-line'
+        )}
+      >
         <nav
           aria-label="Primary Navigation"
           className="container-ed flex h-16 items-center justify-between gap-6"
@@ -81,7 +96,7 @@ export function Navbar() {
           <Link
             href="/"
             aria-label="Jay Media Management Pvt. Ltd. — Home"
-            className="flex shrink-0 items-center transition-opacity hover:opacity-80"
+            className="flex shrink-0 items-center transition-transform duration-200 hover:scale-[1.02]"
           >
             <Image
               src={siteConfig.logo}
@@ -115,32 +130,32 @@ export function Navbar() {
                       aria-haspopup="true"
                       onClick={() => setEventsDropdownOpen((prev) => !prev)}
                       className={cn(
-                        'inline-flex items-center gap-1 py-2 text-sm transition-colors',
+                        ' relative inline-flex items-center gap-1 py-2 text-sm transition-colors after:absolute after:bottom-0.5 after:left-0 after:h-[2px] after:w-full after:origin-left after:rounded-full after:bg-forest after:transition-transform after:duration-200',
                         isActive
-                          ? 'font-semibold text-ink'
-                          : 'font-medium text-muted hover:text-ink'
+                          ? 'font-semibold text-ink after:scale-x-100'
+                          : 'font-medium text-muted after:scale-x-0 hover:text-ink hover:after:scale-x-100'
                       )}
                     >
                       <span>{link.label}</span>
                       <ChevronDown
                         className={cn(
-                          'h-3.5 w-3.5 transition-transform duration-150',
+                          'h-3.5 w-3.5 transition-transform duration-200',
                           eventsDropdownOpen && 'rotate-180 text-ink'
                         )}
                       />
                     </button>
 
                     {eventsDropdownOpen && (
-                      <div className="absolute left-0 top-full pt-1.5">
+                      <div className="animate-dropdown absolute left-0 top-full pt-1.5">
                         <div className="w-64 rounded-xl border border-line bg-white p-1.5 shadow-lg">
                           {(dynamicEventLinks || link.children).map((child) => (
                             <Link
                               key={child.href}
                               href={child.href}
                               onClick={() => setEventsDropdownOpen(false)}
-                              className="block rounded-lg px-3 py-2 transition-colors hover:bg-paper-deep"
+                              className="group block rounded-lg px-3 py-2 transition-all duration-150 hover:bg-paper-deep hover:pl-3.5"
                             >
-                              <span className="block text-sm font-medium text-ink">
+                              <span className="block text-sm font-medium text-ink transition-colors group-hover:text-forest">
                                 {child.label}
                               </span>
                               {child.note && (
@@ -163,10 +178,10 @@ export function Navbar() {
                     href={link.href}
                     aria-current={isActive ? 'page' : undefined}
                     className={cn(
-                      'inline-block py-2 text-sm transition-colors',
+                      'relative inline-block py-2 text-sm transition-colors after:absolute after:bottom-0.5 after:left-0 after:h-[2px] after:w-full after:origin-left after:rounded-full after:bg-forest after:transition-transform after:duration-200',
                       isActive
-                        ? 'font-semibold text-ink'
-                        : 'font-medium text-muted hover:text-ink'
+                        ? 'font-semibold text-ink after:scale-x-100'
+                        : 'font-medium text-muted after:scale-x-0 hover:text-ink hover:after:scale-x-100'
                     )}
                   >
                     {link.label}
@@ -180,7 +195,7 @@ export function Navbar() {
           <div className="flex items-center gap-2.5">
             <Link
               href={navigation.cta.href}
-              className="hidden rounded-lg bg-forest px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-hover sm:inline-flex"
+              className="btn btn-primary hidden py-2 text-sm sm:inline-flex"
             >
               {navigation.cta.label}
             </Link>

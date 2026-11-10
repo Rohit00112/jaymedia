@@ -6,6 +6,8 @@ import { ArrowLeft, ArrowUpRight } from 'lucide-react';
 import PageHero from '@/components/shared/PageHero';
 import SectionHeading from '@/components/shared/SectionHeading';
 import CtaBand from '@/components/shared/CtaBand';
+import Reveal from '@/components/motion/Reveal';
+import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
 import { NEWS_DATA } from '@/config/news-data';
 import { generatePageMetadata, generateArticleSchema } from '@/lib/seo';
 import { formatDate } from '@/lib/utils';
@@ -78,7 +80,7 @@ export default async function NewsDetailPage({ params }: Props) {
 
       <section className="border-b border-line py-16 md:py-20">
         <div className="container-ed grid gap-10 lg:grid-cols-12">
-          <div className="lg:col-span-8">
+          <Reveal className="lg:col-span-8">
             <div className="space-y-5 text-base leading-relaxed text-ink-soft">
               {article.content.map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
@@ -99,9 +101,9 @@ export default async function NewsDetailPage({ params }: Props) {
                 <span>Back to News</span>
               </Link>
             </div>
-          </div>
+          </Reveal>
 
-          <aside className="lg:col-span-4">
+          <Reveal delay={0.08} as="aside" className="lg:col-span-4">
             <div className="rounded-xl border border-line bg-paper-deep/60 p-6">
               <h3 className="text-xs font-semibold uppercase tracking-wider text-ink">
                 Article Details
@@ -125,7 +127,7 @@ export default async function NewsDetailPage({ params }: Props) {
                 </div>
               </dl>
             </div>
-          </aside>
+          </Reveal>
         </div>
       </section>
 
@@ -137,12 +139,12 @@ export default async function NewsDetailPage({ params }: Props) {
             link={{ href: '/news', label: 'View all news' }}
           />
 
-          <div className="grid gap-6 md:grid-cols-2">
+          <AnimeStaggerContainer className="grid gap-6 md:grid-cols-2">
             {otherArticles.slice(0, 2).map((other) => (
               <Link
                 key={other.slug}
                 href={`/news/${other.slug}`}
-                className="group flex flex-col justify-between overflow-hidden rounded-xl border border-line bg-white transition-colors hover:border-line-strong"
+                className="card-hover group flex flex-col justify-between overflow-hidden rounded-xl border border-line bg-white"
               >
                 <div>
                   <div className="relative aspect-[16/9] overflow-hidden bg-sand">
@@ -161,7 +163,7 @@ export default async function NewsDetailPage({ params }: Props) {
                       </span>
                       <span>{formatDate(other.date)}</span>
                     </div>
-                    <h3 className="mt-2 text-lg font-semibold text-ink group-hover:text-forest">
+                    <h3 className="mt-2 text-lg font-semibold text-ink transition-colors group-hover:text-forest">
                       {other.title}
                     </h3>
                     <p className="mt-1.5 line-clamp-2 text-sm text-muted">
@@ -172,12 +174,12 @@ export default async function NewsDetailPage({ params }: Props) {
                 <div className="border-t border-line px-5 py-3.5 text-xs font-medium text-forest">
                   <span className="inline-flex items-center gap-1">
                     Read article
-                    <ArrowUpRight className="h-3.5 w-3.5" />
+                    <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </span>
                 </div>
               </Link>
             ))}
-          </div>
+          </AnimeStaggerContainer>
         </div>
       </section>
 

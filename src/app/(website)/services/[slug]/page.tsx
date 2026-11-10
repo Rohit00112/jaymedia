@@ -5,6 +5,8 @@ import { ArrowUpRight, CheckCircle2 } from 'lucide-react';
 import PageHero from '@/components/shared/PageHero';
 import SectionHeading from '@/components/shared/SectionHeading';
 import CtaBand from '@/components/shared/CtaBand';
+import Reveal from '@/components/motion/Reveal';
+import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
 import { SERVICES_DATA } from '@/config/services-data';
 import { generatePageMetadata } from '@/lib/seo';
 
@@ -62,7 +64,7 @@ export default async function ServiceDetailPage({ params }: Props) {
       {/* Overview & Capabilities */}
       <section className="border-b border-line py-16 md:py-20">
         <div className="container-ed grid gap-10 lg:grid-cols-12">
-          <div className="lg:col-span-7">
+          <Reveal className="lg:col-span-7">
             <p className="text-xs font-semibold uppercase tracking-wider text-forest">
               Production Scope
             </p>
@@ -85,9 +87,9 @@ export default async function ServiceDetailPage({ params }: Props) {
                 All Capabilities
               </Link>
             </div>
-          </div>
+          </Reveal>
 
-          <div className="lg:col-span-5">
+          <Reveal delay={0.08} className="lg:col-span-5">
             <div className="rounded-xl border border-line bg-paper-deep/50 p-6">
               <h3 className="text-xs font-semibold uppercase tracking-wider text-ink">
                 Key Capabilities
@@ -104,7 +106,7 @@ export default async function ServiceDetailPage({ params }: Props) {
                 ))}
               </ul>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -117,11 +119,11 @@ export default async function ServiceDetailPage({ params }: Props) {
             description="A structured production workflow that keeps creative goals and event logistics aligned."
           />
 
-          <div className="grid gap-6 md:grid-cols-3">
+          <AnimeStaggerContainer className="grid gap-6 md:grid-cols-3">
             {service.approach.map((step, index) => (
               <div
                 key={step.title}
-                className="rounded-xl border border-line bg-white p-6"
+                className="card-hover rounded-xl border border-line bg-white p-6"
               >
                 <span className="inline-flex rounded-md bg-forest-soft px-2.5 py-1 text-xs font-semibold text-forest">
                   0{index + 1} &bull; {step.phase}
@@ -134,7 +136,7 @@ export default async function ServiceDetailPage({ params }: Props) {
                 </p>
               </div>
             ))}
-          </div>
+          </AnimeStaggerContainer>
         </div>
       </section>
 
@@ -147,11 +149,11 @@ export default async function ServiceDetailPage({ params }: Props) {
             description="Clear production assets and post-event documentation."
           />
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <AnimeStaggerContainer className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {service.deliverables.map((deliverable, index) => (
               <div
                 key={deliverable}
-                className="rounded-xl border border-line bg-white p-5"
+                className="card-hover rounded-xl border border-line bg-white p-5"
               >
                 <span className="text-xs font-semibold text-forest">
                   0{index + 1}
@@ -161,7 +163,7 @@ export default async function ServiceDetailPage({ params }: Props) {
                 </p>
               </div>
             ))}
-          </div>
+          </AnimeStaggerContainer>
         </div>
       </section>
 
@@ -172,10 +174,10 @@ export default async function ServiceDetailPage({ params }: Props) {
             <span className="text-xs text-muted">Next capability</span>
             <Link
               href={`/services/${nextService.slug}`}
-              className="group mt-1 flex items-center gap-2 text-lg font-semibold text-ink hover:text-forest"
+              className="group mt-1 flex items-center gap-2 text-lg font-semibold text-ink transition-colors hover:text-forest"
             >
               <span>{nextService.title}</span>
-              <ArrowUpRight className="h-4 w-4 text-forest" />
+              <ArrowUpRight className="h-4 w-4 text-forest transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
           </div>
           <span className="text-xs text-muted">{nextService.category}</span>

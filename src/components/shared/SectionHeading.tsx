@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
+import Reveal from '@/components/motion/Reveal';
 import { cn } from '@/lib/utils';
 
 interface SectionHeadingProps {
@@ -29,7 +30,7 @@ export default function SectionHeading({
   ) : null;
 
   return (
-    <div
+    <Reveal
       className={cn(
         'mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end',
         className
@@ -64,6 +65,6 @@ export default function SectionHeading({
             {linkInner}
           </Link>
         ))}
-    </div>
+    </Reveal>
   );
 }

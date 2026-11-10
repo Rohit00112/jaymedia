@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
+import Reveal from '@/components/motion/Reveal';
 import { cn } from '@/lib/utils';
 
 interface PageHeroProps {
@@ -37,18 +38,18 @@ export default function PageHero({
     >
       <div className="container-ed">
         {breadcrumb && (
-          <div className="mb-4">
+          <Reveal y={10} className="mb-4">
             <Link
               href={breadcrumb.href}
-              className="inline-flex items-center gap-1.5 text-xs font-medium text-muted transition-colors hover:text-ink"
+              className="group inline-flex items-center gap-1.5 text-xs font-medium text-muted transition-colors hover:text-ink"
             >
-              <ArrowLeft className="h-3.5 w-3.5" />
+              <ArrowLeft className="h-3.5 w-3.5 transition-transform duration-200 group-hover:-translate-x-0.5" />
               <span>{breadcrumb.label}</span>
             </Link>
-          </div>
+          </Reveal>
         )}
 
-        <div className="max-w-3xl">
+        <Reveal y={14} className="max-w-3xl">
           <p className="text-xs font-semibold uppercase tracking-wider text-forest">
             {cleanEyebrow}
           </p>
@@ -60,10 +61,15 @@ export default function PageHero({
               {description}
             </p>
           )}
-        </div>
+        </Reveal>
 
         {meta && meta.length > 0 && (
-          <dl className="mt-7 grid grid-cols-2 gap-4 border-t border-line pt-5 sm:grid-cols-4">
+          <Reveal
+            y={12}
+            delay={0.08}
+            as="dl"
+            className="mt-7 grid grid-cols-2 gap-4 border-t border-line pt-5 sm:grid-cols-4"
+          >
             {meta.map((item) => (
               <div key={item.label}>
                 <dt className="text-xs text-muted">{item.label}</dt>
@@ -72,20 +78,24 @@ export default function PageHero({
                 </dd>
               </div>
             ))}
-          </dl>
+          </Reveal>
         )}
 
         {breadcrumb && image && (
-          <div className="relative mt-8 aspect-[16/7] w-full overflow-hidden rounded-xl border border-line bg-sand">
+          <Reveal
+            y={16}
+            delay={0.14}
+            className="group relative mt-8 aspect-[16/7] w-full overflow-hidden rounded-xl border border-line bg-sand"
+          >
             <Image
               src={image}
               alt={imageAlt}
               fill
               priority
               sizes="(max-width: 1280px) 100vw, 1200px"
-              className="object-cover"
+              className="img-zoom object-cover"
             />
-          </div>
+          </Reveal>
         )}
       </div>
     </section>

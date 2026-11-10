@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import SectionHeading from '@/components/shared/SectionHeading';
+import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
 import { TEAM_PROFILES } from '@/config/team-data';
 
 export default function TeamSection() {
@@ -18,12 +19,12 @@ export default function TeamSection() {
           link={{ href: '/team', label: 'Meet the team' }}
         />
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <AnimeStaggerContainer className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {TEAM_PROFILES.map((member) => (
             <Link
               key={member.slug}
               href={`/team/${member.slug}`}
-              className="group flex flex-col gap-5 overflow-hidden rounded-xl border border-line bg-white p-5 transition-colors hover:border-line-strong sm:flex-row sm:items-center"
+              className="card-hover group flex flex-col gap-5 overflow-hidden rounded-xl border border-line bg-white p-5 sm:flex-row sm:items-center"
             >
               <div className="relative aspect-[4/4.2] w-full shrink-0 overflow-hidden rounded-lg bg-sand sm:w-44">
                 <Image
@@ -50,12 +51,12 @@ export default function TeamSection() {
 
                 <div className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-forest">
                   <span>View profile</span>
-                  <ArrowUpRight className="h-3.5 w-3.5" />
+                  <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </div>
               </div>
             </Link>
           ))}
-        </div>
+        </AnimeStaggerContainer>
       </div>
     </section>
   );

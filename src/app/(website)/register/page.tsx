@@ -3,6 +3,8 @@ import Image from 'next/image';
 import { ArrowUpRight, MapPin } from 'lucide-react';
 import PageHero from '@/components/shared/PageHero';
 import EventRegistrationForm from '@/components/forms/EventRegistrationForm';
+import Reveal from '@/components/motion/Reveal';
+import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
 import { EVENTS_DATA } from '@/config/events-data';
 import { generatePageMetadata } from '@/lib/seo';
 
@@ -32,7 +34,7 @@ export default function RegisterHubPage() {
       {/* Active Event Cards Selector */}
       <section className="border-b border-line bg-paper-deep/50 py-14">
         <div className="container-ed">
-          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <Reveal className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
               <span className="text-xs font-semibold uppercase tracking-wider text-forest">
                 Open Productions
@@ -45,13 +47,13 @@ export default function RegisterHubPage() {
             <Link href="/#application-status" className="btn btn-outline">
               Check Application Status
             </Link>
-          </div>
+          </Reveal>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <AnimeStaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {openEvents.map((event) => (
               <div
                 key={event.slug}
-                className="flex flex-col justify-between overflow-hidden rounded-xl border border-line bg-white"
+                className="card-hover group flex flex-col justify-between overflow-hidden rounded-xl border border-line bg-white"
               >
                 <div>
                   <div className="relative aspect-[16/10] w-full overflow-hidden bg-sand">
@@ -60,7 +62,7 @@ export default function RegisterHubPage() {
                       alt={event.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 25vw"
-                      className="object-cover"
+                      className="img-zoom object-cover"
                     />
                   </div>
 
@@ -68,7 +70,7 @@ export default function RegisterHubPage() {
                     <span className="text-xs font-medium text-forest">
                       {event.eligibility}
                     </span>
-                    <h3 className="mt-1 text-base font-semibold text-ink">
+                    <h3 className="mt-1 text-base font-semibold text-ink transition-colors group-hover:text-forest">
                       {event.title}
                     </h3>
                     <p className="mt-1.5 line-clamp-2 text-xs leading-relaxed text-muted">
@@ -92,13 +94,13 @@ export default function RegisterHubPage() {
                 </div>
               </div>
             ))}
-          </div>
+          </AnimeStaggerContainer>
         </div>
       </section>
 
       {/* Unified Form */}
       <section className="py-14 md:py-18">
-        <div className="container-ed max-w-4xl">
+        <Reveal className="container-ed max-w-4xl">
           <div className="mb-8">
             <span className="text-xs font-semibold uppercase tracking-wider text-forest">
               Online Entry
@@ -113,7 +115,7 @@ export default function RegisterHubPage() {
             eventTitle={openEvents[0]?.title || 'Jay Media Production'}
             availableEvents={openEvents}
           />
-        </div>
+        </Reveal>
       </section>
     </div>
   );

@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import SectionHeading from '@/components/shared/SectionHeading';
+import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
 import { EVENTS_DATA } from '@/config/events-data';
 
 export default function FeaturedEventsSection() {
@@ -19,12 +20,12 @@ export default function FeaturedEventsSection() {
           link={{ href: '/events', label: 'View all productions' }}
         />
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <AnimeStaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {productions.map((event) => (
             <Link
               key={event.slug}
               href={`/events/${event.slug}`}
-              className="group flex flex-col overflow-hidden rounded-xl border border-line bg-white transition-colors hover:border-line-strong"
+              className="card-hover group flex flex-col overflow-hidden rounded-xl border border-line bg-white"
             >
               <div className="relative aspect-[16/10] w-full overflow-hidden bg-sand">
                 <Image
@@ -53,13 +54,13 @@ export default function FeaturedEventsSection() {
                   <span>{event.prizePoolLabel}</span>
                   <span className="inline-flex items-center gap-1 font-medium text-forest">
                     Details
-                    <ArrowUpRight className="h-3.5 w-3.5" />
+                    <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </span>
                 </div>
               </div>
             </Link>
           ))}
-        </div>
+        </AnimeStaggerContainer>
       </div>
     </section>
   );

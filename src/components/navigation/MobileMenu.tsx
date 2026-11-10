@@ -66,7 +66,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       aria-modal="true"
       aria-label="Mobile navigation"
       onKeyDown={handleKeyDown}
-      className="fixed inset-0 z-[70] flex flex-col overflow-y-auto bg-white text-ink"
+      className="animate-fade-up fixed inset-0 z-[70] flex flex-col overflow-y-auto bg-white text-ink"
     >
       <div className="container-ed flex h-16 shrink-0 items-center justify-between border-b border-line">
         <Link href="/" onClick={onClose} className="flex items-center">
@@ -104,7 +104,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                   onClick={onClose}
                   aria-current={isActive ? 'page' : undefined}
                   className={cn(
-                    'block py-3.5 text-base transition-colors',
+                    'block py-3.5 text-base transition-all duration-150 hover:pl-1.5',
                     isActive
                       ? 'font-semibold text-forest'
                       : 'font-medium text-ink hover:text-forest'

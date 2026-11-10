@@ -5,6 +5,8 @@ import { ArrowUpRight, CheckCircle2, Play } from 'lucide-react';
 import PageHero from '@/components/shared/PageHero';
 import SectionHeading from '@/components/shared/SectionHeading';
 import CtaBand from '@/components/shared/CtaBand';
+import Reveal from '@/components/motion/Reveal';
+import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
 import { EVENTS_DATA } from '@/config/events-data';
 import { getEventBySlug, listEvents } from '@/lib/events-store';
 import { generatePageMetadata } from '@/lib/seo';
@@ -70,7 +72,7 @@ export default async function EventDetailPage({ params }: Props) {
       {/* Overview & Key Details */}
       <section className="border-b border-line py-16 md:py-20">
         <div className="container-ed grid gap-10 lg:grid-cols-12">
-          <div className="lg:col-span-7">
+          <Reveal className="lg:col-span-7">
             <p className="text-xs font-semibold uppercase tracking-wider text-forest">
               Overview
             </p>
@@ -88,16 +90,16 @@ export default async function EventDetailPage({ params }: Props) {
               {event.highlights.map((highlight) => (
                 <li
                   key={highlight}
-                  className="flex items-start gap-2.5 rounded-lg border border-line bg-paper-deep/60 p-3.5 text-sm text-ink-soft"
+                  className="flex items-start gap-2.5 rounded-lg border border-line bg-paper-deep/60 p-3.5 text-sm text-ink-soft transition-colors hover:border-line-strong"
                 >
                   <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
                   <span>{highlight}</span>
                 </li>
               ))}
             </ul>
-          </div>
+          </Reveal>
 
-          <div className="lg:col-span-5">
+          <Reveal delay={0.08} className="lg:col-span-5">
             <div className="rounded-xl border border-line bg-paper-deep/50 p-6">
               <span className="text-xs font-semibold uppercase tracking-wider text-forest">
                 {event.ticketUrl
@@ -166,7 +168,7 @@ export default async function EventDetailPage({ params }: Props) {
                 )}
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -179,11 +181,11 @@ export default async function EventDetailPage({ params }: Props) {
             description="Each edition is structured as a clear progression from initial access to the main arena event."
           />
 
-          <div className="grid gap-6 md:grid-cols-3">
+          <AnimeStaggerContainer className="grid gap-6 md:grid-cols-3">
             {event.scheduleOrPhases.map((phase, index) => (
               <div
                 key={phase.title}
-                className="rounded-xl border border-line bg-white p-6"
+                className="card-hover rounded-xl border border-line bg-white p-6"
               >
                 <span className="inline-flex rounded-md bg-forest-soft px-2.5 py-1 text-xs font-semibold text-forest">
                   Stage 0{index + 1}
@@ -196,14 +198,14 @@ export default async function EventDetailPage({ params }: Props) {
                 </p>
               </div>
             ))}
-          </div>
+          </AnimeStaggerContainer>
         </div>
       </section>
 
       {/* Production Scope */}
       <section className="border-b border-line py-16 md:py-20">
         <div className="container-ed grid gap-10 lg:grid-cols-12">
-          <div className="lg:col-span-7">
+          <Reveal className="lg:col-span-7">
             <p className="text-xs font-semibold uppercase tracking-wider text-forest">
               Behind the Scenes
             </p>
@@ -226,9 +228,9 @@ export default async function EventDetailPage({ params }: Props) {
                 </li>
               ))}
             </ul>
-          </div>
+          </Reveal>
 
-          <div className="lg:col-span-5">
+          <Reveal delay={0.08} className="lg:col-span-5">
             <div className="rounded-xl border border-line bg-paper-deep p-6 sm:p-7">
               <span className="text-xs font-semibold uppercase tracking-wider text-forest">
                 Official Archive
@@ -256,7 +258,7 @@ export default async function EventDetailPage({ params }: Props) {
                 </Link>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -267,10 +269,10 @@ export default async function EventDetailPage({ params }: Props) {
             <span className="text-xs text-muted">Next production</span>
             <Link
               href={`/events/${nextEvent.slug}`}
-              className="group mt-1 flex items-center gap-2 text-lg font-semibold text-ink hover:text-forest"
+              className="group mt-1 flex items-center gap-2 text-lg font-semibold text-ink transition-colors hover:text-forest"
             >
               <span>{nextEvent.title}</span>
-              <ArrowUpRight className="h-4 w-4 text-forest" />
+              <ArrowUpRight className="h-4 w-4 text-forest transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
           </div>
           <span className="text-xs text-muted">{nextEvent.seasonOrYear}</span>

@@ -11,6 +11,8 @@ import {
 import PageHero from '@/components/shared/PageHero';
 import SectionHeading from '@/components/shared/SectionHeading';
 import CtaBand from '@/components/shared/CtaBand';
+import Reveal from '@/components/motion/Reveal';
+import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
 import { TEAM_PROFILES } from '@/config/team-data';
 import { generatePageMetadata } from '@/lib/seo';
 
@@ -92,7 +94,7 @@ export default function AboutPage() {
       {/* Story & Heritage */}
       <section className="border-b border-line py-16 md:py-20">
         <div className="container-ed grid items-start gap-10 lg:grid-cols-12">
-          <div className="lg:col-span-5">
+          <Reveal className="lg:col-span-5">
             <p className="text-xs font-semibold uppercase tracking-wider text-forest">
               Our Story
             </p>
@@ -110,9 +112,12 @@ export default function AboutPage() {
                 &mdash; Jay Raj Roy, Chairman
               </footer>
             </blockquote>
-          </div>
+          </Reveal>
 
-          <div className="space-y-4 text-sm leading-relaxed text-muted sm:text-base lg:col-span-7">
+          <Reveal
+            delay={0.08}
+            className="space-y-4 text-sm leading-relaxed text-muted sm:text-base lg:col-span-7"
+          >
             <p>
               <strong className="font-semibold text-ink">
                 Jay Media Management Pvt. Ltd.
@@ -144,14 +149,14 @@ export default function AboutPage() {
               and <em>JMM Runway Fashion Show</em>), and our flagship televised
               competition <em>Nepal Kids Idol</em>.
             </p>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* Mission & Vision */}
       <section className="border-b border-line bg-paper-deep/50 py-16 md:py-20">
-        <div className="container-ed grid gap-6 md:grid-cols-2">
-          <div className="rounded-xl border border-line bg-white p-6 sm:p-8">
+        <AnimeStaggerContainer className="container-ed grid gap-6 md:grid-cols-2">
+          <div className="card-hover rounded-xl border border-line bg-white p-6 sm:p-8">
             <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-forest-soft text-forest">
               <Compass className="h-5 w-5" />
             </span>
@@ -163,7 +168,7 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="rounded-xl border border-line bg-white p-6 sm:p-8">
+          <div className="card-hover rounded-xl border border-line bg-white p-6 sm:p-8">
             <span className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-forest-soft text-forest">
               <Eye className="h-5 w-5" />
             </span>
@@ -174,7 +179,7 @@ export default function AboutPage() {
               storytelling, and corporate brand activation.
             </p>
           </div>
-        </div>
+        </AnimeStaggerContainer>
       </section>
 
       {/* Guiding Values */}
@@ -185,13 +190,13 @@ export default function AboutPage() {
             title="Built on values that endure."
           />
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <AnimeStaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {VALUES.map((val) => {
               const Icon = val.icon;
               return (
                 <div
                   key={val.title}
-                  className="rounded-xl border border-line bg-white p-6"
+                  className="card-hover rounded-xl border border-line bg-white p-6"
                 >
                   <Icon className="h-5 w-5 text-forest" />
                   <h4 className="mt-4 text-base font-semibold text-ink">
@@ -203,7 +208,7 @@ export default function AboutPage() {
                 </div>
               );
             })}
-          </div>
+          </AnimeStaggerContainer>
         </div>
       </section>
 
@@ -215,11 +220,11 @@ export default function AboutPage() {
             title="Over a decade of milestones."
           />
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <AnimeStaggerContainer className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {MILESTONES.map((item) => (
               <div
                 key={item.year}
-                className="rounded-xl border border-line bg-white p-6"
+                className="card-hover rounded-xl border border-line bg-white p-6"
               >
                 <span className="text-xs font-semibold text-forest">
                   {item.year}
@@ -232,7 +237,7 @@ export default function AboutPage() {
                 </p>
               </div>
             ))}
-          </div>
+          </AnimeStaggerContainer>
         </div>
       </section>
 
@@ -245,12 +250,12 @@ export default function AboutPage() {
             link={{ href: '/team', label: 'View full profiles' }}
           />
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <AnimeStaggerContainer className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {TEAM_PROFILES.map((member) => (
               <Link
                 key={member.slug}
                 href={`/team/${member.slug}`}
-                className="group flex flex-col gap-5 overflow-hidden rounded-xl border border-line bg-white p-5 transition-colors hover:border-line-strong sm:flex-row sm:items-center"
+                className="card-hover group flex flex-col gap-5 overflow-hidden rounded-xl border border-line bg-white p-5 sm:flex-row sm:items-center"
               >
                 <div className="relative aspect-[4/4.2] w-full shrink-0 overflow-hidden rounded-lg bg-sand sm:w-40">
                   <Image
@@ -265,7 +270,7 @@ export default function AboutPage() {
                   <span className="text-xs font-medium text-forest">
                     {member.role}
                   </span>
-                  <h3 className="mt-1 text-xl font-semibold text-ink group-hover:text-forest">
+                  <h3 className="mt-1 text-xl font-semibold text-ink transition-colors group-hover:text-forest">
                     {member.name}
                   </h3>
                   <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted">
@@ -274,7 +279,7 @@ export default function AboutPage() {
                 </div>
               </Link>
             ))}
-          </div>
+          </AnimeStaggerContainer>
         </div>
       </section>
 

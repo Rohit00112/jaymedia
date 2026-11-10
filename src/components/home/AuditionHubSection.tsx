@@ -9,6 +9,7 @@ import {
   UserCheck,
   XCircle,
 } from 'lucide-react';
+import Reveal from '@/components/motion/Reveal';
 import type { RegistrationRecord } from '@/lib/validations/registration';
 
 export default function AuditionHubSection() {
@@ -67,7 +68,7 @@ export default function AuditionHubSection() {
       className="border-b border-line bg-white py-12 md:py-14"
     >
       <div className="container-ed">
-        <div className="rounded-xl border border-line bg-paper-deep p-6 sm:p-8">
+        <Reveal className="rounded-xl border border-line bg-paper-deep p-6 transition-colors duration-300 hover:border-line-strong sm:p-8">
           <div className="grid items-center gap-6 lg:grid-cols-12">
             <div className="lg:col-span-5">
               <p className="text-xs font-semibold uppercase tracking-wider text-forest">
@@ -96,7 +97,7 @@ export default function AuditionHubSection() {
                     placeholder="Enter registration code"
                     aria-label="Contestant registration code"
                     required
-                    className="w-full rounded-lg border border-line-strong bg-white py-2.5 pl-10 pr-4 text-sm font-medium uppercase text-ink placeholder:normal-case placeholder:text-faint focus:border-forest focus:outline-none"
+                    className="w-full rounded-lg border border-line-strong bg-white py-2.5 pl-10 pr-4 text-sm font-medium uppercase text-ink transition-colors placeholder:normal-case placeholder:text-faint focus:border-forest focus:outline-none"
                   />
                 </div>
                 <button
@@ -120,7 +121,7 @@ export default function AuditionHubSection() {
           {result.searched && result.found && result.record && (
             <div
               role="status"
-              className="mt-5 grid items-center gap-4 rounded-lg border border-line bg-white p-4 sm:grid-cols-3"
+              className="animate-fade-up mt-5 grid items-center gap-4 rounded-lg border border-line bg-white p-4 sm:grid-cols-3"
             >
               <div className="flex items-center gap-3">
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-forest-soft text-forest">
@@ -156,7 +157,7 @@ export default function AuditionHubSection() {
           {result.searched && !result.found && (
             <div
               role="alert"
-              className="mt-5 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-danger/25 bg-white p-4 text-xs"
+              className="animate-fade-up mt-5 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-danger/25 bg-white p-4 text-xs"
             >
               <div className="flex items-center gap-2 font-medium text-danger">
                 <XCircle className="h-4 w-4 shrink-0" />
@@ -167,7 +168,7 @@ export default function AuditionHubSection() {
               </Link>
             </div>
           )}
-        </div>
+        </Reveal>
       </div>
     </section>
   );

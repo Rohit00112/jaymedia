@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import SectionHeading from '@/components/shared/SectionHeading';
+import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
 import { NEWS_DATA } from '@/config/news-data';
 import { formatDate } from '@/lib/utils';
 
@@ -18,12 +19,12 @@ export default function JournalSection() {
           link={{ href: '/news', label: 'View all news' }}
         />
 
-        <div className="grid gap-6 md:grid-cols-3">
+        <AnimeStaggerContainer className="grid gap-6 md:grid-cols-3">
           {articles.map((article) => (
             <Link
               key={article.slug}
               href={`/news/${article.slug}`}
-              className="group flex flex-col justify-between overflow-hidden rounded-xl border border-line bg-white transition-colors hover:border-line-strong"
+              className="card-hover group flex flex-col justify-between overflow-hidden rounded-xl border border-line bg-white"
             >
               <div>
                 <div className="relative aspect-[16/10] overflow-hidden bg-sand">
@@ -57,12 +58,12 @@ export default function JournalSection() {
               <div className="border-t border-line px-5 py-3.5 text-xs font-medium text-forest">
                 <span className="inline-flex items-center gap-1">
                   Read article
-                  <ArrowUpRight className="h-3.5 w-3.5" />
+                  <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </span>
               </div>
             </Link>
           ))}
-        </div>
+        </AnimeStaggerContainer>
       </div>
     </section>
   );

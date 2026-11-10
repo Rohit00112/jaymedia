@@ -78,10 +78,56 @@
   --color-surface-subtle: rgba(17, 24, 21, 0.03);
 }
 
+/* ─── Keyframe Animations ──────────────────────────────────── */
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-fade {
+  from {
+    opacity: 0;
+    transform: scale(0.975);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes dropdown-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 /* ─── Base ─────────────────────────────────────────────────── */
 @layer base {
   :root {
     --nav-height: 4rem;
+    --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   html {
@@ -206,7 +252,24 @@
     font-feature-settings: "tnum" 1;
   }
 
-  /* ── Clean Buttons ───────────────────────────────────────── */
+  /* ── Page & Entrance Animations ─────────────────────────── */
+  .page-enter {
+    animation: page-enter 420ms var(--ease-out-expo) both;
+  }
+
+  .animate-fade-up {
+    animation: fade-up 560ms var(--ease-out-expo) both;
+  }
+
+  .animate-scale-fade {
+    animation: scale-fade 620ms var(--ease-out-expo) both;
+  }
+
+  .animate-dropdown {
+    animation: dropdown-enter 180ms var(--ease-out-expo) both;
+  }
+
+  /* ── Clean Buttons with Micro-Interactions ───────────────── */
   .btn {
     display: inline-flex;
     align-items: center;
@@ -222,10 +285,23 @@
     line-height: 1.2;
     white-space: nowrap;
     transition:
-      color 150ms ease,
-      border-color 150ms ease,
-      background-color 150ms ease,
-      box-shadow 150ms ease;
+      transform 220ms var(--ease-out-expo),
+      color 180ms ease,
+      border-color 180ms ease,
+      background-color 180ms ease,
+      box-shadow 220ms var(--ease-out-expo);
+  }
+
+  .btn svg {
+    transition: transform 220ms var(--ease-out-expo);
+  }
+
+  .btn:hover svg {
+    transform: translate(1.5px, -1.5px);
+  }
+
+  .btn:active {
+    transform: translateY(0) !important;
   }
 
   .btn-primary,
@@ -240,6 +316,8 @@
   .btn-dark:hover {
     background-color: var(--color-accent-hover);
     color: #ffffff;
+    transform: translateY(-1.5px);
+    box-shadow: 0 8px 20px -6px rgba(1, 64, 43, 0.32);
   }
 
   .btn-outline {
@@ -252,6 +330,8 @@
     border-color: var(--color-ink-soft);
     background-color: var(--color-paper-deep);
     color: var(--color-ink);
+    transform: translateY(-1.5px);
+    box-shadow: 0 6px 16px -6px rgba(17, 24, 21, 0.08);
   }
 
   .btn-white {
@@ -262,6 +342,7 @@
 
   .btn-white:hover {
     background-color: var(--color-paper-deep);
+    transform: translateY(-1.5px);
   }
 
   /* ── Links ───────────────────────────────────────────────── */
@@ -273,18 +354,41 @@
     font-size: 0.875rem;
     font-weight: 500;
     color: var(--color-forest);
-    transition: color 150ms ease;
+    transition: color 180ms ease;
+  }
+
+  .text-link svg {
+    transition: transform 220ms var(--ease-out-expo);
   }
 
   .text-link:hover {
     color: var(--color-ink);
   }
 
-  /* ── Surfaces & Tags ─────────────────────────────────────── */
+  .text-link:hover svg {
+    transform: translate(2.5px, -2.5px);
+  }
+
+  /* ── Surfaces, Card Hover & Tags ─────────────────────────── */
   .card-surface {
     background-color: var(--color-card);
     border: 1px solid var(--color-line);
     border-radius: 0.75rem;
+  }
+
+  .card-hover {
+    transition:
+      transform 320ms var(--ease-out-expo),
+      border-color 240ms ease,
+      box-shadow 320ms var(--ease-out-expo);
+  }
+
+  .card-hover:hover {
+    transform: translateY(-4px);
+    border-color: rgba(1, 64, 43, 0.28);
+    box-shadow:
+      0 14px 30px -12px rgba(17, 24, 21, 0.08),
+      0 4px 12px -4px rgba(1, 64, 43, 0.05);
   }
 
   .tag {
@@ -298,14 +402,24 @@
     font-weight: 500;
     color: var(--color-muted);
     background-color: var(--color-paper-deep);
+    transition:
+      border-color 180ms ease,
+      color 180ms ease,
+      background-color 180ms ease;
+  }
+
+  .tag:hover {
+    border-color: var(--color-line-strong);
+    color: var(--color-ink);
   }
 
   .img-zoom {
-    transition: transform 300ms ease;
+    transition: transform 600ms var(--ease-out-expo);
+    will-change: transform;
   }
 
   .group:hover .img-zoom {
-    transform: scale(1.02);
+    transform: scale(1.045);
   }
 
   .no-scrollbar {
@@ -362,4 +476,16 @@
 .playlist-scroll::-webkit-scrollbar-thumb {
   background-color: #cfd6d2;
   border-radius: 9999px;
+}
+
+/* ─── Reduced Motion Support ──────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { CheckCircle2, Loader2 } from 'lucide-react';
 import SectionHeading from '@/components/shared/SectionHeading';
+import Reveal from '@/components/motion/Reveal';
 import { siteConfig } from '@/config/site';
 
 const PRODUCTION_DISCIPLINES = [
@@ -112,9 +113,9 @@ export default function QuoteSection() {
           link={{ href: '/contact', label: 'Full contact details' }}
         />
 
-        <div className="rounded-xl border border-line bg-paper-deep/50 p-6 sm:p-8">
+        <Reveal className="rounded-xl border border-line bg-paper-deep/50 p-6 transition-colors duration-300 hover:border-line-strong sm:p-8">
           {status === 'success' ? (
-            <div role="status" className="py-4">
+            <div role="status" className="animate-fade-up py-4">
               <div className="flex items-center gap-2.5 text-forest">
                 <CheckCircle2 className="h-5 w-5" />
                 <h3 className="text-lg font-semibold text-ink">
@@ -138,7 +139,7 @@ export default function QuoteSection() {
               {status === 'error' && (
                 <div
                   role="alert"
-                  className="rounded-lg border border-danger/30 bg-red-50 px-4 py-3 text-xs font-medium text-danger"
+                  className="animate-fade-up rounded-lg border border-danger/30 bg-red-50 px-4 py-3 text-xs font-medium text-danger"
                 >
                   {errorMsg}
                 </div>
@@ -253,7 +254,7 @@ export default function QuoteSection() {
               </div>
             </form>
           )}
-        </div>
+        </Reveal>
       </div>
     </section>
   );

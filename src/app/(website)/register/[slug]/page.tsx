@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import PageHero from '@/components/shared/PageHero';
 import EventRegistrationForm from '@/components/forms/EventRegistrationForm';
+import Reveal from '@/components/motion/Reveal';
 import { EVENTS_DATA } from '@/config/events-data';
 import { getEventBySlug } from '@/lib/events-store';
 import { TEAM_PROFILES } from '@/config/team-data';
@@ -55,7 +56,7 @@ export default async function EventRegisterPage({ params }: Props) {
 
       {/* Event Panel Strip */}
       <section className="border-b border-line bg-white py-10">
-        <div className="container-ed">
+        <Reveal className="container-ed">
           <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
             <div>
               <span className="text-xs font-semibold uppercase tracking-wider text-forest">
@@ -83,7 +84,7 @@ export default async function EventRegisterPage({ params }: Props) {
               <Link
                 key={person.slug}
                 href={`/team/${person.slug}`}
-                className="group flex items-center gap-3.5 rounded-xl border border-line bg-paper-deep/50 p-3 transition-colors hover:border-line-strong hover:bg-white"
+                className="card-hover group flex items-center gap-3.5 rounded-xl border border-line bg-paper-deep/50 p-3 hover:bg-white"
               >
                 <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg bg-sand">
                   <Image
@@ -91,11 +92,11 @@ export default async function EventRegisterPage({ params }: Props) {
                     alt={person.name}
                     fill
                     sizes="56px"
-                    className="object-cover object-top"
+                    className="img-zoom object-cover object-top"
                   />
                 </div>
                 <div>
-                  <h3 className="text-sm font-semibold text-ink group-hover:text-forest">
+                  <h3 className="text-sm font-semibold text-ink transition-colors group-hover:text-forest">
                     {person.name}
                   </h3>
                   <p className="text-xs text-muted">{person.role}</p>
@@ -103,18 +104,18 @@ export default async function EventRegisterPage({ params }: Props) {
               </Link>
             ))}
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* Registration Form */}
       <section className="py-14 md:py-18">
-        <div className="container-ed max-w-4xl">
+        <Reveal delay={0.08} className="container-ed max-w-4xl">
           <EventRegistrationForm
             eventSlug={event.slug}
             eventTitle={event.title}
             availableEvents={EVENTS_DATA.filter((e) => e.registrationOpen)}
           />
-        </div>
+        </Reveal>
       </section>
     </div>
   );

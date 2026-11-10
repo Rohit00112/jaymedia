@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { ArrowUpRight, MapPin } from 'lucide-react';
 import PageHero from '@/components/shared/PageHero';
 import CtaBand from '@/components/shared/CtaBand';
+import Reveal from '@/components/motion/Reveal';
+import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
 import { generatePageMetadata } from '@/lib/seo';
 import { EVENTS_DATA } from '@/config/events-data';
 import { listEvents } from '@/lib/events-store';
@@ -38,59 +40,61 @@ export default function EventsPage() {
       <section className="py-16 md:py-20">
         <div className="container-ed space-y-10">
           {/* Featured Production */}
-          <Link
-            href={`/events/${featured.slug}`}
-            className="group grid items-center overflow-hidden rounded-xl border border-line bg-white transition-colors hover:border-line-strong lg:grid-cols-12"
-          >
-            <div className="relative aspect-[16/10] w-full overflow-hidden bg-sand lg:col-span-7">
-              <Image
-                src={
-                  featured.heroStageImage ||
-                  featured.coverBanner ||
-                  featured.image
-                }
-                alt={featured.title}
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 58vw"
-                className="img-zoom object-cover"
-              />
-            </div>
+          <Reveal>
+            <Link
+              href={`/events/${featured.slug}`}
+              className="card-hover group grid items-center overflow-hidden rounded-xl border border-line bg-white lg:grid-cols-12"
+            >
+              <div className="relative aspect-[16/10] w-full overflow-hidden bg-sand lg:col-span-7">
+                <Image
+                  src={
+                    featured.heroStageImage ||
+                    featured.coverBanner ||
+                    featured.image
+                  }
+                  alt={featured.title}
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 58vw"
+                  className="img-zoom object-cover"
+                />
+              </div>
 
-            <div className="flex flex-col justify-center p-6 sm:p-8 lg:col-span-5">
-              <div className="flex flex-wrap items-center gap-2 text-xs text-muted">
-                <span className="font-medium text-forest">
-                  {featured.category}
-                </span>
-                <span>&bull;</span>
-                <span>{featured.seasonOrYear}</span>
+              <div className="flex flex-col justify-center p-6 sm:p-8 lg:col-span-5">
+                <div className="flex flex-wrap items-center gap-2 text-xs text-muted">
+                  <span className="font-medium text-forest">
+                    {featured.category}
+                  </span>
+                  <span>&bull;</span>
+                  <span>{featured.seasonOrYear}</span>
+                </div>
+                <h2 className="mt-2.5 text-2xl font-semibold text-ink transition-colors group-hover:text-forest sm:text-3xl">
+                  {featured.title}
+                </h2>
+                <p className="mt-3 text-sm leading-relaxed text-muted">
+                  {featured.summary}
+                </p>
+                <p className="mt-5 flex items-center gap-2 border-t border-line pt-4 text-xs text-ink-soft">
+                  <MapPin className="h-3.5 w-3.5 text-forest" />
+                  {featured.location}
+                </p>
+                <div className="mt-5">
+                  <span className="btn btn-primary">
+                    <span>View Production</span>
+                    <ArrowUpRight className="h-4 w-4" />
+                  </span>
+                </div>
               </div>
-              <h2 className="mt-2.5 text-2xl font-semibold text-ink group-hover:text-forest sm:text-3xl">
-                {featured.title}
-              </h2>
-              <p className="mt-3 text-sm leading-relaxed text-muted">
-                {featured.summary}
-              </p>
-              <p className="mt-5 flex items-center gap-2 border-t border-line pt-4 text-xs text-ink-soft">
-                <MapPin className="h-3.5 w-3.5 text-forest" />
-                {featured.location}
-              </p>
-              <div className="mt-5">
-                <span className="btn btn-primary">
-                  <span>View Production</span>
-                  <ArrowUpRight className="h-4 w-4" />
-                </span>
-              </div>
-            </div>
-          </Link>
+            </Link>
+          </Reveal>
 
           {/* Other Productions Grid */}
-          <div className="grid gap-6 md:grid-cols-2">
+          <AnimeStaggerContainer className="grid gap-6 md:grid-cols-2">
             {rest.map((event) => (
               <Link
                 key={event.slug}
                 href={`/events/${event.slug}`}
-                className="group flex flex-col justify-between overflow-hidden rounded-xl border border-line bg-white transition-colors hover:border-line-strong"
+                className="card-hover group flex flex-col justify-between overflow-hidden rounded-xl border border-line bg-white"
               >
                 <div>
                   <div className="relative aspect-[16/9] overflow-hidden bg-sand">
@@ -129,12 +133,12 @@ export default function EventsPage() {
                   </span>
                   <span className="inline-flex items-center gap-1 font-medium text-forest">
                     Explore
-                    <ArrowUpRight className="h-3.5 w-3.5" />
+                    <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </span>
                 </div>
               </Link>
             ))}
-          </div>
+          </AnimeStaggerContainer>
         </div>
       </section>
 

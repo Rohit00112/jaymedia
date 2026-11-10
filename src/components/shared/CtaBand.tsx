@@ -1,11 +1,12 @@
 import Link from 'next/link';
+import Reveal from '@/components/motion/Reveal';
 import { siteConfig } from '@/config/site';
 
 export default function CtaBand() {
   return (
     <section className="border-t border-line bg-white py-14 md:py-16">
       <div className="container-ed">
-        <div className="flex flex-col justify-between gap-6 rounded-xl border border-line bg-paper-deep p-6 sm:p-8 lg:flex-row lg:items-center">
+        <Reveal className="flex flex-col justify-between gap-6 rounded-xl border border-line bg-paper-deep p-6 transition-colors duration-300 hover:border-line-strong sm:p-8 lg:flex-row lg:items-center">
           <div className="max-w-xl">
             <h2 className="text-xl font-semibold text-ink sm:text-2xl">
               Plan your next concert, launch, or live event.
@@ -25,7 +26,7 @@ export default function CtaBand() {
               Our Services
             </Link>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

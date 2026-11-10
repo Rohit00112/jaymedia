@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import PageHero from '@/components/shared/PageHero';
 import CtaBand from '@/components/shared/CtaBand';
+import Reveal from '@/components/motion/Reveal';
+import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
 import { generatePageMetadata } from '@/lib/seo';
 import { NEWS_DATA } from '@/config/news-data';
 import { formatDate } from '@/lib/utils';
@@ -38,60 +40,64 @@ export default function NewsPage() {
       <section className="py-16 md:py-20">
         <div className="container-ed space-y-12">
           {/* Featured Article */}
-          <Link
-            href={`/news/${featuredArticle.slug}`}
-            className="group grid items-center overflow-hidden rounded-xl border border-line bg-white transition-colors hover:border-line-strong lg:grid-cols-12"
-          >
-            <div className="relative aspect-[16/10] w-full overflow-hidden bg-sand lg:col-span-7">
-              <Image
-                src={featuredArticle.image}
-                alt={featuredArticle.title}
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 58vw"
-                className="img-zoom object-cover"
-              />
-            </div>
-
-            <div className="flex flex-col justify-center p-6 sm:p-8 lg:col-span-5">
-              <div className="flex items-center gap-2 text-xs text-muted">
-                <span className="font-medium text-forest">
-                  {featuredArticle.category}
-                </span>
-                <span>&bull;</span>
-                <time dateTime={featuredArticle.date}>
-                  {formatDate(featuredArticle.date)}
-                </time>
+          <Reveal>
+            <Link
+              href={`/news/${featuredArticle.slug}`}
+              className="card-hover group grid items-center overflow-hidden rounded-xl border border-line bg-white lg:grid-cols-12"
+            >
+              <div className="relative aspect-[16/10] w-full overflow-hidden bg-sand lg:col-span-7">
+                <Image
+                  src={featuredArticle.image}
+                  alt={featuredArticle.title}
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 58vw"
+                  className="img-zoom object-cover"
+                />
               </div>
 
-              <h2 className="mt-2.5 text-2xl font-semibold leading-snug text-ink group-hover:text-forest">
-                {featuredArticle.title}
-              </h2>
+              <div className="flex flex-col justify-center p-6 sm:p-8 lg:col-span-5">
+                <div className="flex items-center gap-2 text-xs text-muted">
+                  <span className="font-medium text-forest">
+                    {featuredArticle.category}
+                  </span>
+                  <span>&bull;</span>
+                  <time dateTime={featuredArticle.date}>
+                    {formatDate(featuredArticle.date)}
+                  </time>
+                </div>
 
-              <p className="mt-3 text-sm leading-relaxed text-muted">
-                {featuredArticle.excerpt}
-              </p>
+                <h2 className="mt-2.5 text-2xl font-semibold leading-snug text-ink transition-colors group-hover:text-forest">
+                  {featuredArticle.title}
+                </h2>
 
-              <div className="mt-6">
-                <span className="btn btn-primary">
-                  <span>Read Article</span>
-                  <ArrowUpRight className="h-4 w-4" />
-                </span>
+                <p className="mt-3 text-sm leading-relaxed text-muted">
+                  {featuredArticle.excerpt}
+                </p>
+
+                <div className="mt-6">
+                  <span className="btn btn-primary">
+                    <span>Read Article</span>
+                    <ArrowUpRight className="h-4 w-4" />
+                  </span>
+                </div>
               </div>
-            </div>
-          </Link>
+            </Link>
+          </Reveal>
 
           {/* Archive Grid */}
           <div>
-            <h2 className="mb-6 text-lg font-semibold text-ink">
-              Recent Updates
-            </h2>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <Reveal>
+              <h2 className="mb-6 text-lg font-semibold text-ink">
+                Recent Updates
+              </h2>
+            </Reveal>
+            <AnimeStaggerContainer className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {regularArticles.map((article) => (
                 <Link
                   key={article.slug}
                   href={`/news/${article.slug}`}
-                  className="group flex flex-col justify-between overflow-hidden rounded-xl border border-line bg-white transition-colors hover:border-line-strong"
+                  className="card-hover group flex flex-col justify-between overflow-hidden rounded-xl border border-line bg-white"
                 >
                   <div>
                     <div className="relative aspect-[16/10] overflow-hidden bg-sand">
@@ -113,7 +119,7 @@ export default function NewsPage() {
                           {formatDate(article.date)}
                         </time>
                       </div>
-                      <h3 className="mt-2 text-lg font-semibold leading-snug text-ink group-hover:text-forest">
+                      <h3 className="mt-2 text-lg font-semibold leading-snug text-ink transition-colors group-hover:text-forest">
                         {article.title}
                       </h3>
                       <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted">
@@ -126,12 +132,12 @@ export default function NewsPage() {
                     <span>{article.readTime}</span>
                     <span className="inline-flex items-center gap-1 font-medium text-forest">
                       Read
-                      <ArrowUpRight className="h-3.5 w-3.5" />
+                      <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </span>
                   </div>
                 </Link>
               ))}
-            </div>
+            </AnimeStaggerContainer>
           </div>
         </div>
       </section>

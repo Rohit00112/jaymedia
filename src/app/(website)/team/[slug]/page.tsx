@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowLeft, ArrowUpRight, CheckCircle2 } from 'lucide-react';
 import PageHero from '@/components/shared/PageHero';
 import CtaBand from '@/components/shared/CtaBand';
+import Reveal from '@/components/motion/Reveal';
 import { TEAM_PROFILES, EVENT_JUDGES } from '@/config/team-data';
 import { generatePageMetadata } from '@/lib/seo';
 
@@ -73,7 +74,7 @@ export default async function TeamProfileDetailPage({ params }: Props) {
         <div className="container-ed">
           <div className="grid items-start gap-10 lg:grid-cols-12">
             {/* Portrait */}
-            <div className="lg:col-span-4">
+            <Reveal className="lg:col-span-4">
               <div className="overflow-hidden rounded-xl border border-line bg-white p-3">
                 <div className="relative aspect-[4/4.4] w-full overflow-hidden rounded-lg bg-sand">
                   <Image
@@ -92,10 +93,10 @@ export default async function TeamProfileDetailPage({ params }: Props) {
                   <p className="mt-0.5 text-xs text-muted">{person.role}</p>
                 </div>
               </div>
-            </div>
+            </Reveal>
 
             {/* Bio & Credits */}
-            <div className="lg:col-span-8">
+            <Reveal delay={0.08} className="lg:col-span-8">
               <div className="rounded-xl border border-line bg-white p-6 sm:p-8">
                 <span className="text-xs font-semibold uppercase tracking-wider text-forest">
                   Profile
@@ -116,7 +117,7 @@ export default async function TeamProfileDetailPage({ params }: Props) {
                     {person.credits.map((credit) => (
                       <li
                         key={credit}
-                        className="flex items-start gap-2.5 rounded-lg border border-line bg-paper-deep/60 px-3.5 py-2.5 text-sm text-ink-soft"
+                        className="flex items-start gap-2.5 rounded-lg border border-line bg-paper-deep/60 px-3.5 py-2.5 text-sm text-ink-soft transition-colors hover:border-line-strong"
                       >
                         <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
                         <span>{credit}</span>
@@ -136,7 +137,7 @@ export default async function TeamProfileDetailPage({ params }: Props) {
                   </Link>
                 </div>
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>

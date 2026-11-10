@@ -5,6 +5,7 @@ import { ArrowUpRight } from 'lucide-react';
 import PageHero from '@/components/shared/PageHero';
 import SectionHeading from '@/components/shared/SectionHeading';
 import CtaBand from '@/components/shared/CtaBand';
+import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
 import { generatePageMetadata } from '@/lib/seo';
 import { TEAM_PROFILES } from '@/config/team-data';
 
@@ -38,12 +39,12 @@ export default function TeamPage() {
             description="Guiding every stage production, film project, and national talent competition from Biratnagar."
           />
 
-          <div className="grid gap-6 md:grid-cols-2">
+          <AnimeStaggerContainer className="grid gap-6 md:grid-cols-2">
             {TEAM_PROFILES.map((member) => (
               <Link
                 key={member.slug}
                 href={`/team/${member.slug}`}
-                className="group flex flex-col gap-5 rounded-xl border border-line bg-white p-5 transition-colors hover:border-line-strong sm:flex-row"
+                className="card-hover group flex flex-col gap-5 rounded-xl border border-line bg-white p-5 sm:flex-row"
               >
                 <div className="relative aspect-[4/4.2] w-full shrink-0 overflow-hidden rounded-lg bg-sand sm:w-44">
                   <Image
@@ -72,13 +73,13 @@ export default function TeamPage() {
                     <span className="text-muted">{member.location}</span>
                     <span className="inline-flex items-center gap-1 font-medium text-forest">
                       <span>Full Profile</span>
-                      <ArrowUpRight className="h-3.5 w-3.5" />
+                      <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </span>
                   </div>
                 </div>
               </Link>
             ))}
-          </div>
+          </AnimeStaggerContainer>
         </div>
       </section>
 

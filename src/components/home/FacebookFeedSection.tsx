@@ -2,6 +2,7 @@ import { ArrowUpRight } from 'lucide-react';
 import SectionHeading from '@/components/shared/SectionHeading';
 import FacebookFeedEmbed from '@/components/shared/FacebookFeedEmbed';
 import InstagramFeedEmbed from '@/components/shared/InstagramFeedEmbed';
+import Reveal from '@/components/motion/Reveal';
 import { siteConfig } from '@/config/site';
 
 export default function FacebookFeedSection() {
@@ -18,22 +19,22 @@ export default function FacebookFeedSection() {
         />
 
         <div className="grid items-start gap-6 lg:grid-cols-2">
-          <div>
+          <Reveal>
             <FacebookFeedEmbed
               pageUrl={siteConfig.social.facebook}
               height={500}
             />
-          </div>
+          </Reveal>
 
-          <div>
+          <Reveal delay={0.08}>
             <InstagramFeedEmbed
               profileUrl={siteConfig.social.instagram}
               height={500}
             />
-          </div>
+          </Reveal>
         </div>
 
-        <div className="mt-6 flex flex-wrap items-center gap-3">
+        <Reveal delay={0.14} className="mt-6 flex flex-wrap items-center gap-3">
           <a
             href={siteConfig.social.facebook}
             target="_blank"
@@ -53,7 +54,7 @@ export default function FacebookFeedSection() {
             <span>Instagram Profile</span>
             <ArrowUpRight className="h-4 w-4" />
           </a>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

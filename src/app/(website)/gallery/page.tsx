@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { X, ChevronLeft, ChevronRight, ArrowUpRight } from 'lucide-react';
 import PageHero from '@/components/shared/PageHero';
 import CtaBand from '@/components/shared/CtaBand';
+import Reveal from '@/components/motion/Reveal';
+import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
 import { useEscapeKey, useBodyLock } from '@/hooks';
 import { cn } from '@/lib/utils';
 
@@ -338,9 +340,9 @@ export default function GalleryPage() {
                 }}
                 aria-pressed={active}
                 className={cn(
-                  'shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors',
+                  'shrink-0 rounded-full px-3.5 py-1.5 text-xs font-medium transition-all duration-200',
                   active
-                    ? 'bg-forest text-white'
+                    ? 'bg-forest text-white shadow-2xs'
                     : 'bg-paper-deep text-muted hover:bg-sand hover:text-ink'
                 )}
               >
@@ -366,7 +368,7 @@ export default function GalleryPage() {
                 className="border-t border-line pt-10 first:border-t-0 first:pt-0"
               >
                 {/* Section Header */}
-                <div className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+                <Reveal className="mb-6 flex flex-col justify-between gap-4 md:flex-row md:items-end">
                   <div>
                     <span className="text-xs font-semibold uppercase tracking-wider text-forest">
                       {section.eyebrow}
@@ -402,10 +404,10 @@ export default function GalleryPage() {
                       </Link>
                     )}
                   </div>
-                </div>
+                </Reveal>
 
                 {/* Photo Grid */}
-                <div
+                <AnimeStaggerContainer
                   className={cn(
                     'grid gap-6',
                     sectionPhotos.length === 1
@@ -416,7 +418,7 @@ export default function GalleryPage() {
                   {sectionPhotos.map((photo) => (
                     <figure
                       key={photo.id}
-                      className="group flex flex-col justify-between overflow-hidden rounded-xl border border-line bg-white transition-colors hover:border-line-strong"
+                      className="card-hover group flex flex-col justify-between overflow-hidden rounded-xl border border-line bg-white"
                     >
                       <button
                         type="button"
@@ -441,7 +443,7 @@ export default function GalleryPage() {
                           <span className="text-xs font-medium text-forest">
                             {photo.badge || photo.category}
                           </span>
-                          <h3 className="mt-1 text-base font-semibold text-ink">
+                          <h3 className="mt-1 text-base font-semibold text-ink transition-colors group-hover:text-forest">
                             {photo.title}
                           </h3>
                           <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-muted">
@@ -451,7 +453,7 @@ export default function GalleryPage() {
                       </figcaption>
                     </figure>
                   ))}
-                </div>
+                </AnimeStaggerContainer>
               </div>
             );
           })}
@@ -465,7 +467,7 @@ export default function GalleryPage() {
           aria-modal="true"
           aria-label={activePhoto.title}
           onClick={() => setActivePhotoIndex(null)}
-          className="fixed inset-0 z-[100] flex flex-col justify-between bg-ink/95 p-4 text-white backdrop-blur-sm sm:p-6"
+          className="animate-fade-up fixed inset-0 z-[100] flex flex-col justify-between bg-ink/95 p-4 text-white backdrop-blur-sm sm:p-6"
         >
           <div
             onClick={(e) => e.stopPropagation()}
@@ -485,7 +487,7 @@ export default function GalleryPage() {
               onClick={() => setActivePhotoIndex(null)}
               autoFocus
               aria-label="Close gallery lightbox"
-              className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/20 bg-white/10 text-white hover:bg-white hover:text-ink"
+              className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/20 bg-white/10 text-white transition-colors hover:bg-white hover:text-ink"
             >
               <X className="h-4 w-4" />
             </button>
@@ -499,7 +501,7 @@ export default function GalleryPage() {
               type="button"
               onClick={handlePrev}
               aria-label="Previous image"
-              className="absolute left-0 z-20 flex h-10 w-10 items-center justify-center rounded-lg border border-white/20 bg-ink/80 text-white hover:bg-white hover:text-ink"
+              className="absolute left-0 z-20 flex h-10 w-10 items-center justify-center rounded-lg border border-white/20 bg-ink/80 text-white transition-colors hover:bg-white hover:text-ink"
             >
               <ChevronLeft className="h-5 w-5" />
             </button>
@@ -519,7 +521,7 @@ export default function GalleryPage() {
               type="button"
               onClick={handleNext}
               aria-label="Next image"
-              className="absolute right-0 z-20 flex h-10 w-10 items-center justify-center rounded-lg border border-white/20 bg-ink/80 text-white hover:bg-white hover:text-ink"
+              className="absolute right-0 z-20 flex h-10 w-10 items-center justify-center rounded-lg border border-white/20 bg-ink/80 text-white transition-colors hover:bg-white hover:text-ink"
             >
               <ChevronRight className="h-5 w-5" />
             </button>

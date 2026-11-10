@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { ArrowUpRight, CheckCircle2 } from 'lucide-react';
 import PageHero from '@/components/shared/PageHero';
 import CtaBand from '@/components/shared/CtaBand';
+import Reveal from '@/components/motion/Reveal';
 import { generatePageMetadata } from '@/lib/seo';
 import { SERVICES_DATA } from '@/config/services-data';
 
@@ -31,12 +32,15 @@ export default function ServicesPage() {
       <section className="py-16 md:py-20">
         <div className="container-ed space-y-8">
           {SERVICES_DATA.map((service) => (
-            <article
+            <Reveal
               key={service.slug}
-              id={service.slug}
-              className="rounded-xl border border-line bg-white p-6 sm:p-8"
+              as="article"
+              className="card-hover group rounded-xl border border-line bg-white p-6 sm:p-8"
             >
-              <div className="grid items-start gap-8 lg:grid-cols-12">
+              <div
+                id={service.slug}
+                className="grid items-start gap-8 lg:grid-cols-12"
+              >
                 <div className="lg:col-span-5">
                   <div className="relative mb-5 aspect-[16/10] w-full overflow-hidden rounded-lg border border-line bg-sand">
                     <Image
@@ -44,7 +48,7 @@ export default function ServicesPage() {
                       alt={service.title}
                       fill
                       sizes="(max-width: 1024px) 100vw, 35vw"
-                      className="object-cover"
+                      className="img-zoom object-cover"
                     />
                   </div>
 
@@ -99,7 +103,7 @@ export default function ServicesPage() {
                   </div>
                 </div>
               </div>
-            </article>
+            </Reveal>
           ))}
         </div>
       </section>

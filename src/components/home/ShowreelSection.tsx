@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { Play } from 'lucide-react';
 import SectionHeading from '@/components/shared/SectionHeading';
+import Reveal from '@/components/motion/Reveal';
 import { OFFICIAL_VIDEOS } from '@/config/videos-data';
 import { cn } from '@/lib/utils';
 
@@ -36,8 +37,8 @@ export default function ShowreelSection() {
 
         <div className="grid gap-6 lg:grid-cols-12">
           {/* Active 16:9 Video Player */}
-          <div className="lg:col-span-8">
-            <div className="overflow-hidden rounded-xl border border-line bg-white">
+          <Reveal className="lg:col-span-8">
+            <div className="overflow-hidden rounded-xl border border-line bg-white transition-shadow duration-300 hover:shadow-sm">
               <div className="relative aspect-video w-full overflow-hidden bg-ink">
                 {isPlaying ? (
                   <iframe
@@ -61,11 +62,11 @@ export default function ShowreelSection() {
                       alt={activeVideo.title}
                       fill
                       sizes="(max-width: 1024px) 100vw, 66vw"
-                      className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+                      className="img-zoom object-cover"
                     />
-                    <div className="absolute inset-0 bg-ink/30 transition-opacity group-hover:bg-ink/20" />
+                    <div className="absolute inset-0 bg-ink/30 transition-opacity duration-300 group-hover:bg-ink/20" />
 
-                    <span className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-white text-ink shadow-md transition-transform duration-150 group-hover:scale-105">
+                    <span className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-white text-ink shadow-md transition-transform duration-300 group-hover:scale-110">
                       <Play className="ml-0.5 h-5 w-5 fill-ink text-ink" />
                     </span>
                   </button>
@@ -84,10 +85,10 @@ export default function ShowreelSection() {
                 </p>
               </div>
             </div>
-          </div>
+          </Reveal>
 
           {/* Video Playlist */}
-          <div className="lg:col-span-4">
+          <Reveal delay={0.08} className="lg:col-span-4">
             <div className="playlist-scroll max-h-[460px] space-y-2 overflow-y-auto pr-1">
               {OFFICIAL_VIDEOS.map((video, idx) => {
                 const isActive = idx === selectedIndex;
@@ -97,10 +98,10 @@ export default function ShowreelSection() {
                     type="button"
                     onClick={() => handleSelectVideo(idx)}
                     className={cn(
-                      'flex w-full items-center gap-3 rounded-xl border p-2.5 text-left transition-colors',
+                      'group flex w-full items-center gap-3 rounded-xl border p-2.5 text-left transition-all duration-200',
                       isActive
-                        ? 'border-forest bg-forest-soft/70 text-ink'
-                        : 'border-line bg-white text-ink hover:border-line-strong'
+                        ? 'border-forest bg-forest-soft/70 text-ink shadow-2xs'
+                        : 'border-line bg-white text-ink hover:-translate-y-0.5 hover:border-line-strong hover:shadow-2xs'
                     )}
                   >
                     <div className="relative aspect-video w-24 shrink-0 overflow-hidden rounded-lg bg-ink">
@@ -109,7 +110,7 @@ export default function ShowreelSection() {
                         alt={video.title}
                         fill
                         sizes="96px"
-                        className="object-cover"
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
                       />
                     </div>
 
@@ -117,7 +118,7 @@ export default function ShowreelSection() {
                       <span className="block text-[11px] font-medium text-forest">
                         {video.category}
                       </span>
-                      <p className="mt-0.5 line-clamp-2 text-xs font-medium leading-snug text-ink">
+                      <p className="mt-0.5 line-clamp-2 text-xs font-medium leading-snug text-ink transition-colors group-hover:text-forest">
                         {video.title}
                       </p>
                     </div>
@@ -125,7 +126,7 @@ export default function ShowreelSection() {
                 );
               })}
             </div>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>
