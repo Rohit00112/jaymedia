@@ -14,6 +14,26 @@ import {
   ArrowUpRight,
 } from 'lucide-react';
 import type { TeamDocument } from '@/lib/backend/schemas';
+import {
+  ImageUploadField,
+  ListBuilderField,
+  PresetInputField,
+} from '@/components/admin/FormControls';
+
+const ROLE_PRESETS = [
+  'Chairman',
+  'Chief Executive Officer',
+  'Creative Director',
+  'Production Head',
+  'Event Coordinator',
+] as const;
+
+const CREDIT_SUGGESTIONS = [
+  'Executive Production Governance',
+  'Brand & Sponsor Partnerships',
+  'Pageant Grooming Supervision',
+  'National Audition Logistics',
+];
 
 export default function AdminTeamPage() {
   const [members, setMembers] = useState<TeamDocument[]>([]);
@@ -24,7 +44,7 @@ export default function AdminTeamPage() {
 
   const [form, setForm] = useState({
     name: '',
-    role: '',
+    role: 'Executive Leadership',
     category: 'Executive Leadership' as
       | 'Executive Leadership'
       | 'Mentorship'
@@ -33,7 +53,7 @@ export default function AdminTeamPage() {
     image: '/images/official/team-jay.png',
     shortBio: '',
     fullBio: '',
-    creditsText: '',
+    credits: [] as string[],
     order: 1,
   });
 
@@ -73,13 +93,13 @@ export default function AdminTeamPage() {
     setEditingSlug(null);
     setForm({
       name: '',
-      role: '',
+      role: 'Creative Director',
       category: 'Executive Leadership',
       location: 'Biratnagar, Nepal',
       image: '/images/official/team-jay.png',
       shortBio: '',
       fullBio: '',
-      creditsText: '',
+      credits: ['Executive Production Governance'],
       order: members.length + 1,
     });
     setModalOpen(true);
@@ -95,7 +115,7 @@ export default function AdminTeamPage() {
       image: member.image,
       shortBio: member.shortBio,
       fullBio: member.fullBio,
-      creditsText: (member.credits || []).join('\n'),
+      credits: member.credits || [],
       order: member.order || 1,
     });
     setModalOpen(true);
@@ -118,10 +138,7 @@ export default function AdminTeamPage() {
           image: form.image,
           shortBio: form.shortBio,
           fullBio: form.fullBio,
-          credits: form.creditsText
-            .split('\n')
-            .map((s) => s.trim())
-            .filter(Boolean),
+          credits: form.credits,
           order: Number(form.order) || 1,
         }),
       });
@@ -157,8 +174,8 @@ export default function AdminTeamPage() {
             Leadership &amp; Team
           </h1>
           <p className="mt-1 text-sm text-muted">
-            Manage executive profiles, bios, and leadership credits stored in
-            Cloud Firestore.
+            Manage executive profiles, portraits, and leadership credits stored
+            in Cloud Firestore.
           </p>
         </div>
 
@@ -261,10 +278,17 @@ export default function AdminTeamPage() {
               </button>
             </div>
 
-            <form onSubmit={handleSave} className="mt-5 space-y-4 text-xs">
+            <form onSubmit={handleSave} className="mt-5 space-y-5 text-xs">
+              <ImageUploadField
+                label="Profile Portrait"
+                value={form.image}
+                onChange={(url) => setForm({ ...form, image: url })}
+                aspectClassName="aspect-square"
+              />
+
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="mb-1 block font-medium text-ink">
+                  <label className="mb-2 block font-semibold text-ink">
                     Full Name *
                   </label>
                   <input
@@ -272,54 +296,21 @@ export default function AdminTeamPage() {
                     required
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-ink focus:border-forest focus:outline-none"
+                    className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-sm text-ink focus:border-forest focus:outline-none"
                   />
                 </div>
-                <div>
-                  <label className="mb-1 block font-medium text-ink">
-                    Title / Role *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={form.role}
-                    onChange={(e) => setForm({ ...form, role: e.target.value })}
-                    className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-ink focus:border-forest focus:outline-none"
-                  />
-                </div>
-              </div>
 
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div>
-                  <label className="mb-1 block font-medium text-ink">
-                    Portrait Image URL
-                  </label>
-                  <input
-                    type="text"
-                    value={form.image}
-                    onChange={(e) =>
-                      setForm({ ...form, image: e.target.value })
-                    }
-                    className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-ink focus:border-forest focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="mb-1 block font-medium text-ink">
-                    Location
-                  </label>
-                  <input
-                    type="text"
-                    value={form.location}
-                    onChange={(e) =>
-                      setForm({ ...form, location: e.target.value })
-                    }
-                    className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-ink focus:border-forest focus:outline-none"
-                  />
-                </div>
+                <PresetInputField
+                  label="Role / Title"
+                  value={form.role}
+                  onChange={(val) => setForm({ ...form, role: val })}
+                  presets={ROLE_PRESETS}
+                  required
+                />
               </div>
 
               <div>
-                <label className="mb-1 block font-medium text-ink">
+                <label className="mb-1.5 block font-semibold text-ink">
                   Short Summary Bio *
                 </label>
                 <textarea
@@ -334,7 +325,7 @@ export default function AdminTeamPage() {
               </div>
 
               <div>
-                <label className="mb-1 block font-medium text-ink">
+                <label className="mb-1.5 block font-semibold text-ink">
                   Full Biography
                 </label>
                 <textarea
@@ -347,19 +338,13 @@ export default function AdminTeamPage() {
                 />
               </div>
 
-              <div>
-                <label className="mb-1 block font-medium text-ink">
-                  Key Credits (One per line)
-                </label>
-                <textarea
-                  rows={3}
-                  value={form.creditsText}
-                  onChange={(e) =>
-                    setForm({ ...form, creditsText: e.target.value })
-                  }
-                  className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-ink focus:border-forest focus:outline-none"
-                />
-              </div>
+              <ListBuilderField
+                label="Notable Credits & Responsibilities"
+                items={form.credits}
+                onChange={(credits) => setForm({ ...form, credits })}
+                suggestions={CREDIT_SUGGESTIONS}
+                placeholder="Add a credit..."
+              />
 
               <div className="flex justify-end gap-2 border-t border-line pt-4">
                 <button

@@ -15,6 +15,30 @@ import {
 } from 'lucide-react';
 import type { NewsDocument } from '@/lib/backend/schemas';
 import { formatDate, cn } from '@/lib/utils';
+import {
+  ImageUploadField,
+  ListBuilderField,
+  PresetInputField,
+  SegmentedToggle,
+} from '@/components/admin/FormControls';
+
+const NEWS_CATEGORIES = [
+  'Concert Announcement',
+  'Pageant Chronicles',
+  'Youth & Talent',
+  'Industry & Stagecraft',
+  'Press Release',
+] as const;
+
+const TAG_SUGGESTIONS = [
+  'Eastern Echoes',
+  'Atif Aslam',
+  'Itahari Stadium',
+  'Miss Koshi',
+  'Nepal Kids Idol',
+  'Biratnagar',
+  'Jay Media',
+];
 
 export default function AdminNewsPage() {
   const [articles, setArticles] = useState<NewsDocument[]>([]);
@@ -32,7 +56,7 @@ export default function AdminNewsPage() {
     image: '/images/official/atif-aslam-poster.jpg',
     excerpt: '',
     contentText: '',
-    tagsText: 'Eastern Echoes, Koshi Province, Jay Media',
+    tags: ['Eastern Echoes', 'Koshi Province', 'Jay Media'],
     featured: false,
     status: 'published' as 'published' | 'draft',
   });
@@ -80,7 +104,7 @@ export default function AdminNewsPage() {
       image: '/images/official/atif-aslam-poster.jpg',
       excerpt: '',
       contentText: '',
-      tagsText: 'Jay Media, Koshi Province',
+      tags: ['Jay Media', 'Koshi Province'],
       featured: false,
       status: 'published',
     });
@@ -98,7 +122,7 @@ export default function AdminNewsPage() {
       image: article.image,
       excerpt: article.excerpt,
       contentText: (article.content || []).join('\n\n'),
-      tagsText: (article.tags || []).join(', '),
+      tags: article.tags || [],
       featured: Boolean(article.featured),
       status: article.status || 'published',
     });
@@ -126,10 +150,7 @@ export default function AdminNewsPage() {
             .split(/\n+/)
             .map((p) => p.trim())
             .filter(Boolean),
-          tags: form.tagsText
-            .split(',')
-            .map((t) => t.trim())
-            .filter(Boolean),
+          tags: form.tags,
           featured: form.featured,
           status: form.status,
         }),
@@ -301,9 +322,15 @@ export default function AdminNewsPage() {
               </button>
             </div>
 
-            <form onSubmit={handleSave} className="mt-5 space-y-4 text-xs">
+            <form onSubmit={handleSave} className="mt-5 space-y-5 text-xs">
+              <ImageUploadField
+                label="Cover Photo"
+                value={form.image}
+                onChange={(url) => setForm({ ...form, image: url })}
+              />
+
               <div>
-                <label className="mb-1 block font-medium text-ink">
+                <label className="mb-1.5 block font-semibold text-ink">
                   Headline *
                 </label>
                 <input
@@ -311,87 +338,59 @@ export default function AdminNewsPage() {
                   required
                   value={form.title}
                   onChange={(e) => setForm({ ...form, title: e.target.value })}
-                  className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-sm text-ink focus:border-forest focus:outline-none"
+                  placeholder="Enter press release headline..."
+                  className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
                 />
               </div>
 
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <PresetInputField
+                  label="Category"
+                  value={form.category}
+                  onChange={(val) => setForm({ ...form, category: val })}
+                  presets={NEWS_CATEGORIES}
+                />
+
                 <div>
-                  <label className="mb-1 block font-medium text-ink">
-                    Category
-                  </label>
-                  <input
-                    type="text"
-                    value={form.category}
-                    onChange={(e) =>
-                      setForm({ ...form, category: e.target.value })
-                    }
-                    className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-ink focus:border-forest focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="mb-1 block font-medium text-ink">
+                  <label className="mb-2 block font-semibold text-ink">
                     Publish Date
                   </label>
                   <input
                     type="date"
                     value={form.date}
                     onChange={(e) => setForm({ ...form, date: e.target.value })}
-                    className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-ink focus:border-forest focus:outline-none"
+                    className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-sm text-ink focus:border-forest focus:outline-none"
                   />
-                </div>
-                <div>
-                  <label className="mb-1 block font-medium text-ink">
-                    Status
-                  </label>
-                  <select
-                    value={form.status}
-                    onChange={(e) =>
-                      setForm({
-                        ...form,
-                        status: e.target.value as 'published' | 'draft',
-                      })
-                    }
-                    className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-ink focus:border-forest focus:outline-none"
-                  >
-                    <option value="published">Published</option>
-                    <option value="draft">Draft</option>
-                  </select>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div>
-                  <label className="mb-1 block font-medium text-ink">
-                    Cover Image URL
-                  </label>
-                  <input
-                    type="text"
-                    value={form.image}
-                    onChange={(e) =>
-                      setForm({ ...form, image: e.target.value })
-                    }
-                    className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-ink focus:border-forest focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="mb-1 block font-medium text-ink">
-                    Tags (comma separated)
-                  </label>
-                  <input
-                    type="text"
-                    value={form.tagsText}
-                    onChange={(e) =>
-                      setForm({ ...form, tagsText: e.target.value })
-                    }
-                    className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-ink focus:border-forest focus:outline-none"
-                  />
-                </div>
+                <SegmentedToggle
+                  label="Publication Status"
+                  value={form.status}
+                  onChange={(val) => setForm({ ...form, status: val })}
+                  options={[
+                    { value: 'published', label: 'Published (Live)' },
+                    { value: 'draft', label: 'Draft' },
+                  ]}
+                />
+
+                <SegmentedToggle
+                  label="Featured Placement"
+                  value={form.featured ? 'yes' : 'no'}
+                  onChange={(val) =>
+                    setForm({ ...form, featured: val === 'yes' })
+                  }
+                  options={[
+                    { value: 'no', label: 'Standard Article' },
+                    { value: 'yes', label: 'Featured Spotlight' },
+                  ]}
+                />
               </div>
 
               <div>
-                <label className="mb-1 block font-medium text-ink">
-                  Short Excerpt *
+                <label className="mb-1.5 block font-semibold text-ink">
+                  Short Summary / Excerpt *
                 </label>
                 <textarea
                   rows={2}
@@ -400,54 +399,51 @@ export default function AdminNewsPage() {
                   onChange={(e) =>
                     setForm({ ...form, excerpt: e.target.value })
                   }
+                  placeholder="1–2 sentence summary shown on news cards..."
                   className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-ink focus:border-forest focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="mb-1 block font-medium text-ink">
-                  Article Body (Separate paragraphs with a new line)
+                <label className="mb-1.5 block font-semibold text-ink">
+                  Article Body
                 </label>
                 <textarea
-                  rows={6}
+                  rows={5}
                   value={form.contentText}
                   onChange={(e) =>
                     setForm({ ...form, contentText: e.target.value })
                   }
+                  placeholder="Write your article paragraphs here..."
                   className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-ink focus:border-forest focus:outline-none"
                 />
               </div>
 
-              <div className="flex items-center justify-between border-t border-line pt-4">
-                <label className="inline-flex cursor-pointer items-center gap-2 font-medium text-ink">
-                  <input
-                    type="checkbox"
-                    checked={form.featured}
-                    onChange={(e) =>
-                      setForm({ ...form, featured: e.target.checked })
-                    }
-                    className="h-4 w-4 rounded border-line text-forest focus:ring-forest"
-                  />
-                  <span>Highlight as Featured Release</span>
-                </label>
+              <ListBuilderField
+                label="Article Tags"
+                items={form.tags}
+                onChange={(tags) => setForm({ ...form, tags })}
+                suggestions={TAG_SUGGESTIONS}
+                compactChips
+                placeholder="Add a tag..."
+              />
 
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setModalOpen(false)}
-                    className="btn btn-outline py-2 text-xs"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={saving}
-                    className="btn btn-primary py-2 text-xs"
-                  >
-                    <Save className="h-3.5 w-3.5" />
-                    <span>{saving ? 'Saving...' : 'Save Article'}</span>
-                  </button>
-                </div>
+              <div className="flex justify-end gap-2 border-t border-line pt-4">
+                <button
+                  type="button"
+                  onClick={() => setModalOpen(false)}
+                  className="btn btn-outline py-2 text-xs"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={saving}
+                  className="btn btn-primary py-2 text-xs"
+                >
+                  <Save className="h-3.5 w-3.5" />
+                  <span>{saving ? 'Saving...' : 'Save Article'}</span>
+                </button>
               </div>
             </form>
           </div>

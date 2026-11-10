@@ -5,6 +5,65 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Save, CheckCircle2, Trash2 } from 'lucide-react';
 import { EVENTS_DATA, type EventDetailData } from '@/config/events-data';
+import {
+  ImageUploadField,
+  ListBuilderField,
+  PresetInputField,
+  SegmentedToggle,
+} from '@/components/admin/FormControls';
+
+const CATEGORY_PRESETS = [
+  'Beauty Pageant & Youth Empowerment',
+  'National Television Singing Reality Show',
+  "Children's Talent & Personality Showcase",
+  'Youth Dance Championship',
+  'International Live Concert • Atif Aslam Live',
+  'Corporate & Experiential',
+] as const;
+
+const SEASON_PRESETS = [
+  '2026 Edition',
+  'Season One • 2025',
+  'Seasons 1–8 • Annual Flagship',
+  '19 Dec 2026 (Poush 4) • 6:00 PM',
+] as const;
+
+const LOCATION_PRESETS = [
+  'Biratnagar, Koshi Province',
+  'Itahari Stadium (Itahari Rangasala), Koshi Province',
+  'Biratnagar • Itahari • Dharan',
+  'All 77 Districts of Nepal',
+] as const;
+
+const ELIGIBILITY_PRESETS = [
+  'Open Audition',
+  'Ages 5–15',
+  'Ages 16–25',
+  'Ages 4–14 (Solo & Duo)',
+  'Dec 19, 2026 • 6:00 PM',
+] as const;
+
+const PRIZE_PRESETS = [
+  'Crowns & Cash Awards',
+  'Rs. 2,000,000',
+  'Crowns & Scholarships',
+  'Trophies & Cash Awards',
+  'Tickets via Khalti',
+] as const;
+
+const HIGHLIGHT_SUGGESTIONS = [
+  'Regional & Live Auditions across Koshi Province',
+  'Full 4K Multicam Broadcast & YouTube Coverage',
+  'Celebrity Jury & Professional Mentorship Camp',
+  'Concert-Grade Line-Array Sound & DMX Lighting',
+];
+
+const SCOPE_SUGGESTIONS = [
+  'Complete stage design and DMX lighting choreography',
+  'Multicam HD/4K recording and live broadcast coverage',
+  'Contestant grooming, choreography, and backstage management',
+  'VIP hospitality lounges and multi-zone crowd security',
+];
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -38,11 +97,11 @@ function EditEventForm({ id }: { id: string }) {
   const [registrationOpen, setRegistrationOpen] = useState(
     initialEvent.registrationOpen
   );
-  const [highlightsText, setHighlightsText] = useState(
-    initialEvent.highlights.join('\n')
+  const [highlights, setHighlights] = useState<string[]>(
+    initialEvent.highlights
   );
-  const [scopeText, setScopeText] = useState(
-    initialEvent.productionScope.join('\n')
+  const [productionScope, setProductionScope] = useState<string[]>(
+    initialEvent.productionScope
   );
 
   useEffect(() => {
@@ -66,8 +125,8 @@ function EditEventForm({ id }: { id: string }) {
         setOverview(ev.overview);
         setStatus(ev.status || 'published');
         setRegistrationOpen(ev.registrationOpen);
-        setHighlightsText((ev.highlights || []).join('\n'));
-        setScopeText((ev.productionScope || []).join('\n'));
+        setHighlights(ev.highlights || []);
+        setProductionScope(ev.productionScope || []);
       })
       .catch(() => {});
     return () => {
@@ -91,27 +150,22 @@ function EditEventForm({ id }: { id: string }) {
           eligibility,
           prizePoolLabel,
           image,
+          heroStageImage: image,
           ticketUrl,
           tagline,
           summary,
           overview,
           status,
           registrationOpen,
-          highlights: highlightsText
-            .split('\n')
-            .map((s) => s.trim())
-            .filter(Boolean),
-          productionScope: scopeText
-            .split('\n')
-            .map((s) => s.trim())
-            .filter(Boolean),
+          highlights,
+          productionScope,
         }),
       });
       if (res.ok) {
         setSaved(true);
         setTimeout(() => {
           router.push('/admin/events');
-        }, 800);
+        }, 700);
       }
     } finally {
       setSaving(false);
@@ -119,11 +173,7 @@ function EditEventForm({ id }: { id: string }) {
   };
 
   const handleDelete = async () => {
-    if (
-      !window.confirm(
-        `Delete "${title}" permanently from Firestore?`
-      )
-    ) {
+    if (!window.confirm(`Delete "${title}" permanently from Firestore?`)) {
       return;
     }
     const res = await fetch(
@@ -182,12 +232,20 @@ function EditEventForm({ id }: { id: string }) {
       <form
         id="edit-event-form"
         onSubmit={handleUpdate}
-        className="space-y-6 rounded-xl border border-line bg-white p-6 sm:p-8"
+        className="space-y-7 rounded-xl border border-line bg-white p-6 sm:p-8"
       >
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        {/* 1. Visual Image Uploader */}
+        <ImageUploadField
+          label="1. Production Poster / Cover Photo"
+          value={image}
+          onChange={setImage}
+        />
+
+        {/* 2. Title & Category */}
+        <div className="grid grid-cols-1 gap-6 border-t border-line pt-6 sm:grid-cols-2">
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-ink">
-              Production Title
+            <label className="mb-2 block text-xs font-semibold text-ink">
+              Production Title *
             </label>
             <input
               type="text"
@@ -198,186 +256,140 @@ function EditEventForm({ id }: { id: string }) {
             />
           </div>
 
-          <div>
-            <label className="mb-1.5 block text-xs font-medium text-ink">
-              Category
-            </label>
-            <input
-              type="text"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
-            />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
-          <div>
-            <label className="mb-1.5 block text-xs font-medium text-ink">
-              Season / Date
-            </label>
-            <input
-              type="text"
-              value={season}
-              onChange={(e) => setSeason(e.target.value)}
-              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
-            />
-          </div>
-
-          <div>
-            <label className="mb-1.5 block text-xs font-medium text-ink">
-              Venue / Location
-            </label>
-            <input
-              type="text"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
-            />
-          </div>
-
-          <div>
-            <label className="mb-1.5 block text-xs font-medium text-ink">
-              Status
-            </label>
-            <select
-              value={status}
-              onChange={(e) =>
-                setStatus(e.target.value as 'published' | 'draft')
-              }
-              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
-            >
-              <option value="published">Published</option>
-              <option value="draft">Draft</option>
-            </select>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
-          <div>
-            <label className="mb-1.5 block text-xs font-medium text-ink">
-              Eligibility
-            </label>
-            <input
-              type="text"
-              value={eligibility}
-              onChange={(e) => setEligibility(e.target.value)}
-              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
-            />
-          </div>
-
-          <div>
-            <label className="mb-1.5 block text-xs font-medium text-ink">
-              Awards / Recognition Label
-            </label>
-            <input
-              type="text"
-              value={prizePoolLabel}
-              onChange={(e) => setPrizePoolLabel(e.target.value)}
-              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
-            />
-          </div>
-
-          <div className="flex items-end pb-2">
-            <label className="inline-flex cursor-pointer items-center gap-2.5 text-xs font-medium text-ink">
-              <input
-                type="checkbox"
-                checked={registrationOpen}
-                onChange={(e) => setRegistrationOpen(e.target.checked)}
-                className="h-4 w-4 rounded border-line text-forest focus:ring-forest"
-              />
-              <span>Contestant Auditions Open</span>
-            </label>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-          <div>
-            <label className="mb-1.5 block text-xs font-medium text-ink">
-              Cover / Poster Image URL
-            </label>
-            <input
-              type="text"
-              value={image}
-              onChange={(e) => setImage(e.target.value)}
-              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
-            />
-          </div>
-
-          <div>
-            <label className="mb-1.5 block text-xs font-medium text-ink">
-              Official Ticket URL (Optional)
-            </label>
-            <input
-              type="text"
-              value={ticketUrl}
-              onChange={(e) => setTicketUrl(e.target.value)}
-              placeholder="https://events.khalti.com/..."
-              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
-            />
-          </div>
-        </div>
-
-        <div>
-          <label className="mb-1.5 block text-xs font-medium text-ink">
-            Tagline
-          </label>
-          <input
-            type="text"
-            value={tagline}
-            onChange={(e) => setTagline(e.target.value)}
-            className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
+          <PresetInputField
+            label="Category"
+            value={category}
+            onChange={setCategory}
+            presets={CATEGORY_PRESETS}
           />
         </div>
 
-        <div>
-          <label className="mb-1.5 block text-xs font-medium text-ink">
-            Short Summary
-          </label>
-          <textarea
-            rows={2}
-            value={summary}
-            onChange={(e) => setSummary(e.target.value)}
-            className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
+        {/* 3. Quick Preset Fields */}
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <PresetInputField
+            label="Season / Event Date"
+            value={season}
+            onChange={setSeason}
+            presets={SEASON_PRESETS}
+          />
+
+          <PresetInputField
+            label="Venue / Location"
+            value={location}
+            onChange={setLocation}
+            presets={LOCATION_PRESETS}
+          />
+
+          <PresetInputField
+            label="Eligibility"
+            value={eligibility}
+            onChange={setEligibility}
+            presets={ELIGIBILITY_PRESETS}
+          />
+
+          <PresetInputField
+            label="Awards / Recognition"
+            value={prizePoolLabel}
+            onChange={setPrizePoolLabel}
+            presets={PRIZE_PRESETS}
           />
         </div>
 
-        <div>
-          <label className="mb-1.5 block text-xs font-medium text-ink">
-            Detailed Overview
-          </label>
-          <textarea
-            rows={5}
-            value={overview}
-            onChange={(e) => setOverview(e.target.value)}
-            className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
+        {/* 4. Segmented Toggles */}
+        <div className="grid grid-cols-1 gap-6 border-t border-line pt-6 sm:grid-cols-2">
+          <SegmentedToggle
+            label="Publication Status"
+            value={status}
+            onChange={setStatus}
+            options={[
+              {
+                value: 'published',
+                label: 'Published (Live)',
+                description: 'Visible on website',
+              },
+              {
+                value: 'draft',
+                label: 'Draft',
+                description: 'Hidden from public',
+              },
+            ]}
+          />
+
+          <SegmentedToggle
+            label="Contestant Audition Portal"
+            value={registrationOpen ? 'open' : 'closed'}
+            onChange={(val) => setRegistrationOpen(val === 'open')}
+            options={[
+              {
+                value: 'open',
+                label: 'Auditions Open',
+                description: 'Accepts online forms',
+              },
+              {
+                value: 'closed',
+                label: 'Auditions Closed',
+                description: 'Ticketed / Archive',
+              },
+            ]}
           />
         </div>
 
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        {/* 5. Editorial Copy */}
+        <div className="space-y-4 border-t border-line pt-6">
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-ink">
-              Key Highlights (One per line)
+            <label className="mb-1.5 block text-xs font-semibold text-ink">
+              Tagline
+            </label>
+            <input
+              type="text"
+              value={tagline}
+              onChange={(e) => setTagline(e.target.value)}
+              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-sm text-ink focus:border-forest focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="mb-1.5 block text-xs font-semibold text-ink">
+              Card Summary
+            </label>
+            <textarea
+              rows={2}
+              value={summary}
+              onChange={(e) => setSummary(e.target.value)}
+              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-sm text-ink focus:border-forest focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="mb-1.5 block text-xs font-semibold text-ink">
+              Detailed Overview
             </label>
             <textarea
               rows={4}
-              value={highlightsText}
-              onChange={(e) => setHighlightsText(e.target.value)}
-              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-xs text-ink focus:border-forest focus:outline-none"
+              value={overview}
+              onChange={(e) => setOverview(e.target.value)}
+              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-sm text-ink focus:border-forest focus:outline-none"
             />
           </div>
+        </div>
 
-          <div>
-            <label className="mb-1.5 block text-xs font-medium text-ink">
-              Production Scope (One per line)
-            </label>
-            <textarea
-              rows={4}
-              value={scopeText}
-              onChange={(e) => setScopeText(e.target.value)}
-              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-xs text-ink focus:border-forest focus:outline-none"
-            />
-          </div>
+        {/* 6. Interactive List Builders */}
+        <div className="grid grid-cols-1 gap-6 border-t border-line pt-6 sm:grid-cols-2">
+          <ListBuilderField
+            label="Key Highlights"
+            items={highlights}
+            onChange={setHighlights}
+            suggestions={HIGHLIGHT_SUGGESTIONS}
+            placeholder="Add a highlight..."
+          />
+
+          <ListBuilderField
+            label="Production & Technical Scope"
+            items={productionScope}
+            onChange={setProductionScope}
+            suggestions={SCOPE_SUGGESTIONS}
+            placeholder="Add a scope item..."
+          />
         </div>
       </form>
     </div>

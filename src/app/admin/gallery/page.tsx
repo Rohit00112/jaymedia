@@ -14,6 +14,20 @@ import {
 import { GALLERY_CATEGORIES, type GalleryCategory } from '@/config/gallery-data';
 import type { GalleryDocument } from '@/lib/backend/schemas';
 import { cn } from '@/lib/utils';
+import {
+  ImageUploadField,
+  PresetInputField,
+  SegmentedToggle,
+} from '@/components/admin/FormControls';
+
+const BADGE_PRESETS = [
+  'Official Frame',
+  'Headline Showcase',
+  'Grand Winner',
+  'Season #8 Laureates',
+  'Youth Showcase',
+  'Arena Stagecraft',
+] as const;
 
 export default function AdminGalleryPage() {
   const [photos, setPhotos] = useState<GalleryDocument[]>([]);
@@ -27,7 +41,7 @@ export default function AdminGalleryPage() {
     title: '',
     badge: 'Official Frame',
     category: 'Eastern Echoes' as GalleryCategory,
-    image: '/images/official/atif-aslam-poster.jpg',
+    image: '',
     caption: '',
     featured: false,
   });
@@ -70,7 +84,7 @@ export default function AdminGalleryPage() {
       title: '',
       badge: 'Official Frame',
       category: 'Eastern Echoes',
-      image: '/images/official/atif-aslam-poster.jpg',
+      image: '',
       caption: '',
       featured: false,
     });
@@ -92,6 +106,7 @@ export default function AdminGalleryPage() {
 
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
+    if (!form.image) return;
     setSaving(true);
     try {
       const method = editingId ? 'PATCH' : 'POST';
@@ -140,8 +155,8 @@ export default function AdminGalleryPage() {
             Photo Gallery CMS
           </h1>
           <p className="mt-1 text-sm text-muted">
-            Manage concert posters, pageant coronation portraits, and stage
-            frames stored in Cloud Firestore.
+            Upload concert posters, pageant coronation portraits, and stage
+            frames with visual preview.
           </p>
         </div>
 
@@ -151,7 +166,7 @@ export default function AdminGalleryPage() {
           className="btn btn-primary py-2 text-xs"
         >
           <Plus className="h-4 w-4" />
-          <span>Add Photo</span>
+          <span>Upload Photo</span>
         </button>
       </div>
 
@@ -243,10 +258,10 @@ export default function AdminGalleryPage() {
           aria-modal="true"
           className="fixed inset-0 z-50 flex items-center justify-center bg-ink/50 p-4 backdrop-blur-xs"
         >
-          <div className="w-full max-w-lg rounded-xl border border-line bg-white p-6 shadow-xl">
+          <div className="max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-xl border border-line bg-white p-6 shadow-xl">
             <div className="flex items-center justify-between border-b border-line pb-4">
               <h2 className="text-lg font-semibold text-ink">
-                {editingId ? 'Edit Gallery Frame' : 'Add Gallery Frame'}
+                {editingId ? 'Edit Gallery Frame' : 'Upload Gallery Frame'}
               </h2>
               <button
                 type="button"
@@ -257,9 +272,15 @@ export default function AdminGalleryPage() {
               </button>
             </div>
 
-            <form onSubmit={handleSave} className="mt-5 space-y-4 text-xs">
+            <form onSubmit={handleSave} className="mt-5 space-y-5 text-xs">
+              <ImageUploadField
+                label="Photograph"
+                value={form.image}
+                onChange={(url) => setForm({ ...form, image: url })}
+              />
+
               <div>
-                <label className="mb-1 block font-medium text-ink">
+                <label className="mb-1.5 block font-semibold text-ink">
                   Frame Title *
                 </label>
                 <input
@@ -267,106 +288,87 @@ export default function AdminGalleryPage() {
                   required
                   value={form.title}
                   onChange={(e) => setForm({ ...form, title: e.target.value })}
-                  className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-ink focus:border-forest focus:outline-none"
+                  placeholder="e.g. Eastern Echoes — Main Stage Rigging"
+                  className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-sm text-ink focus:border-forest focus:outline-none"
                 />
               </div>
 
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div>
-                  <label className="mb-1 block font-medium text-ink">
-                    Collection Category *
-                  </label>
-                  <select
-                    value={form.category}
-                    onChange={(e) =>
-                      setForm({
-                        ...form,
-                        category: e.target.value as GalleryCategory,
-                      })
-                    }
-                    className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-ink focus:border-forest focus:outline-none"
-                  >
-                    {GALLERY_CATEGORIES.map((c) => (
-                      <option key={c} value={c}>
-                        {c}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="mb-1 block font-medium text-ink">
-                    Badge Label
-                  </label>
-                  <input
-                    type="text"
-                    value={form.badge}
-                    onChange={(e) =>
-                      setForm({ ...form, badge: e.target.value })
-                    }
-                    className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-ink focus:border-forest focus:outline-none"
-                  />
-                </div>
-              </div>
-
               <div>
-                <label className="mb-1 block font-medium text-ink">
-                  Image URL *
+                <label className="mb-2 block font-semibold text-ink">
+                  Collection Category
                 </label>
-                <input
-                  type="text"
-                  required
-                  value={form.image}
-                  onChange={(e) => setForm({ ...form, image: e.target.value })}
-                  placeholder="/images/official/... or https://..."
-                  className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-ink focus:border-forest focus:outline-none"
-                />
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                  {GALLERY_CATEGORIES.map((c) => {
+                    const active = form.category === c;
+                    return (
+                      <button
+                        key={c}
+                        type="button"
+                        onClick={() => setForm({ ...form, category: c })}
+                        className={cn(
+                          'rounded-lg border px-3 py-2 text-left text-xs font-medium transition-all',
+                          active
+                            ? 'border-forest bg-forest text-white'
+                            : 'border-line bg-paper text-ink hover:border-forest'
+                        )}
+                      >
+                        {c}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
 
+              <PresetInputField
+                label="Badge Label"
+                value={form.badge}
+                onChange={(val) => setForm({ ...form, badge: val })}
+                presets={BADGE_PRESETS}
+              />
+
               <div>
-                <label className="mb-1 block font-medium text-ink">
+                <label className="mb-1.5 block font-semibold text-ink">
                   Caption
                 </label>
                 <textarea
-                  rows={3}
+                  rows={2}
                   value={form.caption}
                   onChange={(e) =>
                     setForm({ ...form, caption: e.target.value })
                   }
+                  placeholder="Short description displayed in the gallery & lightbox..."
                   className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-ink focus:border-forest focus:outline-none"
                 />
               </div>
 
-              <div className="flex items-center justify-between border-t border-line pt-4">
-                <label className="inline-flex cursor-pointer items-center gap-2 font-medium text-ink">
-                  <input
-                    type="checkbox"
-                    checked={form.featured}
-                    onChange={(e) =>
-                      setForm({ ...form, featured: e.target.checked })
-                    }
-                    className="h-4 w-4 rounded border-line text-forest focus:ring-forest"
-                  />
-                  <span>Featured Frame</span>
-                </label>
+              <SegmentedToggle
+                label="Highlight in Gallery"
+                value={form.featured ? 'yes' : 'no'}
+                onChange={(val) =>
+                  setForm({ ...form, featured: val === 'yes' })
+                }
+                options={[
+                  { value: 'no', label: 'Standard Frame' },
+                  { value: 'yes', label: 'Featured Frame' },
+                ]}
+              />
 
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setModalOpen(false)}
-                    className="btn btn-outline py-2 text-xs"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={saving}
-                    className="btn btn-primary py-2 text-xs"
-                  >
-                    <Save className="h-3.5 w-3.5" />
-                    <span>{saving ? 'Saving...' : 'Save Frame'}</span>
-                  </button>
-                </div>
+              <div className="flex justify-end gap-2 border-t border-line pt-4">
+                <button
+                  type="button"
+                  onClick={() => setModalOpen(false)}
+                  className="btn btn-outline py-2 text-xs"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={saving || !form.image}
+                  className="btn btn-primary py-2 text-xs disabled:opacity-50"
+                >
+                  <Save className="h-3.5 w-3.5" />
+                  <span>{saving ? 'Saving...' : 'Save Frame'}</span>
+                </button>
               </div>
             </form>
           </div>

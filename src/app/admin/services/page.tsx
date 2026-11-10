@@ -13,6 +13,35 @@ import {
   ArrowUpRight,
 } from 'lucide-react';
 import type { ServiceDocument } from '@/lib/backend/schemas';
+import {
+  ImageUploadField,
+  ListBuilderField,
+  PresetInputField,
+} from '@/components/admin/FormControls';
+
+const SERVICE_CATEGORIES = [
+  'Flagship Stagecraft',
+  'Experiential Marketing',
+  'Broadcast & Studio',
+  'Commercial Milestones',
+  'Corporate Communications',
+] as const;
+
+const CAPABILITY_SUGGESTIONS = [
+  'Monumental Stage Architecture & Rigging',
+  'Intelligent DMX Lighting & Atmospheric FX',
+  'Line-Array Sound Engineering & Acoustic Tuning',
+  'Multicam 4K Live Broadcast & YouTube Streaming',
+  'VIP Seating & Protocol Management',
+];
+
+const DELIVERABLE_SUGGESTIONS = [
+  'Full Technical Run-Sheet & Schedule',
+  'CAD Stage Layout & 3D Renderings',
+  'Cinematic Official 4K Showreel',
+  'Curated High-Resolution Photo Gallery',
+  'Comprehensive Post-Event Debrief Report',
+];
 
 export default function AdminServicesPage() {
   const [services, setServices] = useState<ServiceDocument[]>([]);
@@ -27,10 +56,9 @@ export default function AdminServicesPage() {
     category: 'Flagship Stagecraft',
     shortDescription: '',
     description: '',
-    image:
-      'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80',
-    capabilitiesText: '',
-    deliverablesText: '',
+    image: '/images/official/atif-aslam-stage.jpg',
+    capabilities: [] as string[],
+    deliverables: [] as string[],
   });
 
   const loadServices = useCallback(async () => {
@@ -73,12 +101,17 @@ export default function AdminServicesPage() {
       category: 'Flagship Stagecraft',
       shortDescription: '',
       description: '',
-      image:
-        'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80',
-      capabilitiesText:
-        'Monumental Stage Architecture & Rigging\nIntelligent DMX Lighting & Atmospheric FX\nLine-Array Sound Engineering',
-      deliverablesText:
-        'Full Technical Run-Sheet & Schedule\nCAD Stage Layout\nPost-Event Debrief Report',
+      image: '/images/official/atif-aslam-stage.jpg',
+      capabilities: [
+        'Monumental Stage Architecture & Rigging',
+        'Intelligent DMX Lighting & Atmospheric FX',
+        'Line-Array Sound Engineering & Acoustic Tuning',
+      ],
+      deliverables: [
+        'Full Technical Run-Sheet & Schedule',
+        'CAD Stage Layout & 3D Renderings',
+        'Comprehensive Post-Event Debrief Report',
+      ],
     });
     setModalOpen(true);
   }
@@ -92,8 +125,8 @@ export default function AdminServicesPage() {
       shortDescription: service.shortDescription,
       description: service.description,
       image: service.image,
-      capabilitiesText: (service.capabilities || []).join('\n'),
-      deliverablesText: (service.deliverables || []).join('\n'),
+      capabilities: service.capabilities || [],
+      deliverables: service.deliverables || [],
     });
     setModalOpen(true);
   }
@@ -114,14 +147,8 @@ export default function AdminServicesPage() {
           shortDescription: form.shortDescription,
           description: form.description,
           image: form.image,
-          capabilities: form.capabilitiesText
-            .split('\n')
-            .map((s) => s.trim())
-            .filter(Boolean),
-          deliverables: form.deliverablesText
-            .split('\n')
-            .map((s) => s.trim())
-            .filter(Boolean),
+          capabilities: form.capabilities,
+          deliverables: form.deliverables,
         }),
       });
       if (res.ok) {
@@ -252,23 +279,16 @@ export default function AdminServicesPage() {
               </button>
             </div>
 
-            <form onSubmit={handleSave} className="mt-5 space-y-4 text-xs">
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
+            <form onSubmit={handleSave} className="mt-5 space-y-5 text-xs">
+              <ImageUploadField
+                label="Service Showcase Photo"
+                value={form.image}
+                onChange={(url) => setForm({ ...form, image: url })}
+              />
+
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
-                  <label className="mb-1 block font-medium text-ink">
-                    Number
-                  </label>
-                  <input
-                    type="text"
-                    value={form.number}
-                    onChange={(e) =>
-                      setForm({ ...form, number: e.target.value })
-                    }
-                    className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 font-mono text-ink focus:border-forest focus:outline-none"
-                  />
-                </div>
-                <div className="sm:col-span-3">
-                  <label className="mb-1 block font-medium text-ink">
+                  <label className="mb-2 block font-semibold text-ink">
                     Service Title *
                   </label>
                   <input
@@ -278,42 +298,21 @@ export default function AdminServicesPage() {
                     onChange={(e) =>
                       setForm({ ...form, title: e.target.value })
                     }
-                    className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-ink focus:border-forest focus:outline-none"
+                    placeholder="e.g. Event Management & Execution"
+                    className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-sm text-ink focus:border-forest focus:outline-none"
                   />
                 </div>
-              </div>
 
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div>
-                  <label className="mb-1 block font-medium text-ink">
-                    Category
-                  </label>
-                  <input
-                    type="text"
-                    value={form.category}
-                    onChange={(e) =>
-                      setForm({ ...form, category: e.target.value })
-                    }
-                    className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-ink focus:border-forest focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="mb-1 block font-medium text-ink">
-                    Image URL
-                  </label>
-                  <input
-                    type="text"
-                    value={form.image}
-                    onChange={(e) =>
-                      setForm({ ...form, image: e.target.value })
-                    }
-                    className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-ink focus:border-forest focus:outline-none"
-                  />
-                </div>
+                <PresetInputField
+                  label="Service Category"
+                  value={form.category}
+                  onChange={(val) => setForm({ ...form, category: val })}
+                  presets={SERVICE_CATEGORIES}
+                />
               </div>
 
               <div>
-                <label className="mb-1 block font-medium text-ink">
+                <label className="mb-1.5 block font-semibold text-ink">
                   Short Summary *
                 </label>
                 <textarea
@@ -328,8 +327,8 @@ export default function AdminServicesPage() {
               </div>
 
               <div>
-                <label className="mb-1 block font-medium text-ink">
-                  Detailed Description
+                <label className="mb-1.5 block font-semibold text-ink">
+                  Detailed Overview
                 </label>
                 <textarea
                   rows={3}
@@ -341,33 +340,26 @@ export default function AdminServicesPage() {
                 />
               </div>
 
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div>
-                  <label className="mb-1 block font-medium text-ink">
-                    Capabilities (One per line)
-                  </label>
-                  <textarea
-                    rows={4}
-                    value={form.capabilitiesText}
-                    onChange={(e) =>
-                      setForm({ ...form, capabilitiesText: e.target.value })
-                    }
-                    className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-ink focus:border-forest focus:outline-none"
-                  />
-                </div>
-                <div>
-                  <label className="mb-1 block font-medium text-ink">
-                    Deliverables (One per line)
-                  </label>
-                  <textarea
-                    rows={4}
-                    value={form.deliverablesText}
-                    onChange={(e) =>
-                      setForm({ ...form, deliverablesText: e.target.value })
-                    }
-                    className="w-full rounded-lg border border-line bg-paper px-3.5 py-2 text-ink focus:border-forest focus:outline-none"
-                  />
-                </div>
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                <ListBuilderField
+                  label="Capabilities"
+                  items={form.capabilities}
+                  onChange={(capabilities) =>
+                    setForm({ ...form, capabilities })
+                  }
+                  suggestions={CAPABILITY_SUGGESTIONS}
+                  placeholder="Add a capability..."
+                />
+
+                <ListBuilderField
+                  label="Deliverables"
+                  items={form.deliverables}
+                  onChange={(deliverables) =>
+                    setForm({ ...form, deliverables })
+                  }
+                  suggestions={DELIVERABLE_SUGGESTIONS}
+                  placeholder="Add a deliverable..."
+                />
               </div>
 
               <div className="flex justify-end gap-2 border-t border-line pt-4">

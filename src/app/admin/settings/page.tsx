@@ -4,6 +4,12 @@ import { useEffect, useState } from 'react';
 import { Save, CheckCircle2, Loader2 } from 'lucide-react';
 import { siteConfig } from '@/config/site';
 import type { SettingsDocument } from '@/lib/backend/schemas';
+import { PresetInputField } from '@/components/admin/FormControls';
+
+function isoToDatetimeLocal(iso: string): string {
+  const match = iso.match(/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})/);
+  return match ? match[1] : '2026-12-19T18:00';
+}
 
 export default function AdminSettingsPage() {
   const [loading, setLoading] = useState(true);
@@ -89,7 +95,7 @@ export default function AdminSettingsPage() {
           </h1>
           <p className="mt-1 text-sm text-muted">
             Manage verified company contact details, social links, and Eastern
-            Echoes concert configuration in Cloud Firestore (`settings/site`).
+            Echoes concert configuration in Cloud Firestore.
           </p>
         </div>
 
@@ -117,12 +123,73 @@ export default function AdminSettingsPage() {
         className="space-y-6 rounded-xl border border-line bg-white p-6 sm:p-8"
       >
         <h2 className="border-b border-line pb-2.5 text-base font-semibold text-ink">
-          1. Official Enterprise Identity
+          1. Headline Concert Spotlight (Eastern Echoes)
         </h2>
 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-ink">
+            <label className="mb-1.5 block text-xs font-semibold text-ink">
+              Concert Title
+            </label>
+            <input
+              type="text"
+              value={settings.concertName}
+              onChange={(e) =>
+                setSettings({ ...settings, concertName: e.target.value })
+              }
+              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="mb-1.5 block text-xs font-semibold text-ink">
+              Concert Date &amp; Time (Nepal Time)
+            </label>
+            <input
+              type="datetime-local"
+              value={isoToDatetimeLocal(settings.concertDateIso)}
+              onChange={(e) =>
+                setSettings({
+                  ...settings,
+                  concertDateIso: `${e.target.value}:00+05:45`,
+                })
+              }
+              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
+            />
+          </div>
+
+          <PresetInputField
+            label="Concert Stadium Venue"
+            value={settings.concertVenue}
+            onChange={(val) => setSettings({ ...settings, concertVenue: val })}
+            presets={[
+              'Itahari Stadium (Rangasala), Sunsari',
+              'Biratnagar Martyrs Stadium, Morang',
+            ]}
+          />
+
+          <div>
+            <label className="mb-1.5 block text-xs font-semibold text-ink">
+              Official Khalti Ticket Link
+            </label>
+            <input
+              type="url"
+              value={settings.concertTicketUrl}
+              onChange={(e) =>
+                setSettings({ ...settings, concertTicketUrl: e.target.value })
+              }
+              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
+            />
+          </div>
+        </div>
+
+        <h2 className="border-b border-line pt-2 pb-2.5 text-base font-semibold text-ink">
+          2. Official Enterprise Identity
+        </h2>
+
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+          <div>
+            <label className="mb-1.5 block text-xs font-semibold text-ink">
               Registered Company Name
             </label>
             <input
@@ -136,7 +203,7 @@ export default function AdminSettingsPage() {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-ink">
+            <label className="mb-1.5 block text-xs font-semibold text-ink">
               Headquarters Address
             </label>
             <input
@@ -152,7 +219,7 @@ export default function AdminSettingsPage() {
 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-ink">
+            <label className="mb-1.5 block text-xs font-semibold text-ink">
               City
             </label>
             <input
@@ -166,7 +233,7 @@ export default function AdminSettingsPage() {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-ink">
+            <label className="mb-1.5 block text-xs font-semibold text-ink">
               Province
             </label>
             <input
@@ -179,28 +246,24 @@ export default function AdminSettingsPage() {
             />
           </div>
 
-          <div>
-            <label className="mb-1.5 block text-xs font-medium text-ink">
-              Office Hours
-            </label>
-            <input
-              type="text"
-              value={settings.officeHours}
-              onChange={(e) =>
-                setSettings({ ...settings, officeHours: e.target.value })
-              }
-              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
-            />
-          </div>
+          <PresetInputField
+            label="Office Hours"
+            value={settings.officeHours}
+            onChange={(val) => setSettings({ ...settings, officeHours: val })}
+            presets={[
+              'Sun – Fri: 10:00 AM – 6:00 PM NPT',
+              'Sun – Sat: 9:00 AM – 7:00 PM NPT',
+            ]}
+          />
         </div>
 
         <h2 className="border-b border-line pt-2 pb-2.5 text-base font-semibold text-ink">
-          2. Public Contact &amp; Social Channels
+          3. Public Contact &amp; Social Channels
         </h2>
 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-ink">
+            <label className="mb-1.5 block text-xs font-semibold text-ink">
               Official Email
             </label>
             <input
@@ -214,7 +277,7 @@ export default function AdminSettingsPage() {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-ink">
+            <label className="mb-1.5 block text-xs font-semibold text-ink">
               Primary Phone / WhatsApp
             </label>
             <input
@@ -230,7 +293,7 @@ export default function AdminSettingsPage() {
 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-ink">
+            <label className="mb-1.5 block text-xs font-semibold text-ink">
               Facebook URL
             </label>
             <input
@@ -244,7 +307,7 @@ export default function AdminSettingsPage() {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-ink">
+            <label className="mb-1.5 block text-xs font-semibold text-ink">
               Instagram URL
             </label>
             <input
@@ -258,7 +321,7 @@ export default function AdminSettingsPage() {
           </div>
 
           <div>
-            <label className="mb-1.5 block text-xs font-medium text-ink">
+            <label className="mb-1.5 block text-xs font-semibold text-ink">
               YouTube URL
             </label>
             <input
@@ -266,68 +329,6 @@ export default function AdminSettingsPage() {
               value={settings.youtube}
               onChange={(e) =>
                 setSettings({ ...settings, youtube: e.target.value })
-              }
-              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
-            />
-          </div>
-        </div>
-
-        <h2 className="border-b border-line pt-2 pb-2.5 text-base font-semibold text-ink">
-          3. Headline Concert Spotlight (Eastern Echoes)
-        </h2>
-
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-          <div>
-            <label className="mb-1.5 block text-xs font-medium text-ink">
-              Concert Title
-            </label>
-            <input
-              type="text"
-              value={settings.concertName}
-              onChange={(e) =>
-                setSettings({ ...settings, concertName: e.target.value })
-              }
-              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
-            />
-          </div>
-
-          <div>
-            <label className="mb-1.5 block text-xs font-medium text-ink">
-              Concert Countdown Target ISO Date
-            </label>
-            <input
-              type="text"
-              value={settings.concertDateIso}
-              onChange={(e) =>
-                setSettings({ ...settings, concertDateIso: e.target.value })
-              }
-              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 font-mono text-sm text-ink focus:border-forest focus:outline-none"
-            />
-          </div>
-
-          <div>
-            <label className="mb-1.5 block text-xs font-medium text-ink">
-              Concert Stadium Venue
-            </label>
-            <input
-              type="text"
-              value={settings.concertVenue}
-              onChange={(e) =>
-                setSettings({ ...settings, concertVenue: e.target.value })
-              }
-              className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
-            />
-          </div>
-
-          <div>
-            <label className="mb-1.5 block text-xs font-medium text-ink">
-              Official Khalti Ticket URL
-            </label>
-            <input
-              type="url"
-              value={settings.concertTicketUrl}
-              onChange={(e) =>
-                setSettings({ ...settings, concertTicketUrl: e.target.value })
               }
               className="w-full rounded-lg border border-line bg-paper px-3.5 py-2.5 text-sm text-ink focus:border-forest focus:outline-none"
             />
