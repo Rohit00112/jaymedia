@@ -43,16 +43,13 @@ export default function GlobalRootError({
         >
           <div
             style={{
-              display: 'inline-flex',
-              padding: '6px 12px',
-              borderRadius: '9999px',
-              backgroundColor: '#eaf2ee',
-              color: '#01402b',
               fontSize: '11px',
+              fontFamily: 'monospace',
+              color: '#5c6862',
               fontWeight: 600,
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
-              marginBottom: '16px',
+              marginBottom: '12px',
             }}
           >
             System Exception

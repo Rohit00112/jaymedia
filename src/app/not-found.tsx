@@ -43,13 +43,8 @@ export default function NotFound() {
       <main className="min-h-[75vh] bg-paper text-ink">
         <section className="relative overflow-hidden border-b border-line py-20 md:py-28">
           <div className="container-ed relative z-10 mx-auto max-w-4xl text-center">
-            <span className="inline-flex items-center gap-2 rounded-full bg-forest-soft px-3 py-1 font-mono text-[11px] font-semibold uppercase tracking-wider text-forest">
-              <span className="h-1.5 w-1.5 rounded-full bg-forest animate-pulse" />
-              404 • Page Not Found
-            </span>
-
-            <h1 className="mt-6 text-4xl font-bold tracking-tight text-ink sm:text-5xl md:text-6xl">
-              This record is outside the spotlight.
+            <h1 className="text-4xl font-bold tracking-tight text-ink sm:text-5xl md:text-6xl">
+              The page you requested does not exist.
             </h1>
 
             <p className="mx-auto mt-4 max-w-xl text-base text-muted sm:text-lg">
