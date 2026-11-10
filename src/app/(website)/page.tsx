@@ -7,6 +7,7 @@ import {
   JournalSection,
   FacebookFeedSection,
   QuoteSection,
+  ConcertModalPopup,
 } from '@/components/home';
 import { generatePageMetadata } from '@/lib/seo';
 
@@ -22,6 +23,7 @@ export const metadata = generatePageMetadata({
 export default function HomePage() {
   return (
     <>
+      <ConcertModalPopup />
       <HeroSection />
       <FeaturedEventsSection />
       <IntroSection />

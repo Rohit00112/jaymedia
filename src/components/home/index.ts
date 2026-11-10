@@ -9,3 +9,4 @@ export { default as TeamSection } from './TeamSection';
 export { default as JournalSection } from './JournalSection';
 export { default as FacebookFeedSection } from './FacebookFeedSection';
 export { default as ContactCTA } from './ContactCTA';
+export { default as ConcertModalPopup } from './ConcertModalPopup';
