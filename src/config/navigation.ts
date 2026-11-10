@@ -62,7 +62,7 @@ export const secondaryCta = {
 } as const;
 
 export const socials = [
-  { label: 'Facebook', href: 'https://www.facebook.com/nepalkidsidol' },
+  { label: 'Facebook', href: 'https://www.facebook.com/JayMediaManagement' },
   { label: 'YouTube', href: 'https://www.youtube.com/@JayMediaManagementPvtLtd' },
 ] as const;
 

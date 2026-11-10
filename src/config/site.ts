@@ -32,7 +32,7 @@ export const siteConfig = {
     formattedPhone: '+977 985 1143338',
   },
   social: {
-    facebook: 'https://www.facebook.com/nepalkidsidol',
+    facebook: 'https://www.facebook.com/JayMediaManagement',
     youtube: 'https://www.youtube.com/@JayMediaManagementPvtLtd',
     instagram: '',
     linkedin: '',

@@ -41,7 +41,7 @@ export function Footer() {
   return (
     <footer className="font-sans">
       {/* ─── Upper Bright Registration Pre-Footer Band ───────────── */}
-      <div className="border-t-2 border-ink/85 bg-white py-10 text-ink">
+      <div className="border-t-2 border-ink/85 bg-paper-deep py-10 text-ink">
         <div className="container-ed flex flex-col justify-between gap-6 lg:flex-row lg:items-center">
           <div className="max-w-2xl">
             <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-forest">

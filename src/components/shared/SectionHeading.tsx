@@ -22,6 +22,16 @@ export default function SectionHeading({
   className,
 }: SectionHeadingProps) {
   const onDarkSurface = tone === 'light';
+  const linkClassName = cn(
+    'group inline-flex items-center gap-1.5 font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] transition-colors duration-300',
+    onDarkSurface ? 'text-white/75 hover:text-gold' : 'text-ink-soft hover:text-forest'
+  );
+  const linkInner = link ? (
+    <>
+      {link.label}
+      <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+    </>
+  ) : null;
 
   return (
     <div className={cn('mb-10 md:mb-12', className)}>
@@ -47,20 +57,21 @@ export default function SectionHeading({
           {eyebrow}
         </span>
 
-        {link && (
-          <Link
-            href={link.href}
-            className={cn(
-              'group inline-flex items-center gap-1.5 font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] transition-colors duration-300',
-              onDarkSurface
-                ? 'text-white/75 hover:text-gold'
-                : 'text-ink-soft hover:text-forest'
-            )}
-          >
-            {link.label}
-            <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-          </Link>
-        )}
+        {link &&
+          (link.href.startsWith('http') ? (
+            <a
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={linkClassName}
+            >
+              {linkInner}
+            </a>
+          ) : (
+            <Link href={link.href} className={linkClassName}>
+              {linkInner}
+            </Link>
+          ))}
       </div>
 
       <div className="mt-6 grid gap-5 md:mt-7 md:grid-cols-12 md:items-end md:gap-10">

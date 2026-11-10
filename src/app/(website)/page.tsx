@@ -9,6 +9,7 @@ import {
   QuoteSection,
   TeamSection,
   JournalSection,
+  FacebookFeedSection,
 } from '@/components/home';
 import { generatePageMetadata } from '@/lib/seo';
 
@@ -42,6 +43,7 @@ export default function HomePage() {
       <QuoteSection />
       <TeamSection />
       <JournalSection />
+      <FacebookFeedSection />
     </>
   );
 }
