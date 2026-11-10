@@ -50,7 +50,7 @@ export default function AdminNewsPage() {
   const [form, setForm] = useState({
     title: '',
     category: 'Concert Announcement',
-    date: new Date().toISOString().slice(0, 10),
+    date: '2026-04-19',
     author: 'Jay Media Editorial Board',
     readTime: '4 min read',
     image: '/images/official/atif-aslam-poster.jpg',

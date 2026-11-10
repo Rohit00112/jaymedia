@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { connection, NextResponse } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';
 
@@ -23,6 +23,7 @@ const HIDDEN_OFFICIAL = new Set([
 ]);
 
 export async function GET() {
+  await connection();
   try {
     await fs.mkdir(UPLOADS_DIR, { recursive: true });
     const uploadedFiles = await fs.readdir(UPLOADS_DIR).catch(() => []);

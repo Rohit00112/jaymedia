@@ -1,7 +1,8 @@
-import { NextResponse } from 'next/server';
+import { connection, NextResponse } from 'next/server';
 import { getSettingsRepo, updateSettingsRepo } from '@/lib/backend/repository';
 
 export async function GET() {
+  await connection();
   const settings = await getSettingsRepo();
   return NextResponse.json({ settings });
 }

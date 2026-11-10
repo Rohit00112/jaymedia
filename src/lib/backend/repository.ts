@@ -1,3 +1,4 @@
+import { cacheLife, cacheTag, revalidatePath, revalidateTag } from 'next/cache';
 import { EVENTS_DATA, type EventDetailData } from '@/config/events-data';
 import { NEWS_DATA } from '@/config/news-data';
 import { SERVICES_DATA } from '@/config/services-data';
@@ -16,6 +17,16 @@ import {
   type SettingsDocument,
 } from './schemas';
 import { getEventsRegistry } from '@/lib/events-store';
+
+function invalidateCache(tag: string) {
+  try {
+    revalidateTag(tag, { expire: 0 });
+    revalidateTag('overview', { expire: 0 });
+    revalidatePath('/', 'layout');
+  } catch {
+    // Safe fallback when invoked outside a Next.js request/action context
+  }
+}
 
 const DEFAULT_SETTINGS: SettingsDocument = {
   companyName: siteConfig.name,
@@ -37,7 +48,7 @@ const DEFAULT_SETTINGS: SettingsDocument = {
   concertDateIso: '2026-12-19T18:00:00+05:45',
   concertVenue: 'Itahari Stadium (Rangasala), Sunsari',
   concertTicketUrl: 'https://events.khalti.com/events/ET26BJD3F93W',
-  updatedAt: new Date().toISOString(),
+  updatedAt: '2026-01-01T00:00:00.000Z',
 };
 
 const globalStore = globalThis as typeof globalThis & {
@@ -220,6 +231,10 @@ export async function ensureFirestoreSeeded(): Promise<void> {
 export async function listEventsRepo(options?: {
   includeDrafts?: boolean;
 }): Promise<EventDetailData[]> {
+  'use cache';
+  cacheLife('minutes');
+  cacheTag('events');
+
   await ensureFirestoreSeeded();
   const registry = getEventsRegistry();
 
@@ -253,6 +268,10 @@ export async function listEventsRepo(options?: {
 export async function getEventRepo(
   slug: string
 ): Promise<EventDetailData | undefined> {
+  'use cache';
+  cacheLife('minutes');
+  cacheTag('events');
+
   await ensureFirestoreSeeded();
   const registry = getEventsRegistry();
 
@@ -294,6 +313,7 @@ export async function upsertEventRepo(
   }
 
   getEventsRegistry().set(event.slug, payload);
+  invalidateCache('events');
   return payload;
 }
 
@@ -305,7 +325,9 @@ export async function deleteEventRepo(slug: string): Promise<boolean> {
       .doc(slug)
       .delete();
   }
-  return getEventsRegistry().delete(slug);
+  const deleted = getEventsRegistry().delete(slug);
+  invalidateCache('events');
+  return deleted;
 }
 
 // ============================================================================
@@ -315,6 +337,10 @@ export async function listRegistrationsRepo(options?: {
   eventSlug?: string;
   status?: string;
 }): Promise<RegistrationDocument[]> {
+  'use cache';
+  cacheLife('minutes');
+  cacheTag('registrations');
+
   await ensureFirestoreSeeded();
   const mem = getMemoryRegistrations();
 
@@ -349,6 +375,10 @@ export async function listRegistrationsRepo(options?: {
 export async function getRegistrationRepo(
   userCode: string
 ): Promise<RegistrationDocument | undefined> {
+  'use cache';
+  cacheLife('minutes');
+  cacheTag('registrations');
+
   await ensureFirestoreSeeded();
   const normalized = userCode.trim().toUpperCase();
   const mem = getMemoryRegistrations();
@@ -393,6 +423,7 @@ export async function upsertRegistrationRepo(
   }
 
   getMemoryRegistrations().set(code, payload);
+  invalidateCache('registrations');
   return payload;
 }
 
@@ -405,7 +436,9 @@ export async function deleteRegistrationRepo(userCode: string): Promise<boolean>
       .doc(code)
       .delete();
   }
-  return getMemoryRegistrations().delete(code);
+  const deleted = getMemoryRegistrations().delete(code);
+  invalidateCache('registrations');
+  return deleted;
 }
 
 // ============================================================================
@@ -414,6 +447,10 @@ export async function deleteRegistrationRepo(userCode: string): Promise<boolean>
 export async function listInquiriesRepo(options?: {
   status?: string;
 }): Promise<InquiryDocument[]> {
+  'use cache';
+  cacheLife('minutes');
+  cacheTag('inquiries');
+
   await ensureFirestoreSeeded();
   const mem = getMemoryInquiries();
 
@@ -442,8 +479,9 @@ export async function listInquiriesRepo(options?: {
           status: data.status || 'new',
           priority: data.priority || 'medium',
           adminNotes: data.adminNotes || '',
-          createdAt: data.createdAt || new Date().toISOString(),
-          updatedAt: data.updatedAt || data.createdAt || new Date().toISOString(),
+          createdAt: data.createdAt || '2026-01-01T00:00:00.000Z',
+          updatedAt:
+            data.updatedAt || data.createdAt || '2026-01-01T00:00:00.000Z',
         };
         mem.set(doc.id, normalized);
       }
@@ -478,6 +516,7 @@ export async function upsertInquiryRepo(
   }
 
   getMemoryInquiries().set(inquiry.id, payload);
+  invalidateCache('inquiries');
   return payload;
 }
 
@@ -489,7 +528,9 @@ export async function deleteInquiryRepo(id: string): Promise<boolean> {
       .doc(id)
       .delete();
   }
-  return getMemoryInquiries().delete(id);
+  const deleted = getMemoryInquiries().delete(id);
+  invalidateCache('inquiries');
+  return deleted;
 }
 
 // ============================================================================
@@ -498,6 +539,10 @@ export async function deleteInquiryRepo(id: string): Promise<boolean> {
 export async function listNewsRepo(options?: {
   includeDrafts?: boolean;
 }): Promise<NewsDocument[]> {
+  'use cache';
+  cacheLife('minutes');
+  cacheTag('news');
+
   await ensureFirestoreSeeded();
   const mem = getMemoryNews();
 
@@ -528,6 +573,10 @@ export async function listNewsRepo(options?: {
 export async function getNewsRepo(
   slug: string
 ): Promise<NewsDocument | undefined> {
+  'use cache';
+  cacheLife('minutes');
+  cacheTag('news');
+
   const all = await listNewsRepo({ includeDrafts: true });
   return all.find((n) => n.slug === slug);
 }
@@ -547,6 +596,7 @@ export async function upsertNewsRepo(doc: NewsDocument): Promise<NewsDocument> {
   }
 
   getMemoryNews().set(doc.slug, payload);
+  invalidateCache('news');
   return payload;
 }
 
@@ -555,7 +605,9 @@ export async function deleteNewsRepo(slug: string): Promise<boolean> {
   if (isFirebaseAdminConfigured()) {
     await getAdminFirestore().collection(COLLECTIONS.NEWS).doc(slug).delete();
   }
-  return getMemoryNews().delete(slug);
+  const deleted = getMemoryNews().delete(slug);
+  invalidateCache('news');
+  return deleted;
 }
 
 // ============================================================================
@@ -564,6 +616,10 @@ export async function deleteNewsRepo(slug: string): Promise<boolean> {
 export async function listServicesRepo(options?: {
   includeDrafts?: boolean;
 }): Promise<ServiceDocument[]> {
+  'use cache';
+  cacheLife('minutes');
+  cacheTag('services');
+
   await ensureFirestoreSeeded();
   const mem = getMemoryServices();
 
@@ -596,6 +652,10 @@ export async function listServicesRepo(options?: {
 export async function getServiceRepo(
   slug: string
 ): Promise<ServiceDocument | undefined> {
+  'use cache';
+  cacheLife('minutes');
+  cacheTag('services');
+
   const all = await listServicesRepo({ includeDrafts: true });
   return all.find((s) => s.slug === slug);
 }
@@ -617,6 +677,7 @@ export async function upsertServiceRepo(
   }
 
   getMemoryServices().set(doc.slug, payload);
+  invalidateCache('services');
   return payload;
 }
 
@@ -628,13 +689,19 @@ export async function deleteServiceRepo(slug: string): Promise<boolean> {
       .doc(slug)
       .delete();
   }
-  return getMemoryServices().delete(slug);
+  const deleted = getMemoryServices().delete(slug);
+  invalidateCache('services');
+  return deleted;
 }
 
 // ============================================================================
 // 6. TEAM REPOSITORY
 // ============================================================================
 export async function listTeamRepo(): Promise<TeamDocument[]> {
+  'use cache';
+  cacheLife('minutes');
+  cacheTag('team');
+
   await ensureFirestoreSeeded();
   const mem = getMemoryTeam();
 
@@ -662,6 +729,10 @@ export async function listTeamRepo(): Promise<TeamDocument[]> {
 export async function getTeamMemberRepo(
   slug: string
 ): Promise<TeamDocument | undefined> {
+  'use cache';
+  cacheLife('minutes');
+  cacheTag('team');
+
   const all = await listTeamRepo();
   return all.find((m) => m.slug === slug);
 }
@@ -683,6 +754,7 @@ export async function upsertTeamMemberRepo(
   }
 
   getMemoryTeam().set(doc.slug, payload);
+  invalidateCache('team');
   return payload;
 }
 
@@ -691,7 +763,9 @@ export async function deleteTeamMemberRepo(slug: string): Promise<boolean> {
   if (isFirebaseAdminConfigured()) {
     await getAdminFirestore().collection(COLLECTIONS.TEAM).doc(slug).delete();
   }
-  return getMemoryTeam().delete(slug);
+  const deleted = getMemoryTeam().delete(slug);
+  invalidateCache('team');
+  return deleted;
 }
 
 // ============================================================================
@@ -700,6 +774,10 @@ export async function deleteTeamMemberRepo(slug: string): Promise<boolean> {
 export async function listGalleryRepo(options?: {
   category?: string;
 }): Promise<GalleryDocument[]> {
+  'use cache';
+  cacheLife('minutes');
+  cacheTag('gallery');
+
   await ensureFirestoreSeeded();
   const mem = getMemoryGallery();
 
@@ -745,6 +823,7 @@ export async function upsertGalleryPhotoRepo(
   }
 
   getMemoryGallery().set(doc.id, payload);
+  invalidateCache('gallery');
   return payload;
 }
 
@@ -753,13 +832,19 @@ export async function deleteGalleryPhotoRepo(id: string): Promise<boolean> {
   if (isFirebaseAdminConfigured()) {
     await getAdminFirestore().collection(COLLECTIONS.GALLERY).doc(id).delete();
   }
-  return getMemoryGallery().delete(id);
+  const deleted = getMemoryGallery().delete(id);
+  invalidateCache('gallery');
+  return deleted;
 }
 
 // ============================================================================
 // 8. SETTINGS REPOSITORY
 // ============================================================================
 export async function getSettingsRepo(): Promise<SettingsDocument> {
+  'use cache';
+  cacheLife('minutes');
+  cacheTag('settings');
+
   await ensureFirestoreSeeded();
   const mem = getMemorySettings();
 
@@ -803,6 +888,7 @@ export async function updateSettingsRepo(
   }
 
   globalStore.__jmmSettings = updated;
+  invalidateCache('settings');
   return updated;
 }
 
@@ -810,6 +896,10 @@ export async function updateSettingsRepo(
 // 9. ADMIN OVERVIEW AGGREGATOR
 // ============================================================================
 export async function getAdminOverviewRepo() {
+  'use cache';
+  cacheLife('minutes');
+  cacheTag('overview', 'events', 'registrations', 'inquiries', 'news', 'services', 'team', 'gallery', 'settings');
+
   const [events, registrations, inquiries, news, services, team, gallery] =
     await Promise.all([
       listEventsRepo({ includeDrafts: true }),

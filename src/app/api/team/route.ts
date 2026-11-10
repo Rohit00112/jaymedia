@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { connection, NextResponse } from 'next/server';
 import { slugifyEventTitle } from '@/lib/events-store';
 import {
   deleteTeamMemberRepo,
@@ -7,6 +7,7 @@ import {
 } from '@/lib/backend/repository';
 
 export async function GET() {
+  await connection();
   const members = await listTeamRepo();
   return NextResponse.json({ members });
 }
