@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowUpRight, CheckCircle2, Play } from 'lucide-react';
+import { ArrowUpRight, Play } from 'lucide-react';
 import PageHero from '@/components/shared/PageHero';
 import SectionHeading from '@/components/shared/SectionHeading';
 import CtaBand from '@/components/shared/CtaBand';
@@ -148,9 +148,8 @@ export default async function EventDetailPage({ params }: Props) {
               {event.highlights.map((highlight) => (
                 <li
                   key={highlight}
-                  className="flex items-start gap-2.5 rounded-lg border border-line bg-paper-deep/60 p-3.5 text-sm text-ink-soft transition-colors hover:border-line-strong"
+                  className="rounded-lg border border-line bg-paper-deep/60 p-4 text-sm leading-relaxed text-ink-soft transition-colors hover:border-line-strong hover:bg-paper-deep"
                 >
-                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
                   <span>{highlight}</span>
                 </li>
               ))}
@@ -293,9 +292,8 @@ export default async function EventDetailPage({ params }: Props) {
               {event.productionScope.map((scope) => (
                 <li
                   key={scope}
-                  className="flex items-start gap-3 py-3.5 text-sm text-ink-soft"
+                  className="py-3.5 text-sm leading-relaxed text-ink-soft"
                 >
-                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
                   <span>{scope}</span>
                 </li>
               ))}
