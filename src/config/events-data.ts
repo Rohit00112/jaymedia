@@ -20,6 +20,9 @@ export interface EventDetailData {
   logoImage?: string;
   posterImage?: string;
   registrationOpen: boolean;
+  ticketUrl?: string;
+  ticketPartner?: string;
+  ledgerTitle?: string;
   status: 'published' | 'draft';
   eligibility: string;
   coverageLabel: string;
@@ -45,6 +48,80 @@ export interface EventDetailData {
 
 export const EVENTS_DATA: EventDetailData[] = [
   {
+    slug: 'atif-aslam-live-in-nepal',
+    title: 'Atif Aslam Live in Nepal',
+    shortLabel: 'Atif Aslam Live',
+    category: 'International Live Concert • Subah Aye Na Tour',
+    seasonOrYear: '19 Dec 2026 (Poush 4) • 6:00 PM',
+    location: 'Itahari Stadium (Itahari Rangasala), Koshi Province',
+    tagline:
+      'Jay Media Management presents legendary global vocalist Atif Aslam live in Itahari for the Subah Aye Na Tour — Eastern Echoes.',
+    image: '/images/official/atif-aslam-poster.jpg',
+    heroStageImage: '/images/official/atif-aslam-stage.jpg',
+    coverBanner: '/images/official/atif-aslam-banner.jpg',
+    logoImage: '/images/official/main-logo.png',
+    posterImage: '/images/official/atif-aslam-poster.jpg',
+    registrationOpen: false,
+    ticketUrl: 'https://events.khalti.com/events/ET26BJD3F93W',
+    ticketPartner: 'Khalti by IME',
+    ledgerTitle: 'Atif Aslam Live in Nepal — Official Khalti Ticket Tiers',
+    status: 'published',
+    eligibility: 'Dec 19, 2026 • 6:00 PM',
+    coverageLabel: 'Itahari Stadium, Nepal',
+    prizePoolLabel: 'NPR 4,000 – 15,000',
+    codePrefix: 'AAL',
+    prizes: [
+      { rank: 'Early Bird VVIP', amount: 'NPR 15,000', tier: 'gold' },
+      { rank: 'Early Bird VIP', amount: 'NPR 10,000', tier: 'silver' },
+      { rank: 'Early Bird Fanpit', amount: 'NPR 7,000', tier: 'bronze' },
+      { rank: 'Early Bird General', amount: 'NPR 4,000', tier: 'ruby' },
+    ],
+    summary:
+      'Jay Media Management Pvt. Ltd. proudly presents Atif Aslam Live in Nepal: Subah Aye Na Tour (Eastern Echoes) on Saturday, December 19, 2026 (Poush 4) from 6:00 PM onwards at Itahari Stadium (Itahari Rangasala) — with Khalti by IME as the official digital ticketing partner.',
+    overview:
+      'Bringing one of South Asia’s most celebrated voices to Eastern Nepal for a landmark stadium spectacle, Jay Media Management Pvt. Ltd. presents Atif Aslam Live in Nepal as part of his international "Subah Aye Na Tour — Eastern Echoes." Scheduled for December 19, 2026 (Poush 4, 2083) at Itahari Stadium (Itahari Rangasala), the concert features live full-band renditions of iconic hits including "Tajdar-e-Haram," "Tere Bin," "Dil Diyan Gallan," and "Jeena Jeena," drawing fans from across Nepal and neighboring cross-border hubs. Official digital tickets are available seamlessly via Khalti by IME across General, Fanpit, VIP, and VVIP enclosures.',
+    highlights: [
+      'Headliner: Global Icon Atif Aslam — Subah Aye Na Tour (Eastern Echoes)',
+      'Date & Time: Saturday, December 19, 2026 (Poush 4) • 6:00 PM Onwards',
+      'Venue: Itahari Stadium (Itahari Rangasala), Itahari, Koshi Province',
+      'Official Digital Ticketing Partner: Khalti by IME (Early Bird NPR 4,000 – 15,000)',
+      'Full Stadium Line-Array Sound, Intelligent DMX Lighting & VVIP Hospitality',
+    ],
+    scheduleOrPhases: [
+      {
+        title: 'Digital Ticketing via Khalti by IME',
+        description:
+          'Limited Early Bird digital passes live on Khalti across General (NPR 4,000), Fanpit (NPR 7,000), VIP (NPR 10,000), VVIP (NPR 15,000), and Foreigner tiers (NPR 9,600 – 32,000).',
+      },
+      {
+        title: 'Stadium Gates & Eastern Echoes Pre-Show',
+        description:
+          'Multi-lane digital QR entry at Itahari Rangasala with dedicated VVIP/VIP hospitality lounges, fanpit barricades, and curated opening sets.',
+      },
+      {
+        title: 'Atif Aslam Live Stadium Concert (6:00 PM Onwards)',
+        description:
+          'A four-hour live arena concert experience as Atif Aslam and his full touring band perform his greatest romantic and Sufi anthems under the Itahari sky.',
+      },
+    ],
+    hallOfFameOrWinners: [
+      {
+        title: 'Subah Aye Na Tour • Eastern Echoes',
+        note: 'Historic Koshi Province stadium concert headlined by Atif Aslam performing "Tajdar-e-Haram," "Tere Bin," "Dil Diyan Gallan," and his 2026 album live at Itahari Stadium.',
+      },
+      {
+        title: 'Official Ticketing Partner — Khalti by IME',
+        note: '100% digital paperless stadium entry across General, Fanpit, VIP, and VVIP zones via Khalti Events (Code: ET26BJD3F93W).',
+      },
+    ],
+    productionScope: [
+      'Stadium-scale concert trussing, widescreen LED backdrops & DMX beam choreography',
+      'Tour-grade line-array acoustic engineering calibrated for Itahari Rangasala',
+      'Multi-zone crowd barricading (VVIP, VIP, Fanpit & General) with comprehensive security',
+      'Seamless digital QR gate verification in partnership with Khalti by IME & eTicketNepal',
+    ],
+  },
+  {
     slug: 'nepal-kids-idol',
     title: 'Nepal Kids Idol',
     shortLabel: 'Nepal Kids Idol',
@@ -54,9 +131,8 @@ export const EVENTS_DATA: EventDetailData[] = [
     tagline:
       'The ultimate national television singing competition celebrating the voice, passion, and dreams of children aged 5 to 15.',
     image: '/images/official/nki-poster.png',
-    heroStageImage:
-      'https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=1200&q=85',
-    coverBanner: '/images/official/nki-cover.png',
+    heroStageImage: '/images/official/nki-banner.jpg',
+    coverBanner: '/images/official/nki-banner.jpg',
     logoImage: '/images/official/nki-logo.png',
     posterImage: '/images/official/nki-poster.png',
     registrationOpen: true,
@@ -126,7 +202,8 @@ export const EVENTS_DATA: EventDetailData[] = [
     location: 'Biratnagar, Koshi Province',
     tagline: 'Eastern Nepal’s premier beauty, intelligence, and leadership platform.',
     image: '/images/official/koshi-2024-cover.png',
-    heroStageImage: '/images/official/koshi-2024-cover.png',
+    heroStageImage: '/images/official/koshi-2024-banner.jpg',
+    coverBanner: '/images/official/koshi-2024-banner.jpg',
     registrationOpen: true,
     status: 'published',
     eligibility: 'Young Women (17–26)',

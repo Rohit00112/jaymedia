@@ -47,22 +47,29 @@ export function Footer() {
         <div className="container-ed flex flex-col justify-between gap-6 lg:flex-row lg:items-center">
           <div className="max-w-2xl">
             <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-forest">
-              Jay Media Management &bull; Live Pageants &amp; Auditions
+              Jay Media Management &bull; Live Concerts, Pageants &amp; Auditions
             </span>
             <h2 className="display mt-2 text-2xl font-bold text-ink sm:text-3xl">
-              Auditions &amp; Registrations Open Across Nepal
+              Atif Aslam Live in Nepal &bull; 19 Dec 2026 (Itahari Stadium)
             </h2>
             <p className="mt-2 text-sm text-ink-soft">
-              Active franchises:{' '}
-              {openEvents.map((ev) => ev.title).join(' \u2022 ')}. Nationwide
-              and regional entries from Biratnagar HQ.
+              Subah Aye Na Tour tickets live on Khalti by IME &mdash; plus open
+              registrations for {openEvents.map((ev) => ev.title).join(' \u2022 ')}.
             </p>
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <Link href="/register" className="btn btn-accent">
-              <span>Register for an Event</span>
+            <a
+              href="https://events.khalti.com/events/ET26BJD3F93W"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-accent"
+            >
+              <span>Atif Aslam Tickets (Khalti)</span>
               <ArrowUpRight className="h-4 w-4 text-gold" />
+            </a>
+            <Link href="/register" className="btn btn-outline bg-white">
+              <span>Register for Auditions</span>
             </Link>
             <a
               href={`tel:${contact.phone}`}

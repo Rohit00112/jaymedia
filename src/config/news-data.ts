@@ -14,6 +14,32 @@ export interface NewsItemData {
 
 export const NEWS_DATA: NewsItemData[] = [
   {
+    slug: 'atif-aslam-live-in-nepal-subah-aye-na-tour-itahari-stadium',
+    title:
+      'Jay Media Management Presents "Atif Aslam Live in Nepal: Subah Aye Na Tour" at Itahari Stadium on December 19',
+    category: 'Concert Announcement',
+    date: '2026-10-27',
+    author: 'Jay Media Editorial Board',
+    readTime: '4 min read',
+    image: '/images/official/atif-aslam-poster.jpg',
+    excerpt:
+      'Legendary vocalist Atif Aslam brings his international "Subah Aye Na Tour — Eastern Echoes" to Itahari Rangasala on Poush 4 (December 19, 2026), organized by Jay Media Management with Khalti as official ticketing partner.',
+    content: [
+      'ITAHARI / BIRATNAGAR — Jay Media Management Pvt. Ltd. has officially announced one of the largest live musical spectacles in Eastern Nepal’s history: "Atif Aslam Live in Nepal — Subah Aye Na Tour (Eastern Echoes)," scheduled for Saturday, December 19, 2026 (Poush 4, 2083) from 6:00 PM onwards at Itahari Stadium (Itahari Rangasala).',
+      'Globally celebrated for timeless anthems including "Tajdar-e-Haram," "Tere Bin," "Dil Diyan Gallan," and "Jeena Jeena," as well as his 2026 studio album Subah Aye Na, Atif Aslam will perform live with his full touring ensemble before thousands of fans from across Nepal and neighboring South Asian regions.',
+      'Popular digital wallet platform Khalti by IME has partnered as the official digital ticketing partner for the stadium concert. Early Bird tickets are now live on Khalti across four primary categories: General (NPR 4,000), Fanpit (NPR 7,000), VIP (NPR 10,000), and VVIP (NPR 15,000), alongside dedicated passes for international attendees.',
+      'Chairperson Jay Raj Roy noted that staging an international touring production of this scale at Itahari Rangasala reflects Jay Media Management’s decade-long mission to position Koshi Province as a premier cultural and live entertainment hub in South Asia.',
+    ],
+    tags: [
+      'Atif Aslam',
+      'Subah Aye Na Tour',
+      'Itahari Stadium',
+      'Khalti',
+      'Jay Media',
+    ],
+    featured: true,
+  },
+  {
     slug: 'miss-koshi-2024-grand-finale-shuva-laxmi-rai',
     title: 'Subha Laxmi Rai Crowned Miss Koshi Season #8 at Spectacular Biratnagar Grand Finale',
     category: 'Pageant Chronicles',

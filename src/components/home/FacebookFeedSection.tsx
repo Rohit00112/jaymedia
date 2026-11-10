@@ -8,18 +8,18 @@ import { siteConfig } from '@/config/site';
 const STREAM_TOPICS = [
   {
     code: '01',
-    title: 'Audition Calls & Venue Notices',
-    note: 'District-level reporting hours, registration deadlines, and Central Mall Biratnagar updates.',
+    title: 'Atif Aslam Concert & Ticket Notices',
+    note: 'Official announcements for Atif Aslam Live in Nepal (Subah Aye Na Tour) at Itahari Stadium on Dec 19, 2026 and Khalti ticket drops.',
   },
   {
     code: '02',
-    title: 'Grand Finale Coverage',
+    title: 'Grand Finale & Stage Coverage',
     note: 'Live stage photography and coronation moments from Miss Koshi, Little Koshi, and Nepal Kids Idol.',
   },
   {
     code: '03',
-    title: 'Backstage & Production Notes',
-    note: 'Studio rehearsal clips, judge commentary, and television broadcast schedules.',
+    title: 'Auditions & Production Notes',
+    note: 'District-level audition schedules, studio rehearsal clips, and Central Mall Biratnagar updates.',
   },
 ] as const;
 

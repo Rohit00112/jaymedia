@@ -617,16 +617,14 @@
 @keyframes page-enter {
   from {
     opacity: 0;
-    transform: translateY(6px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
 .page-enter {
-  animation: page-enter 650ms var(--ease-out) both;
+  animation: page-enter 450ms var(--ease-out);
 }
 
 /* ─── Hero ─────────────────────────────────────────────────── */

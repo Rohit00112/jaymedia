@@ -1,96 +1,160 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowUpRight, CheckCircle2, MapPin } from 'lucide-react';
+import {
+  ArrowUpRight,
+  Calendar,
+  CheckCircle2,
+  MapPin,
+  Sparkles,
+  Ticket,
+} from 'lucide-react';
 import SectionHeading from '@/components/shared/SectionHeading';
 import Reveal from '@/components/motion/Reveal';
 import { AnimeStaggerContainer } from '@/components/motion';
 import { EVENTS_DATA } from '@/config/events-data';
 
 export default function FeaturedEventsSection() {
-  const missKoshi =
-    EVENTS_DATA.find((e) => e.slug === 'miss-koshi') || EVENTS_DATA[1];
-  const rest = EVENTS_DATA.filter((e) => e.slug !== 'miss-koshi');
+  const featured =
+    EVENTS_DATA.find((e) => e.slug === 'atif-aslam-live-in-nepal') ||
+    EVENTS_DATA[0];
+  const rest = EVENTS_DATA.filter((e) => e.slug !== featured.slug);
 
   return (
     <section className="border-b border-line bg-sand py-20 md:py-24">
       <div className="container-ed">
         <SectionHeading
-          eyebrow="03 / Selected Productions"
+          eyebrow="03 / Highlight Concert & Productions"
           title={
             <>
               Nights that set{' '}
               <span className="text-forest">the regional standard.</span>
             </>
           }
-          description="Signature pageants, reality franchises, and youth talent showcases engineered by Jay Media Management."
+          description="Headlined by Atif Aslam Live in Nepal (Subah Aye Na Tour) at Itahari Stadium alongside our flagship pageants and televised talent franchises."
           link={{ href: '/events', label: 'All productions' }}
         />
 
-        {/* Flipped Asymmetric 7 / 5 Showcase: Specification Dossier Left, Framed Poster Right */}
+        {/* Asymmetric 7 / 5 Concert Arena Spotlight */}
         <div className="grid items-stretch gap-8 lg:grid-cols-12 lg:gap-10">
           <div className="order-2 lg:order-1 lg:col-span-7">
             <Reveal
               delay={60}
-              className="flex h-full flex-col justify-between border border-ink/15 bg-white p-7 md:p-10"
+              className="flex h-full flex-col justify-between overflow-hidden rounded-[6px] border border-ink/15 bg-white shadow-[0_22px_48px_-28px_rgba(12,20,16,0.18)]"
             >
-              <div>
-                <div className="flex flex-wrap items-center gap-3 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-forest">
-                  <span>{missKoshi.seasonOrYear}</span>
-                  <span className="text-line-strong">/</span>
-                  <span className="text-muted">{missKoshi.category}</span>
-                </div>
-
-                <h3 className="display mt-4 text-[clamp(2rem,3.4vw,3rem)] font-bold text-ink">
-                  {missKoshi.title}
-                </h3>
-
-                <p className="mt-4 text-sm leading-relaxed text-ink-soft md:text-base">
-                  {missKoshi.summary}
-                </p>
-
-                <ul className="mt-7 grid gap-2.5 border-t border-line pt-6 sm:grid-cols-2">
-                  {missKoshi.highlights.slice(0, 4).map((item) => (
-                    <li
-                      key={item}
-                      className="flex items-start gap-2 text-xs leading-relaxed text-muted"
-                    >
-                      <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-forest" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
+              {/* Dark Luxury Concert Header Strip */}
+              <div className="flex flex-wrap items-center justify-between gap-3 bg-gradient-to-r from-[#031426] via-[#052138] to-forest px-6 py-4 text-white sm:px-8">
+                <span className="inline-flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-gold">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  Headline Concert &bull; Subah Aye Na Tour
+                </span>
+                <span className="inline-flex items-center gap-1.5 rounded-[2px] bg-white/10 px-2.5 py-1 font-mono text-[9.5px] font-semibold uppercase tracking-[0.14em] text-white">
+                  <Calendar className="h-3 w-3 text-gold" />
+                  {featured.seasonOrYear}
+                </span>
               </div>
 
-              <div className="mt-8 border-t border-line pt-6">
-                <dl className="grid grid-cols-2 gap-5">
-                  <div>
-                    <dt className="eyebrow text-[9px] text-faint">Location</dt>
-                    <dd className="mt-1.5 flex items-start gap-1.5 text-xs font-medium leading-snug text-ink">
-                      <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-forest" />
-                      {missKoshi.location}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt className="eyebrow text-[9px] text-faint">
-                      Season #8 Winner
-                    </dt>
-                    <dd className="mt-1.5 text-xs font-bold leading-snug text-forest">
-                      Subha Laxmi Rai (Itahari)
-                    </dd>
-                  </div>
-                </dl>
+              <div className="flex flex-1 flex-col justify-between p-6 sm:p-8 md:p-9">
+                <div>
+                  <h3 className="display text-[clamp(2rem,3.4vw,3.1rem)] font-extrabold text-ink">
+                    {featured.title}
+                  </h3>
 
-                <div className="mt-7 flex flex-wrap gap-3">
-                  <Link
-                    href={`/events/${missKoshi.slug}`}
-                    className="btn btn-accent"
-                  >
-                    <span>Explore Production</span>
-                    <ArrowUpRight className="h-4 w-4 text-gold" />
-                  </Link>
-                  <Link href="/gallery" className="btn btn-outline bg-white">
-                    <span>Miss Koshi Gallery</span>
-                  </Link>
+                  <p className="mt-3 text-sm leading-relaxed text-ink-soft md:text-base">
+                    {featured.summary}
+                  </p>
+
+                  {/* 4-Tier Khalti Pricing Grid */}
+                  {featured.prizes && (
+                    <div className="mt-6">
+                      <div className="mb-2.5 flex items-center justify-between font-mono text-[9.5px] font-semibold uppercase tracking-[0.14em] text-forest">
+                        <span>Official Khalti Early Bird Ticket Tiers</span>
+                        <span className="text-muted">Code: ET26BJD3F93W</span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
+                        {featured.prizes.map((tier, idx) => (
+                          <div
+                            key={tier.rank}
+                            className={
+                              idx === 0
+                                ? 'rounded-[3px] border border-forest bg-forest/[0.05] p-3'
+                                : 'rounded-[3px] border border-line bg-paper-deep/60 p-3'
+                            }
+                          >
+                            <span className="block font-mono text-[8.5px] font-semibold uppercase tracking-[0.12em] text-muted">
+                              {tier.rank.replace('Early Bird ', '')}
+                            </span>
+                            <span className="display mt-1 block text-base font-extrabold text-ink">
+                              {tier.amount}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  <ul className="mt-6 grid gap-2.5 border-t border-line pt-5 sm:grid-cols-2">
+                    {featured.highlights.slice(0, 4).map((item) => (
+                      <li
+                        key={item}
+                        className="flex items-start gap-2 text-xs leading-relaxed text-muted"
+                      >
+                        <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-forest" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="mt-7 border-t border-line pt-6">
+                  <dl className="grid grid-cols-2 gap-5">
+                    <div>
+                      <dt className="eyebrow text-[9px] text-faint">
+                        Stadium Venue
+                      </dt>
+                      <dd className="mt-1.5 flex items-start gap-1.5 text-xs font-semibold leading-snug text-ink">
+                        <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-forest" />
+                        {featured.location}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="eyebrow text-[9px] text-faint">
+                        Digital Ticketing Partner
+                      </dt>
+                      <dd className="mt-1.5 text-xs font-bold leading-snug text-forest">
+                        {featured.ticketPartner || 'Khalti by IME'} &bull;{' '}
+                        {featured.prizePoolLabel}
+                      </dd>
+                    </div>
+                  </dl>
+
+                  <div className="mt-6 flex flex-wrap gap-3">
+                    {featured.ticketUrl && (
+                      <a
+                        href={featured.ticketUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn-accent"
+                      >
+                        <Ticket className="h-4 w-4 text-gold" />
+                        <span>
+                          Buy Tickets on {featured.ticketPartner || 'Khalti'}
+                        </span>
+                        <ArrowUpRight className="h-4 w-4 text-gold" />
+                      </a>
+                    )}
+                    <Link
+                      href={`/events/${featured.slug}`}
+                      className="btn btn-outline bg-white"
+                    >
+                      <span>Explore Concert Dossier</span>
+                    </Link>
+                    <Link
+                      href="/gallery"
+                      className="btn btn-outline bg-white"
+                    >
+                      <span>Concert Gallery</span>
+                    </Link>
+                  </div>
                 </div>
               </div>
             </Reveal>
@@ -98,52 +162,72 @@ export default function FeaturedEventsSection() {
 
           <Reveal className="order-1 lg:order-2 lg:col-span-5">
             <Link
-              href={`/events/${missKoshi.slug}`}
-              className="group relative block aspect-[1313/1600] overflow-hidden rounded-[2px] border-2 border-ink bg-white transition-shadow hover:shadow-[10px_10px_0px_0px_rgba(1,64,43,0.16)]"
+              href={`/events/${featured.slug}`}
+              className="group relative flex h-full flex-col overflow-hidden rounded-[6px] border-2 border-ink bg-[#020816] p-2.5 shadow-[12px_12px_0px_0px_rgba(1,64,43,0.16)] transition-transform duration-300 hover:-translate-y-1"
             >
-              <Image
-                src={missKoshi.image}
-                alt={missKoshi.title}
-                fill
-                sizes="(max-width: 1024px) 100vw, 42vw"
-                className="img-zoom object-cover"
-              />
+              <div className="relative aspect-[4/4.8] w-full flex-1 overflow-hidden rounded-[3px]">
+                <Image
+                  src={featured.image}
+                  alt={featured.title}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 42vw"
+                  className="img-zoom object-cover"
+                />
+                <span className="absolute right-3 top-3 rounded-[2px] bg-gold px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.14em] text-ink shadow-sm">
+                  19 Dec 2026
+                </span>
+              </div>
+
+              <div className="mt-2.5 flex items-center justify-between px-1.5 py-1 font-mono text-[9.5px] uppercase tracking-[0.14em] text-white/85">
+                <span className="text-gold">Itahari Stadium, Nepal</span>
+                <span className="inline-flex items-center gap-1 text-white group-hover:text-gold">
+                  View Production
+                  <ArrowUpRight className="h-3.5 w-3.5" />
+                </span>
+              </div>
             </Link>
           </Reveal>
         </div>
 
-        {/* 3-Column Indexed Franchise Plates */}
+        {/* 4-Column Indexed Franchise Plates */}
         <AnimeStaggerContainer
           stagger={85}
           distance={18}
-          className="mt-12 grid gap-6 border-t border-ink/15 pt-10 md:grid-cols-3"
+          className="mt-12 grid gap-6 border-t border-ink/15 pt-10 sm:grid-cols-2 lg:grid-cols-4"
         >
           {rest.map((event, idx) => (
             <Link
               key={event.slug}
               href={`/events/${event.slug}`}
-              className="group flex flex-col border border-line bg-white transition-all duration-300 hover:border-forest"
+              className="group flex flex-col overflow-hidden rounded-[5px] border border-line bg-white transition-all duration-300 hover:-translate-y-1 hover:border-forest hover:shadow-[0_18px_36px_-22px_rgba(1,64,43,0.22)]"
             >
-              <div className="flex items-center justify-between border-b border-line px-5 py-3 font-mono text-[10px] font-semibold uppercase tracking-[0.14em]">
+              <div className="flex items-center justify-between border-b border-line bg-paper-deep/50 px-4 py-3 font-mono text-[9.5px] font-semibold uppercase tracking-[0.14em]">
                 <span className="text-forest">
-                  0{idx + 1} / {event.seasonOrYear}
+                  0{idx + 1} / {event.shortLabel || event.codePrefix}
                 </span>
-                <ArrowUpRight className="h-3.5 w-3.5 text-faint transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-forest" />
+                {event.registrationOpen && (
+                  <span className="rounded-[2px] bg-forest/10 px-2 py-0.5 text-[8.5px] font-bold text-forest">
+                    Auditions Open
+                  </span>
+                )}
               </div>
 
               <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-line bg-paper-deep">
                 <Image
-                  src={event.image}
+                  src={event.heroStageImage || event.image}
                   alt={event.title}
                   fill
-                  sizes="(max-width: 768px) 100vw, 33vw"
+                  sizes="(max-width: 768px) 100vw, 25vw"
                   className="img-zoom object-cover"
                 />
               </div>
 
               <div className="flex flex-1 flex-col justify-between p-5">
                 <div>
-                  <h4 className="display text-xl font-bold text-ink transition-colors group-hover:text-forest">
+                  <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.12em] text-muted">
+                    {event.seasonOrYear}
+                  </span>
+                  <h4 className="display mt-1 text-xl font-bold text-ink transition-colors group-hover:text-forest">
                     {event.title}
                   </h4>
                   <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-muted">
@@ -151,8 +235,11 @@ export default function FeaturedEventsSection() {
                   </p>
                 </div>
 
-                <div className="mt-4 border-t border-line pt-3 font-mono text-[10px] uppercase tracking-[0.12em] text-ink-soft">
-                  {event.location}
+                <div className="mt-4 flex items-center justify-between border-t border-line pt-3 font-mono text-[9.5px] uppercase tracking-[0.12em] text-ink-soft">
+                  <span className="truncate font-semibold text-forest">
+                    {event.prizePoolLabel}
+                  </span>
+                  <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-faint transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-forest" />
                 </div>
               </div>
             </Link>

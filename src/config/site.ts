@@ -10,10 +10,10 @@ export const siteConfig = {
   established: 2013,
   registered: 2014,
   description:
-    'Premier event execution, movie production, award shows, and broadcast media house established in 2013 in Biratnagar, Nepal. Organizers of Nepal Kids Idol, Miss Koshi, and Mr. & Miss Little Koshi.',
+    'Premier event execution, international stadium concerts, movie production, award shows, and broadcast media house established in 2013 in Biratnagar, Nepal. Organizers of Atif Aslam Live in Nepal (Subah Aye Na Tour), Miss Koshi, Nepal Kids Idol, and Mr. & Miss Little Koshi.',
   url: 'https://www.jaymediamanagement.com',
   logo: '/images/official/main-logo.png',
-  ogImage: '/images/official/hero-banner.png',
+  ogImage: '/images/official/atif-aslam-banner.jpg',
   location: {
     address: 'Central Mall, 1st Floor',
     landmark: 'Near Traffic Chowk, Main Road',
@@ -39,8 +39,11 @@ export const siteConfig = {
   },
   keywords: [
     'Jay Media Management',
-    'Nepal Kids Idol',
+    'Atif Aslam Live in Nepal',
+    'Subah Aye Na Tour Itahari',
+    'Atif Aslam Concert Itahari Stadium',
     'Miss Koshi',
+    'Nepal Kids Idol',
     'Mr and Miss Little Koshi',
     'event management company in Biratnagar',
     'Central Mall Biratnagar',

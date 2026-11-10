@@ -13,7 +13,7 @@ import { cn } from '@/lib/utils';
 export const metadata: Metadata = generatePageMetadata({
   title: 'Events & Productions Portfolio | Jay Media Management',
   description:
-    'Explore signature event productions by Jay Media Management in Biratnagar, Nepal: Nepal Kids Idol, Miss Koshi Grand Pageant, Mr. & Miss Little Koshi, and bespoke corporate galas.',
+    'Explore signature event productions by Jay Media Management in Biratnagar, Nepal: Atif Aslam Live in Nepal (Subah Aye Na Tour), Miss Koshi Grand Pageant, Nepal Kids Idol, Mr. & Miss Little Koshi, and bespoke corporate galas.',
 });
 
 export default function EventsPage() {
@@ -30,9 +30,9 @@ export default function EventsPage() {
             <span className="serif italic text-accent">remembering.</span>
           </>
         }
-        description="From monumental beauty pageants to celebratory youth showcases, discover the signature productions that have defined Eastern Nepal's cultural stage."
-        image="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1800&q=85"
-        imageAlt="Live concert crowd and stage lighting"
+        description="From international stadium concerts like Atif Aslam Live in Nepal to monumental beauty pageants and televised youth showcases across Koshi Province."
+        image="/images/official/atif-aslam-banner.jpg"
+        imageAlt="Atif Aslam Live in Nepal — Subah Aye Na Tour at Itahari Stadium"
         meta={[
           { label: 'Signature franchises', value: `${String(events.length).padStart(2, '0')} productions` },
           { label: 'Region', value: 'Koshi Province' },
@@ -56,11 +56,11 @@ export default function EventsPage() {
           <Reveal>
             <Link
               href={`/events/${featured.slug}`}
-              className="group grid overflow-hidden rounded-[0.5rem] border border-line transition-colors duration-400 hover:border-line-strong lg:grid-cols-12"
+              className="group grid items-center overflow-hidden rounded-[0.5rem] border border-line bg-card transition-colors duration-400 hover:border-line-strong lg:grid-cols-12"
             >
-              <div className="relative aspect-[16/10] overflow-hidden bg-sand lg:col-span-7 lg:aspect-auto lg:min-h-[28rem]">
+              <div className="relative aspect-[5/4.1] w-full overflow-hidden bg-[#020816] lg:col-span-7">
                 <Image
-                  src={featured.image}
+                  src={featured.heroStageImage || featured.coverBanner || featured.image}
                   alt={featured.title}
                   fill
                   priority
@@ -68,7 +68,7 @@ export default function EventsPage() {
                   className="img-zoom object-cover"
                 />
                 <span className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-[0.2rem] bg-cream px-3 py-1.5 font-mono text-[8px] uppercase tracking-[0.16em] text-ink">
-                  <span className="h-1 w-1 rounded-full bg-accent" />
+                  <span className="h-1.5 w-1.5 rounded-full bg-accent" />
                   Featured production
                 </span>
               </div>
@@ -108,12 +108,12 @@ export default function EventsPage() {
                 >
                   <div
                     className={cn(
-                      'relative aspect-[16/10] overflow-hidden rounded-[0.3rem] bg-sand md:col-span-4',
+                      'relative aspect-[2/1] overflow-hidden rounded-[0.3rem] bg-sand md:col-span-4',
                       index % 2 === 1 && 'md:order-2'
                     )}
                   >
                     <Image
-                      src={event.image}
+                      src={event.coverBanner || event.heroStageImage || event.image}
                       alt={event.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 33vw"

@@ -53,13 +53,16 @@ export default async function EventDetailPage({ params }: Props) {
         eyebrow={`${event.category} / ${event.seasonOrYear}`}
         title={event.title}
         description={event.tagline}
-        image={event.image}
+        image={event.coverBanner || event.heroStageImage || event.image}
         imageAlt={event.title}
         meta={[
-          { label: 'Season', value: event.seasonOrYear },
-          { label: 'Location', value: event.location },
+          { label: 'Date / Season', value: event.seasonOrYear },
+          { label: 'Venue / Scope', value: event.location },
           { label: 'Organizer', value: 'Jay Media Management' },
-          { label: 'Format', value: 'Live + broadcast' },
+          {
+            label: event.ticketUrl ? 'Ticketing Partner' : 'Format',
+            value: event.ticketPartner || 'Live + broadcast',
+          },
         ]}
       />
 
@@ -104,9 +107,11 @@ export default async function EventDetailPage({ params }: Props) {
             <Reveal delay={120}>
               <div className="border border-line bg-card p-6 md:p-7">
                 <span className="eyebrow text-accent">
-                  {event.registrationOpen
-                    ? 'Active Competition • Register Open'
-                    : 'Titleholders & recognition'}
+                  {event.ticketUrl
+                    ? `Official Tickets • ${event.ticketPartner || 'Khalti'}`
+                    : event.registrationOpen
+                      ? 'Active Competition • Register Open'
+                      : 'Titleholders & recognition'}
                 </span>
                 {event.prizes && (
                   <div className="mt-4 grid grid-cols-2 gap-2.5 border-b border-line pb-5">
@@ -141,7 +146,17 @@ export default async function EventDetailPage({ params }: Props) {
                   ))}
                 </div>
 
-                {event.registrationOpen ? (
+                {event.ticketUrl ? (
+                  <a
+                    href={event.ticketUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-accent mt-6 w-full"
+                  >
+                    Buy Tickets on {event.ticketPartner || 'Khalti'}
+                    <ArrowUpRight className="h-4 w-4" />
+                  </a>
+                ) : event.registrationOpen ? (
                   <Link
                     href={`/register/${event.slug}`}
                     className="btn btn-accent mt-6 w-full"

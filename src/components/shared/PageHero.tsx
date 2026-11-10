@@ -100,15 +100,11 @@ export default function PageHero({
           <RevealImage
             src={image}
             alt={imageAlt}
-            aspect={
-              compact
-                ? 'aspect-[16/10] md:aspect-[21/9]'
-                : 'aspect-[16/11] md:aspect-[16/7]'
-            }
+            aspect="aspect-[2/1]"
             sizes="(max-width: 1408px) 100vw, 1344px"
             priority
-            parallax
-            className="rounded-[2px] border border-line"
+            parallax={false}
+            className="rounded-[4px] border border-line bg-[#020816]"
           />
         </div>
       )}

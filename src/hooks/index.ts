@@ -102,17 +102,12 @@ export function useScrollPosition() {
 export function useBodyLock(isLocked: boolean) {
   useEffect(() => {
     if (isLocked) {
-      const currentScrollY = window.scrollY;
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${currentScrollY}px`;
-      document.body.style.width = '100%';
+      const prevOverflow = document.body.style.overflow;
+      document.documentElement.classList.add('lenis-stopped');
       document.body.style.overflow = 'hidden';
       return () => {
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.style.width = '';
-        document.body.style.overflow = '';
-        window.scrollTo(0, currentScrollY);
+        document.documentElement.classList.remove('lenis-stopped');
+        document.body.style.overflow = prevOverflow;
       };
     }
   }, [isLocked]);
