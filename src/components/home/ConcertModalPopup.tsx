@@ -95,7 +95,7 @@ export default function ConcertModalPopup() {
             alt="Atif Aslam Live at Eastern Echoes — Jay Media Management"
             fill
             sizes="(max-width: 768px) 100vw, 380px"
-            className="object-cover object-[center_45%] md:object-top"
+            className="poster-mobile-focus"
             priority
           />
         </div>

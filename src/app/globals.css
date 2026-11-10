@@ -423,6 +423,17 @@
     will-change: transform;
   }
 
+  .poster-mobile-focus {
+    object-fit: cover;
+    object-position: center 42%;
+  }
+
+  @media (min-width: 768px) {
+    .poster-mobile-focus {
+      object-position: center top;
+    }
+  }
+
   .group:hover .img-zoom {
     transform: scale(1.045);
   }
