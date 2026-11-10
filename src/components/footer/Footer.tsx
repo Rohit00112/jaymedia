@@ -3,7 +3,6 @@ import Image from 'next/image';
 import {
   ArrowRight,
   ArrowUpRight,
-  CheckCircle2,
   Mail,
   MapPin,
   Phone,
@@ -43,9 +42,9 @@ export function Footer() {
     <footer className="bg-forest font-sans text-white">
       <div className="container-ed">
         <div className="grid gap-10 lg:grid-cols-12">
-          {/* ─── Left Warm Stone Spotlight Card (#E3E3E1) ───────────── */}
+          {/* ─── Left Warm Stone Showcase Column (#E3E3E1) ────────── */}
           <div className="lg:col-span-4">
-            <div className="flex h-full flex-col justify-between bg-sand px-7 py-9 text-ink sm:px-8 sm:py-10">
+            <div className="flex h-full flex-col justify-between bg-sand px-7 py-10 text-ink sm:px-8">
               <div>
                 <Link
                   href="/"
@@ -61,46 +60,37 @@ export function Footer() {
                   />
                 </Link>
 
-                <h2 className="display mt-6 text-xl font-bold leading-snug text-forest">
-                  Nepal Kids Idol 2025: A Stage for Young Stars!
+                <h2 className="display mt-7 text-xl font-bold leading-snug text-forest">
+                  Nepal Kids Idol 2025: A Stage for Young Stars
                 </h2>
                 <p className="mt-1.5 text-sm font-medium text-ink-soft">
-                  Showcase your talent and shine across the nation.
+                  Showcase your talent across the nation.
                 </p>
 
-                <ul className="mt-5 space-y-2.5 text-sm text-ink-soft">
-                  <li className="flex items-start gap-2.5">
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
-                    <span>
-                      <strong className="text-forest">Auditions:</strong> All 77
-                      districts of Nepal
-                    </span>
+                <ul className="mt-6 space-y-2.5 border-t border-line-strong pt-5 text-sm text-ink-soft">
+                  <li>
+                    <strong className="text-forest">Auditions:</strong> All 77
+                    districts of Nepal
                   </li>
-                  <li className="flex items-start gap-2.5">
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
-                    <span>
-                      <strong className="text-forest">International:</strong>{' '}
-                      Sikkim, Darjeeling, Assam, Dehradun, Siliguri, USA, Canada,
-                      Australia
-                    </span>
+                  <li>
+                    <strong className="text-forest">International:</strong>{' '}
+                    Sikkim, Darjeeling, Assam, Dehradun, Siliguri, USA, Canada,
+                    Australia
                   </li>
-                  <li className="flex items-start gap-2.5">
-                    <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
-                    <span>
-                      <strong className="text-forest">Online:</strong> Audition
-                      from anywhere
-                    </span>
+                  <li>
+                    <strong className="text-forest">Online:</strong> Digital
+                    entry open from anywhere
                   </li>
                 </ul>
               </div>
 
               <div className="mt-8 border-t border-line-strong pt-6">
                 <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-forest">
-                  We make your dreams come true
+                  Biratnagar HQ • Since 2013
                 </p>
                 <Link
                   href="/register/nepal-kids-idol"
-                  className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full bg-forest px-6 py-3 text-xs font-bold uppercase tracking-[0.14em] text-white transition-all hover:bg-ink"
+                  className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-[3px] bg-forest px-6 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-white transition-colors hover:bg-ink"
                 >
                   <span>Register Now</span>
                   <ArrowUpRight className="h-4 w-4 text-gold" />
@@ -165,14 +155,14 @@ export function Footer() {
                 </li>
               </ul>
 
-              <div className="mt-7 flex flex-wrap gap-2">
+              <div className="mt-7 flex flex-wrap gap-2.5">
                 {socialLinks.map((social) => (
                   <a
                     key={social.label}
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center rounded-full bg-white/10 px-3 py-1.5 text-[10.5px] font-bold uppercase tracking-[0.1em] text-white transition-colors hover:bg-gold hover:text-ink"
+                    className="inline-flex items-center justify-center rounded-[3px] border border-white/25 px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-white transition-colors hover:border-gold hover:bg-gold hover:text-ink"
                   >
                     {social.label}
                   </a>
@@ -223,9 +213,9 @@ export function Footer() {
                 ))}
               </ul>
 
-              <div className="mt-7 rounded-[8px] border border-white/15 bg-white/5 p-4">
+              <div className="mt-7 border-t border-white/15 pt-4">
                 <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-gold">
-                  Studio Desk
+                  Studio Hours
                 </span>
                 <p className="mt-1 text-xs leading-relaxed text-white/75">
                   Sunday – Friday: 10:00 AM – 6:00 PM NST
@@ -242,10 +232,8 @@ export function Footer() {
           <p>
             &copy; 2026 Jay Media Management Pvt. Ltd. All Rights Reserved.
           </p>
-          <div className="flex items-center gap-5">
-            <Link href="/admin" className="transition-colors hover:text-gold">
-              Studio CMS
-            </Link>
+          <div className="flex items-center gap-6">
+            <span className="text-white/60">Biratnagar, Koshi Province, Nepal</span>
             <a
               href="#top"
               className="inline-flex items-center gap-1.5 font-semibold text-white transition-colors hover:text-gold"

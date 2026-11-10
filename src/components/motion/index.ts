@@ -2,3 +2,8 @@ export { default as Reveal } from './Reveal';
 export { default as RevealImage } from './RevealImage';
 export { default as ScrollProgress } from './ScrollProgress';
 export { default as LenisProvider } from './LenisProvider';
+export { default as AnimeCounter } from './AnimeCounter';
+export { default as AnimeStaggerContainer } from './AnimeStaggerContainer';
+export { default as ScrollReveal } from './ScrollReveal';
+export { default as TextReveal } from './TextReveal';
+export { default as ImageReveal } from './ImageReveal';

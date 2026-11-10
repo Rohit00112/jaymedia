@@ -69,7 +69,7 @@ export default function QuoteSection() {
   return (
     <section id="quote" className="bg-paper py-16 md:py-24">
       <div className="container-ed">
-        <div className="relative overflow-hidden rounded-[14px] bg-forest px-6 py-12 text-white shadow-[0_32px_70px_-28px_rgba(1,64,43,0.45)] sm:px-10 md:px-14 md:py-16">
+        <div className="relative overflow-hidden rounded-[6px] bg-forest px-6 py-12 text-white shadow-[0_32px_70px_-28px_rgba(1,64,43,0.45)] sm:px-10 md:px-14 md:py-16">
           {/* Subtle top gold reflection hairline */}
           <div
             className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/55 to-transparent"
@@ -142,7 +142,7 @@ export default function QuoteSection() {
                     role="status"
                     className="flex flex-col items-center py-8 text-center"
                   >
-                    <span className="flex h-14 w-14 items-center justify-center rounded-full bg-forest text-gold">
+                    <span className="flex h-14 w-14 items-center justify-center rounded-[4px] bg-forest text-gold">
                       <CheckCircle2 className="h-7 w-7" />
                     </span>
                     <h3 className="display mt-4 text-2xl font-bold text-forest">
@@ -156,7 +156,7 @@ export default function QuoteSection() {
                     <button
                       type="button"
                       onClick={() => setStatus('idle')}
-                      className="mt-6 rounded-full bg-forest px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-ink"
+                      className="btn btn-accent mt-6 rounded-[3px] px-6 py-2.5 text-xs font-bold uppercase tracking-wider"
                     >
                       Send Another Request
                     </button>
@@ -239,7 +239,7 @@ export default function QuoteSection() {
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="btn btn-accent w-full rounded-full py-3.5 text-sm font-bold uppercase tracking-[0.12em] shadow-md disabled:opacity-60"
+                      className="btn btn-accent w-full rounded-[3px] py-3.5 text-sm font-bold uppercase tracking-[0.12em] shadow-sm disabled:opacity-60"
                     >
                       {submitting ? (
                         <>

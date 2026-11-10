@@ -34,7 +34,7 @@ export default function Marquee({
               <span key={`${copy}-${item}`} className="flex items-center">
                 <span
                   className={cn(
-                    'display whitespace-nowrap px-3 text-[clamp(1.4rem,2.8vw,2.6rem)]',
+                    'display whitespace-nowrap px-4 text-[clamp(1.35rem,2.6vw,2.4rem)]',
                     light ? 'text-cream/85' : 'text-ink',
                     index % 2 === 1 && 'serif italic'
                   )}
@@ -43,12 +43,10 @@ export default function Marquee({
                 </span>
                 <span
                   className={cn(
-                    'mx-5 text-[0.55rem] md:mx-8',
-                    light ? 'text-gold' : 'text-accent'
+                    'mx-4 inline-block h-px w-8 md:mx-7 md:w-12',
+                    light ? 'bg-gold/60' : 'bg-line-strong'
                   )}
-                >
-                  ✦
-                </span>
+                />
               </span>
             ))}
           </div>

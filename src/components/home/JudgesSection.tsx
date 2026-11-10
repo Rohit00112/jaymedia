@@ -22,41 +22,44 @@ export default function JudgesSection() {
         />
 
         <div className="grid gap-8 lg:grid-cols-12 lg:items-stretch">
-          {/* Two Harmonized Circular Studio Medallion Judge Cards */}
+          {/* Two Gallery-Matboard Editorial Judge Cards */}
           {EVENT_JUDGES.map((judge, idx) => (
             <Reveal key={judge.slug} delay={idx * 80} className="lg:col-span-4">
               <Link
                 href={`/team/${judge.slug}`}
-                className="group flex h-full flex-col justify-between overflow-hidden rounded-[14px] border border-line bg-white p-7 text-center shadow-2xs transition-all duration-300 hover:-translate-y-1 hover:border-forest hover:shadow-lg"
+                className="group flex h-full flex-col justify-between overflow-hidden rounded-[6px] border border-line bg-white p-4 shadow-2xs transition-all duration-300 hover:border-forest hover:shadow-md"
               >
-                <div className="flex flex-col items-center">
-                  <span className="rounded-full bg-forest-soft px-3.5 py-1 font-mono text-[9.5px] font-bold uppercase tracking-[0.16em] text-forest">
-                    Official Jury
-                  </span>
-
-                  {/* Circular Medallion Frame eliminates dark/white photo backdrop clashes */}
-                  <div className="relative mt-6 h-48 w-48 overflow-hidden rounded-full border-4 border-sand bg-paper shadow-md ring-1 ring-forest/15 transition-transform duration-500 group-hover:scale-105">
-                    <Image
-                      src={judge.image}
-                      alt={judge.name}
-                      fill
-                      sizes="192px"
-                      className="object-cover object-top"
-                    />
+                <div>
+                  {/* Gallery Matboard Border Unifies Dark/Light Photo Backdrops */}
+                  <div className="border border-line bg-paper p-2.5">
+                    <div className="relative aspect-[4/4.2] w-full overflow-hidden bg-sand">
+                      <Image
+                        src={judge.image}
+                        alt={judge.name}
+                        fill
+                        sizes="(max-width: 1024px) 100vw, 33vw"
+                        className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
+                      />
+                    </div>
                   </div>
 
-                  <h3 className="display mt-6 text-2xl font-bold text-ink transition-colors group-hover:text-forest">
-                    {judge.name}
-                  </h3>
-                  <p className="mt-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-forest">
-                    {judge.title}
-                  </p>
-                  <p className="mt-3 line-clamp-3 text-xs leading-relaxed text-muted">
-                    {judge.bio}
-                  </p>
+                  <div className="px-2 pt-5">
+                    <span className="block font-mono text-[9.5px] font-bold uppercase tracking-[0.16em] text-forest">
+                      Official Jury Panel
+                    </span>
+                    <h3 className="display mt-1.5 text-2xl font-bold text-ink transition-colors group-hover:text-forest">
+                      {judge.name}
+                    </h3>
+                    <p className="mt-1 text-xs font-semibold text-ink-soft">
+                      {judge.title}
+                    </p>
+                    <p className="mt-3 line-clamp-3 text-xs leading-relaxed text-muted">
+                      {judge.bio}
+                    </p>
+                  </div>
                 </div>
 
-                <span className="mt-6 inline-flex items-center justify-center gap-1.5 border-t border-line pt-4 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-ink group-hover:text-forest">
+                <span className="mx-2 mt-6 inline-flex items-center justify-between border-t border-line pt-4 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-ink group-hover:text-forest">
                   <span>Read Jury Profile</span>
                   <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </span>
@@ -64,11 +67,12 @@ export default function JudgesSection() {
             </Reveal>
           ))}
 
-          {/* Right Selection Dossier Card */}
+          {/* Right Selection Governance Box */}
           <Reveal delay={160} className="lg:col-span-4">
-            <div className="flex h-full flex-col justify-between rounded-[14px] border border-line bg-sand p-7 md:p-8">
+            <div className="flex h-full flex-col justify-between rounded-[6px] border border-line bg-sand p-7 md:p-8">
               <div>
-                <span className="inline-block rounded-full bg-forest px-3.5 py-1.5 font-mono text-[9.5px] font-bold uppercase tracking-[0.16em] text-gold">
+                <span className="inline-flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-forest">
+                  <span className="h-px w-5 bg-forest" aria-hidden="true" />
                   Selection Governance
                 </span>
 
@@ -111,14 +115,14 @@ export default function JudgesSection() {
               <div className="mt-8 space-y-3 border-t border-line-strong pt-6">
                 <Link
                   href="/register/nepal-kids-idol"
-                  className="btn btn-accent w-full rounded-full"
+                  className="btn btn-accent w-full rounded-[3px]"
                 >
                   Register Contestant
-                  <ArrowUpRight className="h-4 w-4" />
+                  <ArrowUpRight className="h-4 w-4 text-gold" />
                 </Link>
                 <Link
                   href="/events/nepal-kids-idol"
-                  className="btn btn-outline w-full rounded-full bg-white"
+                  className="btn btn-outline w-full rounded-[3px] bg-white"
                 >
                   Competition Guidelines
                 </Link>

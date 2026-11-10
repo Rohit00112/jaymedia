@@ -67,15 +67,12 @@ export default function TeamPage() {
                       sizes="(max-width: 640px) 100vw, 224px"
                       className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                     />
-                    <span className="absolute left-3 top-3 rounded-full bg-white/95 px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-wider text-forest shadow-xs">
-                      {member.category}
-                    </span>
                   </div>
 
                   <div className="flex flex-1 flex-col justify-between p-6">
                     <div>
                       <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-forest">
-                        {member.role}
+                        {member.category} — {member.role}
                       </span>
                       <h2 className="display mt-1 text-2xl font-bold text-ink transition-colors group-hover:text-forest">
                         {member.name}
@@ -133,8 +130,8 @@ export default function TeamPage() {
                   />
                 </div>
                 <div>
-                  <span className="inline-block rounded-full bg-forest-soft px-3 py-1 font-mono text-[9px] font-bold uppercase tracking-wider text-forest">
-                    Official Judge • {judge.eventTitle}
+                  <span className="block font-mono text-[9.5px] font-bold uppercase tracking-[0.16em] text-forest">
+                    Official Judge — {judge.eventTitle}
                   </span>
                   <h3 className="display mt-2 text-2xl font-bold text-forest group-hover:text-ink">
                     {judge.name}

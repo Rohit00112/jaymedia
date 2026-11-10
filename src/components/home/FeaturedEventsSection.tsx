@@ -30,7 +30,7 @@ export default function FeaturedEventsSection() {
           <Reveal className="lg:col-span-6">
             <Link
               href={`/events/${missKoshi.slug}`}
-              className="group relative block aspect-[1313/1450] overflow-hidden rounded-[14px] border border-line bg-sand shadow-sm transition-all hover:border-forest hover:shadow-md"
+              className="group relative block aspect-[1313/1450] overflow-hidden rounded-[6px] border border-line bg-sand shadow-2xs transition-all hover:border-forest hover:shadow-md"
             >
               <Image
                 src={missKoshi.image}
@@ -45,18 +45,17 @@ export default function FeaturedEventsSection() {
           <div className="lg:col-span-6">
             <Reveal
               delay={80}
-              className="flex h-full flex-col justify-center rounded-[14px] border border-line bg-paper p-7 md:p-10"
+              className="flex h-full flex-col justify-center rounded-[6px] border border-line bg-paper p-7 md:p-10"
             >
-              <div className="flex flex-wrap items-center gap-2.5">
-                <span className="rounded-full bg-forest px-3 py-1 font-mono text-[9.5px] font-bold uppercase tracking-[0.14em] text-gold">
-                  {missKoshi.seasonOrYear}
+              <div className="flex flex-wrap items-center gap-3 font-mono text-[10px] font-bold uppercase tracking-[0.14em] text-forest">
+                <span>{missKoshi.seasonOrYear}</span>
+                <span className="text-line-strong" aria-hidden="true">
+                  /
                 </span>
-                <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-forest">
-                  {missKoshi.category}
-                </span>
+                <span className="text-muted">{missKoshi.category}</span>
               </div>
 
-              <h3 className="display mt-5 text-[clamp(1.9rem,3vw,2.8rem)] font-bold text-ink">
+              <h3 className="display mt-4 text-[clamp(1.9rem,3vw,2.8rem)] font-bold text-ink">
                 {missKoshi.title}
               </h3>
 
@@ -83,12 +82,15 @@ export default function FeaturedEventsSection() {
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
                   href={`/events/${missKoshi.slug}`}
-                  className="btn btn-accent rounded-full"
+                  className="btn btn-accent rounded-[3px]"
                 >
                   Explore production
-                  <ArrowUpRight className="h-4 w-4" />
+                  <ArrowUpRight className="h-4 w-4 text-gold" />
                 </Link>
-                <Link href="/gallery" className="btn btn-outline rounded-full bg-white">
+                <Link
+                  href="/gallery"
+                  className="btn btn-outline rounded-[3px] bg-white"
+                >
                   Miss Koshi Gallery
                 </Link>
               </div>
@@ -109,12 +111,12 @@ export default function FeaturedEventsSection() {
                     {event.title}
                   </h4>
                   <p className="mt-1 text-xs text-muted">
-                    {event.category} • {event.location}
+                    {event.category} — {event.location}
                   </p>
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <span className="rounded-full bg-sand px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-wider text-forest">
+                  <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-forest">
                     {event.seasonOrYear}
                   </span>
                   <ArrowUpRight className="h-4 w-4 text-forest transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />

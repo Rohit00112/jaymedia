@@ -2,11 +2,11 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
+  Award,
   Compass,
   Eye,
   HeartHandshake,
   ShieldCheck,
-  Sparkles,
 } from 'lucide-react';
 import PageHero from '@/components/shared/PageHero';
 import SectionHeading from '@/components/shared/SectionHeading';
@@ -22,7 +22,7 @@ export const metadata: Metadata = generatePageMetadata({
 
 const VALUES = [
   {
-    icon: Sparkles,
+    icon: Award,
     title: 'Production Excellence',
     description:
       'Every lighting cue, acoustic line array, and televised broadcast sequence is engineered for uncompromised international caliber.',
@@ -157,9 +157,9 @@ export default function AboutPage() {
       {/* Mission & Vision */}
       <section className="border-y border-line bg-sand py-16 md:py-24">
         <div className="container-ed grid gap-8 md:grid-cols-2">
-          <div className="rounded-[12px] border border-line bg-white p-8 shadow-xs sm:p-10">
-            <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-forest-soft text-forest">
-              <Compass className="h-6 w-6" />
+          <div className="rounded-[6px] border border-line bg-white p-8 shadow-2xs sm:p-10">
+            <span className="inline-flex h-11 w-11 items-center justify-center rounded-[4px] border border-forest/20 bg-forest-soft text-forest">
+              <Compass className="h-5 w-5" />
             </span>
             <h3 className="display mt-5 text-2xl font-bold text-ink">
               Our Mission
@@ -171,9 +171,9 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="rounded-[12px] border border-line bg-white p-8 shadow-xs sm:p-10">
-            <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-forest-soft text-forest">
-              <Eye className="h-6 w-6" />
+          <div className="rounded-[6px] border border-line bg-white p-8 shadow-2xs sm:p-10">
+            <span className="inline-flex h-11 w-11 items-center justify-center rounded-[4px] border border-forest/20 bg-forest-soft text-forest">
+              <Eye className="h-5 w-5" />
             </span>
             <h3 className="display mt-5 text-2xl font-bold text-ink">
               Our Vision

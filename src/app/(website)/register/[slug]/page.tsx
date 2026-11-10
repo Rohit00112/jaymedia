@@ -68,7 +68,7 @@ export default async function EventRegisterPage({ params }: Props) {
             </div>
             <Link
               href="/#application-status"
-              className="rounded-full border border-forest/25 px-4 py-2 text-xs font-bold uppercase tracking-wider text-forest hover:bg-forest hover:text-white"
+              className="btn btn-outline rounded-[3px] px-4 py-2 text-xs font-bold uppercase tracking-wider text-forest"
             >
               Already Registered? Check Status
             </Link>

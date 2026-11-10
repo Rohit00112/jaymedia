@@ -131,14 +131,14 @@ export default async function TeamProfileDetailPage({ params }: Props) {
                 <div className="mt-8 flex flex-wrap gap-4 border-t border-line pt-6">
                   <Link
                     href="/team"
-                    className="inline-flex items-center gap-2 rounded-full border border-line-strong px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-ink hover:bg-sand/60"
+                    className="btn btn-outline rounded-[3px]"
                   >
                     <ArrowLeft className="h-3.5 w-3.5" />
                     <span>All Team Members</span>
                   </Link>
                   <Link
                     href="/contact"
-                    className="inline-flex items-center gap-2 rounded-full bg-forest px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-ink"
+                    className="btn btn-accent rounded-[3px]"
                   >
                     <span>Connect With Studio</span>
                     <ArrowUpRight className="h-3.5 w-3.5 text-gold" />

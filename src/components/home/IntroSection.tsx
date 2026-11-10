@@ -70,9 +70,9 @@ export default function IntroSection() {
               {/* Call Strip */}
               <a
                 href={`tel:${siteConfig.contact.phone}`}
-                className="mt-7 flex items-center gap-3.5 rounded-[14px] border border-line-strong bg-white p-3.5 shadow-2xs transition-all hover:border-forest hover:shadow-md"
+                className="mt-7 flex items-center gap-3.5 rounded-[6px] border border-line-strong bg-white p-3.5 shadow-2xs transition-all hover:border-forest hover:shadow-md"
               >
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[8px] bg-forest text-gold">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[4px] bg-forest text-gold">
                   <Phone className="h-4 w-4" />
                 </span>
                 <div>
@@ -101,7 +101,7 @@ export default function IntroSection() {
           {/* Right Narrative + Visual + Capability Tiles */}
           <div className="space-y-8 lg:col-span-8">
             <Reveal>
-              <div className="rounded-[14px] border border-line bg-white p-7 shadow-2xs md:p-9">
+              <div className="rounded-[6px] border border-line bg-white p-7 shadow-2xs md:p-9">
                 <p className="text-pretty text-base leading-relaxed text-ink-soft md:text-lg">
                   From our headquarters at{' '}
                   <strong className="font-semibold text-ink">
@@ -139,7 +139,7 @@ export default function IntroSection() {
                 <Reveal key={cap.slug} delay={idx * 60}>
                   <Link
                     href={`/services/${cap.slug}`}
-                    className="group flex h-full flex-col justify-between rounded-[14px] border border-line bg-white p-6 transition-all hover:-translate-y-0.5 hover:border-forest hover:shadow-md"
+                    className="group flex h-full flex-col justify-between rounded-[6px] border border-line bg-white p-6 transition-all hover:-translate-y-0.5 hover:border-forest hover:shadow-md"
                   >
                     <div className="flex items-center justify-between">
                       <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-forest">

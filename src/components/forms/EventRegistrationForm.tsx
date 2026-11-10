@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import {
   AlertCircle,
+  ArrowUpRight,
   Camera,
   CheckCircle2,
   FileImage,
@@ -12,7 +13,6 @@ import {
   MapPin,
   QrCode,
   ShieldCheck,
-  Sparkles,
   UserCheck,
   Video,
 } from 'lucide-react';
@@ -128,10 +128,10 @@ export default function EventRegistrationForm({
 
   if (issuedRecord) {
     return (
-      <div className="overflow-hidden rounded-[14px] border-2 border-forest bg-white p-8 shadow-xl sm:p-10">
+      <div className="overflow-hidden rounded-[6px] border-2 border-forest bg-white p-8 shadow-xl sm:p-10">
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-6">
           <div className="flex items-center gap-3">
-            <span className="flex h-12 w-12 items-center justify-center rounded-full bg-forest text-gold">
+            <span className="flex h-12 w-12 items-center justify-center rounded-[4px] bg-forest text-gold">
               <CheckCircle2 className="h-6 w-6" />
             </span>
             <div>
@@ -218,7 +218,7 @@ export default function EventRegistrationForm({
         <div className="mt-8 flex flex-wrap gap-3">
           <Link
             href="/#application-status"
-            className="inline-flex items-center gap-2 rounded-full bg-forest px-6 py-3 text-xs font-bold uppercase tracking-wider text-white hover:bg-ink"
+            className="btn btn-accent rounded-[3px] px-6 py-3 text-xs font-bold uppercase tracking-wider"
           >
             <UserCheck className="h-4 w-4 text-gold" />
             <span>Check Application Status</span>
@@ -226,7 +226,7 @@ export default function EventRegistrationForm({
           <button
             type="button"
             onClick={() => setIssuedRecord(null)}
-            className="inline-flex items-center gap-2 rounded-full border border-line-strong bg-white px-6 py-3 text-xs font-bold uppercase tracking-wider text-ink hover:bg-sand/50"
+            className="btn btn-outline rounded-[3px] bg-white px-6 py-3 text-xs font-bold uppercase tracking-wider"
           >
             Register Another Contestant
           </button>
@@ -449,7 +449,7 @@ export default function EventRegistrationForm({
                   type="file"
                   accept="image/*"
                   onChange={handlePhotoSelect}
-                  className="block w-full text-xs text-muted file:mr-4 file:rounded-full file:border-0 file:bg-forest file:px-4 file:py-2 file:text-xs file:font-bold file:text-white hover:file:bg-ink"
+                  className="block w-full text-xs text-muted file:mr-4 file:rounded-[3px] file:border-0 file:bg-forest file:px-4 file:py-2 file:text-xs file:font-bold file:text-white hover:file:bg-ink"
                 />
                 <p className="mt-1.5 text-[11px] text-muted">
                   {photoFilename
@@ -599,7 +599,7 @@ export default function EventRegistrationForm({
                     type="file"
                     accept="image/*"
                     onChange={handleReceiptSelect}
-                    className="block w-full text-xs text-muted file:mr-4 file:rounded-full file:border-0 file:bg-forest file:px-4 file:py-2 file:text-xs file:font-bold file:text-white hover:file:bg-ink"
+                    className="block w-full text-xs text-muted file:mr-4 file:rounded-[3px] file:border-0 file:bg-forest file:px-4 file:py-2 file:text-xs file:font-bold file:text-white hover:file:bg-ink"
                   />
                   <p className="mt-1.5 text-[11px] text-muted">
                     {paymentReceiptFilename
@@ -664,7 +664,7 @@ export default function EventRegistrationForm({
           <button
             type="submit"
             disabled={submitting}
-            className="inline-flex items-center gap-2.5 rounded-full bg-forest px-8 py-4 text-sm font-bold uppercase tracking-[0.12em] text-white shadow-md transition-all hover:bg-ink disabled:opacity-60"
+            className="btn btn-accent rounded-[3px] px-8 py-4 text-sm font-bold uppercase tracking-[0.12em] shadow-sm disabled:opacity-60"
           >
             {submitting ? (
               <>
@@ -673,8 +673,8 @@ export default function EventRegistrationForm({
               </>
             ) : (
               <>
-                <Sparkles className="h-4 w-4 text-gold" />
                 <span>Complete Registration</span>
+                <ArrowUpRight className="h-4 w-4 text-gold" />
               </>
             )}
           </button>

@@ -4,7 +4,7 @@ import { useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { X, ArrowUpRight, Mail, Phone, Sparkles } from 'lucide-react';
+import { X, ArrowUpRight, Mail, Phone } from 'lucide-react';
 import { navigation } from '@/config/navigation';
 import { siteConfig } from '@/config/site';
 import { cn } from '@/lib/utils';
@@ -88,7 +88,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           type="button"
           onClick={onClose}
           aria-label="Close menu"
-          className="group flex items-center gap-2 rounded-full border border-line bg-sand/60 px-3.5 py-2 text-ink transition-colors hover:bg-forest hover:text-white"
+          className="group flex items-center gap-2 rounded-[3px] border border-line-strong bg-paper px-3.5 py-2 text-ink transition-colors hover:bg-forest hover:text-white"
         >
           <span className="font-mono text-[10px] uppercase tracking-[0.16em]">
             Close
@@ -99,14 +99,14 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
       <div className="container-ed flex flex-1 flex-col py-6">
         <div className="mb-4 flex items-center justify-between border-b border-line pb-3">
-          <span className="eyebrow text-accent">Navigation</span>
+          <span className="eyebrow text-accent">Directory</span>
           <Link
             href={navigation.cta.href}
             onClick={onClose}
-            className="inline-flex items-center gap-1.5 rounded-full bg-forest px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-white"
+            className="inline-flex items-center gap-1.5 rounded-[3px] bg-forest px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-white"
           >
-            <Sparkles className="h-3 w-3 text-gold" />
             <span>{navigation.cta.label}</span>
+            <ArrowUpRight className="h-3.5 w-3.5 text-gold" />
           </Link>
         </div>
 

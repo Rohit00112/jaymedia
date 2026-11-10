@@ -33,7 +33,7 @@ export default function TeamSection() {
               className={cn(index % 2 === 1 && 'lg:mt-8')}
             >
               <Link href={`/team/${member.slug}`} className="group block">
-                <div className="relative aspect-[4/4.5] overflow-hidden rounded-[14px] border border-line bg-gradient-to-b from-paper via-paper-deep to-sand shadow-2xs ring-1 ring-inset ring-forest/10 transition-all duration-500 group-hover:border-forest group-hover:shadow-lg">
+                <div className="relative aspect-[4/4.5] overflow-hidden rounded-[6px] border border-line bg-gradient-to-b from-paper via-paper-deep to-sand shadow-2xs ring-1 ring-inset ring-forest/10 transition-all duration-500 group-hover:border-forest group-hover:shadow-md">
                   <Image
                     src={member.image}
                     alt={member.name}

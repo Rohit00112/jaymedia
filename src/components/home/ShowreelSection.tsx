@@ -40,7 +40,7 @@ export default function ShowreelSection() {
             href="https://www.youtube.com/@JayMediaManagementPvtLtd"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-outline rounded-full bg-paper"
+            className="btn btn-outline rounded-[3px] bg-paper"
           >
             <Tv className="h-3.5 w-3.5 text-forest" />
             <span>YouTube Channel</span>
@@ -51,8 +51,8 @@ export default function ShowreelSection() {
         <div className="grid gap-8 lg:grid-cols-12">
           {/* Active 16:9 Cinema Stage */}
           <div className="lg:col-span-8">
-            <div className="overflow-hidden rounded-[16px] border border-line bg-paper p-3 shadow-[0_32px_64px_-28px_rgba(1,64,43,0.18)]">
-              <div className="relative aspect-video w-full overflow-hidden rounded-[8px] bg-ink">
+            <div className="overflow-hidden rounded-[6px] border border-line bg-paper p-3 shadow-[0_24px_48px_-24px_rgba(1,64,43,0.16)]">
+              <div className="relative aspect-video w-full overflow-hidden rounded-[4px] bg-ink">
                 {isPlaying ? (
                   <iframe
                     key={activeVideo.youtubeId}
@@ -79,15 +79,15 @@ export default function ShowreelSection() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/20 to-transparent" />
 
-                    <span className="relative z-10 flex h-20 w-20 items-center justify-center rounded-full bg-forest text-white shadow-2xl ring-4 ring-gold/60 transition-transform duration-300 group-hover:scale-110">
-                      <Play className="ml-1 h-8 w-8 fill-gold text-gold" />
+                    <span className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full bg-forest text-white shadow-2xl ring-2 ring-gold/60 transition-transform duration-300 group-hover:scale-110">
+                      <Play className="ml-0.5 h-6 w-6 fill-gold text-gold" />
                     </span>
 
                     <div className="absolute bottom-5 left-5 right-5 z-10 text-white">
-                      <span className="inline-block rounded-full bg-forest px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-wider text-gold">
+                      <span className="block font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-gold">
                         {activeVideo.category}
                       </span>
-                      <h3 className="display mt-2 text-xl font-bold sm:text-2xl">
+                      <h3 className="display mt-1 text-xl font-bold sm:text-2xl">
                         {activeVideo.title}
                       </h3>
                     </div>
@@ -102,8 +102,8 @@ export default function ShowreelSection() {
                   </h3>
                   <p className="text-xs text-muted">{activeVideo.subtitle}</p>
                 </div>
-                <span className="rounded-full bg-sand px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-wider text-forest">
-                  {String(selectedIndex + 1).padStart(2, '0')} /{' '}
+                <span className="font-mono text-[11px] font-semibold uppercase tracking-wider text-forest">
+                  Reel {String(selectedIndex + 1).padStart(2, '0')} /{' '}
                   {String(OFFICIAL_VIDEOS.length).padStart(2, '0')}
                 </span>
               </div>
@@ -112,10 +112,10 @@ export default function ShowreelSection() {
 
           {/* Right Curated Playlist */}
           <div className="lg:col-span-4">
-            <div className="flex h-full flex-col rounded-[12px] border border-line bg-white p-4 shadow-xs">
+            <div className="flex h-full flex-col rounded-[6px] border border-line bg-white p-4 shadow-2xs">
               <div className="mb-3 flex items-center justify-between border-b border-line pb-3">
                 <span className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-forest">
-                  Production Reel Playlist
+                  Production Playlist
                 </span>
                 <span className="text-xs font-medium text-muted">
                   {OFFICIAL_VIDEOS.length} Videos
@@ -131,13 +131,13 @@ export default function ShowreelSection() {
                       type="button"
                       onClick={() => handleSelectVideo(idx)}
                       className={cn(
-                        'flex w-full items-center gap-3 rounded-[8px] border p-2 text-left transition-all',
+                        'flex w-full items-center gap-3 rounded-[4px] border p-2 text-left transition-all',
                         isActive
                           ? 'border-forest bg-forest text-white shadow-sm'
                           : 'border-line bg-paper text-ink hover:border-forest/40 hover:bg-sand/50'
                       )}
                     >
-                      <div className="relative aspect-video w-24 shrink-0 overflow-hidden rounded-[5px] bg-ink">
+                      <div className="relative aspect-video w-24 shrink-0 overflow-hidden rounded-[3px] bg-ink">
                         <Image
                           src={`https://i.ytimg.com/vi/${video.youtubeId}/hqdefault.jpg`}
                           alt={video.title}

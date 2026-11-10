@@ -44,7 +44,7 @@ export default function ServicesPage() {
               >
                 <div className="grid items-start gap-8 lg:grid-cols-12 lg:gap-12">
                   <div className="border-b border-line pb-8 lg:col-span-5 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-10">
-                    <div className="relative mb-6 aspect-[16/10] w-full overflow-hidden rounded-[8px] border border-line bg-sand">
+                    <div className="relative mb-6 aspect-[16/10] w-full overflow-hidden rounded-[6px] border border-line bg-sand">
                       <Image
                         src={service.image}
                         alt={service.title}
@@ -52,11 +52,11 @@ export default function ServicesPage() {
                         sizes="(max-width: 1024px) 100vw, 35vw"
                         className="object-cover"
                       />
-                      <span className="absolute bottom-3 left-3 rounded-full bg-forest px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-wider text-white">
-                        {service.number} • {service.category}
-                      </span>
                     </div>
 
+                    <span className="mb-2 block font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-forest">
+                      {service.number} — {service.category}
+                    </span>
                     <h2 className="display text-2xl font-bold text-ink sm:text-3xl">
                       {service.title}
                     </h2>
