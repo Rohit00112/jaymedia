@@ -66,3 +66,4 @@ export default function AnimeStaggerContainer({
     </div>
   );
 }
+

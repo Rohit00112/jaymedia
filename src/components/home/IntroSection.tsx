@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { ArrowUpRight, Phone } from 'lucide-react';
+import { AnimeCounter, AnimeStaggerContainer } from '@/components/motion';
 import Reveal from '@/components/motion/Reveal';
 import RevealImage from '@/components/motion/RevealImage';
 import { siteConfig } from '@/config/site';
@@ -48,7 +49,7 @@ export default function IntroSection() {
                 className="display mt-6 block text-[4.5rem] leading-none text-outline md:text-[6rem]"
                 aria-hidden="true"
               >
-                2013
+                <AnimeCounter target={2013} formatLocale={false} duration={1200} />
               </span>
 
               <h2 className="display mt-4 text-3xl font-bold leading-tight text-ink sm:text-4xl">
@@ -134,31 +135,30 @@ export default function IntroSection() {
               parallax
             />
 
-            <div className="grid gap-4 sm:grid-cols-2">
-              {CAPABILITIES.map((cap, idx) => (
-                <Reveal key={cap.slug} delay={idx * 60}>
-                  <Link
-                    href={`/services/${cap.slug}`}
-                    className="group flex h-full flex-col justify-between rounded-[6px] border border-line bg-white p-6 transition-all hover:-translate-y-0.5 hover:border-forest hover:shadow-md"
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-forest">
-                        {cap.tag}
-                      </span>
-                      <ArrowUpRight className="h-4 w-4 text-faint transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-forest" />
-                    </div>
-                    <div className="mt-4">
-                      <h3 className="display text-xl font-bold text-ink group-hover:text-forest">
-                        {cap.title}
-                      </h3>
-                      <p className="mt-1.5 text-xs leading-relaxed text-muted">
-                        {cap.note}
-                      </p>
-                    </div>
-                  </Link>
-                </Reveal>
+            <AnimeStaggerContainer stagger={85} distance={22} className="grid gap-4 sm:grid-cols-2">
+              {CAPABILITIES.map((cap) => (
+                <Link
+                  key={cap.slug}
+                  href={`/services/${cap.slug}`}
+                  className="group flex h-full flex-col justify-between rounded-[6px] border border-line bg-white p-6 transition-all hover:-translate-y-0.5 hover:border-forest hover:shadow-md"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-forest">
+                      {cap.tag}
+                    </span>
+                    <ArrowUpRight className="h-4 w-4 text-faint transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-forest" />
+                  </div>
+                  <div className="mt-4">
+                    <h3 className="display text-xl font-bold text-ink group-hover:text-forest">
+                      {cap.title}
+                    </h3>
+                    <p className="mt-1.5 text-xs leading-relaxed text-muted">
+                      {cap.note}
+                    </p>
+                  </div>
+                </Link>
               ))}
-            </div>
+            </AnimeStaggerContainer>
           </div>
         </div>
       </div>

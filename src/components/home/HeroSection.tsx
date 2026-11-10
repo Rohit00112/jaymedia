@@ -8,6 +8,8 @@ import {
   Star,
   Trophy,
 } from 'lucide-react';
+import { HeroScene } from '@/components/three';
+import { AnimeCounter, AnimeStaggerContainer } from '@/components/motion';
 import { EVENTS_DATA } from '@/config/events-data';
 import { cn } from '@/lib/utils';
 
@@ -48,6 +50,9 @@ export default function HeroSection() {
 
   return (
     <section className="relative overflow-hidden bg-paper pb-16 pt-12 md:pb-24 md:pt-16">
+      {/* Three.js Harmonic Stage Wave & Emerald/Gold Particle Depth */}
+      <HeroScene />
+
       {/* Subtle architectural guide lines */}
       <div
         className="pointer-events-none absolute inset-0 hidden lg:block"
@@ -70,7 +75,7 @@ export default function HeroSection() {
         aria-hidden="true"
       />
 
-      <div className="container-ed relative">
+      <div className="container-ed relative z-10">
         {/* Two-Column Editorial Hero Spread */}
         <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-12">
           {/* Left Narrative Column */}
@@ -161,7 +166,7 @@ export default function HeroSection() {
               </Link>
             </div>
 
-            {/* Editorial Studio Metrics */}
+            {/* Editorial Studio Metrics with Anime.js Counters */}
             <dl
               className="hero-fade mt-10 grid grid-cols-3 gap-6 border-t border-line pt-6 sm:max-w-lg"
               style={{ animationDelay: '560ms' }}
@@ -171,7 +176,8 @@ export default function HeroSection() {
                   Audition Reach
                 </dt>
                 <dd className="display mt-1.5 text-2xl font-bold text-ink sm:text-3xl">
-                  77 <span className="text-base font-normal text-muted">Districts</span>
+                  <AnimeCounter target={77} />{' '}
+                  <span className="text-base font-normal text-muted">Districts</span>
                 </dd>
               </div>
               <div>
@@ -179,7 +185,7 @@ export default function HeroSection() {
                   Total Prize Pool
                 </dt>
                 <dd className="display mt-1.5 text-2xl font-bold text-forest sm:text-3xl">
-                  Rs. 20L
+                  <AnimeCounter target={20} prefix="Rs. " suffix="L" />
                 </dd>
               </div>
               <div>
@@ -188,7 +194,7 @@ export default function HeroSection() {
                 </dt>
                 <dd className="display mt-1.5 flex items-center gap-1.5 text-2xl font-bold text-ink sm:text-3xl">
                   <Globe2 className="h-5 w-5 text-forest" />
-                  5+
+                  <AnimeCounter target={5} suffix="+" />
                 </dd>
               </div>
             </dl>
@@ -246,7 +252,12 @@ export default function HeroSection() {
               </span>
             </div>
 
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <AnimeStaggerContainer
+              stagger={95}
+              delay={100}
+              distance={24}
+              className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
+            >
               {nki.prizes.map((prize) => {
                 const style = PRIZE_STYLES[prize.tier];
                 const Icon = style.icon;
@@ -293,7 +304,7 @@ export default function HeroSection() {
                   </div>
                 );
               })}
-            </div>
+            </AnimeStaggerContainer>
           </div>
         )}
       </div>

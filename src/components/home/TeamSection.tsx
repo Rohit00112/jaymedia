@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
+import { AnimeStaggerContainer } from '@/components/motion';
 import SectionHeading from '@/components/shared/SectionHeading';
-import Reveal from '@/components/motion/Reveal';
 import { TEAM_PROFILES } from '@/config/team-data';
 import { cn } from '@/lib/utils';
 
@@ -25,11 +25,14 @@ export default function TeamSection() {
           link={{ href: '/team', label: 'Meet full team' }}
         />
 
-        <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+        <AnimeStaggerContainer
+          stagger={95}
+          distance={24}
+          className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4"
+        >
           {TEAM_PROFILES.map((member, index) => (
-            <Reveal
+            <div
               key={member.slug}
-              delay={index * 70}
               className={cn(index % 2 === 1 && 'lg:mt-8')}
             >
               <Link href={`/team/${member.slug}`} className="group block">
@@ -55,9 +58,9 @@ export default function TeamSection() {
                   <ArrowUpRight className="h-4 w-4 text-faint transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-forest" />
                 </div>
               </Link>
-            </Reveal>
+            </div>
           ))}
-        </div>
+        </AnimeStaggerContainer>
       </div>
     </section>
   );

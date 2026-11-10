@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import anime from 'animejs';
 import {
   CheckCircle2,
   Loader2,
@@ -12,7 +13,7 @@ import {
   XCircle,
 } from 'lucide-react';
 import type { RegistrationRecord } from '@/lib/validations/registration';
-import { cn } from '@/lib/utils';
+import { cn, prefersReducedMotion } from '@/lib/utils';
 
 type HubKey = 'nepal' | 'india' | 'global';
 
@@ -56,7 +57,20 @@ const DEMO_CODES = ['NKI-2025-101', 'NKI-2025-102', 'NKI-2025-103'] as const;
 
 export default function AuditionHubSection() {
   const [activeHub, setActiveHub] = useState<HubKey>('nepal');
+  const hubGridRef = useRef<HTMLDivElement>(null);
   const [code, setCode] = useState('');
+
+  useEffect(() => {
+    if (!hubGridRef.current || prefersReducedMotion()) return;
+    anime({
+      targets: hubGridRef.current.children,
+      opacity: [0, 1],
+      translateY: [10, 0],
+      delay: anime.stagger(40),
+      duration: 420,
+      easing: 'cubicBezier(0.16, 1, 0.3, 1)',
+    });
+  }, [activeHub]);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<{
     searched: boolean;
@@ -156,7 +170,7 @@ export default function AuditionHubSection() {
                 {currentHub.subtitle}
               </p>
 
-              <div className="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-3">
+              <div ref={hubGridRef} className="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-3">
                 {currentHub.cities.map((city) => (
                   <span
                     key={city}

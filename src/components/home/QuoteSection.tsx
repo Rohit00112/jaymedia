@@ -9,6 +9,7 @@ import {
   Reply,
   Send,
 } from 'lucide-react';
+import { PavilionScene } from '@/components/three';
 import { siteConfig } from '@/config/site';
 
 export default function QuoteSection() {
@@ -70,6 +71,9 @@ export default function QuoteSection() {
     <section id="quote" className="bg-paper py-16 md:py-24">
       <div className="container-ed">
         <div className="relative overflow-hidden rounded-[6px] bg-forest px-6 py-12 text-white shadow-[0_32px_70px_-28px_rgba(1,64,43,0.45)] sm:px-10 md:px-14 md:py-16">
+          {/* Three.js Ambient Gold Stage Embers & Subtle Torus Depth */}
+          <PavilionScene />
+
           {/* Subtle top gold reflection hairline */}
           <div
             className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold/55 to-transparent"
@@ -80,7 +84,7 @@ export default function QuoteSection() {
             aria-hidden="true"
           />
 
-          <div className="relative grid items-center gap-12 lg:grid-cols-12">
+          <div className="relative z-10 grid items-center gap-12 lg:grid-cols-12">
             {/* Left Copy */}
             <div className="lg:col-span-6">
               <span className="eyebrow inline-flex items-center gap-2.5 text-gold">

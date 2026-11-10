@@ -1,16 +1,29 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
+import anime from 'animejs';
 import { Play, Tv } from 'lucide-react';
 import { OFFICIAL_VIDEOS } from '@/config/videos-data';
-import { cn } from '@/lib/utils';
+import { cn, prefersReducedMotion } from '@/lib/utils';
 
 export default function ShowreelSection() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const metaRef = useRef<HTMLDivElement>(null);
 
   const activeVideo = OFFICIAL_VIDEOS[selectedIndex];
+
+  useEffect(() => {
+    if (!metaRef.current || prefersReducedMotion()) return;
+    anime({
+      targets: metaRef.current,
+      opacity: [0, 1],
+      translateY: [8, 0],
+      duration: 420,
+      easing: 'cubicBezier(0.16, 1, 0.3, 1)',
+    });
+  }, [selectedIndex]);
 
   const handleSelectVideo = (index: number) => {
     setSelectedIndex(index);
@@ -95,7 +108,10 @@ export default function ShowreelSection() {
                 )}
               </div>
 
-              <div className="flex flex-wrap items-center justify-between gap-3 px-2 pb-1 pt-3">
+              <div
+                ref={metaRef}
+                className="flex flex-wrap items-center justify-between gap-3 px-2 pb-1 pt-3"
+              >
                 <div>
                   <h3 className="display text-lg font-bold text-ink">
                     {activeVideo.title}
