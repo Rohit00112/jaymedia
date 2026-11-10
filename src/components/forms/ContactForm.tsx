@@ -26,10 +26,6 @@ function ContactFormInner() {
   >('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const isSponsorship =
-    searchParams.get('topic') === 'concert-sponsorship' ||
-    searchParams.get('service') === 'concert-sponsorship';
-
   const {
     register,
     handleSubmit,
@@ -112,19 +108,6 @@ function ContactFormInner() {
               {errorMessage}
             </p>
           </div>
-        </div>
-      )}
-
-      {isSponsorship && submitStatus !== 'success' && (
-        <div className="mb-6 rounded-xl border border-forest/25 bg-forest-soft/70 p-4">
-          <p className="text-xs font-semibold text-forest">
-            Inquiring for Brand Sponsorship?
-          </p>
-          <p className="mt-1 text-xs leading-relaxed text-ink-soft">
-            Title, associate, beverage, and hospitality partnership decks for
-            Itahari Stadium (25,000+ capacity) are provided upon request. Please
-            share your brand name, category, and target marketing objectives below.
-          </p>
         </div>
       )}
 
