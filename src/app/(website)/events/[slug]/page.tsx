@@ -13,7 +13,7 @@ import EventStickyTicketBar from '@/components/events/EventStickyTicketBar';
 import ConcertFaqSection from '@/components/events/ConcertFaqSection';
 import { EVENTS_DATA } from '@/config/events-data';
 import { getEventRepo, listEventsRepo } from '@/lib/backend/repository';
-import { generatePageMetadata } from '@/lib/seo';
+import { generatePageMetadata, generateBreadcrumbSchema } from '@/lib/seo';
 import { siteConfig } from '@/config/site';
 
 interface Props {
@@ -102,11 +102,21 @@ export default async function EventDetailPage({ params }: Props) {
       : {}),
   };
 
+  const breadcrumbJsonLd = generateBreadcrumbSchema([
+    { name: 'Home', url: '/' },
+    { name: 'Events', url: '/events' },
+    { name: event.title, url: `/events/${event.slug}` },
+  ]);
+
   return (
     <div className="min-h-screen bg-paper text-ink">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(eventJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
 
       <PageHero

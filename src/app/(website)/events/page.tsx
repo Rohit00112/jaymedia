@@ -7,7 +7,7 @@ import CtaBand from '@/components/shared/CtaBand';
 import ConcertCountdown from '@/components/shared/ConcertCountdown';
 import Reveal from '@/components/motion/Reveal';
 import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
-import { generatePageMetadata } from '@/lib/seo';
+import { generatePageMetadata, generateBreadcrumbSchema } from '@/lib/seo';
 import { EVENTS_DATA } from '@/config/events-data';
 import { listEventsRepo } from '@/lib/backend/repository';
 
@@ -23,8 +23,17 @@ export default async function EventsPage() {
   const events = await listEventsRepo();
   const [featured, ...rest] = events.length > 0 ? events : EVENTS_DATA;
 
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: '/' },
+    { name: 'Events', url: '/events' },
+  ]);
+
   return (
     <div className="min-h-screen bg-paper text-ink">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <PageHero
         eyebrow="Productions & Franchises"
         title="Live concerts, pageants, and national talent shows."

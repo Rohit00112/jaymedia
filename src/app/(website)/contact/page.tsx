@@ -3,7 +3,7 @@ import { ArrowUpRight, Clock, Mail, MapPin, Phone } from 'lucide-react';
 import PageHero from '@/components/shared/PageHero';
 import ContactForm from '@/components/forms/ContactForm';
 import Reveal from '@/components/motion/Reveal';
-import { generatePageMetadata } from '@/lib/seo';
+import { generatePageMetadata, generateBreadcrumbSchema } from '@/lib/seo';
 import { siteConfig } from '@/config/site';
 
 export const metadata: Metadata = generatePageMetadata({
@@ -16,8 +16,17 @@ export default function ContactPage() {
   const fullAddress = `${siteConfig.location.address}, ${siteConfig.location.city}, ${siteConfig.location.province}, ${siteConfig.location.country}`;
   const mapsHref = `https://maps.google.com/?q=${encodeURIComponent(fullAddress)}`;
 
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: '/' },
+    { name: 'Contact', url: '/contact' },
+  ]);
+
   return (
     <div className="min-h-screen bg-paper text-ink">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <PageHero
         eyebrow="Contact Us"
         title="Get in touch with our team."

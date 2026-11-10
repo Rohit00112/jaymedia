@@ -240,7 +240,7 @@ export function Footer() {
             <p>&copy; 2026 Jay Media Management Pvt. Ltd. All rights reserved.</p>
             <span className="hidden text-line-strong sm:inline">&bull;</span>
             <p className="text-ink-soft">
-              Managed by Astra Technology Horizon Pvt. Ltd.
+              Managed by <Link href="https://astratech.com.np" target="_blank" rel="noopener noreferrer" className="text-ink-soft">Astra Technology Horizon Pvt. Ltd.</Link>
             </p>
           </div>
           <a href="#top" className="font-medium text-ink hover:text-forest">

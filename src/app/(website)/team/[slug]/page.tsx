@@ -8,7 +8,7 @@ import CtaBand from '@/components/shared/CtaBand';
 import Reveal from '@/components/motion/Reveal';
 import { TEAM_PROFILES } from '@/config/team-data';
 import { getTeamMemberRepo } from '@/lib/backend/repository';
-import { generatePageMetadata } from '@/lib/seo';
+import { generatePageMetadata, generateBreadcrumbSchema } from '@/lib/seo';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -49,8 +49,18 @@ export default async function TeamProfileDetailPage({ params }: Props) {
     notFound();
   }
 
+  const breadcrumbJsonLd = generateBreadcrumbSchema([
+    { name: 'Home', url: '/' },
+    { name: 'Team', url: '/team' },
+    { name: person.name, url: `/team/${person.slug}` },
+  ]);
+
   return (
     <div className="min-h-screen bg-paper text-ink">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <PageHero
         breadcrumb={{ label: 'Meet the Team', href: '/team' }}
         eyebrow={person.category}

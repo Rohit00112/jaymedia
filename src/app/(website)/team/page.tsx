@@ -6,7 +6,7 @@ import PageHero from '@/components/shared/PageHero';
 import SectionHeading from '@/components/shared/SectionHeading';
 import CtaBand from '@/components/shared/CtaBand';
 import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
-import { generatePageMetadata } from '@/lib/seo';
+import { generatePageMetadata, generateBreadcrumbSchema } from '@/lib/seo';
 import { listTeamRepo } from '@/lib/backend/repository';
 
 export const instant = false;
@@ -19,8 +19,18 @@ export const metadata: Metadata = generatePageMetadata({
 
 export default async function TeamPage() {
   const members = await listTeamRepo();
+
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: '/' },
+    { name: 'Team', url: '/team' },
+  ]);
+
   return (
     <div className="min-h-screen bg-paper text-ink">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <PageHero
         eyebrow="Leadership"
         title="The leadership behind every production."

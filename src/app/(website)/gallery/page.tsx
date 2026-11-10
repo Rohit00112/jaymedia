@@ -10,6 +10,7 @@ import Reveal from '@/components/motion/Reveal';
 import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
 import { useEscapeKey, useBodyLock } from '@/hooks';
 import { cn } from '@/lib/utils';
+import { generateBreadcrumbSchema } from '@/lib/seo';
 
 type GalleryCategory =
   | 'Eastern Echoes'
@@ -327,8 +328,17 @@ export default function GalleryPage() {
     return () => document.removeEventListener('keydown', handler);
   }, [activePhotoIndex, filteredPhotos.length]);
 
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: '/' },
+    { name: 'Gallery', url: '/gallery' },
+  ]);
+
   return (
     <div className="min-h-screen bg-paper text-ink">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <PageHero
         eyebrow="Photo Gallery"
         title="Productions & event moments."

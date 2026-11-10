@@ -8,9 +8,14 @@ import SectionHeading from '@/components/shared/SectionHeading';
 import CtaBand from '@/components/shared/CtaBand';
 import Reveal from '@/components/motion/Reveal';
 import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
+import ReadingProgressBar from '@/components/news/ReadingProgressBar';
 import { NEWS_DATA } from '@/config/news-data';
 import { getNewsRepo, listNewsRepo } from '@/lib/backend/repository';
-import { generatePageMetadata, generateArticleSchema } from '@/lib/seo';
+import {
+  generatePageMetadata,
+  generateArticleSchema,
+  generateBreadcrumbSchema,
+} from '@/lib/seo';
 import { formatDate } from '@/lib/utils';
 import { siteConfig } from '@/config/site';
 
@@ -58,13 +63,24 @@ export default async function NewsDetailPage({ params }: Props) {
     url: `${siteConfig.url}/news/${article.slug}`,
   });
 
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: '/' },
+    { name: 'News', url: '/news' },
+    { name: article.title, url: `/news/${article.slug}` },
+  ]);
+
   const otherArticles = allArticles.filter((a) => a.slug !== article.slug);
 
   return (
     <div className="min-h-screen bg-paper text-ink">
+      <ReadingProgressBar />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
 
       <PageHero

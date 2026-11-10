@@ -6,7 +6,7 @@ import PageHero from '@/components/shared/PageHero';
 import CtaBand from '@/components/shared/CtaBand';
 import Reveal from '@/components/motion/Reveal';
 import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
-import { generatePageMetadata } from '@/lib/seo';
+import { generatePageMetadata, generateBreadcrumbSchema } from '@/lib/seo';
 import { NEWS_DATA } from '@/config/news-data';
 import { listNewsRepo } from '@/lib/backend/repository';
 import { formatDate } from '@/lib/utils';
@@ -28,8 +28,17 @@ export default async function NewsPage() {
     (article) => article.slug !== featuredArticle.slug
   );
 
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Home', url: '/' },
+    { name: 'News', url: '/news' },
+  ]);
+
   return (
     <div className="min-h-screen bg-paper text-ink">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <PageHero
         eyebrow="News & Announcements"
         title="Official press releases & event updates."
