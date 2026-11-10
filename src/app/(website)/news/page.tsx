@@ -8,7 +8,10 @@ import Reveal from '@/components/motion/Reveal';
 import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
 import { generatePageMetadata } from '@/lib/seo';
 import { NEWS_DATA } from '@/config/news-data';
+import { listNewsRepo } from '@/lib/backend/repository';
 import { formatDate } from '@/lib/utils';
+
+export const instant = false;
 
 export const metadata: Metadata = generatePageMetadata({
   title: 'News & Press Releases | Jay Media Management',
@@ -16,10 +19,12 @@ export const metadata: Metadata = generatePageMetadata({
     'Latest official announcements, pageant updates, and press releases from Jay Media Management Pvt. Ltd. in Biratnagar, Nepal.',
 });
 
-export default function NewsPage() {
+export default async function NewsPage() {
+  const articles = await listNewsRepo();
+  const list = articles.length > 0 ? articles : NEWS_DATA;
   const featuredArticle =
-    NEWS_DATA.find((article) => article.featured) || NEWS_DATA[0];
-  const regularArticles = NEWS_DATA.filter(
+    list.find((article) => article.featured) || list[0];
+  const regularArticles = list.filter(
     (article) => article.slug !== featuredArticle.slug
   );
 

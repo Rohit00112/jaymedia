@@ -7,7 +7,9 @@ import SectionHeading from '@/components/shared/SectionHeading';
 import CtaBand from '@/components/shared/CtaBand';
 import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
 import { generatePageMetadata } from '@/lib/seo';
-import { TEAM_PROFILES } from '@/config/team-data';
+import { listTeamRepo } from '@/lib/backend/repository';
+
+export const instant = false;
 
 export const metadata: Metadata = generatePageMetadata({
   title: 'Our Leadership Team | Jay Media Management',
@@ -15,7 +17,8 @@ export const metadata: Metadata = generatePageMetadata({
     'Meet Chairman Jay Raj Roy and CEO Neesha Khatiwada leading Jay Media Management Pvt. Ltd. in Biratnagar, Nepal.',
 });
 
-export default function TeamPage() {
+export default async function TeamPage() {
+  const members = await listTeamRepo();
   return (
     <div className="min-h-screen bg-paper text-ink">
       <PageHero
@@ -40,7 +43,7 @@ export default function TeamPage() {
           />
 
           <AnimeStaggerContainer className="grid gap-6 md:grid-cols-2">
-            {TEAM_PROFILES.map((member) => (
+            {members.map((member) => (
               <Link
                 key={member.slug}
                 href={`/team/${member.slug}`}

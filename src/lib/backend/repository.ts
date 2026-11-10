@@ -40,139 +40,6 @@ const DEFAULT_SETTINGS: SettingsDocument = {
   updatedAt: new Date().toISOString(),
 };
 
-const SEED_INQUIRIES: InquiryDocument[] = [
-  {
-    id: 'inq-koshi-conclave',
-    fullName: 'Ramesh Karki',
-    email: 'ramesh.karki@koshitrade.np',
-    phone: '+977 9801234567',
-    organization: 'Koshi Trade & Export Conclave',
-    serviceOfInterest: 'Event Management & Execution',
-    eventDate: '2026-11-28',
-    budget: 'NPR 10 Lakhs+',
-    message:
-      'We are planning the annual Koshi Province industrial trade summit in Biratnagar and require full stage architecture, line-array sound engineering, and executive seating protocol.',
-    status: 'new',
-    priority: 'high',
-    adminNotes: 'Follow up with technical rider and 3D stage layout.',
-    createdAt: '2026-11-08T14:30:00.000Z',
-    updatedAt: '2026-11-08T14:30:00.000Z',
-  },
-  {
-    id: 'inq-eastern-echoes-sponsor',
-    fullName: 'Sunita Sharma',
-    email: 'sunita@beveragenepal.com',
-    phone: '+977 9851098765',
-    organization: 'Apex Beverages Ltd.',
-    serviceOfInterest: 'Brand Experiences & Activations',
-    eventDate: '2026-12-19',
-    budget: 'NPR 15 Lakhs+',
-    message:
-      'Interested in co-sponsoring Eastern Echoes (Atif Aslam Live at Itahari Stadium) with exclusive beverage stalls and VIP enclosure branding.',
-    status: 'in_progress',
-    priority: 'high',
-    adminNotes: 'Sent sponsorship deck and stadium enclosure map.',
-    createdAt: '2026-11-07T10:15:00.000Z',
-    updatedAt: '2026-11-09T09:00:00.000Z',
-  },
-  {
-    id: 'inq-suv-launch',
-    fullName: 'Anil Shrestha',
-    email: 'anil@motorgroup.com',
-    phone: '+977 9812345678',
-    organization: 'Eastern Auto Ventures',
-    serviceOfInterest: 'Product & Store Launches',
-    eventDate: '2026-12-05',
-    budget: 'NPR 5 Lakhs - 10 Lakhs',
-    message:
-      'Looking for an unveiling ceremony (kabuki drop, cold pyrotechnics, and press conference setup) for our new EV showroom opening on Main Road, Biratnagar.',
-    status: 'contacted',
-    priority: 'medium',
-    adminNotes: 'Site visit scheduled at Main Road showroom.',
-    createdAt: '2026-11-05T16:45:00.000Z',
-    updatedAt: '2026-11-06T11:20:00.000Z',
-  },
-];
-
-const SEED_REGISTRATIONS: RegistrationDocument[] = [
-  {
-    userCode: 'NKI-104829',
-    eventSlug: 'nepal-kids-idol',
-    eventTitle: 'Nepal Kids Idol',
-    name: 'Aarav Adhikari',
-    phone: '+977 9842011223',
-    age: 12,
-    gender: 'Male',
-    address: 'Biratnagar-09, Morang',
-    school: 'St. Joseph Secondary School',
-    hobbies: 'Classical & modern Nepali vocals, harmonium',
-    auditionMode: 'In-Person District Audition',
-    auditionVideoUrl: '',
-    photoFilename: 'aarav-passport.jpg',
-    parentName: 'Deepak Adhikari',
-    parentEmail: 'deepak.adhikari@gmail.com',
-    parentPhone: '+977 9842011223',
-    paymentTransactionId: 'KHL-9928341',
-    paymentReceiptFilename: 'khalti-receipt-9928341.png',
-    status: 'Verified — Audition Scheduled',
-    auditionHub: 'Central Mall, Main Road, Biratnagar',
-    adminNotes: 'Payment verified via Khalti. Assigned Morning Slot A.',
-    submittedAt: '2026-11-06T08:15:00.000Z',
-    updatedAt: '2026-11-06T11:00:00.000Z',
-  },
-  {
-    userCode: 'MK-202501',
-    eventSlug: 'miss-koshi',
-    eventTitle: 'Miss Koshi Grand Pageant',
-    name: 'Pratiksha Rai',
-    phone: '+977 9814322110',
-    age: 20,
-    gender: 'Female',
-    address: 'Itahari-04, Sunsari',
-    school: 'Koshi St. James College',
-    hobbies: 'Public speaking, cultural dance, community volunteering',
-    auditionMode: 'In-Person District Audition',
-    auditionVideoUrl: '',
-    photoFilename: 'pratiksha-portrait.jpg',
-    parentName: 'Harka Bahadur Rai',
-    parentEmail: 'pratiksha.rai@outlook.com',
-    parentPhone: '+977 9842199887',
-    paymentTransactionId: 'ESW-7741209',
-    paymentReceiptFilename: 'esewa-mk-7741209.jpg',
-    status: 'Shortlisted',
-    auditionHub: 'Central Mall, Main Road, Biratnagar',
-    adminNotes: 'Strong stage presence during preliminary orientation.',
-    submittedAt: '2026-11-07T13:40:00.000Z',
-    updatedAt: '2026-11-08T16:20:00.000Z',
-  },
-  {
-    userCode: 'NKI-389104',
-    eventSlug: 'nepal-kids-idol',
-    eventTitle: 'Nepal Kids Idol',
-    name: 'Sneha Limbu',
-    phone: '+977 9807055441',
-    age: 10,
-    gender: 'Female',
-    address: 'Dharan-12, Sunsari',
-    school: 'Delhi Public School, Dharan',
-    hobbies: 'Singing, acoustic guitar',
-    auditionMode: 'Online Video Audition',
-    auditionVideoUrl: 'https://youtu.be/dQw4w9WgXcQ',
-    photoFilename: 'sneha-photo.png',
-    parentName: 'Meena Limbu',
-    parentEmail: 'meena.limbu@gmail.com',
-    parentPhone: '+977 9807055441',
-    paymentTransactionId: 'FNP-552019',
-    paymentReceiptFilename: 'fonepay-552019.jpg',
-    status: 'Pending QR Verification',
-    auditionHub: 'Online Global Desk — Jay Media Digital Portal',
-    adminNotes: '',
-    submittedAt: '2026-11-09T09:25:00.000Z',
-    updatedAt: '2026-11-09T09:25:00.000Z',
-  },
-];
-
-// Global in-memory cache so SSR & dev hot-reloads remain fast and consistent
 const globalStore = globalThis as typeof globalThis & {
   __jmmSeededFirestore?: boolean;
   __jmmNews?: Map<string, NewsDocument>;
@@ -255,16 +122,14 @@ function getMemoryGallery(): Map<string, GalleryDocument> {
 
 function getMemoryInquiries(): Map<string, InquiryDocument> {
   if (!globalStore.__jmmInquiries) {
-    globalStore.__jmmInquiries = new Map(SEED_INQUIRIES.map((i) => [i.id, i]));
+    globalStore.__jmmInquiries = new Map();
   }
   return globalStore.__jmmInquiries;
 }
 
 function getMemoryRegistrations(): Map<string, RegistrationDocument> {
   if (!globalStore.__jmmRegistrations) {
-    globalStore.__jmmRegistrations = new Map(
-      SEED_REGISTRATIONS.map((r) => [r.userCode, r])
-    );
+    globalStore.__jmmRegistrations = new Map();
   }
   return globalStore.__jmmRegistrations;
 }
@@ -276,15 +141,13 @@ function getMemorySettings(): SettingsDocument {
   return globalStore.__jmmSettings;
 }
 
-/**
- * Strip `undefined` fields recursively before writing to Firestore.
- */
 function stripUndefined<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj)) as T;
 }
 
 /**
- * Ensure initial seed documents exist in Firestore on first run.
+ * Seeds initial catalog collections into Firestore once per project (`settings/seed_meta`).
+ * Does NOT seed fake registrations or fake inquiries.
  */
 export async function ensureFirestoreSeeded(): Promise<void> {
   if (globalStore.__jmmSeededFirestore || !isFirebaseAdminConfigured()) {
@@ -294,120 +157,58 @@ export async function ensureFirestoreSeeded(): Promise<void> {
 
   try {
     const db = getAdminFirestore();
+    const seedMetaRef = db.collection(COLLECTIONS.SETTINGS).doc('seed_meta');
+    const seedMetaSnap = await seedMetaRef.get();
+    if (seedMetaSnap.exists) {
+      return;
+    }
 
-    // 1. Events
-    const eventsSnap = await db.collection(COLLECTIONS.EVENTS).get();
-    const existingEventSlugs = new Set(eventsSnap.docs.map((d) => d.id));
-    const eventsBatch = db.batch();
-    let eventsBatchCount = 0;
-
+    const batch = db.batch();
     for (const ev of EVENTS_DATA) {
-      if (!existingEventSlugs.has(ev.slug)) {
-        eventsBatch.set(
-          db.collection(COLLECTIONS.EVENTS).doc(ev.slug),
-          stripUndefined({
-            ...ev,
-            status: ev.status || 'published',
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-          })
-        );
-        eventsBatchCount++;
-      }
+      batch.set(
+        db.collection(COLLECTIONS.EVENTS).doc(ev.slug),
+        stripUndefined({
+          ...ev,
+          status: ev.status || 'published',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        })
+      );
     }
-    if (eventsBatchCount > 0) {
-      await eventsBatch.commit();
+    for (const item of getMemoryNews().values()) {
+      batch.set(
+        db.collection(COLLECTIONS.NEWS).doc(item.slug),
+        stripUndefined(item)
+      );
     }
+    for (const item of getMemoryServices().values()) {
+      batch.set(
+        db.collection(COLLECTIONS.SERVICES).doc(item.slug),
+        stripUndefined(item)
+      );
+    }
+    for (const item of getMemoryTeam().values()) {
+      batch.set(
+        db.collection(COLLECTIONS.TEAM).doc(item.slug),
+        stripUndefined(item)
+      );
+    }
+    for (const item of getMemoryGallery().values()) {
+      batch.set(
+        db.collection(COLLECTIONS.GALLERY).doc(item.id),
+        stripUndefined(item)
+      );
+    }
+    batch.set(
+      db.collection(COLLECTIONS.SETTINGS).doc('site'),
+      stripUndefined(DEFAULT_SETTINGS)
+    );
+    batch.set(seedMetaRef, {
+      seededAt: new Date().toISOString(),
+      version: 2,
+    });
 
-    // 2. News
-    const newsSnap = await db.collection(COLLECTIONS.NEWS).limit(1).get();
-    if (newsSnap.empty) {
-      const batch = db.batch();
-      for (const item of getMemoryNews().values()) {
-        batch.set(
-          db.collection(COLLECTIONS.NEWS).doc(item.slug),
-          stripUndefined(item)
-        );
-      }
-      await batch.commit();
-    }
-
-    // 3. Services
-    const servicesSnap = await db.collection(COLLECTIONS.SERVICES).limit(1).get();
-    if (servicesSnap.empty) {
-      const batch = db.batch();
-      for (const item of getMemoryServices().values()) {
-        batch.set(
-          db.collection(COLLECTIONS.SERVICES).doc(item.slug),
-          stripUndefined(item)
-        );
-      }
-      await batch.commit();
-    }
-
-    // 4. Team
-    const teamSnap = await db.collection(COLLECTIONS.TEAM).limit(1).get();
-    if (teamSnap.empty) {
-      const batch = db.batch();
-      for (const item of getMemoryTeam().values()) {
-        batch.set(
-          db.collection(COLLECTIONS.TEAM).doc(item.slug),
-          stripUndefined(item)
-        );
-      }
-      await batch.commit();
-    }
-
-    // 5. Gallery
-    const gallerySnap = await db.collection(COLLECTIONS.GALLERY).limit(1).get();
-    if (gallerySnap.empty) {
-      const batch = db.batch();
-      for (const item of getMemoryGallery().values()) {
-        batch.set(
-          db.collection(COLLECTIONS.GALLERY).doc(item.id),
-          stripUndefined(item)
-        );
-      }
-      await batch.commit();
-    }
-
-    // 6. Inquiries
-    const inqSnap = await db.collection(COLLECTIONS.INQUIRIES).limit(1).get();
-    if (inqSnap.empty) {
-      const batch = db.batch();
-      for (const item of getMemoryInquiries().values()) {
-        batch.set(
-          db.collection(COLLECTIONS.INQUIRIES).doc(item.id),
-          stripUndefined(item)
-        );
-      }
-      await batch.commit();
-    }
-
-    // 7. Registrations
-    const regSnap = await db.collection(COLLECTIONS.REGISTRATIONS).limit(1).get();
-    if (regSnap.empty) {
-      const batch = db.batch();
-      for (const item of getMemoryRegistrations().values()) {
-        batch.set(
-          db.collection(COLLECTIONS.REGISTRATIONS).doc(item.userCode),
-          stripUndefined(item)
-        );
-      }
-      await batch.commit();
-    }
-
-    // 8. Settings
-    const settingsDoc = await db
-      .collection(COLLECTIONS.SETTINGS)
-      .doc('site')
-      .get();
-    if (!settingsDoc.exists) {
-      await db
-        .collection(COLLECTIONS.SETTINGS)
-        .doc('site')
-        .set(stripUndefined(DEFAULT_SETTINGS));
-    }
+    await batch.commit();
   } catch (err) {
     console.error('[Firestore Seed Warning]:', err);
   }
@@ -427,26 +228,17 @@ export async function listEventsRepo(options?: {
       const snap = await getAdminFirestore()
         .collection(COLLECTIONS.EVENTS)
         .get();
-      if (!snap.empty) {
-        const docs = snap.docs.map((d) => d.data() as EventDetailData);
-        // Keep flagship order first, followed by newly created events
-        const flagshipOrder = new Map(
-          EVENTS_DATA.map((e, idx) => [e.slug, idx])
-        );
-        docs.sort((a, b) => {
-          const ia = flagshipOrder.has(a.slug)
-            ? flagshipOrder.get(a.slug)!
-            : 999;
-          const ib = flagshipOrder.has(b.slug)
-            ? flagshipOrder.get(b.slug)!
-            : 999;
-          return ia - ib;
-        });
+      const docs = snap.docs.map((d) => d.data() as EventDetailData);
+      const flagshipOrder = new Map(EVENTS_DATA.map((e, idx) => [e.slug, idx]));
+      docs.sort((a, b) => {
+        const ia = flagshipOrder.has(a.slug) ? flagshipOrder.get(a.slug)! : 999;
+        const ib = flagshipOrder.has(b.slug) ? flagshipOrder.get(b.slug)! : 999;
+        return ia - ib;
+      });
 
-        registry.clear();
-        for (const ev of docs) {
-          registry.set(ev.slug, ev);
-        }
+      registry.clear();
+      for (const ev of docs) {
+        registry.set(ev.slug, ev);
       }
     } catch (err) {
       console.error('[listEventsRepo Firestore Error]:', err);
@@ -475,6 +267,8 @@ export async function getEventRepo(
         registry.set(slug, data);
         return data;
       }
+      registry.delete(slug);
+      return undefined;
     } catch (err) {
       console.error('[getEventRepo Firestore Error]:', err);
     }
@@ -529,12 +323,10 @@ export async function listRegistrationsRepo(options?: {
       const snap = await getAdminFirestore()
         .collection(COLLECTIONS.REGISTRATIONS)
         .get();
-      if (!snap.empty) {
-        mem.clear();
-        for (const doc of snap.docs) {
-          const rec = doc.data() as RegistrationDocument;
-          mem.set(rec.userCode || doc.id, rec);
-        }
+      mem.clear();
+      for (const doc of snap.docs) {
+        const rec = doc.data() as RegistrationDocument;
+        mem.set(rec.userCode || doc.id, rec);
       }
     } catch (err) {
       console.error('[listRegistrationsRepo Error]:', err);
@@ -572,6 +364,8 @@ export async function getRegistrationRepo(
         mem.set(normalized, data);
         return data;
       }
+      mem.delete(normalized);
+      return undefined;
     } catch (err) {
       console.error('[getRegistrationRepo Error]:', err);
     }
@@ -628,32 +422,30 @@ export async function listInquiriesRepo(options?: {
       const snap = await getAdminFirestore()
         .collection(COLLECTIONS.INQUIRIES)
         .get();
-      if (!snap.empty) {
-        mem.clear();
-        for (const doc of snap.docs) {
-          const data = doc.data() as Partial<InquiryDocument> & {
-            name?: string;
-            service?: string;
-          };
-          const normalized: InquiryDocument = {
-            id: doc.id,
-            fullName: data.fullName || data.name || 'Client Inquiry',
-            email: data.email || 'info@jaymedia.com',
-            phone: data.phone || '',
-            organization: data.organization || '',
-            serviceOfInterest:
-              data.serviceOfInterest || data.service || 'General Production',
-            eventDate: data.eventDate || '',
-            budget: data.budget || '',
-            message: data.message || '',
-            status: data.status || 'new',
-            priority: data.priority || 'medium',
-            adminNotes: data.adminNotes || '',
-            createdAt: data.createdAt || new Date().toISOString(),
-            updatedAt: data.updatedAt || data.createdAt || new Date().toISOString(),
-          };
-          mem.set(doc.id, normalized);
-        }
+      mem.clear();
+      for (const doc of snap.docs) {
+        const data = doc.data() as Partial<InquiryDocument> & {
+          name?: string;
+          service?: string;
+        };
+        const normalized: InquiryDocument = {
+          id: doc.id,
+          fullName: data.fullName || data.name || 'Client Inquiry',
+          email: data.email || 'info@jaymedia.com',
+          phone: data.phone || '',
+          organization: data.organization || '',
+          serviceOfInterest:
+            data.serviceOfInterest || data.service || 'General Production',
+          eventDate: data.eventDate || '',
+          budget: data.budget || '',
+          message: data.message || '',
+          status: data.status || 'new',
+          priority: data.priority || 'medium',
+          adminNotes: data.adminNotes || '',
+          createdAt: data.createdAt || new Date().toISOString(),
+          updatedAt: data.updatedAt || data.createdAt || new Date().toISOString(),
+        };
+        mem.set(doc.id, normalized);
       }
     } catch (err) {
       console.error('[listInquiriesRepo Error]:', err);
@@ -712,16 +504,14 @@ export async function listNewsRepo(options?: {
   if (isFirebaseAdminConfigured()) {
     try {
       const snap = await getAdminFirestore().collection(COLLECTIONS.NEWS).get();
-      if (!snap.empty) {
-        mem.clear();
-        for (const doc of snap.docs) {
-          const item = doc.data() as NewsDocument;
-          mem.set(item.slug || doc.id, {
-            ...item,
-            slug: item.slug || doc.id,
-            status: item.status || 'published',
-          });
-        }
+      mem.clear();
+      for (const doc of snap.docs) {
+        const item = doc.data() as NewsDocument;
+        mem.set(item.slug || doc.id, {
+          ...item,
+          slug: item.slug || doc.id,
+          status: item.status || 'published',
+        });
       }
     } catch (err) {
       console.error('[listNewsRepo Error]:', err);
@@ -782,16 +572,14 @@ export async function listServicesRepo(options?: {
       const snap = await getAdminFirestore()
         .collection(COLLECTIONS.SERVICES)
         .get();
-      if (!snap.empty) {
-        mem.clear();
-        for (const doc of snap.docs) {
-          const item = doc.data() as ServiceDocument;
-          mem.set(item.slug || doc.id, {
-            ...item,
-            slug: item.slug || doc.id,
-            status: item.status || 'active',
-          });
-        }
+      mem.clear();
+      for (const doc of snap.docs) {
+        const item = doc.data() as ServiceDocument;
+        mem.set(item.slug || doc.id, {
+          ...item,
+          slug: item.slug || doc.id,
+          status: item.status || 'active',
+        });
       }
     } catch (err) {
       console.error('[listServicesRepo Error]:', err);
@@ -803,6 +591,13 @@ export async function listServicesRepo(options?: {
   );
   if (options?.includeDrafts) return all;
   return all.filter((s) => s.status !== 'draft');
+}
+
+export async function getServiceRepo(
+  slug: string
+): Promise<ServiceDocument | undefined> {
+  const all = await listServicesRepo({ includeDrafts: true });
+  return all.find((s) => s.slug === slug);
 }
 
 export async function upsertServiceRepo(
@@ -846,15 +641,13 @@ export async function listTeamRepo(): Promise<TeamDocument[]> {
   if (isFirebaseAdminConfigured()) {
     try {
       const snap = await getAdminFirestore().collection(COLLECTIONS.TEAM).get();
-      if (!snap.empty) {
-        mem.clear();
-        for (const doc of snap.docs) {
-          const item = doc.data() as TeamDocument;
-          mem.set(item.slug || doc.id, {
-            ...item,
-            slug: item.slug || doc.id,
-          });
-        }
+      mem.clear();
+      for (const doc of snap.docs) {
+        const item = doc.data() as TeamDocument;
+        mem.set(item.slug || doc.id, {
+          ...item,
+          slug: item.slug || doc.id,
+        });
       }
     } catch (err) {
       console.error('[listTeamRepo Error]:', err);
@@ -864,6 +657,13 @@ export async function listTeamRepo(): Promise<TeamDocument[]> {
   return Array.from(mem.values()).sort(
     (a, b) => (a.order ?? 99) - (b.order ?? 99)
   );
+}
+
+export async function getTeamMemberRepo(
+  slug: string
+): Promise<TeamDocument | undefined> {
+  const all = await listTeamRepo();
+  return all.find((m) => m.slug === slug);
 }
 
 export async function upsertTeamMemberRepo(
@@ -908,15 +708,13 @@ export async function listGalleryRepo(options?: {
       const snap = await getAdminFirestore()
         .collection(COLLECTIONS.GALLERY)
         .get();
-      if (!snap.empty) {
-        mem.clear();
-        for (const doc of snap.docs) {
-          const item = doc.data() as GalleryDocument;
-          mem.set(item.id || doc.id, {
-            ...item,
-            id: item.id || doc.id,
-          });
-        }
+      mem.clear();
+      for (const doc of snap.docs) {
+        const item = doc.data() as GalleryDocument;
+        mem.set(item.id || doc.id, {
+          ...item,
+          id: item.id || doc.id,
+        });
       }
     } catch (err) {
       console.error('[listGalleryRepo Error]:', err);
@@ -1027,7 +825,9 @@ export async function getAdminOverviewRepo() {
     counts: {
       eventsTotal: events.length,
       eventsPublished: events.filter((e) => e.status !== 'draft').length,
-      eventsOpenRegistration: events.filter((e) => e.registrationOpen).length,
+      eventsOpenRegistration: events.filter(
+        (e) => e.registrationOpen && !e.ticketUrl
+      ).length,
       registrationsTotal: registrations.length,
       registrationsPending: registrations.filter(
         (r) => r.status === 'Pending QR Verification'

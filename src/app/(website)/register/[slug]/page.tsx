@@ -5,13 +5,18 @@ import PageHero from '@/components/shared/PageHero';
 import EventRegistrationForm from '@/components/forms/EventRegistrationForm';
 import Reveal from '@/components/motion/Reveal';
 import { EVENTS_DATA } from '@/config/events-data';
-import { getEventBySlug } from '@/lib/events-store';
-import { TEAM_PROFILES } from '@/config/team-data';
+import {
+  getEventRepo,
+  listEventsRepo,
+  listTeamRepo,
+} from '@/lib/backend/repository';
 import { generatePageMetadata } from '@/lib/seo';
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
+
+export const instant = false;
 
 export async function generateStaticParams() {
   return EVENTS_DATA.map((event) => ({ slug: event.slug }));
@@ -20,7 +25,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const event =
-    getEventBySlug(slug) || EVENTS_DATA.find((e) => e.slug === slug);
+    (await getEventRepo(slug)) || EVENTS_DATA.find((e) => e.slug === slug);
   const title = event ? `Register for ${event.title}` : 'Event Registration';
   return generatePageMetadata({
     title: `${title} | Jay Media Management`,
@@ -32,12 +37,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function EventRegisterPage({ params }: Props) {
   const { slug } = await params;
+  const [allEvents, teamMembers] = await Promise.all([
+    listEventsRepo(),
+    listTeamRepo(),
+  ]);
   const event =
-    getEventBySlug(slug) ||
-    EVENTS_DATA.find((e) => e.slug === slug) ||
+    (await getEventRepo(slug)) ||
+    allEvents.find((e) => e.slug === slug) ||
+    allEvents[0] ||
     EVENTS_DATA[0];
 
-  const peopleStrip = TEAM_PROFILES.slice(0, 2);
+  const peopleStrip = teamMembers.slice(0, 2);
+  const openEvents = allEvents.filter(
+    (e) => e.registrationOpen && !e.ticketUrl
+  );
 
   return (
     <div className="min-h-screen bg-paper text-ink">
@@ -107,7 +120,7 @@ export default async function EventRegisterPage({ params }: Props) {
           <EventRegistrationForm
             eventSlug={event.slug}
             eventTitle={event.title}
-            availableEvents={EVENTS_DATA.filter((e) => e.registrationOpen)}
+            availableEvents={openEvents}
           />
         </Reveal>
       </section>

@@ -6,7 +6,9 @@ import PageHero from '@/components/shared/PageHero';
 import CtaBand from '@/components/shared/CtaBand';
 import Reveal from '@/components/motion/Reveal';
 import { generatePageMetadata } from '@/lib/seo';
-import { SERVICES_DATA } from '@/config/services-data';
+import { listServicesRepo } from '@/lib/backend/repository';
+
+export const instant = false;
 
 export const metadata: Metadata = generatePageMetadata({
   title: 'Our Services & Capabilities | Jay Media Management',
@@ -14,7 +16,8 @@ export const metadata: Metadata = generatePageMetadata({
     'Turnkey Event Management, Brand Experiences, Store and Product Launches, Media Production, and Press Events in Biratnagar, Nepal.',
 });
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const services = await listServicesRepo();
   return (
     <div className="min-h-screen bg-paper text-ink">
       <PageHero
@@ -22,7 +25,7 @@ export default function ServicesPage() {
         title="Full-service event management & media production."
         description="From full-scale concert stagecraft and televised pageantry to corporate brand launches and feature media production."
         meta={[
-          { label: 'Core Divisions', value: '5 Capabilities' },
+          { label: 'Core Divisions', value: `${services.length} Capabilities` },
           { label: 'Studio Base', value: 'Biratnagar, Nepal' },
           { label: 'Since', value: '2013' },
           { label: 'Support', value: 'Turnkey Execution' },
@@ -31,7 +34,7 @@ export default function ServicesPage() {
 
       <section className="py-16 md:py-20">
         <div className="container-ed space-y-8">
-          {SERVICES_DATA.map((service) => (
+          {services.map((service) => (
             <Reveal
               key={service.slug}
               as="article"

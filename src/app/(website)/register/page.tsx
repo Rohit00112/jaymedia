@@ -5,8 +5,10 @@ import PageHero from '@/components/shared/PageHero';
 import EventRegistrationForm from '@/components/forms/EventRegistrationForm';
 import Reveal from '@/components/motion/Reveal';
 import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
-import { EVENTS_DATA } from '@/config/events-data';
+import { listEventsRepo } from '@/lib/backend/repository';
 import { generatePageMetadata } from '@/lib/seo';
+
+export const instant = false;
 
 export const metadata = generatePageMetadata({
   title: 'Event Registrations | Jay Media Management',
@@ -14,8 +16,11 @@ export const metadata = generatePageMetadata({
     'Register online across open Jay Media Management productions: Nepal Kids Idol, Miss Koshi, Mr. & Miss Little Koshi, and Nepal Kids Dancing Champion.',
 });
 
-export default function RegisterHubPage() {
-  const openEvents = EVENTS_DATA.filter((e) => e.registrationOpen);
+export default async function RegisterHubPage() {
+  const allEvents = await listEventsRepo();
+  const openEvents = allEvents.filter(
+    (e) => e.registrationOpen && !e.ticketUrl
+  );
 
   return (
     <div className="min-h-screen bg-paper text-ink">

@@ -6,56 +6,40 @@ import { ArrowLeft, ArrowUpRight, CheckCircle2 } from 'lucide-react';
 import PageHero from '@/components/shared/PageHero';
 import CtaBand from '@/components/shared/CtaBand';
 import Reveal from '@/components/motion/Reveal';
-import { TEAM_PROFILES, EVENT_JUDGES } from '@/config/team-data';
+import { TEAM_PROFILES } from '@/config/team-data';
+import { getTeamMemberRepo } from '@/lib/backend/repository';
 import { generatePageMetadata } from '@/lib/seo';
 
 interface Props {
   params: Promise<{ slug: string }>;
 }
 
-const ALL_PEOPLE = [
-  ...TEAM_PROFILES.map((m) => ({
-    slug: m.slug,
-    name: m.name,
-    role: m.role,
-    category: m.category,
-    location: m.location,
-    image: m.image,
-    bio: m.fullBio,
-    credits: m.credits,
-  })),
-  ...EVENT_JUDGES.map((j) => ({
-    slug: j.slug,
-    name: j.name,
-    role: j.title,
-    category: 'Event Judges' as const,
-    location: 'Kathmandu & Biratnagar, Nepal',
-    image: j.image,
-    bio: j.bio,
-    credits: j.highlights,
-  })),
-];
+export const instant = false;
 
 export async function generateStaticParams() {
-  return ALL_PEOPLE.map((person) => ({
+  return TEAM_PROFILES.map((person) => ({
     slug: person.slug,
   }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const person = ALL_PEOPLE.find((p) => p.slug === slug);
+  const person =
+    (await getTeamMemberRepo(slug)) ||
+    TEAM_PROFILES.find((p) => p.slug === slug);
   if (!person) return {};
 
   return generatePageMetadata({
     title: `${person.name} — ${person.role} | Jay Media Management`,
-    description: person.bio,
+    description: person.fullBio,
   });
 }
 
 export default async function TeamProfileDetailPage({ params }: Props) {
   const { slug } = await params;
-  const person = ALL_PEOPLE.find((p) => p.slug === slug);
+  const person =
+    (await getTeamMemberRepo(slug)) ||
+    TEAM_PROFILES.find((p) => p.slug === slug);
 
   if (!person) {
     notFound();
@@ -106,7 +90,7 @@ export default async function TeamProfileDetailPage({ params }: Props) {
                 </h2>
 
                 <p className="mt-4 text-sm leading-relaxed text-muted sm:text-base">
-                  {person.bio}
+                  {person.fullBio}
                 </p>
 
                 <div className="mt-8 border-t border-line pt-6">

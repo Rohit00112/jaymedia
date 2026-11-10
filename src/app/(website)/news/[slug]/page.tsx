@@ -9,6 +9,7 @@ import CtaBand from '@/components/shared/CtaBand';
 import Reveal from '@/components/motion/Reveal';
 import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
 import { NEWS_DATA } from '@/config/news-data';
+import { getNewsRepo, listNewsRepo } from '@/lib/backend/repository';
 import { generatePageMetadata, generateArticleSchema } from '@/lib/seo';
 import { formatDate } from '@/lib/utils';
 import { siteConfig } from '@/config/site';
@@ -27,7 +28,8 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const article = NEWS_DATA.find((a) => a.slug === slug);
+  const article =
+    (await getNewsRepo(slug)) || NEWS_DATA.find((a) => a.slug === slug);
   if (!article) return {};
 
   return generatePageMetadata({
@@ -40,7 +42,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function NewsDetailPage({ params }: Props) {
   const { slug } = await params;
-  const article = NEWS_DATA.find((a) => a.slug === slug);
+  const allArticles = await listNewsRepo();
+  const article =
+    (await getNewsRepo(slug)) || NEWS_DATA.find((a) => a.slug === slug);
 
   if (!article) {
     notFound();
@@ -54,7 +58,7 @@ export default async function NewsDetailPage({ params }: Props) {
     url: `${siteConfig.url}/news/${article.slug}`,
   });
 
-  const otherArticles = NEWS_DATA.filter((a) => a.slug !== article.slug);
+  const otherArticles = allArticles.filter((a) => a.slug !== article.slug);
 
   return (
     <div className="min-h-screen bg-paper text-ink">

@@ -3,11 +3,12 @@ import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import SectionHeading from '@/components/shared/SectionHeading';
 import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
-import { NEWS_DATA } from '@/config/news-data';
+import { listNewsRepo } from '@/lib/backend/repository';
 import { formatDate } from '@/lib/utils';
 
-export default function JournalSection() {
-  const articles = NEWS_DATA.slice(0, 3);
+export default async function JournalSection() {
+  const allNews = await listNewsRepo();
+  const articles = allNews.slice(0, 3);
 
   return (
     <section className="border-b border-line bg-white py-16 md:py-20">

@@ -3,9 +3,11 @@ import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import SectionHeading from '@/components/shared/SectionHeading';
 import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
-import { TEAM_PROFILES } from '@/config/team-data';
+import { listTeamRepo } from '@/lib/backend/repository';
 
-export default function TeamSection() {
+export default async function TeamSection() {
+  const members = await listTeamRepo();
+
   return (
     <section
       id="team"
@@ -20,7 +22,7 @@ export default function TeamSection() {
         />
 
         <AnimeStaggerContainer className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          {TEAM_PROFILES.map((member) => (
+          {members.map((member) => (
             <Link
               key={member.slug}
               href={`/team/${member.slug}`}

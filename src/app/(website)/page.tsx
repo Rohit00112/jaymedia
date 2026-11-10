@@ -10,6 +10,8 @@ import {
 } from '@/components/home';
 import { generatePageMetadata } from '@/lib/seo';
 
+export const instant = false;
+
 export const metadata = generatePageMetadata({
   title:
     'Jay Media Management Pvt. Ltd. | Eastern Echoes (Atif Aslam Live) & Event Production in Biratnagar',

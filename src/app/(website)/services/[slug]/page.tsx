@@ -8,6 +8,7 @@ import CtaBand from '@/components/shared/CtaBand';
 import Reveal from '@/components/motion/Reveal';
 import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
 import { SERVICES_DATA } from '@/config/services-data';
+import { getServiceRepo, listServicesRepo } from '@/lib/backend/repository';
 import { generatePageMetadata } from '@/lib/seo';
 
 interface Props {
@@ -24,7 +25,8 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const service = SERVICES_DATA.find((s) => s.slug === slug);
+  const service =
+    (await getServiceRepo(slug)) || SERVICES_DATA.find((s) => s.slug === slug);
   if (!service) return {};
 
   return generatePageMetadata({
@@ -35,14 +37,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ServiceDetailPage({ params }: Props) {
   const { slug } = await params;
-  const service = SERVICES_DATA.find((s) => s.slug === slug);
+  const allServices = await listServicesRepo();
+  const service =
+    (await getServiceRepo(slug)) || SERVICES_DATA.find((s) => s.slug === slug);
 
   if (!service) {
     notFound();
   }
 
-  const currentIndex = SERVICES_DATA.findIndex((s) => s.slug === service.slug);
-  const nextService = SERVICES_DATA[(currentIndex + 1) % SERVICES_DATA.length];
+  const list = allServices.length > 0 ? allServices : SERVICES_DATA;
+  const currentIndex = list.findIndex((s) => s.slug === service.slug);
+  const nextService = list[(Math.max(0, currentIndex) + 1) % list.length];
 
   return (
     <div className="min-h-screen bg-paper text-ink">

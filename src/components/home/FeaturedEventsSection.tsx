@@ -3,10 +3,11 @@ import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import SectionHeading from '@/components/shared/SectionHeading';
 import AnimeStaggerContainer from '@/components/motion/AnimeStaggerContainer';
-import { EVENTS_DATA } from '@/config/events-data';
+import { listEventsRepo } from '@/lib/backend/repository';
 
-export default function FeaturedEventsSection() {
-  const productions = EVENTS_DATA.filter(
+export default async function FeaturedEventsSection() {
+  const allEvents = await listEventsRepo();
+  const productions = allEvents.filter(
     (e) => e.slug !== 'atif-aslam-live-in-nepal'
   );
 

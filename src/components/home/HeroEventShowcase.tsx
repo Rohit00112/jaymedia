@@ -18,13 +18,6 @@ export default function HeroEventShowcase({ event }: HeroEventShowcaseProps) {
         {/* Left Column */}
         <div className="lg:col-span-6">
           <Reveal y={14}>
-            <span className="inline-flex items-center gap-2 rounded-full bg-forest-soft px-3 py-1 text-xs font-medium text-forest">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-forest opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-forest" />
-              </span>
-              Jay Media Management Presents
-            </span>
 
             <h1 className="mt-4 text-3xl font-semibold tracking-tight text-ink sm:text-4xl lg:text-5xl">
               {event.title}
