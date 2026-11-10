@@ -12,7 +12,7 @@ export interface TeamProfile {
 
 export const TEAM_PROFILES: TeamProfile[] = [
   {
-    slug: 'jay-raj-roy',
+    slug: 'jayrajroy',
     name: 'Jay Raj Roy',
     role: 'Chairman',
     category: 'Executive Leadership',
