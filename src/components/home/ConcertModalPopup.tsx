@@ -87,31 +87,24 @@ export default function ConcertModalPopup() {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/30 to-transparent md:hidden" />
           <div className="absolute bottom-3 left-3 right-3 text-white md:hidden">
-            <span className="inline-block rounded bg-forest px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-white">
-              Headliner
-            </span>
-            <p className="mt-1 text-sm font-bold">Atif Aslam Live in Nepal</p>
+            <p className="text-sm font-bold">Atif Aslam Live in Nepal</p>
           </div>
         </div>
 
         {/* Content Column */}
-        <div className="flex flex-1 flex-col justify-between overflow-y-auto p-5 sm:p-7 text-ink">
+        <div className="flex flex-1 flex-col justify-between overflow-y-auto p-6 sm:p-7 text-ink">
           <div>
-            <div className="flex items-center gap-2 text-forest">
-              <span className="h-2 w-2 rounded-full bg-forest animate-pulse" />
-              <span className="font-mono text-xs font-semibold uppercase tracking-wider">
-                Flagship Concert • Eastern Echoes
-              </span>
-            </div>
-
             <h2
               id="concert-popup-title"
-              className="mt-2 text-2xl font-bold tracking-tight text-ink sm:text-3xl"
+              className="text-2xl font-bold tracking-tight text-ink sm:text-3xl"
             >
               Atif Aslam Live in Nepal
             </h2>
+            <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-forest">
+              Eastern Echoes &bull; Live in Concert
+            </p>
 
-            <p className="mt-2 text-xs text-muted leading-relaxed sm:text-sm">
+            <p className="mt-3 text-xs text-muted leading-relaxed sm:text-sm">
               Global vocal maestro Atif Aslam performs his legendary romantic,
               Sufi, and Bollywood anthems live with his international touring
               band at Itahari Stadium.
