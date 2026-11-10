@@ -236,7 +236,13 @@ export function Footer() {
 
       <div className="border-t border-line py-5">
         <div className="container-ed flex flex-col justify-between gap-2 text-xs text-muted sm:flex-row sm:items-center">
-          <p>&copy; 2026 Jay Media Management Pvt. Ltd. All rights reserved.</p>
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+            <p>&copy; 2026 Jay Media Management Pvt. Ltd. All rights reserved.</p>
+            <span className="hidden text-line-strong sm:inline">&bull;</span>
+            <p className="text-ink-soft">
+              Managed by Astra Technology Horizon Pvt. Ltd.
+            </p>
+          </div>
           <a href="#top" className="font-medium text-ink hover:text-forest">
             Back to top &uarr;
           </a>
