@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard,
   Calendar,
-  Layers,
   Users,
   Image as ImageIcon,
   Newspaper,
@@ -25,7 +24,6 @@ const ADMIN_NAV = [
   { label: 'Events & Pageants', href: '/admin/events', icon: Calendar },
   { label: 'Client Inquiries', href: '/admin/inquiries', icon: Inbox },
   { label: 'News & Press', href: '/admin/news', icon: Newspaper },
-  { label: 'Services', href: '/admin/services', icon: Layers },
   { label: 'Team & Leadership', href: '/admin/team', icon: Users },
   { label: 'Gallery Vault', href: '/admin/gallery', icon: ImageIcon },
   { label: 'Site Settings', href: '/admin/settings', icon: Settings },

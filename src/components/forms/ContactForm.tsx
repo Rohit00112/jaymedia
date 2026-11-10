@@ -15,7 +15,10 @@ const labelClass = 'mb-1.5 block text-xs font-medium text-ink';
 
 function ContactFormInner() {
   const searchParams = useSearchParams();
-  const initialService = searchParams.get('service') || 'event-management';
+  const initialService =
+    searchParams.get('topic') ||
+    searchParams.get('service') ||
+    'concert-sponsorship';
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<
@@ -187,7 +190,7 @@ function ContactFormInner() {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           <div>
             <label htmlFor="serviceOfInterest" className={labelClass}>
-              Service *
+              Topic / Inquiry Type *
             </label>
             <select
               id="serviceOfInterest"
@@ -195,13 +198,12 @@ function ContactFormInner() {
               aria-required="true"
               className={inputClass}
             >
-              <option value="event-management">Event Management</option>
-              <option value="brand-experiences">Brand Experiences</option>
-              <option value="media-production">Media Production</option>
-              <option value="product-launches">Product Launches</option>
-              <option value="press-events">Press Events</option>
-              <option value="pageant-sponsorship">Pageant Sponsorship</option>
-              <option value="other">Other Inquiry</option>
+              <option value="concert-sponsorship">Concert Sponsorship &amp; Tickets</option>
+              <option value="event-production">Live Event &amp; Stage Production</option>
+              <option value="pageant-partnership">Pageant Franchise &amp; Partnership</option>
+              <option value="film-media">Film &amp; Broadcast Collaboration</option>
+              <option value="brand-launches">Store &amp; Product Launches</option>
+              <option value="other">General Studio Inquiry</option>
             </select>
           </div>
 

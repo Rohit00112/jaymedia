@@ -10,9 +10,9 @@ import {
   Plus,
   RefreshCw,
   Database,
-  Layers,
   Image as ImageIcon,
   Users,
+  Settings,
 } from 'lucide-react';
 import type { EventDetailData } from '@/config/events-data';
 import type { InquiryDocument } from '@/lib/backend/schemas';
@@ -25,7 +25,6 @@ interface OverviewResponse {
     inquiriesTotal: number;
     inquiriesNew: number;
     newsTotal: number;
-    servicesTotal: number;
     teamTotal: number;
     galleryTotal: number;
   };
@@ -89,7 +88,7 @@ export default function AdminDashboardPage() {
             Studio Control Center
           </h1>
           <p className="mt-1 text-sm text-muted">
-            Manage live productions, client inquiries, studio services, and media archives.
+            Manage live productions, client inquiries, and studio media archives.
           </p>
         </div>
 
@@ -159,24 +158,24 @@ export default function AdminDashboardPage() {
         </Link>
 
         <Link
-          href="/admin/services"
+          href="/admin/team"
           className="group rounded-xl border border-line bg-white p-5 transition-all hover:border-line-strong hover:shadow-xs"
         >
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-muted">
-              Studio Services
+              Team &amp; Leadership
             </span>
             <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-forest-soft text-forest">
-              <Layers className="h-4 w-4" />
+              <Users className="h-4 w-4" />
             </span>
           </div>
           <p className="mt-4 text-3xl font-semibold text-ink">
-            {counts ? counts.servicesTotal : '—'}
+            {counts ? counts.teamTotal : '—'}
           </p>
           <p className="mt-1 text-xs text-muted">
             {counts
-              ? `${counts.servicesTotal} active client capabilities`
-              : 'Loading services...'}
+              ? `${counts.teamTotal} executive & creative leaders`
+              : 'Loading team...'}
           </p>
         </Link>
 
@@ -351,17 +350,17 @@ export default function AdminDashboardPage() {
         </Link>
 
         <Link
-          href="/admin/services"
+          href="/admin/settings"
           className="flex items-center justify-between rounded-xl border border-line bg-white p-4 transition-colors hover:bg-paper-deep"
         >
           <div className="flex items-center gap-3">
-            <Layers className="h-5 w-5 text-forest" />
+            <Settings className="h-5 w-5 text-forest" />
             <div>
               <p className="text-sm font-semibold text-ink">
-                Production Services
+                Concert &amp; Settings
               </p>
               <p className="text-xs text-muted">
-                Edit capabilities &amp; deliverables
+                Eastern Echoes timer &amp; studio contact
               </p>
             </div>
           </div>

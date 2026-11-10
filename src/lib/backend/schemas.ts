@@ -8,7 +8,6 @@ export const COLLECTIONS = {
   REGISTRATIONS: 'registrations',
   INQUIRIES: 'inquiries',
   NEWS: 'news',
-  SERVICES: 'services',
   TEAM: 'team',
   GALLERY: 'gallery',
   SETTINGS: 'settings',
@@ -162,34 +161,7 @@ export const newsDocumentSchema = z.object({
 export type NewsDocument = z.infer<typeof newsDocumentSchema>;
 
 // ---------------------------------------------------------------------------
-// 5. SERVICES (`services/{slug}`)
-// ---------------------------------------------------------------------------
-export const serviceApproachSchema = z.object({
-  phase: z.string().min(1),
-  title: z.string().min(1),
-  detail: z.string().min(1),
-});
-
-export const serviceDocumentSchema = z.object({
-  slug: z.string().min(1),
-  number: z.string().min(1),
-  title: z.string().min(2),
-  category: z.string().min(2),
-  shortDescription: z.string().min(5),
-  description: z.string().min(5),
-  image: z.string().min(1),
-  capabilities: z.array(z.string()).default([]),
-  approach: z.array(serviceApproachSchema).default([]),
-  deliverables: z.array(z.string()).default([]),
-  status: z.enum(['active', 'draft']).default('active'),
-  createdAt: z.string().optional(),
-  updatedAt: z.string().optional(),
-});
-
-export type ServiceDocument = z.infer<typeof serviceDocumentSchema>;
-
-// ---------------------------------------------------------------------------
-// 6. TEAM (`team/{slug}`)
+// 5. TEAM (`team/{slug}`)
 // ---------------------------------------------------------------------------
 export const teamDocumentSchema = z.object({
   slug: z.string().min(1),

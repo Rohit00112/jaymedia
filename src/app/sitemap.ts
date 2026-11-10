@@ -1,6 +1,5 @@
 import { MetadataRoute } from 'next';
 import { siteConfig } from '@/config/site';
-import { SERVICES_DATA } from '@/config/services-data';
 import { EVENTS_DATA } from '@/config/events-data';
 import { NEWS_DATA } from '@/config/news-data';
 import { TEAM_PROFILES, EVENT_JUDGES } from '@/config/team-data';
@@ -13,7 +12,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
     '',
     '/about',
-    '/services',
     '/events',
     '/team',
     '/gallery',
@@ -24,13 +22,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: buildDate,
     changeFrequency: 'weekly' as const,
     priority: route === '' ? 1.0 : 0.85,
-  }));
-
-  const serviceRoutes = SERVICES_DATA.map((service) => ({
-    url: `${baseUrl}/services/${service.slug}`,
-    lastModified: buildDate,
-    changeFrequency: 'monthly' as const,
-    priority: 0.7,
   }));
 
   const eventRoutes = EVENTS_DATA.map((event) => ({
@@ -56,7 +47,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     ...staticRoutes,
-    ...serviceRoutes,
     ...eventRoutes,
     ...newsRoutes,
     ...teamRoutes,

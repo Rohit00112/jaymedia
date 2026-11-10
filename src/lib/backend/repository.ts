@@ -1,7 +1,6 @@
 import { cacheLife, cacheTag, revalidatePath, revalidateTag } from 'next/cache';
 import { EVENTS_DATA, type EventDetailData } from '@/config/events-data';
 import { NEWS_DATA } from '@/config/news-data';
-import { SERVICES_DATA } from '@/config/services-data';
 import { TEAM_PROFILES } from '@/config/team-data';
 import { GALLERY_PHOTOS } from '@/config/gallery-data';
 import { siteConfig } from '@/config/site';
@@ -11,7 +10,6 @@ import {
   type RegistrationDocument,
   type InquiryDocument,
   type NewsDocument,
-  type ServiceDocument,
   type TeamDocument,
   type GalleryDocument,
   type SettingsDocument,
@@ -54,7 +52,6 @@ const DEFAULT_SETTINGS: SettingsDocument = {
 const globalStore = globalThis as typeof globalThis & {
   __jmmSeededFirestore?: boolean;
   __jmmNews?: Map<string, NewsDocument>;
-  __jmmServices?: Map<string, ServiceDocument>;
   __jmmTeam?: Map<string, TeamDocument>;
   __jmmGallery?: Map<string, GalleryDocument>;
   __jmmInquiries?: Map<string, InquiryDocument>;
@@ -77,23 +74,6 @@ function getMemoryNews(): Map<string, NewsDocument> {
     );
   }
   return globalStore.__jmmNews;
-}
-
-function getMemoryServices(): Map<string, ServiceDocument> {
-  if (!globalStore.__jmmServices) {
-    globalStore.__jmmServices = new Map(
-      SERVICES_DATA.map((s) => [
-        s.slug,
-        {
-          ...s,
-          status: 'active' as const,
-          createdAt: '2026-01-01T00:00:00.000Z',
-          updatedAt: '2026-01-01T00:00:00.000Z',
-        },
-      ])
-    );
-  }
-  return globalStore.__jmmServices;
 }
 
 function getMemoryTeam(): Map<string, TeamDocument> {
@@ -189,12 +169,6 @@ export async function ensureFirestoreSeeded(): Promise<void> {
     for (const item of getMemoryNews().values()) {
       batch.set(
         db.collection(COLLECTIONS.NEWS).doc(item.slug),
-        stripUndefined(item)
-      );
-    }
-    for (const item of getMemoryServices().values()) {
-      batch.set(
-        db.collection(COLLECTIONS.SERVICES).doc(item.slug),
         stripUndefined(item)
       );
     }
@@ -611,91 +585,7 @@ export async function deleteNewsRepo(slug: string): Promise<boolean> {
 }
 
 // ============================================================================
-// 5. SERVICES REPOSITORY
-// ============================================================================
-export async function listServicesRepo(options?: {
-  includeDrafts?: boolean;
-}): Promise<ServiceDocument[]> {
-  'use cache';
-  cacheLife('minutes');
-  cacheTag('services');
-
-  await ensureFirestoreSeeded();
-  const mem = getMemoryServices();
-
-  if (isFirebaseAdminConfigured()) {
-    try {
-      const snap = await getAdminFirestore()
-        .collection(COLLECTIONS.SERVICES)
-        .get();
-      mem.clear();
-      for (const doc of snap.docs) {
-        const item = doc.data() as ServiceDocument;
-        mem.set(item.slug || doc.id, {
-          ...item,
-          slug: item.slug || doc.id,
-          status: item.status || 'active',
-        });
-      }
-    } catch (err) {
-      console.error('[listServicesRepo Error]:', err);
-    }
-  }
-
-  const all = Array.from(mem.values()).sort((a, b) =>
-    (a.number || '').localeCompare(b.number || '')
-  );
-  if (options?.includeDrafts) return all;
-  return all.filter((s) => s.status !== 'draft');
-}
-
-export async function getServiceRepo(
-  slug: string
-): Promise<ServiceDocument | undefined> {
-  'use cache';
-  cacheLife('minutes');
-  cacheTag('services');
-
-  const all = await listServicesRepo({ includeDrafts: true });
-  return all.find((s) => s.slug === slug);
-}
-
-export async function upsertServiceRepo(
-  doc: ServiceDocument
-): Promise<ServiceDocument> {
-  await ensureFirestoreSeeded();
-  const payload = stripUndefined({
-    ...doc,
-    updatedAt: new Date().toISOString(),
-  });
-
-  if (isFirebaseAdminConfigured()) {
-    await getAdminFirestore()
-      .collection(COLLECTIONS.SERVICES)
-      .doc(doc.slug)
-      .set(payload, { merge: true });
-  }
-
-  getMemoryServices().set(doc.slug, payload);
-  invalidateCache('services');
-  return payload;
-}
-
-export async function deleteServiceRepo(slug: string): Promise<boolean> {
-  await ensureFirestoreSeeded();
-  if (isFirebaseAdminConfigured()) {
-    await getAdminFirestore()
-      .collection(COLLECTIONS.SERVICES)
-      .doc(slug)
-      .delete();
-  }
-  const deleted = getMemoryServices().delete(slug);
-  invalidateCache('services');
-  return deleted;
-}
-
-// ============================================================================
-// 6. TEAM REPOSITORY
+// 5. TEAM REPOSITORY
 // ============================================================================
 export async function listTeamRepo(): Promise<TeamDocument[]> {
   'use cache';
@@ -898,15 +788,13 @@ export async function updateSettingsRepo(
 export async function getAdminOverviewRepo() {
   'use cache';
   cacheLife('minutes');
-  cacheTag('overview', 'events', 'registrations', 'inquiries', 'news', 'services', 'team', 'gallery', 'settings');
+  cacheTag('overview', 'events', 'inquiries', 'news', 'team', 'gallery', 'settings');
 
-  const [events, registrations, inquiries, news, services, team, gallery] =
+  const [events, inquiries, news, team, gallery] =
     await Promise.all([
       listEventsRepo({ includeDrafts: true }),
-      listRegistrationsRepo(),
       listInquiriesRepo(),
       listNewsRepo({ includeDrafts: true }),
-      listServicesRepo({ includeDrafts: true }),
       listTeamRepo(),
       listGalleryRepo(),
     ]);
@@ -915,26 +803,12 @@ export async function getAdminOverviewRepo() {
     counts: {
       eventsTotal: events.length,
       eventsPublished: events.filter((e) => e.status !== 'draft').length,
-      eventsOpenRegistration: events.filter(
-        (e) => e.registrationOpen && !e.ticketUrl
-      ).length,
-      registrationsTotal: registrations.length,
-      registrationsPending: registrations.filter(
-        (r) => r.status === 'Pending QR Verification'
-      ).length,
-      registrationsVerified: registrations.filter(
-        (r) =>
-          r.status === 'Verified — Audition Scheduled' ||
-          r.status === 'Shortlisted'
-      ).length,
       inquiriesTotal: inquiries.length,
       inquiriesNew: inquiries.filter((i) => i.status === 'new').length,
       newsTotal: news.length,
-      servicesTotal: services.length,
       teamTotal: team.length,
       galleryTotal: gallery.length,
     },
-    recentRegistrations: registrations.slice(0, 5),
     recentInquiries: inquiries.slice(0, 5),
     events: events.slice(0, 6),
     firebaseConnected: isFirebaseAdminConfigured(),

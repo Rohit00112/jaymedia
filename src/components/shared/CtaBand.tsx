@@ -22,8 +22,8 @@ export default function CtaBand() {
             <Link href="/contact" className="btn btn-primary">
               Get in Touch
             </Link>
-            <Link href="/services" className="btn btn-outline">
-              Our Services
+            <Link href="/events" className="btn btn-outline">
+              Our Productions
             </Link>
           </div>
         </Reveal>

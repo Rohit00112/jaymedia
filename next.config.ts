@@ -17,7 +17,22 @@ const nextConfig: NextConfig = {
         permanent: false,
       },
       {
+        source: '/services',
+        destination: '/events',
+        permanent: false,
+      },
+      {
+        source: '/services/:slug',
+        destination: '/events',
+        permanent: false,
+      },
+      {
         source: '/admin/registrations',
+        destination: '/admin',
+        permanent: false,
+      },
+      {
+        source: '/admin/services',
         destination: '/admin',
         permanent: false,
       },

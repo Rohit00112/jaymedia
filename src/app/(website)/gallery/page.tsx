@@ -83,8 +83,8 @@ const GALLERY_SECTIONS: GallerySectionMeta[] = [
     title: 'Concert Rigging & Stagecraft',
     description:
       'Intelligent DMX beam choreography, line-array sound engineering, and modular stage trussing across Koshi Province.',
-    href: '/services',
-    linkLabel: 'Explore Services',
+    href: '/contact',
+    linkLabel: 'Inquire Stagecraft',
   },
   {
     category: 'Corporate Galas',

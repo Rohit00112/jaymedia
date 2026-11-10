@@ -33,7 +33,6 @@ export const navLinks: readonly NavItem[] = [
     ],
   },
   { label: 'About Us', href: '/about' },
-  { label: 'Services', href: '/services' },
   { label: 'News', href: '/news' },
   { label: 'Gallery', href: '/gallery' },
   { label: 'Team', href: '/team' },

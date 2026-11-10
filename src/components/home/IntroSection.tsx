@@ -54,27 +54,23 @@ export default function IntroSection() {
           <Reveal delay={0.08} className="lg:col-span-6">
             <div className="divide-y divide-line border-y border-line">
               {CAPABILITIES.map((cap) => (
-                <Link
+                <div
                   key={cap.slug}
-                  href={`/services/${cap.slug}`}
-                  className="group flex items-start justify-between gap-4 py-4 transition-all duration-200 hover:pl-2"
+                  className="py-4"
                 >
-                  <div>
-                    <h3 className="text-base font-semibold text-ink transition-colors group-hover:text-forest">
-                      {cap.title}
-                    </h3>
-                    <p className="mt-1 text-sm leading-relaxed text-muted">
-                      {cap.note}
-                    </p>
-                  </div>
-                  <ArrowUpRight className="mt-1 h-4 w-4 shrink-0 text-muted transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-forest" />
-                </Link>
+                  <h3 className="text-base font-semibold text-ink">
+                    {cap.title}
+                  </h3>
+                  <p className="mt-1 text-sm leading-relaxed text-muted">
+                    {cap.note}
+                  </p>
+                </div>
               ))}
             </div>
 
             <div className="mt-5">
-              <Link href="/services" className="text-link">
-                <span>Explore all services</span>
+              <Link href="/events" className="text-link">
+                <span>Explore all productions</span>
                 <ArrowUpRight className="h-4 w-4" />
               </Link>
             </div>
