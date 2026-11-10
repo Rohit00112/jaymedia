@@ -89,35 +89,31 @@ export default function ConcertModalPopup() {
         </button>
 
         {/* Visual Column / Poster */}
-        <div className="relative h-56 w-full shrink-0 overflow-hidden bg-ink md:h-auto md:w-5/12">
+        <div className="relative h-60 w-full shrink-0 overflow-hidden bg-ink sm:h-64 md:h-auto md:w-5/12">
           <Image
             src="/images/official/atif-aslam-poster.jpg"
             alt="Atif Aslam Live at Eastern Echoes — Jay Media Management"
             fill
-            sizes="(max-width: 768px) 100vw, 360px"
-            className="object-cover object-top"
+            sizes="(max-width: 768px) 100vw, 380px"
+            className="object-cover object-[center_45%] md:object-top"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/30 to-transparent md:hidden" />
-          <div className="absolute bottom-3 left-3 right-3 text-white md:hidden">
-            <p className="text-sm font-bold">Atif Aslam Live in Nepal</p>
-          </div>
         </div>
 
         {/* Content Column */}
-        <div className="flex flex-1 flex-col justify-between overflow-y-auto p-6 sm:p-7 text-ink">
+        <div className="flex flex-1 flex-col justify-between overflow-y-auto p-5 sm:p-7 text-ink">
           <div>
             <h2
               id="concert-popup-title"
-              className="text-2xl font-bold tracking-tight text-ink sm:text-3xl"
+              className="text-xl font-bold tracking-tight text-ink sm:text-3xl"
             >
               Atif Aslam Live in Nepal
             </h2>
-            <p className="mt-1 text-xs font-semibold uppercase tracking-wider text-forest">
+            <p className="mt-1 text-[11px] font-semibold uppercase tracking-wider text-forest sm:text-xs">
               Eastern Echoes &bull; Live in Concert
             </p>
 
-            <p className="mt-3 text-xs text-muted leading-relaxed sm:text-sm">
+            <p className="mt-2.5 text-xs leading-relaxed text-muted sm:text-sm">
               Global vocal maestro Atif Aslam performs his legendary romantic,
               Sufi, and Bollywood anthems live with his international touring
               band at Itahari Stadium.
