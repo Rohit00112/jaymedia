@@ -18,6 +18,7 @@ import type { EventDetailData } from '@/config/events-data';
 import type { InquiryDocument } from '@/lib/backend/schemas';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/lib/firebase/auth-context';
+import { formatTopicLabel } from '@/components/forms/ContactForm';
 
 interface OverviewResponse {
   counts: {
@@ -332,7 +333,7 @@ export default function AdminDashboardPage() {
                     </span>
                   </div>
                   <p className="mt-0.5 text-xs text-muted">
-                    {inq.organization || inq.email} • {inq.serviceOfInterest}
+                    {inq.organization || inq.email} • {formatTopicLabel(inq.serviceOfInterest)}
                   </p>
                   <p className="mt-1 line-clamp-2 text-xs text-ink-soft">
                     {inq.message}

@@ -18,6 +18,7 @@ import {
   type InquiryStatusOption,
 } from '@/lib/backend/schemas';
 import { cn } from '@/lib/utils';
+import { formatTopicLabel } from '@/components/forms/ContactForm';
 
 export default function AdminInquiriesPage() {
   const [inquiries, setInquiries] = useState<InquiryDocument[]>([]);
@@ -216,7 +217,7 @@ export default function AdminInquiriesPage() {
                     </p>
                     <div className="mt-2.5 flex items-center justify-between gap-2">
                       <span className="truncate text-xs font-medium text-forest">
-                        {inq.serviceOfInterest}
+                        {formatTopicLabel(inq.serviceOfInterest)}
                       </span>
                       <span
                         className={cn(
@@ -324,18 +325,21 @@ export default function AdminInquiriesPage() {
                     </a>
                   </div>
                   <div>
-                    <span className="text-muted">Service Scope: </span>
+                    <span className="text-muted">Inquiry Topic: </span>
                     <span className="font-semibold text-ink">
-                      {selectedInquiry.serviceOfInterest}
+                      {formatTopicLabel(selectedInquiry.serviceOfInterest)}
                     </span>
                   </div>
                   <div>
                     <span className="text-muted">Budget / Target Date: </span>
                     <span className="font-semibold text-ink">
-                      {selectedInquiry.budget || 'Not specified'}
-                      {selectedInquiry.eventDate
-                        ? ` • ${selectedInquiry.eventDate}`
-                        : ''}
+                      {selectedInquiry.budget || selectedInquiry.eventDate
+                        ? `${selectedInquiry.budget ? `Budget: ${selectedInquiry.budget}` : 'No budget set'}${
+                            selectedInquiry.eventDate
+                              ? ` • Date: ${selectedInquiry.eventDate}`
+                              : ''
+                          }`
+                        : 'Not applicable (General inquiry)'}
                     </span>
                   </div>
                 </div>
