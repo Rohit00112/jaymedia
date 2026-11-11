@@ -17,6 +17,7 @@ import {
 import type { EventDetailData } from '@/config/events-data';
 import type { InquiryDocument } from '@/lib/backend/schemas';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/lib/firebase/auth-context';
 
 interface OverviewResponse {
   counts: {
@@ -35,13 +36,18 @@ interface OverviewResponse {
 }
 
 export default function AdminDashboardPage() {
+  const { user } = useAuth();
   const [data, setData] = useState<OverviewResponse | null>(null);
   const [loading, setLoading] = useState(true);
 
   const loadOverview = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch('/api/admin/overview');
+      const token = user ? await user.getIdToken() : undefined;
+      const headers: HeadersInit = token
+        ? { Authorization: `Bearer ${token}` }
+        : {};
+      const res = await fetch('/api/admin/overview', { headers });
       if (res.ok) {
         const json = await res.json();
         setData(json);
@@ -49,22 +55,29 @@ export default function AdminDashboardPage() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     let active = true;
-    fetch('/api/admin/overview')
-      .then((res) => (res.ok ? res.json() : null))
-      .then((json) => {
-        if (active && json) setData(json);
-      })
-      .finally(() => {
+    (async () => {
+      try {
+        const token = user ? await user.getIdToken() : undefined;
+        const headers: HeadersInit = token
+          ? { Authorization: `Bearer ${token}` }
+          : {};
+        const res = await fetch('/api/admin/overview', { headers });
+        if (res.ok) {
+          const json = await res.json();
+          if (active) setData(json);
+        }
+      } finally {
         if (active) setLoading(false);
-      });
+      }
+    })();
     return () => {
       active = false;
     };
-  }, []);
+  }, [user]);
 
   const counts = data?.counts;
 

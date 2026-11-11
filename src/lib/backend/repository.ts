@@ -225,9 +225,11 @@ export async function listEventsRepo(options?: {
         return ia - ib;
       });
 
-      registry.clear();
-      for (const ev of docs) {
-        registry.set(ev.slug, ev);
+      if (docs.length > 0) {
+        registry.clear();
+        for (const ev of docs) {
+          registry.set(ev.slug, ev);
+        }
       }
     } catch (err) {
       console.error('[listEventsRepo Firestore Error]:', err);
@@ -323,10 +325,12 @@ export async function listRegistrationsRepo(options?: {
       const snap = await getAdminFirestore()
         .collection(COLLECTIONS.REGISTRATIONS)
         .get();
-      mem.clear();
-      for (const doc of snap.docs) {
-        const rec = doc.data() as RegistrationDocument;
-        mem.set(rec.userCode || doc.id, rec);
+      if (!snap.empty) {
+        mem.clear();
+        for (const doc of snap.docs) {
+          const rec = doc.data() as RegistrationDocument;
+          mem.set(rec.userCode || doc.id, rec);
+        }
       }
     } catch (err) {
       console.error('[listRegistrationsRepo Error]:', err);
@@ -433,8 +437,9 @@ export async function listInquiriesRepo(options?: {
       const snap = await getAdminFirestore()
         .collection(COLLECTIONS.INQUIRIES)
         .get();
-      mem.clear();
-      for (const doc of snap.docs) {
+      if (!snap.empty) {
+        mem.clear();
+        for (const doc of snap.docs) {
         const data = doc.data() as Partial<InquiryDocument> & {
           name?: string;
           service?: string;
@@ -459,6 +464,7 @@ export async function listInquiriesRepo(options?: {
         };
         mem.set(doc.id, normalized);
       }
+    }
     } catch (err) {
       console.error('[listInquiriesRepo Error]:', err);
     }
@@ -523,14 +529,16 @@ export async function listNewsRepo(options?: {
   if (isFirebaseAdminConfigured()) {
     try {
       const snap = await getAdminFirestore().collection(COLLECTIONS.NEWS).get();
-      mem.clear();
-      for (const doc of snap.docs) {
-        const item = doc.data() as NewsDocument;
-        mem.set(item.slug || doc.id, {
-          ...item,
-          slug: item.slug || doc.id,
-          status: item.status || 'published',
-        });
+      if (!snap.empty) {
+        mem.clear();
+        for (const doc of snap.docs) {
+          const item = doc.data() as NewsDocument;
+          mem.set(item.slug || doc.id, {
+            ...item,
+            slug: item.slug || doc.id,
+            status: item.status || 'published',
+          });
+        }
       }
     } catch (err) {
       console.error('[listNewsRepo Error]:', err);
@@ -605,8 +613,9 @@ export async function listTeamRepo(): Promise<TeamDocument[]> {
   if (isFirebaseAdminConfigured()) {
     try {
       const snap = await getAdminFirestore().collection(COLLECTIONS.TEAM).get();
-      mem.clear();
-      for (const doc of snap.docs) {
+      if (!snap.empty) {
+        mem.clear();
+        for (const doc of snap.docs) {
         const item = doc.data() as TeamDocument;
         let slug = item.slug || doc.id;
         if (slug === 'jay-raj-roy' || doc.id === 'jay-raj-roy') {
@@ -635,6 +644,7 @@ export async function listTeamRepo(): Promise<TeamDocument[]> {
           slug,
         });
       }
+    }
     } catch (err) {
       console.error('[listTeamRepo Error]:', err);
     }
@@ -719,14 +729,16 @@ export async function listGalleryRepo(options?: {
       const snap = await getAdminFirestore()
         .collection(COLLECTIONS.GALLERY)
         .get();
-      mem.clear();
-      for (const doc of snap.docs) {
+      if (!snap.empty) {
+        mem.clear();
+        for (const doc of snap.docs) {
         const item = doc.data() as GalleryDocument;
         mem.set(item.id || doc.id, {
           ...item,
           id: item.id || doc.id,
         });
       }
+    }
     } catch (err) {
       console.error('[listGalleryRepo Error]:', err);
     }

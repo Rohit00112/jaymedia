@@ -15,7 +15,10 @@ function cleanPrivateKey(key?: string): string | undefined {
   ) {
     cleaned = cleaned.slice(1, -1);
   }
-  return cleaned.replace(/\\n/g, '\n').trim();
+  return cleaned
+    .replace(/\\n/g, '\n')
+    .replace(/\r/g, '')
+    .trim();
 }
 
 export function getAdminApp(): App | undefined {
