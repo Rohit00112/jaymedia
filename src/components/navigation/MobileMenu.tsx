@@ -4,7 +4,7 @@ import { useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { X, Mail, Phone, Ticket, ArrowUpRight } from 'lucide-react';
+import { X, Mail, Phone, Ticket, ArrowUpRight, Handshake } from 'lucide-react';
 import { navigation } from '@/config/navigation';
 import { siteConfig } from '@/config/site';
 import { cn, formatPhoneIntl, phoneTelHref } from '@/lib/utils';
@@ -154,13 +154,24 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
       </div>
 
       <div className="mt-8 space-y-6 border-t border-line pt-6">
-          <Link
-            href={navigation.cta.href}
-            onClick={onClose}
-            className="btn btn-primary w-full"
-          >
-            {navigation.cta.label}
-          </Link>
+          <div className="grid grid-cols-2 gap-2.5">
+            <Link
+              href="/contact?topic=concert-sponsorship"
+              onClick={onClose}
+              className="btn btn-outline flex items-center justify-center gap-1.5 border-forest/35 py-2.5 text-xs font-semibold text-forest hover:bg-forest-soft hover:text-forest"
+            >
+              <Handshake className="h-3.5 w-3.5 text-forest" />
+              <span>Call for Sponsors</span>
+            </Link>
+
+            <Link
+              href={navigation.cta.href}
+              onClick={onClose}
+              className="btn btn-primary flex items-center justify-center py-2.5 text-xs font-semibold"
+            >
+              {navigation.cta.label}
+            </Link>
+          </div>
 
           <div className="space-y-2 text-xs text-muted">
             <p className="font-medium text-ink">

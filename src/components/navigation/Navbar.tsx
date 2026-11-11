@@ -4,7 +4,7 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { ChevronDown, Menu } from 'lucide-react';
+import { ChevronDown, Menu, Handshake } from 'lucide-react';
 import {
   navigation,
   MAX_DROPDOWN_EVENTS,
@@ -212,7 +212,16 @@ export function Navbar() {
           </ul>
 
           {/* Right Action */}
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            <Link
+              href="/contact?topic=concert-sponsorship"
+              className="btn btn-outline border-forest/35 py-1.5 px-2.5 text-xs font-semibold text-forest hover:border-forest hover:bg-forest-soft hover:text-forest inline-flex items-center gap-1.5 transition-colors sm:px-3 sm:py-2"
+            >
+              <Handshake className="h-3.5 w-3.5 shrink-0 text-forest" />
+              <span className="hidden sm:inline">Call for Sponsors</span>
+              <span className="sm:hidden">Sponsors</span>
+            </Link>
+
             <Link
               href={navigation.cta.href}
               className="btn btn-primary hidden py-2 text-sm sm:inline-flex"

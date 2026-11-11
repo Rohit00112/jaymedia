@@ -164,17 +164,10 @@ export default function ConcertModalPopup() {
               </Link>
             </div>
 
-            <div className="mt-3 flex items-center justify-between text-[11px] text-muted">
+            <div className="mt-3 text-center text-[11px] text-muted">
               <span>
-                Official Ticketing: <strong className="text-ink">Khalti</strong>
+                Official Digital Ticketing Partner: <strong className="text-ink">Khalti</strong>
               </span>
-              <Link
-                href="/contact?topic=concert-sponsorship"
-                onClick={handleClose}
-                className="font-medium text-forest hover:underline"
-              >
-                Call for Sponsors &rarr;
-              </Link>
             </div>
           </div>
         </div>

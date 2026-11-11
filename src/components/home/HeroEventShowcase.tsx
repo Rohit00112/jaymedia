@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowUpRight, Calendar, Handshake, MapPin } from 'lucide-react';
+import { ArrowUpRight, Calendar, MapPin } from 'lucide-react';
 import Reveal from '@/components/motion/Reveal';
 import ConcertCountdown from '@/components/shared/ConcertCountdown';
 import type { EventDetailData } from '@/config/events-data';
@@ -72,14 +72,6 @@ export default function HeroEventShowcase({ event }: HeroEventShowcaseProps) {
 
             <Link href={`/events/${event.slug}`} className="btn btn-outline">
               Event Details
-            </Link>
-
-            <Link
-              href="/contact?topic=concert-sponsorship"
-              className="btn btn-outline border-forest/35 text-forest hover:border-forest hover:bg-forest-soft hover:text-forest"
-            >
-              <Handshake className="h-4 w-4 text-forest" />
-              <span>Call for Sponsors</span>
             </Link>
           </Reveal>
         </div>
