@@ -14,6 +14,7 @@ import {
   ExternalLink,
   LogOut,
   Database,
+  Video,
 } from 'lucide-react';
 import { useAuth } from '@/lib/firebase/auth-context';
 import { siteConfig } from '@/config/site';
@@ -23,6 +24,7 @@ const ADMIN_NAV = [
   { label: 'Overview', href: '/admin', icon: LayoutDashboard },
   { label: 'Events & Pageants', href: '/admin/events', icon: Calendar },
   { label: 'Client Inquiries', href: '/admin/inquiries', icon: Inbox },
+  { label: 'YouTube & Videos', href: '/admin/videos', icon: Video },
   { label: 'News & Press', href: '/admin/news', icon: Newspaper },
   { label: 'Team & Leadership', href: '/admin/team', icon: Users },
   { label: 'Gallery Vault', href: '/admin/gallery', icon: ImageIcon },

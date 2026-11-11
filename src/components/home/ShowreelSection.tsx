@@ -1,23 +1,70 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { Play } from 'lucide-react';
+import { Play, Video as VideoIcon } from 'lucide-react';
 import SectionHeading from '@/components/shared/SectionHeading';
 import Reveal from '@/components/motion/Reveal';
-import { OFFICIAL_VIDEOS } from '@/config/videos-data';
+import { OFFICIAL_VIDEOS, type VideoReelItem } from '@/config/videos-data';
+import type { VideoDocument } from '@/lib/backend/schemas';
 import { cn } from '@/lib/utils';
+import { getYouTubeThumbnail, getYouTubeEmbedUrl } from '@/lib/youtube';
 
-export default function ShowreelSection() {
+type VideoItem = VideoDocument | VideoReelItem;
+
+interface ShowreelSectionProps {
+  initialVideos?: VideoItem[];
+}
+
+export default function ShowreelSection({ initialVideos }: ShowreelSectionProps) {
+  const [videos, setVideos] = useState<VideoItem[]>(() => {
+    if (initialVideos && initialVideos.length > 0) {
+      return initialVideos;
+    }
+    return OFFICIAL_VIDEOS;
+  });
+
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const activeVideo = OFFICIAL_VIDEOS[selectedIndex];
+  // Sync if initialVideos changes (e.g. server revalidation)
+  useEffect(() => {
+    if (initialVideos && initialVideos.length > 0) {
+      setVideos(initialVideos);
+    }
+  }, [initialVideos]);
+
+  // Fallback client fetch to pick up dynamic updates if no initial SSR list was passed
+  useEffect(() => {
+    let active = true;
+    if (!initialVideos || initialVideos.length === 0) {
+      fetch('/api/videos')
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => {
+          if (active && Array.isArray(data?.videos) && data.videos.length > 0) {
+            setVideos(data.videos);
+          }
+        })
+        .catch(() => {});
+    }
+    return () => {
+      active = false;
+    };
+  }, [initialVideos]);
+
+  const activeVideo = videos[selectedIndex] || videos[0] || null;
 
   const handleSelectVideo = (index: number) => {
     setSelectedIndex(index);
     setIsPlaying(true);
   };
+
+  if (!activeVideo) {
+    return null;
+  }
+
+  const activeThumbnail = getYouTubeThumbnail(activeVideo.youtubeId);
+  const activeEmbedUrl = getYouTubeEmbedUrl(activeVideo.youtubeId, true);
 
   return (
     <section
@@ -44,7 +91,7 @@ export default function ShowreelSection() {
                   <iframe
                     key={activeVideo.youtubeId}
                     className="h-full w-full"
-                    src={`https://www.youtube.com/embed/${activeVideo.youtubeId}?autoplay=1&rel=0`}
+                    src={activeEmbedUrl}
                     title={activeVideo.title}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerPolicy="strict-origin-when-cross-origin"
@@ -57,13 +104,19 @@ export default function ShowreelSection() {
                     aria-label={`Play ${activeVideo.title}`}
                     className="group relative flex h-full w-full items-center justify-center text-left"
                   >
-                    <Image
-                      src={`https://i.ytimg.com/vi/${activeVideo.youtubeId}/hqdefault.jpg`}
-                      alt={activeVideo.title}
-                      fill
-                      sizes="(max-width: 1024px) 100vw, 66vw"
-                      className="img-zoom object-cover"
-                    />
+                    {activeThumbnail ? (
+                      <Image
+                        src={activeThumbnail}
+                        alt={activeVideo.title}
+                        fill
+                        sizes="(max-width: 1024px) 100vw, 66vw"
+                        className="img-zoom object-cover"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center bg-paper-deep text-muted">
+                        <VideoIcon className="h-10 w-10 text-muted" />
+                      </div>
+                    )}
                     <div className="absolute inset-0 bg-ink/30 transition-opacity duration-300 group-hover:bg-ink/20" />
 
                     <span className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-white text-ink shadow-md transition-transform duration-300 group-hover:scale-110">
@@ -74,7 +127,7 @@ export default function ShowreelSection() {
               </div>
 
               <div className="p-5">
-                <p className="text-xs font-medium text-forest">
+                <p className="text-xs font-semibold uppercase tracking-wider text-forest">
                   {activeVideo.category}
                 </p>
                 <h3 className="mt-1 text-lg font-semibold text-ink">
@@ -90,11 +143,12 @@ export default function ShowreelSection() {
           {/* Video Playlist */}
           <Reveal delay={0.08} className="lg:col-span-4">
             <div className="playlist-scroll max-h-[460px] space-y-2 overflow-y-auto pr-1">
-              {OFFICIAL_VIDEOS.map((video, idx) => {
+              {videos.map((video, idx) => {
                 const isActive = idx === selectedIndex;
+                const thumb = getYouTubeThumbnail(video.youtubeId);
                 return (
                   <button
-                    key={video.id}
+                    key={video.id || video.youtubeId}
                     type="button"
                     onClick={() => handleSelectVideo(idx)}
                     className={cn(
@@ -105,13 +159,19 @@ export default function ShowreelSection() {
                     )}
                   >
                     <div className="relative aspect-video w-24 shrink-0 overflow-hidden rounded-lg bg-ink">
-                      <Image
-                        src={`https://i.ytimg.com/vi/${video.youtubeId}/hqdefault.jpg`}
-                        alt={video.title}
-                        fill
-                        sizes="96px"
-                        className="object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
+                      {thumb ? (
+                        <Image
+                          src={thumb}
+                          alt={video.title}
+                          fill
+                          sizes="96px"
+                          className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center bg-paper-deep text-muted">
+                          <VideoIcon className="h-4 w-4" />
+                        </div>
+                      )}
                     </div>
 
                     <div className="min-w-0 flex-1">

@@ -13,6 +13,7 @@ import {
   Image as ImageIcon,
   Users,
   Settings,
+  Video,
 } from 'lucide-react';
 import type { EventDetailData } from '@/config/events-data';
 import type { InquiryDocument } from '@/lib/backend/schemas';
@@ -29,6 +30,7 @@ interface OverviewResponse {
     newsTotal: number;
     teamTotal: number;
     galleryTotal: number;
+    videosTotal?: number;
   };
   recentInquiries: InquiryDocument[];
   events: EventDetailData[];
@@ -346,7 +348,25 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Quick CMS Links */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Link
+          href="/admin/videos"
+          className="flex items-center justify-between rounded-xl border border-line bg-white p-4 transition-colors hover:bg-paper-deep"
+        >
+          <div className="flex items-center gap-3">
+            <Video className="h-5 w-5 text-forest" />
+            <div>
+              <p className="text-sm font-semibold text-ink">
+                YouTube &amp; Videos
+              </p>
+              <p className="text-xs text-muted">
+                Homepage showreel &amp; highlights
+              </p>
+            </div>
+          </div>
+          <ArrowUpRight className="h-4 w-4 text-muted" />
+        </Link>
+
         <Link
           href="/admin/news"
           className="flex items-center justify-between rounded-xl border border-line bg-white p-4 transition-colors hover:bg-paper-deep"

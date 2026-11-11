@@ -11,6 +11,7 @@ export const COLLECTIONS = {
   TEAM: 'team',
   GALLERY: 'gallery',
   SETTINGS: 'settings',
+  VIDEOS: 'videos',
 } as const;
 
 // ---------------------------------------------------------------------------
@@ -236,4 +237,22 @@ export const settingsDocumentSchema = z.object({
 });
 
 export type SettingsDocument = z.infer<typeof settingsDocumentSchema>;
+
+// ---------------------------------------------------------------------------
+// 9. VIDEOS (`videos/{id}`)
+// ---------------------------------------------------------------------------
+export const videoDocumentSchema = z.object({
+  id: z.string().min(1),
+  youtubeId: z.string().min(1, 'YouTube Video ID or link is required.'),
+  title: z.string().min(2, 'Video title must be at least 2 characters.'),
+  category: z.string().min(2, 'Category is required.'),
+  subtitle: z.string().min(2, 'Subtitle or description is required.'),
+  order: z.number().default(0),
+  featured: z.boolean().default(false),
+  createdAt: z.string().optional(),
+  updatedAt: z.string().optional(),
+});
+
+export type VideoDocument = z.infer<typeof videoDocumentSchema>;
+
 

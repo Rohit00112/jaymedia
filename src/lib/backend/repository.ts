@@ -3,6 +3,7 @@ import { EVENTS_DATA, type EventDetailData } from '@/config/events-data';
 import { NEWS_DATA } from '@/config/news-data';
 import { TEAM_PROFILES } from '@/config/team-data';
 import { GALLERY_PHOTOS } from '@/config/gallery-data';
+import { OFFICIAL_VIDEOS } from '@/config/videos-data';
 import { siteConfig } from '@/config/site';
 import { getAdminFirestore, isFirebaseAdminConfigured } from '@/lib/firebase/admin';
 import {
@@ -13,6 +14,7 @@ import {
   type TeamDocument,
   type GalleryDocument,
   type SettingsDocument,
+  type VideoDocument,
 } from './schemas';
 import { getEventsRegistry } from '@/lib/events-store';
 
@@ -54,6 +56,7 @@ const globalStore = globalThis as typeof globalThis & {
   __jmmNews?: Map<string, NewsDocument>;
   __jmmTeam?: Map<string, TeamDocument>;
   __jmmGallery?: Map<string, GalleryDocument>;
+  __jmmVideos?: Map<string, VideoDocument>;
   __jmmInquiries?: Map<string, InquiryDocument>;
   __jmmRegistrations?: Map<string, RegistrationDocument>;
   __jmmSettings?: SettingsDocument;
@@ -109,6 +112,24 @@ function getMemoryGallery(): Map<string, GalleryDocument> {
     );
   }
   return globalStore.__jmmGallery;
+}
+
+function getMemoryVideos(): Map<string, VideoDocument> {
+  if (!globalStore.__jmmVideos) {
+    globalStore.__jmmVideos = new Map(
+      OFFICIAL_VIDEOS.map((v, index) => [
+        v.id,
+        {
+          ...v,
+          order: index + 1,
+          featured: index === 0,
+          createdAt: '2026-01-01T00:00:00.000Z',
+          updatedAt: '2026-01-01T00:00:00.000Z',
+        },
+      ])
+    );
+  }
+  return globalStore.__jmmVideos;
 }
 
 function getMemoryInquiries(): Map<string, InquiryDocument> {
@@ -181,6 +202,12 @@ export async function ensureFirestoreSeeded(): Promise<void> {
     for (const item of getMemoryGallery().values()) {
       batch.set(
         db.collection(COLLECTIONS.GALLERY).doc(item.id),
+        stripUndefined(item)
+      );
+    }
+    for (const item of getMemoryVideos().values()) {
+      batch.set(
+        db.collection(COLLECTIONS.VIDEOS).doc(item.id),
         stripUndefined(item)
       );
     }
@@ -838,20 +865,94 @@ export async function updateSettingsRepo(
 }
 
 // ============================================================================
-// 9. ADMIN OVERVIEW AGGREGATOR
+// 9. VIDEOS REPOSITORY
+// ============================================================================
+export async function listVideosRepo(options?: {
+  category?: string;
+}): Promise<VideoDocument[]> {
+  'use cache';
+  cacheLife('minutes');
+  cacheTag('videos');
+
+  await ensureFirestoreSeeded();
+  const mem = getMemoryVideos();
+
+  if (isFirebaseAdminConfigured()) {
+    try {
+      const snap = await getAdminFirestore()
+        .collection(COLLECTIONS.VIDEOS)
+        .get();
+      if (!snap.empty) {
+        mem.clear();
+        for (const doc of snap.docs) {
+          const item = doc.data() as VideoDocument;
+          mem.set(item.id || doc.id, {
+            ...item,
+            id: item.id || doc.id,
+          });
+        }
+      }
+    } catch (err) {
+      console.error('[listVideosRepo Error]:', err);
+    }
+  }
+
+  const all = Array.from(mem.values()).sort(
+    (a, b) => (a.order || 0) - (b.order || 0)
+  );
+  if (options?.category && options.category !== 'All') {
+    return all.filter((v) => v.category === options.category);
+  }
+  return all;
+}
+
+export async function upsertVideoRepo(
+  doc: VideoDocument
+): Promise<VideoDocument> {
+  await ensureFirestoreSeeded();
+  const payload = stripUndefined({
+    ...doc,
+    updatedAt: new Date().toISOString(),
+  });
+
+  if (isFirebaseAdminConfigured()) {
+    await getAdminFirestore()
+      .collection(COLLECTIONS.VIDEOS)
+      .doc(doc.id)
+      .set(payload, { merge: true });
+  }
+
+  getMemoryVideos().set(doc.id, payload);
+  invalidateCache('videos');
+  return payload;
+}
+
+export async function deleteVideoRepo(id: string): Promise<boolean> {
+  await ensureFirestoreSeeded();
+  if (isFirebaseAdminConfigured()) {
+    await getAdminFirestore().collection(COLLECTIONS.VIDEOS).doc(id).delete();
+  }
+  const deleted = getMemoryVideos().delete(id);
+  invalidateCache('videos');
+  return deleted;
+}
+
+// ============================================================================
+// 10. ADMIN OVERVIEW AGGREGATOR
 // ============================================================================
 export async function getAdminOverviewRepo() {
   'use cache';
   cacheLife('minutes');
-  cacheTag('overview', 'events', 'inquiries', 'news', 'team', 'gallery', 'settings');
+  cacheTag('overview', 'events', 'inquiries', 'news', 'team', 'gallery', 'videos', 'settings');
 
-  const [events, inquiries, news, team, gallery] =
+  const [events, inquiries, news, team, gallery, videos] =
     await Promise.all([
       listEventsRepo({ includeDrafts: true }),
       listInquiriesRepo(),
       listNewsRepo({ includeDrafts: true }),
       listTeamRepo(),
       listGalleryRepo(),
+      listVideosRepo(),
     ]);
 
   return {
@@ -863,6 +964,7 @@ export async function getAdminOverviewRepo() {
       newsTotal: news.length,
       teamTotal: team.length,
       galleryTotal: gallery.length,
+      videosTotal: videos.length,
     },
     recentInquiries: inquiries.slice(0, 5),
     events: events.slice(0, 6),
