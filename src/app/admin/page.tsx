@@ -9,7 +9,6 @@ import {
   ArrowUpRight,
   Plus,
   RefreshCw,
-  Database,
   Image as ImageIcon,
   Users,
   Settings,
@@ -89,18 +88,7 @@ export default function AdminDashboardPage() {
       {/* Header */}
       <div className="flex flex-col justify-between gap-4 border-b border-line pb-6 sm:flex-row sm:items-end">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-forest-soft px-2.5 py-0.5 text-[11px] font-semibold text-forest">
-              <Database className="h-3 w-3" />
-              {data?.projectId || 'jay-media-management'}
-            </span>
-            <span className="text-xs text-muted">
-              {data?.firebaseConnected
-                ? 'Cloud Firestore Synced'
-                : 'Local Store'}
-            </span>
-          </div>
-          <h1 className="mt-2 text-2xl font-semibold text-ink sm:text-3xl">
+          <h1 className="text-2xl font-semibold text-ink sm:text-3xl">
             Studio Control Center
           </h1>
           <p className="mt-1 text-sm text-muted">

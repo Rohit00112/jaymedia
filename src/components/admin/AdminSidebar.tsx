@@ -13,7 +13,6 @@ import {
   Settings,
   ExternalLink,
   LogOut,
-  Database,
   Video,
 } from 'lucide-react';
 import { useAuth } from '@/lib/firebase/auth-context';
@@ -60,15 +59,6 @@ export default function AdminSidebar() {
           <span>Live Site</span>
           <ExternalLink className="h-3 w-3" />
         </Link>
-      </div>
-
-      {/* Database Status Pill */}
-      <div className="hidden border-b border-line bg-paper-deep/60 px-6 py-2.5 lg:flex lg:items-center lg:justify-between">
-        <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-ink-soft">
-          <span className="h-2 w-2 rounded-full bg-emerald-600" />
-          Firestore Live
-        </span>
-        <Database className="h-3.5 w-3.5 text-forest" />
       </div>
 
       {/* Navigation */}
