@@ -230,20 +230,14 @@ export async function POST(request: Request) {
           });
         }
 
-        // Firebase bucket not initialized in console yet
-        return NextResponse.json(
-          {
-            error:
-              `Firebase Storage is not enabled yet in project "${process.env.FIREBASE_PROJECT_ID}". ` +
-              `Please open Firebase Console (https://console.firebase.google.com/project/${process.env.FIREBASE_PROJECT_ID}/storage) ` +
-              `and click "Get started" to activate your free cloud storage bucket.`,
-          },
-          { status: 503 }
+        // If Firebase bucket is not initialized yet in Firebase Console, fall back smoothly to local storage
+        console.info(
+          `[Image Upload]: Firebase Storage bucket not active yet. Saving locally to /uploads/${fileName}.`
         );
       }
     }
 
-    // 2. Offline local development fallback (only when Firebase is not configured)
+    // 2. Local disk storage save (saves locally to public/uploads)
     await fs.mkdir(UPLOADS_DIR, { recursive: true });
     await fs.writeFile(path.join(UPLOADS_DIR, fileName), buffer);
 
