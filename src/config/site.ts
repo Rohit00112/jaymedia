@@ -29,7 +29,8 @@ export const siteConfig = {
     secondaryEmail: 'jaymediamanagement@gmail.com',
     phone: '9851143338',
     secondaryPhone: '9802708000',
-    formattedPhone: '+977 985 1143338',
+    formattedPhone: '+977 9851143338',
+    formattedSecondaryPhone: '+977 9802708000',
   },
   social: {
     facebook: 'https://www.facebook.com/JayMediaManagement',

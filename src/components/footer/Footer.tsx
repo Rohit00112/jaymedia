@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { Mail, MapPin, Phone } from 'lucide-react';
 import { EVENTS_DATA } from '@/config/events-data';
 import { siteConfig } from '@/config/site';
-import { cn } from '@/lib/utils';
+import { cn, formatPhoneIntl, phoneTelHref } from '@/lib/utils';
 
 function YouTubeIcon({ className }: { className?: string }) {
   return (
@@ -216,17 +216,17 @@ export function Footer() {
               <Phone className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
               <div className="flex flex-wrap items-center gap-x-2">
                 <a
-                  href={`tel:${contact.phone}`}
+                  href={phoneTelHref(contact.phone)}
                   className="transition-colors hover:text-ink"
                 >
-                  {contact.phone}
+                  {formatPhoneIntl(contact.phone)}
                 </a>
                 <span className="text-line-strong">/</span>
                 <a
-                  href={`tel:${contact.secondaryPhone}`}
+                  href={phoneTelHref(contact.secondaryPhone)}
                   className="transition-colors hover:text-ink"
                 >
-                  {contact.secondaryPhone}
+                  {formatPhoneIntl(contact.secondaryPhone)}
                 </a>
               </div>
             </li>

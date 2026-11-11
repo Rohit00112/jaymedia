@@ -5,6 +5,7 @@ import ContactForm from '@/components/forms/ContactForm';
 import Reveal from '@/components/motion/Reveal';
 import { generatePageMetadata, generateBreadcrumbSchema } from '@/lib/seo';
 import { siteConfig } from '@/config/site';
+import { formatPhoneIntl, phoneTelHref } from '@/lib/utils';
 
 export const metadata: Metadata = generatePageMetadata({
   title: 'Contact Us | Jay Media Management Biratnagar',
@@ -35,7 +36,7 @@ export default function ContactPage() {
           { label: 'Office', value: 'Central Mall, Biratnagar' },
           { label: 'Response Time', value: 'Within 1 business day' },
           { label: 'Hours', value: 'Sun–Fri, 10 AM – 6 PM' },
-          { label: 'Phone', value: '9851143338 / 9802708000' },
+          { label: 'Phone', value: '+977 9851143338 / +977 9802708000' },
         ]}
       />
 
@@ -94,17 +95,17 @@ export default function ContactPage() {
                     <dt className="text-xs font-medium text-muted">Phone</dt>
                     <dd className="mt-0.5 flex flex-wrap gap-x-2 font-medium text-ink">
                       <a
-                        href={`tel:${siteConfig.contact.phone}`}
+                        href={phoneTelHref(siteConfig.contact.phone)}
                         className="transition-colors hover:text-forest"
                       >
-                        {siteConfig.contact.phone}
+                        {formatPhoneIntl(siteConfig.contact.phone)}
                       </a>
                       <span className="text-muted">/</span>
                       <a
-                        href={`tel:${siteConfig.contact.secondaryPhone}`}
+                        href={phoneTelHref(siteConfig.contact.secondaryPhone)}
                         className="transition-colors hover:text-forest"
                       >
-                        {siteConfig.contact.secondaryPhone}
+                        {formatPhoneIntl(siteConfig.contact.secondaryPhone)}
                       </a>
                     </dd>
                   </div>

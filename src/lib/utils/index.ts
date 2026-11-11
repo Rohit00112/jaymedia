@@ -23,6 +23,30 @@ export function truncate(text: string, maxLength: number): string {
   return text.slice(0, maxLength).trimEnd() + '…';
 }
 
+/** Strip a phone number to digits, removing a leading Nepal country code. */
+function nepalLocalDigits(raw: string): string {
+  const digits = raw.replace(/\D/g, '');
+  return digits.startsWith('977') && digits.length > 10
+    ? digits.slice(3)
+    : digits;
+}
+
+/** Display a Nepal phone number in international format, e.g. "+977 9851143338". */
+export function formatPhoneIntl(raw: string): string {
+  if (!raw) return '';
+  return `+977 ${nepalLocalDigits(raw)}`;
+}
+
+/** `tel:` href in E.164 format, e.g. "tel:+9779851143338". */
+export function phoneTelHref(raw: string): string {
+  return `tel:+977${nepalLocalDigits(raw)}`;
+}
+
+/** Digits-only number for wa.me links, e.g. "9779851143338". */
+export function phoneWhatsAppNumber(raw: string): string {
+  return `977${nepalLocalDigits(raw)}`;
+}
+
 /** Generate a URL-safe slug from text */
 export function slugify(text: string): string {
   return text

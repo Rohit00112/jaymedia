@@ -34,7 +34,7 @@ const CONCERT_FAQS: FaqItem[] = [
   {
     question: 'How can brands inquire about corporate sponsorships or VVIP boxes?',
     answer:
-      'Title, associate, beverage, and hospitality brand partnerships are managed directly by Jay Media Management Pvt. Ltd. Corporate brand teams can use the "Call for Sponsors" form or contact our Biratnagar headquarters directly at 9851143338 / 9802708000.',
+      'Title, associate, beverage, and hospitality brand partnerships are managed directly by Jay Media Management Pvt. Ltd. Corporate brand teams can use the "Call for Sponsors" form or contact our Biratnagar headquarters directly at +977 9851143338 / +977 9802708000.',
   },
 ];
 

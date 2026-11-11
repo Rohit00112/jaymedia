@@ -10,8 +10,12 @@ export const inquirySchema = z.object({
     .email({ message: 'Please enter a valid email address.' }),
   phone: z
     .string()
-    .min(7, { message: 'Please enter a valid contact phone number.' })
-    .max(20, { message: 'Phone number too long.' }),
+    .min(1, { message: 'Please enter your phone number.' })
+    .max(20, { message: 'Phone number too long.' })
+    .refine(
+      (val) => val.replace(/^\+\d{1,4}\s+/, '').replace(/\D/g, '').length >= 7,
+      { message: 'Please enter a valid contact phone number.' }
+    ),
   organization: z
     .string()
     .max(100, { message: 'Organization name cannot exceed 100 characters.' })

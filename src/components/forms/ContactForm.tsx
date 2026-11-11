@@ -2,11 +2,12 @@
 
 import { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 import { inquirySchema, type InquiryFormData } from '@/lib/validations/inquiry';
 import { cn } from '@/lib/utils';
+import PhoneInput from '@/components/forms/PhoneInput';
 
 const inputClass =
   'w-full rounded-lg border border-line-strong bg-white px-3.5 py-2.5 text-sm text-ink transition-colors placeholder:text-faint focus:border-forest focus:outline-none';
@@ -28,12 +29,14 @@ function ContactFormInner() {
 
   const {
     register,
+    control,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm<InquiryFormData>({
     resolver: zodResolver(inquirySchema),
     defaultValues: {
+      phone: '',
       serviceOfInterest: initialService,
     },
   });
@@ -157,14 +160,20 @@ function ContactFormInner() {
             <label htmlFor="phone" className={labelClass}>
               Phone Number *
             </label>
-            <input
-              id="phone"
-              type="tel"
-              {...register('phone')}
-              placeholder="+977 9851143338"
-              aria-required="true"
-              aria-invalid={errors.phone ? 'true' : undefined}
-              className={cn(inputClass, errors.phone && 'border-danger')}
+            <Controller
+              name="phone"
+              control={control}
+              render={({ field }) => (
+                <PhoneInput
+                  id="phone"
+                  name={field.name}
+                  value={field.value ?? ''}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  required
+                  invalid={!!errors.phone}
+                />
+              )}
             />
             {errors.phone && (
               <span className="mt-1 block text-xs text-danger">

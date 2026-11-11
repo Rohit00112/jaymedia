@@ -96,7 +96,7 @@ export default function AboutPage() {
           { label: 'Established', value: '2013 (Reg. 2014)' },
           { label: 'Headquarters', value: 'Central Mall, Biratnagar' },
           { label: 'Leadership', value: 'Jay Raj Roy & Neesha Khatiwada' },
-          { label: 'Phone', value: '9851143338 / 9802708000' },
+          { label: 'Phone', value: '+977 9851143338 / +977 9802708000' },
         ]}
       />
 

@@ -12,8 +12,8 @@ export default function CtaBand() {
               Plan your next concert, launch, or live event.
             </h2>
             <p className="mt-1.5 text-sm leading-relaxed text-muted">
-              Connect with our team in Biratnagar ({siteConfig.contact.phone} /{' '}
-              {siteConfig.contact.secondaryPhone}) for stage production, event
+              Connect with our team in Biratnagar ({siteConfig.contact.formattedPhone} /{' '}
+              {siteConfig.contact.formattedSecondaryPhone}) for stage production, event
               management, and sponsorship partnerships.
             </p>
           </div>

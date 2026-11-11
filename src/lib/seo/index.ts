@@ -86,7 +86,7 @@ export function generateOrganizationSchema() {
     contactPoint: {
       '@type': 'ContactPoint',
       email: siteConfig.contact.email,
-      telephone: siteConfig.contact.phone,
+      telephone: `+977-${siteConfig.contact.phone}`,
       contactType: 'customer service',
     },
     sameAs: Object.values(siteConfig.social).filter(Boolean),

@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 import { X, Mail, Phone, Ticket, ArrowUpRight } from 'lucide-react';
 import { navigation } from '@/config/navigation';
 import { siteConfig } from '@/config/site';
-import { cn } from '@/lib/utils';
+import { cn, formatPhoneIntl, phoneTelHref } from '@/lib/utils';
 import { useEscapeKey, useBodyLock } from '@/hooks';
 
 interface MobileMenuProps {
@@ -168,11 +168,11 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             </p>
             <div className="flex flex-wrap items-center gap-4 pt-1">
               <a
-                href={`tel:${siteConfig.contact.phone}`}
+                href={phoneTelHref(siteConfig.contact.phone)}
                 className="inline-flex items-center gap-1.5 hover:text-ink"
               >
                 <Phone className="h-3.5 w-3.5" />
-                {siteConfig.contact.phone}
+                {formatPhoneIntl(siteConfig.contact.phone)}
               </a>
               <a
                 href={`mailto:${siteConfig.contact.email}`}

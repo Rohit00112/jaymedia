@@ -2,10 +2,10 @@
 
 import { siteConfig } from '@/config/site';
 import { WhatsAppIcon } from '@/components/shared/BrandIcons';
+import { phoneWhatsAppNumber } from '@/lib/utils';
 
 export default function WhatsAppFloat() {
-  const phone = siteConfig.contact.phone.replace(/\D/g, '');
-  const whatsappUrl = `https://wa.me/977${phone}?text=${encodeURIComponent(
+  const whatsappUrl = `https://wa.me/${phoneWhatsAppNumber(siteConfig.contact.phone)}?text=${encodeURIComponent(
     'Hello Jay Media Management, I have an inquiry regarding your upcoming events and sponsorships.'
   )}`;
 

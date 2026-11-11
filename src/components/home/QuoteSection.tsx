@@ -4,7 +4,6 @@ import { useState } from 'react';
 import {
   User,
   Mail,
-  Phone,
   Briefcase,
   MessageSquare,
   Send,
@@ -13,8 +12,10 @@ import {
 } from 'lucide-react';
 import SectionHeading from '@/components/shared/SectionHeading';
 import Reveal from '@/components/motion/Reveal';
+import PhoneInput from '@/components/forms/PhoneInput';
 import { WhatsAppIcon } from '@/components/shared/BrandIcons';
 import { siteConfig } from '@/config/site';
+import { formatPhoneIntl, phoneTelHref, phoneWhatsAppNumber } from '@/lib/utils';
 
 const PRODUCTION_DISCIPLINES = [
   'Concert Sponsorship & Brand Partnerships',
@@ -38,8 +39,7 @@ export default function QuoteSection() {
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
 
-  const phoneRaw = siteConfig.contact.phone.replace(/\D/g, '');
-  const whatsappUrl = `https://wa.me/977${phoneRaw}?text=${encodeURIComponent(
+  const whatsappUrl = `https://wa.me/${phoneWhatsAppNumber(siteConfig.contact.phone)}?text=${encodeURIComponent(
     'Hello Jay Media Management, I have an inquiry regarding your upcoming events and sponsorships.'
   )}`;
 
@@ -62,7 +62,7 @@ export default function QuoteSection() {
       setErrorMsg('Please provide a valid email address.');
       return;
     }
-    if (cleanPhone.length < 7) {
+    if (cleanPhone.replace(/^\+\d{1,4}\s+/, '').replace(/\D/g, '').length < 7) {
       setStatus('error');
       setErrorMsg('Please provide a reachable phone number.');
       return;
@@ -127,7 +127,7 @@ export default function QuoteSection() {
           link={{ href: '/contact', label: 'Full contact details' }}
         />
 
-        <Reveal className="mt-8 overflow-hidden rounded-2xl border border-line bg-white shadow-xs">
+        <Reveal className="mt-8 rounded-2xl border border-line bg-white shadow-xs">
           {status === 'success' ? (
             <div role="status" className="p-8 sm:p-12 text-center animate-in fade-in zoom-in-95 duration-200">
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-forest-soft text-forest">
@@ -214,19 +214,13 @@ export default function QuoteSection() {
                   >
                     Phone / Mobile <span className="text-danger">*</span>
                   </label>
-                  <div className="relative">
-                    <Phone className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
-                    <input
-                      id="quote-phone"
-                      type="tel"
-                      required
-                      minLength={7}
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      placeholder="+977 98XXXXXXXX"
-                      className="w-full rounded-lg border border-line-strong bg-paper/30 py-2.5 pl-10 pr-3.5 text-sm text-ink transition-colors placeholder:text-muted/60 focus:border-forest focus:bg-white focus:outline-none"
-                    />
-                  </div>
+                  <PhoneInput
+                    id="quote-phone"
+                    value={phone}
+                    onChange={setPhone}
+                    required
+                    className="bg-paper/30 focus-within:bg-white"
+                  />
                 </div>
 
                 {/* Service Dropdown */}
@@ -287,17 +281,17 @@ export default function QuoteSection() {
                   <span>
                     Direct hotline:{' '}
                     <a
-                      href={`tel:${siteConfig.contact.phone}`}
+                      href={phoneTelHref(siteConfig.contact.phone)}
                       className="font-semibold text-ink hover:text-forest"
                     >
-                      {siteConfig.contact.phone}
+                      {formatPhoneIntl(siteConfig.contact.phone)}
                     </a>
                     {' / '}
                     <a
-                      href={`tel:${siteConfig.contact.secondaryPhone}`}
+                      href={phoneTelHref(siteConfig.contact.secondaryPhone)}
                       className="font-semibold text-ink hover:text-forest"
                     >
-                      {siteConfig.contact.secondaryPhone}
+                      {formatPhoneIntl(siteConfig.contact.secondaryPhone)}
                     </a>
                   </span>
 
