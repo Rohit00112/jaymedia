@@ -124,7 +124,7 @@ export default async function EventDetailPage({ params }: Props) {
         eyebrow={`${event.category} • ${event.seasonOrYear}`}
         title={event.title}
         description={event.tagline}
-        image={event.coverBanner || event.heroStageImage || event.image}
+        image={event.image || event.coverBanner || event.heroStageImage}
         imageAlt={event.title}
         meta={[
           { label: 'Date / Season', value: event.seasonOrYear },

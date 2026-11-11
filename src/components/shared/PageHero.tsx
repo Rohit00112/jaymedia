@@ -85,16 +85,44 @@ export default function PageHero({
           <Reveal
             y={16}
             delay={0.14}
-            className="group relative mt-8 aspect-[16/7] w-full overflow-hidden rounded-xl border border-line bg-sand"
+            className="group relative mt-8 w-full overflow-hidden rounded-2xl border border-line bg-stone-950 shadow-md"
           >
-            <Image
-              src={image}
-              alt={imageAlt}
-              fill
-              priority
-              sizes="(max-width: 1280px) 100vw, 1200px"
-              className="img-zoom object-cover"
-            />
+            {/* Ambient blurred backdrop harmonizing with the image palette */}
+            <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
+              <Image
+                src={image}
+                alt=""
+                fill
+                priority={false}
+                sizes="100vw"
+                className="scale-125 object-cover opacity-35 blur-3xl saturate-150"
+              />
+              <div className="absolute inset-0 bg-stone-950/40 backdrop-blur-xs" />
+            </div>
+
+            {/* Foreground image: 100% visible, uncropped, preserving all details & text */}
+            <div className="relative z-10 flex h-[380px] w-full items-center justify-center p-3 sm:h-[480px] sm:p-5 md:h-[580px] md:p-6 lg:h-[640px]">
+              <Image
+                src={image}
+                alt={imageAlt}
+                fill
+                priority
+                sizes="(max-width: 1280px) 100vw, 1200px"
+                className="object-contain drop-shadow-2xl transition-transform duration-300 group-hover:scale-[1.01]"
+              />
+
+              {/* View full original photo */}
+              <a
+                href={image}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-stone-900/80 px-3 py-1.5 text-[11px] font-medium text-white/90 shadow-sm backdrop-blur-md transition-all hover:bg-stone-900 hover:text-white"
+                title="Open original high-resolution photo in a new tab"
+              >
+                <span>View Full Photo</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+            </div>
           </Reveal>
         )}
       </div>

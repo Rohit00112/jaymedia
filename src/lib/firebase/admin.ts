@@ -1,6 +1,7 @@
 import { initializeApp, getApps, cert, type App } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { getAuth } from 'firebase-admin/auth';
+import { getStorage } from 'firebase-admin/storage';
 
 let adminApp: App | undefined;
 
@@ -78,4 +79,12 @@ export function getAdminAuth() {
     throw new Error('Firebase Admin App not available');
   }
   return getAuth(app);
+}
+
+export function getAdminStorage() {
+  const app = getAdminApp();
+  if (!app) {
+    throw new Error('Firebase Admin App not available');
+  }
+  return getStorage(app);
 }
