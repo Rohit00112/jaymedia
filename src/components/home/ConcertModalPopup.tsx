@@ -4,7 +4,7 @@ import { useEffect, useState, useSyncExternalStore } from 'react';
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import Link from 'next/link';
-import { X, Calendar, MapPin, ArrowUpRight, Ticket } from 'lucide-react';
+import { X, Calendar, MapPin, ArrowUpRight, Ticket, PhoneCall } from 'lucide-react';
 import ConcertCountdown from '@/components/shared/ConcertCountdown';
 
 const emptySubscribe = () => () => {};
@@ -168,14 +168,14 @@ export default function ConcertModalPopup() {
               <span>
                 Official Ticketing: <strong className="text-ink">Khalti</strong>
               </span>
-              <Link
-                href="/contact?topic=concert-sponsorship"
+              <a
+                href="tel:+9779851143338"
                 onClick={handleClose}
-                className="inline-flex items-center gap-1 rounded-md border border-forest/25 bg-forest-soft px-2.5 py-1 text-[11px] font-semibold text-forest transition-colors hover:bg-forest hover:text-white"
+                className="inline-flex items-center gap-1.5 rounded-md border border-forest/25 bg-forest-soft px-2.5 py-1 text-[11px] font-semibold text-forest transition-colors hover:bg-forest hover:text-white"
               >
+                <PhoneCall className="h-3 w-3" />
                 <span>Call for Sponsors</span>
-                <span>&rarr;</span>
-              </Link>
+              </a>
             </div>
           </div>
         </div>
